@@ -24,6 +24,9 @@ allprojects {
         }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url 'http://raw.github.com/wada811/Android-Material-Design-Colors/master/repository/' }
+        maven {
+            url 'http://dl.bintray.com/amulyakhare/maven'
+        }
     }
 }
 task clean(type: Delete) {

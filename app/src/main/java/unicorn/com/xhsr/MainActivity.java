@@ -2,7 +2,12 @@ package unicorn.com.xhsr;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.LinearLayout;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+
+import butterknife.ButterKnife;
 import unicorn.com.xhsr.draglayout.view.DragLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -12,23 +17,35 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
         setContentView(R.layout.activity_main);
         initDragLayout();
 
-//        findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                ToastUtils.show("模糊");
-//                Blurry.with(MainActivity.this)
-//                        .radius(25)
-//                        .sampling(2)
-//                        .color(Color.argb(66, 0, 0, 0))
-//                        .async()
-//                        .animate(500)
-//                        .onto((ViewGroup) findViewById(R.id.dl));
-//            }
-//        });
+        findViewById(R.id.setting).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                ToastUtils.show("hehe");
+                dl.open(true);
+
+            }
+        });
+
+        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.test);
+        TextDrawable drawable = TextDrawable.builder()
+                .buildRound("", getResources().getColor(R.color.md_blue_400));
+        linearLayout.setBackground(drawable);
+
+         linearLayout = (LinearLayout)findViewById(R.id.test2);
+         drawable = TextDrawable.builder()
+                .buildRound("", getResources().getColor(R.color.md_red_400));
+        linearLayout.setBackground(drawable);
+
+        linearLayout = (LinearLayout)findViewById(R.id.test3);
+        drawable = TextDrawable.builder()
+                .buildRound("", getResources().getColor(R.color.md_teal_400));
+        linearLayout.setBackground(drawable);
+
+
 
     }
 
@@ -52,4 +69,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }
