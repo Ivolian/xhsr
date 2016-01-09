@@ -2,6 +2,8 @@
   <dictionary name="Administrator">
     <words>
       <w>ffffff</w>
+      <w>ondemand</w>
+      <w>sidemenu</w>
     </words>
   </dictionary>
 </component>

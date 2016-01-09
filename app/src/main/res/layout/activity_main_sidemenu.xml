@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.android.percent.support.PercentFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="30dp"
+        app:layout_paddingRightPercent="25%sw">
+
+
+        <!-- 头像和用户名 -->
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_heightPercent="25%sh">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/head"
+                app:layout_heightPercent="15%sh"
+                app:layout_widthPercent="15%sh" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="ivolianer"
+                android:textColor="@color/md_white"
+                android:textSize="22dp" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+
+        <!-- 前三项 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#29ffffff"
+            app:layout_marginBottomPercent="2%sh"
+            app:layout_marginTopPercent="2%sh" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_heightPercent="8%sh">
+
+            <com.mikepenz.iconics.view.IconicsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="{gmd-golf-course}"
+                android:textColor="@color/md_grey_400"
+                android:textSize="28dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="高尔夫课程"
+                android:textColor="@color/md_white"
+                android:textSize="18dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/test"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_heightPercent="8%sh"
+            app:layout_marginTopPercent="1%sh">
+
+            <com.mikepenz.iconics.view.IconicsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="{gmd-beach-access}"
+                android:textColor="@color/md_grey_400"
+                android:textSize="28dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="度假旅游"
+                android:textColor="@color/md_white"
+                android:textSize="18dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_heightPercent="8%sh"
+            app:layout_marginTopPercent="1%sh">
+
+            <com.mikepenz.iconics.view.IconicsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="{gmd-free-breakfast}"
+                android:textColor="@color/md_grey_400"
+                android:textSize="28dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="免费早餐"
+                android:textColor="@color/md_white"
+                android:textSize="18dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right" />
+
+        </LinearLayout>
+
+
+        <!-- 前三项 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#29ffffff"
+            app:layout_marginBottomPercent="2%sh"
+            app:layout_marginTopPercent="2%sh" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_heightPercent="8%sh">
+
+            <com.mikepenz.iconics.view.IconicsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="{gmd-cake}"
+                android:textColor="@color/md_grey_400"
+                android:textSize="28dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="生日蛋糕"
+                android:textColor="@color/md_white"
+                android:textSize="18dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_heightPercent="8%sh"
+            app:layout_marginTopPercent="1%sh">
+
+            <com.mikepenz.iconics.view.IconicsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="{gmd-pool}"
+                android:textColor="@color/md_grey_400"
+                android:textSize="28dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="游泳项目"
+                android:textColor="@color/md_white"
+                android:textSize="18dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_heightPercent="8%sh"
+            app:layout_marginTopPercent="1%sh">
+
+            <com.mikepenz.iconics.view.IconicsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="{gmd-wc}"
+                android:textColor="@color/md_grey_400"
+                android:textSize="28dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="人有三急"
+                android:textColor="@color/md_white"
+                android:textSize="18dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right" />
+
+        </LinearLayout>
+
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+</com.zhy.android.percent.support.PercentFrameLayout>
