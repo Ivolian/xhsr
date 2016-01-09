@@ -1,0 +1,187 @@
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/md_white"
+    android:orientation="vertical">
+
+
+    <!-- 窗帘部分 35% -->
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/ss2"
+        android:orientation="vertical"
+        app:layout_heightPercent="35%sh">
+
+
+        <!-- 标题 10% -->
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_heightPercent="10%sh"
+            app:layout_paddingLeftPercent="4%sh"
+            app:layout_paddingRightPercent="4%sh">
+
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:iiv_color="@android:color/white"
+                app:iiv_icon="cmd-settings"
+                app:layout_heightPercent="3%sh"
+                app:layout_widthPercent="3%sh" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="协和综服"
+                android:textColor="@color/md_white"
+                app:layout_textSizePercent="3.5%sh" />
+
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:iiv_color="@android:color/white"
+                app:iiv_icon="faw-user-md"
+                app:layout_heightPercent="3%sh"
+                app:layout_widthPercent="3%sh" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+
+        <!-- 查询框 8% -->
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/md_white"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            app:layout_heightPercent="8%sh"
+            app:layout_marginLeftPercent="3%sh"
+            app:layout_marginRightPercent="3%sh">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="请输入维修设备查询信息"
+                android:textColorHint="@color/md_blue_grey_200"
+                android:textSize="18dp" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/md_blue_grey_200" />
+
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginLeft="10dp"
+                app:iiv_color="?attr/colorPrimary"
+                app:iiv_icon="faw-qrcode"
+                app:layout_heightPercent="4%sh"
+                app:layout_widthPercent="4%sh" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+
+        <!-- 维修 20% -->
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_heightPercent="17%sh">
+
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.mikepenz.iconics.view.IconicsImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:iiv_color="@android:color/white"
+                    app:iiv_icon="typ-spanner"
+                    app:layout_heightPercent="4%sh"
+                    app:layout_widthPercent="4%sh" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="待维修"
+                    android:textColor="@color/md_white"
+                    app:layout_marginTopPercent="1%sh"
+                    app:layout_textSizePercent="2.5%sh" />
+
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.mikepenz.iconics.view.IconicsImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:iiv_color="@android:color/white"
+                    app:iiv_icon="typ-warning"
+                    app:layout_heightPercent="4%sh"
+                    app:layout_widthPercent="4%sh" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="维修中"
+                    android:textColor="@color/md_white"
+                    app:layout_marginTopPercent="1%sh"
+                    app:layout_textSizePercent="2.5%sh" />
+
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.mikepenz.iconics.view.IconicsImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:iiv_color="@android:color/white"
+                    app:iiv_icon="typ-input-checked"
+                    app:layout_heightPercent="4%sh"
+                    app:layout_widthPercent="4%sh" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已维修"
+                    android:textColor="@color/md_white"
+                    app:layout_marginTopPercent="1%sh"
+                    app:layout_textSizePercent="2.5%sh" />
+
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_heightPercent="65%sh" />
+
+
+</com.zhy.android.percent.support.PercentLinearLayout>

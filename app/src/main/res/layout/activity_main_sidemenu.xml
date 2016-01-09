@@ -12,7 +12,7 @@
         app:layout_paddingRightPercent="25%sw">
 
 
-        <!-- 头像和用户名 -->
+        <!-- 用户名 -->
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:text="ivolianer"
-                android:textColor="@color/md_white"
+                android:textColor="@color/md_orange_200"
                 android:textSize="22dp" />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
@@ -79,7 +79,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/test"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"

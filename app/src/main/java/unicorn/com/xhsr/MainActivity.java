@@ -2,7 +2,6 @@ package unicorn.com.xhsr;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import unicorn.com.xhsr.draglayout.view.DragLayout;
 
@@ -15,13 +14,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initDragLayout();
-
-        findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtils.show("hehe");
-            }
-        });
 
 //        findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
 //            @Override
