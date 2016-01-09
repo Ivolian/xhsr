@@ -1,0 +1,39 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "unicorn.com.xhsr"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    defaultConfig {
+        // Warning:Renderscript support mode is not currently supported with renderscript target 21+
+        renderscriptTargetApi 20
+        renderscriptSupportModeEnabled true
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'jp.wasabeef:blurry:1.0.5'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile(name: 'FlatButton-mc', ext: 'aar')
+    compile 'com.wada811:android-material-design-colors:2.0.0'
+    compile 'me.itangqi.waveloadingview:library:0.1.4'
+    compile 'com.mikepenz:iconics-core:2.5.3@aar'
+    compile 'com.mikepenz:fontawesome-typeface:4.5.0.1@aar'
+    compile 'com.mikepenz:material-design-iconic-typeface:2.2.0.1@aar'
+    compile 'com.mikepenz:google-material-typeface:2.1.0.1.original@aar'
+}
