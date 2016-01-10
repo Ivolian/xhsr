@@ -8,11 +8,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingLeft="30dp"
-        app:layout_paddingRightPercent="25%sw">
+        app:layout_paddingLeftPercent="7%sw"
+        app:layout_paddingRightPercent="28%sw">
 
 
-        <!-- 用户名 -->
+        <!-- 上半部分 25% -->
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -20,6 +20,7 @@
             android:orientation="horizontal"
             app:layout_heightPercent="25%sh">
 
+            <!-- 头像 15% -->
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -27,13 +28,14 @@
                 app:layout_heightPercent="15%sh"
                 app:layout_widthPercent="15%sh" />
 
+            <!-- 用户名 3.5% -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:text="ivolianer"
                 android:textColor="@color/md_orange_200"
-                android:textSize="22dp" />
+                app:layout_textSizePercent="3.5%sh" />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 
@@ -43,10 +45,9 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#29ffffff"
-            app:layout_marginBottomPercent="2%sh"
-            app:layout_marginTopPercent="2%sh" />
+            app:layout_marginBottomPercent="2%sh" />
 
-        <LinearLayout
+        <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
@@ -55,12 +56,13 @@
             android:orientation="horizontal"
             app:layout_heightPercent="8%sh">
 
-            <com.mikepenz.iconics.view.IconicsTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="{gmd-golf-course}"
-                android:textColor="@color/md_grey_400"
-                android:textSize="28dp" />
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:iiv_color="@color/md_grey_400"
+                app:iiv_icon="gmd-golf-course"
+                app:layout_heightPercent="4%sh"
+                app:layout_widthPercent="4%sh" />
 
             <TextView
                 android:layout_width="0dp"
@@ -69,16 +71,16 @@
                 android:layout_weight="1"
                 android:text="高尔夫课程"
                 android:textColor="@color/md_white"
-                android:textSize="18dp" />
+                app:layout_textSizePercent="3%sh" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_arrow_right" />
 
-        </LinearLayout>
+        </com.zhy.android.percent.support.PercentLinearLayout>
 
-        <LinearLayout
+        <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
@@ -88,12 +90,13 @@
             app:layout_heightPercent="8%sh"
             app:layout_marginTopPercent="1%sh">
 
-            <com.mikepenz.iconics.view.IconicsTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="{gmd-beach-access}"
-                android:textColor="@color/md_grey_400"
-                android:textSize="28dp" />
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:iiv_color="@color/md_grey_400"
+                app:iiv_icon="gmd-beach-access"
+                app:layout_heightPercent="4%sh"
+                app:layout_widthPercent="4%sh" />
 
             <TextView
                 android:layout_width="0dp"
@@ -102,16 +105,16 @@
                 android:layout_weight="1"
                 android:text="度假旅游"
                 android:textColor="@color/md_white"
-                android:textSize="18dp" />
+                app:layout_textSizePercent="3%sh" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_arrow_right" />
 
-        </LinearLayout>
+        </com.zhy.android.percent.support.PercentLinearLayout>
 
-        <LinearLayout
+        <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
@@ -121,31 +124,32 @@
             app:layout_heightPercent="8%sh"
             app:layout_marginTopPercent="1%sh">
 
-            <com.mikepenz.iconics.view.IconicsTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="{gmd-free-breakfast}"
-                android:textColor="@color/md_grey_400"
-                android:textSize="28dp" />
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:iiv_color="@color/md_grey_400"
+                app:iiv_icon="cmd-motorbike"
+                app:layout_heightPercent="4%sh"
+                app:layout_widthPercent="4%sh" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="免费早餐"
+                android:text="摩托赛车"
                 android:textColor="@color/md_white"
-                android:textSize="18dp" />
+                app:layout_textSizePercent="3%sh" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_arrow_right" />
 
-        </LinearLayout>
+        </com.zhy.android.percent.support.PercentLinearLayout>
 
 
-        <!-- 前三项 -->
+        <!-- 后三项 -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -153,7 +157,7 @@
             app:layout_marginBottomPercent="2%sh"
             app:layout_marginTopPercent="2%sh" />
 
-        <LinearLayout
+        <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
@@ -162,12 +166,13 @@
             android:orientation="horizontal"
             app:layout_heightPercent="8%sh">
 
-            <com.mikepenz.iconics.view.IconicsTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="{gmd-cake}"
-                android:textColor="@color/md_grey_400"
-                android:textSize="28dp" />
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:iiv_color="@color/md_grey_400"
+                app:iiv_icon="gmd-cake"
+                app:layout_heightPercent="4%sh"
+                app:layout_widthPercent="4%sh" />
 
             <TextView
                 android:layout_width="0dp"
@@ -176,16 +181,16 @@
                 android:layout_weight="1"
                 android:text="生日蛋糕"
                 android:textColor="@color/md_white"
-                android:textSize="18dp" />
+                app:layout_textSizePercent="3%sh" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_arrow_right" />
 
-        </LinearLayout>
+        </com.zhy.android.percent.support.PercentLinearLayout>
 
-        <LinearLayout
+        <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
@@ -195,12 +200,13 @@
             app:layout_heightPercent="8%sh"
             app:layout_marginTopPercent="1%sh">
 
-            <com.mikepenz.iconics.view.IconicsTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="{gmd-pool}"
-                android:textColor="@color/md_grey_400"
-                android:textSize="28dp" />
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:iiv_color="@color/md_grey_400"
+                app:iiv_icon="gmd-pool"
+                app:layout_heightPercent="4%sh"
+                app:layout_widthPercent="4%sh" />
 
             <TextView
                 android:layout_width="0dp"
@@ -209,16 +215,16 @@
                 android:layout_weight="1"
                 android:text="游泳项目"
                 android:textColor="@color/md_white"
-                android:textSize="18dp" />
+                app:layout_textSizePercent="3%sh" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_arrow_right" />
 
-        </LinearLayout>
+        </com.zhy.android.percent.support.PercentLinearLayout>
 
-        <LinearLayout
+        <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
@@ -228,12 +234,13 @@
             app:layout_heightPercent="8%sh"
             app:layout_marginTopPercent="1%sh">
 
-            <com.mikepenz.iconics.view.IconicsTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="{gmd-wc}"
-                android:textColor="@color/md_grey_400"
-                android:textSize="28dp" />
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:iiv_color="@color/md_grey_400"
+                app:iiv_icon="gmd-wc"
+                app:layout_heightPercent="4%sh"
+                app:layout_widthPercent="4%sh" />
 
             <TextView
                 android:layout_width="0dp"
@@ -242,14 +249,14 @@
                 android:layout_weight="1"
                 android:text="人有三急"
                 android:textColor="@color/md_white"
-                android:textSize="18dp" />
+                app:layout_textSizePercent="3%sh" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_arrow_right" />
 
-        </LinearLayout>
+        </com.zhy.android.percent.support.PercentLinearLayout>
 
 
     </com.zhy.android.percent.support.PercentLinearLayout>
