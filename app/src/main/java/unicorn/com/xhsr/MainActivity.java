@@ -1,20 +1,13 @@
 package unicorn.com.xhsr;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
-import com.karumi.dividers.DividerBuilder;
-import com.karumi.dividers.DividerItemDecoration;
-import com.karumi.dividers.Layer;
 
 import butterknife.ButterKnife;
 import unicorn.com.xhsr.draglayout.view.DragLayout;
@@ -31,14 +24,14 @@ public class MainActivity extends AppCompatActivity {
         initDragLayout();
 
 
-        findViewById(R.id.setting).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                ToastUtils.show("hehe");
-                dl.open(true);
-
-            }
-        });
+//        findViewById(R.id.setting).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                ToastUtils.show("hehe");
+//                dl.open(true);
+//
+//            }
+//        });
 
 
 
@@ -67,26 +60,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    MainAdapter mainAdapter;
-
-
-    public  GridLayoutManager getStaggeredGridLayoutManager(){
-       GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
-        return  gridLayoutManager;
-    }
-
-    public  LinearLayoutManager getLinearLayoutManager(Context context) {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        return linearLayoutManager;
-    }
 
     private void initRecyclerView() {
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycleview);
-        recyclerView.setLayoutManager(getStaggeredGridLayoutManager());
-        mainAdapter = new MainAdapter();
-        recyclerView.setAdapter(mainAdapter);
-//        recyclerView.addItemDecoration(new DividerGridItemDecoration(this));
+        RecyclerView mWaterFallRcv = (RecyclerView) findViewById(R.id.recycleview);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        mWaterFallRcv.setLayoutManager(layoutManager);
+
+        // 添加分割线
+        mWaterFallRcv.addItemDecoration(new DividerGridItemDecoration(this));
+
+
+
+
+          mWaterFallRcv.setAdapter(new MainAdapter());
+
 
         RecyclerViewHeader header = RecyclerViewHeader.fromXml(this, R.layout.recycle_view_head_view);
 
@@ -104,14 +91,12 @@ public class MainActivity extends AppCompatActivity {
         drawable = TextDrawable.builder()
                 .buildRound("", getResources().getColor(R.color.md_teal_400));
         linearLayout.setBackground(drawable);
-        header.attachTo(recyclerView);
+        header.attachTo(mWaterFallRcv);
 
-        // Create a drawable for your divider
-        Drawable exampleDrawable = getResources().getDrawable(android.R.drawable.divider_horizontal_dark);
 
-// Create a DividerItemDecoration instance with a single layer and add it to your recycler view
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(new Layer(DividerBuilder.get().with(exampleDrawable).build()));
-        recyclerView.addItemDecoration(itemDecoration);
+
+
+
 
     }
 
