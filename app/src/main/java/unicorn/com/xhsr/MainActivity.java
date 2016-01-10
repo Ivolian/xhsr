@@ -1,48 +1,45 @@
 package unicorn.com.xhsr;
 
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.LinearLayout;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import unicorn.com.xhsr.draglayout.view.DragLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    private DragLayout dl;
+
+    // =============================== onCreate ===============================
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        initViews();
+    }
+
+    private void initViews() {
         initDragLayout();
-
-
-//        findViewById(R.id.setting).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                ToastUtils.show("hehe");
-//                dl.open(true);
-//
-//            }
-//        });
-
-
-
-
         initRecyclerView();
     }
 
+    // =============================== drag layout ===============================
+
+    @Bind(R.id.dl)
+    DragLayout dragLayout;
 
     private void initDragLayout() {
-        dl = (DragLayout) findViewById(R.id.dl);
-        dl.setDragListener(new DragLayout.DragListener() {
+        dragLayout.setDragListener(new DragLayout.DragListener() {
             @Override
             public void onOpen() {
 
@@ -55,49 +52,42 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onDrag(float percent) {
-//            ToastUtils.show(percent);
             }
         });
     }
 
 
+    // =============================== recycleview ===============================
+
+    @Bind(R.id.recycleview)
+    RecyclerView recyclerView;
+
     private void initRecyclerView() {
-        RecyclerView mWaterFallRcv = (RecyclerView) findViewById(R.id.recycleview);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
-        mWaterFallRcv.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.addItemDecoration(new DividerGridItemDecoration(this));
+        recyclerView.setAdapter(new MainAdapter());
+        initRecycleViewHeader();
+    }
 
-        // 添加分割线
-        mWaterFallRcv.addItemDecoration(new DividerGridItemDecoration(this));
+    private void initRecycleViewHeader() {
+        RecyclerViewHeader recyclerViewHeader = RecyclerViewHeader.fromXml(this, R.layout.recycle_view_head);
+        recyclerViewHeader.findViewById(R.id.test).setBackground(getCircleDrawable(R.color.md_blue_400));
+        recyclerViewHeader.findViewById(R.id.test2).setBackground(getCircleDrawable(R.color.md_red_400));
+        recyclerViewHeader.findViewById(R.id.test3).setBackground(getCircleDrawable(R.color.md_teal_400));
+        recyclerViewHeader.attachTo(recyclerView);
+    }
 
-
-
-
-          mWaterFallRcv.setAdapter(new MainAdapter());
-
-
-        RecyclerViewHeader header = RecyclerViewHeader.fromXml(this, R.layout.recycle_view_head_view);
-
-        LinearLayout linearLayout = (LinearLayout)header.findViewById(R.id.test);
-        TextDrawable drawable = TextDrawable.builder()
-                .buildRound("", getResources().getColor(R.color.md_blue_400));
-        linearLayout.setBackground(drawable);
-
-        linearLayout = (LinearLayout)header.findViewById(R.id.test2);
-        drawable = TextDrawable.builder()
-                .buildRound("", getResources().getColor(R.color.md_red_400));
-        linearLayout.setBackground(drawable);
-
-        linearLayout = (LinearLayout)header.findViewById(R.id.test3);
-        drawable = TextDrawable.builder()
-                .buildRound("", getResources().getColor(R.color.md_teal_400));
-        linearLayout.setBackground(drawable);
-        header.attachTo(mWaterFallRcv);
+    private TextDrawable getCircleDrawable(@ColorRes int colorRes) {
+        int color = ContextCompat.getColor(this, colorRes);
+        return TextDrawable.builder().buildRound("", color);
+    }
 
 
+    // =============================== onClick ===============================
 
-
-
-
+    @OnClick(R.id.setting)
+    public void onSettingClick() {
+        dragLayout.open(true);
     }
 
 
