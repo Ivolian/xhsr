@@ -1,27 +1,33 @@
-<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.android.percent.support.PercentFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/md_white"
     android:orientation="vertical">
 
+    <android.support.v7.widget.RecyclerView
+        app:layout_marginTopPercent="31%sh"
+        android:id="@+id/recycleview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <!-- 窗帘部分 25% -->
+    <!-- 窗帘部分 32% -->
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/ss2"
         android:orientation="vertical"
-        app:layout_heightPercent="35%sh">
+        app:layout_heightPercent="32%sh">
 
 
-        <!-- 标题 10% -->
+        <!-- 标题 9% -->
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            app:layout_heightPercent="10%sh">
+            app:layout_heightPercent="9%sh">
 
             <com.zhy.android.percent.support.PercentFrameLayout
                 android:id="@+id/setting"
@@ -29,8 +35,8 @@
                 android:layout_height="0dp"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                app:layout_heightPercent="10%sh"
-                app:layout_widthPercent="10%sh">
+                app:layout_heightPercent="9%sh"
+                app:layout_widthPercent="9%sh">
 
                 <com.mikepenz.iconics.view.IconicsImageView
                     android:layout_width="0dp"
@@ -57,8 +63,8 @@
                 android:layout_height="0dp"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                app:layout_heightPercent="10%sh"
-                app:layout_widthPercent="10%sh">
+                app:layout_heightPercent="9%sh"
+                app:layout_widthPercent="9%sh">
 
                 <com.mikepenz.iconics.view.IconicsImageView
                     android:layout_width="0dp"
@@ -80,10 +86,10 @@
             android:layout_height="0dp"
             android:background="@color/md_white"
             android:gravity="center_vertical"
-            android:padding="10dp"
             app:layout_heightPercent="8%sh"
             app:layout_marginLeftPercent="3%sh"
-            app:layout_marginRightPercent="3%sh">
+            app:layout_marginRightPercent="3%sh"
+            app:layout_paddingPercent="2%sh">
 
             <TextView
                 android:layout_width="0dp"
@@ -91,7 +97,7 @@
                 android:layout_weight="1"
                 android:hint="请输入维修设备查询信息"
                 android:textColorHint="@color/md_blue_grey_200"
-                android:textSize="18dp" />
+                app:layout_textSizePercent="3%sh" />
 
             <View
                 android:layout_width="0.5dp"
@@ -101,21 +107,21 @@
             <com.mikepenz.iconics.view.IconicsImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginLeft="10dp"
                 app:iiv_color="?attr/colorPrimary"
                 app:iiv_icon="faw-qrcode"
                 app:layout_heightPercent="4%sh"
+                app:layout_marginLeftPercent="2%sh"
                 app:layout_widthPercent="4%sh" />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 
 
-        <!-- 维修 17% -->
+        <!-- 维修 15% -->
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            app:layout_heightPercent="17%sh">
+            app:layout_heightPercent="15%sh">
 
             <com.zhy.android.percent.support.PercentLinearLayout
                 android:layout_width="0dp"
@@ -203,128 +209,4 @@
 
     </com.zhy.android.percent.support.PercentLinearLayout>
 
-    <!-- 常用 23% -->
-    <com.zhy.android.percent.support.PercentLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        app:layout_heightPercent="23%sh">
-
-        <com.zhy.android.percent.support.PercentLinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:theme="@style/AppTheme2">
-
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/test"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:gravity="center"
-                app:layout_heightPercent="12%sh"
-                app:layout_widthPercent="12%sh">
-
-                <com.mikepenz.iconics.view.IconicsImageView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:iiv_color="@color/md_white"
-                    app:iiv_icon="gmi-wallpaper"
-                    app:layout_heightPercent="4%sh"
-                    app:layout_widthPercent="4%sh" />
-
-            </com.zhy.android.percent.support.PercentLinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="快速下单"
-                android:textColor="@color/md_grey_500"
-                app:layout_marginTopPercent="1.5%sh"
-                app:layout_textSizePercent="2.5%sh" />
-
-        </com.zhy.android.percent.support.PercentLinearLayout>
-
-        <com.zhy.android.percent.support.PercentLinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:theme="@style/AppTheme2">
-
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/test2"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:gravity="center"
-                app:layout_heightPercent="12%sh"
-                app:layout_widthPercent="12%sh">
-
-                <com.mikepenz.iconics.view.IconicsImageView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:iiv_color="@color/md_white"
-                    app:iiv_icon="gmi-search-in-page"
-                    app:layout_heightPercent="4%sh"
-                    app:layout_widthPercent="4%sh" />
-
-            </com.zhy.android.percent.support.PercentLinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="工单查询"
-                android:textColor="@color/md_grey_500"
-                app:layout_marginTopPercent="1.5%sh"
-                app:layout_textSizePercent="2.5%sh" />
-
-        </com.zhy.android.percent.support.PercentLinearLayout>
-
-        <com.zhy.android.percent.support.PercentLinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:theme="@style/AppTheme2">
-
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/test3"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:gravity="center"
-                app:layout_heightPercent="12%sh"
-                app:layout_widthPercent="12%sh">
-
-                <com.mikepenz.iconics.view.IconicsImageView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:iiv_color="@color/md_white"
-                    app:iiv_icon="gmi-notifications-active"
-                    app:layout_heightPercent="4%sh"
-                    app:layout_widthPercent="4%sh" />
-
-            </com.zhy.android.percent.support.PercentLinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="合同预警"
-                android:textColor="@color/md_grey_500"
-                app:layout_marginTopPercent="1.5%sh"
-                app:layout_textSizePercent="2.5%sh" />
-
-        </com.zhy.android.percent.support.PercentLinearLayout>
-
-    </com.zhy.android.percent.support.PercentLinearLayout>
-
-
-</com.zhy.android.percent.support.PercentLinearLayout>
+</com.zhy.android.percent.support.PercentFrameLayout>

@@ -26,6 +26,7 @@ android {
 
 dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'jp.wasabeef:blurry:1.0.5'
     compile 'de.hdodenhof:circleimageview:2.0.0'
@@ -41,4 +42,6 @@ dependencies {
     compile 'com.mikepenz:typeicons-typeface:2.0.7.1@aar'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+    compile 'com.karumi:dividers:1.0.1'
+    compile 'com.bartoszlipinski.recyclerviewheader:library:1.2.0'
 }

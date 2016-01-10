@@ -1,0 +1,133 @@
+
+<!-- 常用 23% -->
+<com.zhy.android.percent.support.PercentLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:theme="@style/AppTheme2"
+        app:layout_paddingTopPercent="3%sh"
+        app:layout_paddingBottomPercent="2%sh"
+
+        >
+
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/test"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            app:layout_heightPercent="12%sh"
+            app:layout_widthPercent="12%sh">
+
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:iiv_color="@color/md_white"
+                app:iiv_icon="gmi-wallpaper"
+                app:layout_heightPercent="4%sh"
+                app:layout_widthPercent="4%sh" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="快速下单"
+            android:textColor="@color/md_grey_500"
+            app:layout_marginTopPercent="1.5%sh"
+            app:layout_textSizePercent="2.5%sh" />
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_paddingTopPercent="3%sh"
+        app:layout_paddingBottomPercent="2%sh"
+        android:theme="@style/AppTheme2">
+
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/test2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            app:layout_heightPercent="12%sh"
+            app:layout_widthPercent="12%sh">
+
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:iiv_color="@color/md_white"
+                app:iiv_icon="gmi-search-in-page"
+                app:layout_heightPercent="4%sh"
+                app:layout_widthPercent="4%sh" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="工单查询"
+            android:textColor="@color/md_grey_500"
+            app:layout_marginTopPercent="1.5%sh"
+            app:layout_textSizePercent="2.5%sh" />
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        app:layout_paddingTopPercent="2%sh"
+        app:layout_paddingBottomPercent="2%sh"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:theme="@style/AppTheme2">
+
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/test3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            app:layout_heightPercent="12%sh"
+            app:layout_widthPercent="12%sh">
+
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:iiv_color="@color/md_white"
+                app:iiv_icon="gmi-notifications-active"
+                app:layout_heightPercent="4%sh"
+                app:layout_widthPercent="4%sh" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="合同预警"
+            android:textColor="@color/md_grey_500"
+            app:layout_marginTopPercent="1.5%sh"
+            app:layout_textSizePercent="2.5%sh" />
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+</com.zhy.android.percent.support.PercentLinearLayout>
