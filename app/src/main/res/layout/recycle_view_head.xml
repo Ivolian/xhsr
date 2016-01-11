@@ -11,6 +11,7 @@
         android:orientation="horizontal">
 
         <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/quick_order"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1"

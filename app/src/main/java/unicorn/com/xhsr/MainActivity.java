@@ -1,11 +1,13 @@
 package unicorn.com.xhsr;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
@@ -74,6 +76,15 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewHeader.findViewById(R.id.test).setBackground(getCircleDrawable(R.color.md_blue_400));
         recyclerViewHeader.findViewById(R.id.test2).setBackground(getCircleDrawable(R.color.md_red_400));
         recyclerViewHeader.findViewById(R.id.test3).setBackground(getCircleDrawable(R.color.md_teal_400));
+
+        recyclerViewHeader.findViewById(R.id.quick_order).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, QuickOrderActivity.class);
+                startActivity(intent);
+            }
+        });
+
         recyclerViewHeader.attachTo(recyclerView);
     }
 
