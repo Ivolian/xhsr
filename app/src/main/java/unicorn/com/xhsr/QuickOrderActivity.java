@@ -1,5 +1,6 @@
 package unicorn.com.xhsr;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,16 +37,19 @@ public class QuickOrderActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
         setContentView(R.layout.activity_quick_order);
         ButterKnife.bind(this);
-
-        initRepairTextDrawable();
-        SlidrConfig config = new SlidrConfig.Builder().edge(true).build();
-        Slidr.attach(this, config);
+        initViews();
+        Slidr.attach(this, new SlidrConfig.Builder().edge(true).build());
     }
 
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
+    }
+
+    private void initViews() {
+        initRepairTextDrawable();
+        initBottomSheet();
     }
 
 
@@ -54,9 +59,20 @@ public class QuickOrderActivity extends AppCompatActivity {
     ImageView ivRepairTextDrawable;
 
     private void initRepairTextDrawable() {
-        int colorPrimary = ContextCompat.getColor(this,R.color.colorPrimary);
+        int colorPrimary = ContextCompat.getColor(this, R.color.colorPrimary);
         TextDrawable textDrawable = TextDrawable.builder().buildRound("修", colorPrimary);
         ivRepairTextDrawable.setImageDrawable(textDrawable);
+    }
+
+    // =============================== bottom sheet ===============================
+
+    @Bind(R.id.bottomsheet)
+    BottomSheetLayout bottomSheet;
+
+    private void initBottomSheet() {
+        WindowManager windowManager = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+        int height = windowManager.getDefaultDisplay().getHeight();
+        bottomSheet.setPeekSheetTranslation(height * 0.65f);
     }
 
 
@@ -65,42 +81,58 @@ public class QuickOrderActivity extends AppCompatActivity {
     @Bind(R.id.tvBreakdown)
     TextView tvBreakdown;
 
-    @OnClick(R.id.breakdown)
-    public void selectBreakdown() {
-
-        View rootView = LayoutInflater.from(this).inflate(R.layout.fragment_select, bottomSheetLayout, false);
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycleview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new SelectAdapter("onBreakdownSelect",soBreakdown));
-        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
-        bottomSheetLayout.showWithSheetView(rootView);
-        if (soBreakdown!=null){
-            recyclerView.scrollToPosition(soBreakdown.position);
-
-        }
-
-
-//        SelectFragment selectFragment = new SelectFragment();
-//        Bundle arguments = new Bundle();
-//        arguments.putString("eventTag", "onBreakdownSelect");
-//        arguments.putSerializable("selectObject",soBreakdown);
-//        selectFragment.setArguments(arguments);
-//        selectFragment.show(getSupportFragmentManager(), R.id.bottomsheet);
-    }
-
     SelectObject soBreakdown;
 
-@Bind(R.id.bottomsheet)
-    BottomSheetLayout bottomSheetLayout;
-
-
-
+    @OnClick(R.id.breakdown)
+    public void selectBreakdown() {
+        showSelectSheetView("选择故障", "onBreakdownSelect", soBreakdown);
+    }
 
     @Subscriber(tag = "onBreakdownSelect")
     private void onBreakdownSelect(SelectObject selectObject) {
         soBreakdown = selectObject;
         tvBreakdown.setText(selectObject.value);
-        bottomSheetLayout.dismissSheet();
+        bottomSheet.dismissSheet();
+    }
+
+    // =============================== 处理方式 ===============================
+
+    @Bind(R.id.tvHandleMode)
+    TextView tvHandleMode;
+
+    SelectObject soHandleMode;
+
+    @OnClick(R.id.handleMode)
+    public void selectHandleMode() {
+        showSelectSheetView("选择处理方式", "onHandleModeSelect", soHandleMode);
+    }
+
+    @Subscriber(tag = "onHandleModeSelect")
+    private void onHandleModeSelect(SelectObject selectObject) {
+        soHandleMode = selectObject;
+        tvHandleMode.setText(selectObject.value);
+        bottomSheet.dismissSheet();
+    }
+
+
+    private void showSelectSheetView(String title, String eventTag, SelectObject selectObject) {
+        View rootView = LayoutInflater.from(this).inflate(R.layout.fragment_select, bottomSheet, false);
+        rootView.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheet.dismissSheet();
+            }
+        });
+        TextView tvTitle = (TextView) rootView.findViewById(R.id.title);
+        tvTitle.setText(title);
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycleview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new SelectAdapter(eventTag, selectObject));
+        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
+        if (selectObject != null) {
+            recyclerView.scrollToPosition(soBreakdown.position);
+        }
+        bottomSheet.showWithSheetView(rootView);
     }
 
 

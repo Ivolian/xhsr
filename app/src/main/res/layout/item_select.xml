@@ -4,6 +4,7 @@
     android:layout_height="wrap_content">
 
     <com.zhy.android.percent.support.PercentLinearLayout
+        android:id="@+id/row"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="?attr/selectableItemBackground"
@@ -15,7 +16,7 @@
         app:layout_paddingLeftPercent="3%sh">
 
         <TextView
-            android:id="@+id/text"
+            android:id="@+id/value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

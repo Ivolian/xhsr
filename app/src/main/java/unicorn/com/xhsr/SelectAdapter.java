@@ -1,5 +1,6 @@
 package unicorn.com.xhsr;
 
+import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,44 +19,41 @@ import butterknife.OnClick;
 
 public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder> {
 
+    List<String> valueList;
 
-    private List<String> dataList;
-        String eventTag;
+    String eventTag;
 
-  SelectObject selectObject;
+    SelectObject selectObject;
 
     public SelectAdapter(String eventTag, SelectObject selectObject) {
 
-        this.eventTag = eventTag;
-        this.selectObject = selectObject;
-        dataList = new ArrayList<>();
-        for (int i = 0; i !=30; i++) {
-            dataList.add("故障 " + i);
+        valueList = new ArrayList<>();
+        for (int i = 0; i != 30; i++) {
+            valueList.add("列表值 " + (i + 1));
         }
 
+        this.eventTag = eventTag;
+        this.selectObject = selectObject;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.text)
-        TextView tvText;
-
+        @Bind(R.id.value)
+        TextView tvValue;
 
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
 
-        @OnClick(R.id.text)
-        public void test() {
-            ToastUtils.show("hehe");
-            String value = dataList.get(getAdapterPosition());
-
+        @OnClick(R.id.row)
+        public void selectRow() {
+            int position = getAdapterPosition();
+            String value = valueList.get(position);
             SelectObject selectObject = new SelectObject();
+            selectObject.position = position;
             selectObject.value = value;
-            selectObject.position = getAdapterPosition();
             EventBus.getDefault().post(selectObject, eventTag);
-
         }
     }
 
@@ -71,18 +69,13 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        String value = dataList.get(position);
-        viewHolder.tvText.setText(value);
-
-        if (selectObject!=null) {
-            if (position == selectObject.position) {
-                viewHolder.tvText.setTextColor(ContextCompat.getColor(viewHolder.tvText.getContext(), R.color.colorPrimary));
-            }else {
-                viewHolder.tvText.setTextColor(ContextCompat.getColor(viewHolder.tvText.getContext(), R.color.md_grey_500));
-
-            }
+        String value = valueList.get(position);
+        viewHolder.tvValue.setText(value);
+        if (selectObject != null) {
+            Context context = viewHolder.tvValue.getContext();
+            int textColor = ContextCompat.getColor(context, position == selectObject.position ? R.color.colorPrimary : R.color.md_grey_500);
+            viewHolder.tvValue.setTextColor(textColor);
         }
-
     }
 
 
@@ -90,7 +83,7 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return dataList.size();
+        return valueList.size();
     }
 
 }

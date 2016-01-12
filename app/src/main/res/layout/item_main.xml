@@ -15,7 +15,7 @@
         app:layout_paddingPercent="4%sh">
 
         <TextView
-            android:id="@+id/text"
+            android:id="@+id/value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

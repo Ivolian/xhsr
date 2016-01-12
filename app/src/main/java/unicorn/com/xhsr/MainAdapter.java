@@ -42,7 +42,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.text)
+        @Bind(R.id.value)
         TextView tvText;
 
         @Bind(R.id.icon)

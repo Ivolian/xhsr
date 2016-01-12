@@ -13,6 +13,7 @@
         app:layout_heightPercent="10%sh">
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -21,31 +22,31 @@
             app:layout_marginLeftPercent="2%sh"
             app:layout_textSizePercent="3.3%sh" />
 
-
-        <com.zhy.android.percent.support.PercentFrameLayout android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_heightPercent="10%sh"
-            app:layout_widthPercent="10%sh"
-            android:clickable="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            >
-        <com.mikepenz.iconics.view.IconicsImageView
-            android:layout_gravity="center"
+        <com.zhy.android.percent.support.PercentFrameLayout
+            android:id="@+id/close"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:iiv_color="?attr/colorPrimary"
-            app:iiv_icon="gmd-close"
-            app:layout_heightPercent="3.0%sh"
-            app:layout_widthPercent="3.0%sh" />
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            app:layout_heightPercent="10%sh"
+            app:layout_widthPercent="10%sh">
+
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                app:iiv_color="?attr/colorPrimary"
+                app:iiv_icon="gmd-close"
+                app:layout_heightPercent="3.0%sh"
+                app:layout_widthPercent="3.0%sh" />
 
         </com.zhy.android.percent.support.PercentFrameLayout>
+
     </com.zhy.android.percent.support.PercentLinearLayout>
 
-    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/recycleview"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-
-        app:layout_heightPercent="60%sh" />
+        android:layout_height="wrap_content" />
 
 </com.zhy.android.percent.support.PercentLinearLayout>

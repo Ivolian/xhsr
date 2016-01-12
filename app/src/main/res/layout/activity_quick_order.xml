@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColor="@color/md_black"
-                android:hint="设备故障"
+                android:hint="选择故障"
                 android:textColorHint="@color/md_grey_500"
                 app:layout_textSizePercent="3%sh" />
 
@@ -214,6 +214,7 @@
 
         <!-- 处理方式 10% -->
         <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/handleMode"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
@@ -225,11 +226,13 @@
             app:layout_paddingRightPercent="3%sh">
 
             <TextView
+                android:id="@+id/tvHandleMode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="处理方式"
-                android:textColor="@color/md_grey_500"
+                android:textColor="@color/md_black"
+                android:hint="选择处理方式"
+                android:textColorHint="@color/md_grey_500"
                 app:layout_textSizePercent="3%sh" />
 
             <ImageView
