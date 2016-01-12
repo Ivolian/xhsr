@@ -126,19 +126,25 @@
             app:layout_paddingRightPercent="3%sh">
 
             <TextView
-                android:id="@+id/tvBreakdown"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/md_black"
-                android:hint="选择故障"
+                android:hint="设备故障"
                 android:textColorHint="@color/md_grey_500"
+                app:layout_textSizePercent="3%sh" />
+
+            <TextView
+                android:id="@+id/tvBreakdown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/md_black"
                 app:layout_textSizePercent="3%sh" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_right" />
+                android:src="@drawable/ic_arrow_right"
+                app:layout_marginLeftPercent="3%sh" />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 
@@ -226,19 +232,25 @@
             app:layout_paddingRightPercent="3%sh">
 
             <TextView
-                android:id="@+id/tvHandleMode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/md_black"
-                android:hint="选择处理方式"
+                android:hint="处理方式"
                 android:textColorHint="@color/md_grey_500"
+                app:layout_textSizePercent="3%sh" />
+
+            <TextView
+                android:id="@+id/tvHandleMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/md_black"
                 app:layout_textSizePercent="3%sh" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_right" />
+                android:src="@drawable/ic_arrow_right"
+                app:layout_marginLeftPercent="3%sh" />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 

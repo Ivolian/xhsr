@@ -2,6 +2,7 @@ package unicorn.com.xhsr;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -72,15 +73,24 @@ public class MainActivity extends AppCompatActivity {
         initRecycleViewHeader();
     }
 
+
+    long lastClickTime = 0;
     private void initRecycleViewHeader() {
         RecyclerViewHeader recyclerViewHeader = RecyclerViewHeader.fromXml(this, R.layout.recycle_view_head);
         recyclerViewHeader.findViewById(R.id.test).setBackground(getCircleDrawable(R.color.md_blue_400));
         recyclerViewHeader.findViewById(R.id.test2).setBackground(getCircleDrawable(R.color.md_red_400));
         recyclerViewHeader.findViewById(R.id.test3).setBackground(getCircleDrawable(R.color.md_teal_400));
 
+
         recyclerViewHeader.findViewById(R.id.quick_order).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (lastClickTime != 0){
+                    if(SystemClock.elapsedRealtime() - lastClickTime < 1000){
+                        return;
+                    }
+                }
+                lastClickTime = SystemClock.elapsedRealtime();
                 Intent intent = new Intent(MainActivity.this, QuickOrderActivity.class);
                 startActivity(intent);
             }
@@ -97,8 +107,11 @@ public class MainActivity extends AppCompatActivity {
 
     // =============================== onClick ===============================
 
+
     @OnClick(R.id.setting)
     public void onSettingClick() {
+
+
         dragLayout.open(true);
     }
 

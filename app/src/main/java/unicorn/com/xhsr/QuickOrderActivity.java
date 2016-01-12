@@ -85,7 +85,7 @@ public class QuickOrderActivity extends AppCompatActivity {
 
     @OnClick(R.id.breakdown)
     public void selectBreakdown() {
-        showSelectSheetView("选择故障", "onBreakdownSelect", soBreakdown);
+        showSelectSheetView("选择设备故障", "onBreakdownSelect", soBreakdown);
     }
 
     @Subscriber(tag = "onBreakdownSelect")
@@ -130,7 +130,7 @@ public class QuickOrderActivity extends AppCompatActivity {
         recyclerView.setAdapter(new SelectAdapter(eventTag, selectObject));
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
         if (selectObject != null) {
-            recyclerView.scrollToPosition(soBreakdown.position);
+            recyclerView.scrollToPosition(selectObject.position);
         }
         bottomSheet.showWithSheetView(rootView);
     }
