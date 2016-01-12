@@ -72,6 +72,7 @@
 
         <!-- 选择维修设备 15% -->
         <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/repair"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"

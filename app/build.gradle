@@ -52,5 +52,4 @@ dependencies {
     compile 'com.flipboard:bottomsheet-core:1.5.0'
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.6'
     compile 'org.simple:androideventbus:1.0.5'
-
 }

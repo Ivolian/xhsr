@@ -1,6 +1,7 @@
 package unicorn.com.xhsr;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -50,6 +51,12 @@ public class QuickOrderActivity extends AppCompatActivity {
     private void initViews() {
         initRepairTextDrawable();
         initBottomSheet();
+    }
+
+    @OnClick(R.id.repair)
+    public void test() {
+        Intent intent = new Intent(this, GroupSelectActivity.class);
+        startActivity(intent);
     }
 
 
