@@ -16,6 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import unicorn.com.xhsr.draglayout.view.DragLayout;
+import unicorn.com.xhsr.other.DividerGridItemDecoration;
 
 public class MainActivity extends AppCompatActivity {
 

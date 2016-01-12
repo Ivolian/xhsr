@@ -1,52 +1,282 @@
-<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.flipboard.bottomsheet.BottomSheetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottomsheet"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/md_grey_500"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <com.zhy.android.percent.support.PercentLinearLayout
+    <com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:background="@color/md_white"
-        android:gravity="center_vertical"
-        app:layout_heightPercent="10%sh">
+        android:orientation="vertical"
+        app:theme="@style/AppTheme2">
 
-        <com.zhy.android.percent.support.PercentFrameLayout
-            app:theme="@style/AppTheme2"
-            android:layout_width="0dp"
+        <!-- 标题 10% -->
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            app:layout_heightPercent="10%sh"
-            app:layout_widthPercent="10%sh">
+            android:gravity="center_vertical"
+            app:layout_heightPercent="10%sh">
+
+            <com.zhy.android.percent.support.PercentFrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                app:layout_heightPercent="10%sh"
+                app:layout_widthPercent="10%sh">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="取消"
+                    android:textColor="?attr/colorPrimary"
+                    app:layout_textSizePercent="2.6%sh" />
+
+            </com.zhy.android.percent.support.PercentFrameLayout>
 
             <TextView
-                android:layout_gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="快速下单"
+                android:textColor="@color/md_black"
+                app:layout_textSizePercent="3.5%sh" />
+
+            <com.zhy.android.percent.support.PercentFrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                app:layout_heightPercent="10%sh"
+                app:layout_widthPercent="10%sh">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="确认"
+                    android:textColor="?attr/colorPrimary"
+                    app:layout_textSizePercent="2.6%sh" />
+
+            </com.zhy.android.percent.support.PercentFrameLayout>
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/md_grey_200" />
+
+        <!-- 选择维修设备 15% -->
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_heightPercent="15%sh"
+            app:layout_paddingPercent="3%sh">
+
+            <ImageView
+                android:id="@+id/repair_text_drawable"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_heightPercent="6%sh"
+                app:layout_marginRightPercent="2%sh"
+                app:layout_widthPercent="6%sh" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="请选择需要维修的设备"
+                android:textColor="@color/md_grey_400"
+                app:layout_textSizePercent="3%sh" />
+
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="取消"
-                android:textColor="?attr/colorPrimary"
-                app:layout_textSizePercent="2.6%sh" />
+                android:src="@drawable/ic_arrow_right" />
 
-        </com.zhy.android.percent.support.PercentFrameLayout>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="快速下单"
-            android:textColor="@color/md_black"
-            app:layout_textSizePercent="3.5%sh" />
+        </com.zhy.android.percent.support.PercentLinearLayout>
 
-        <com.zhy.android.percent.support.PercentFrameLayout
-            android:layout_width="0dp"
+        <View
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_heightPercent="10%sh"
-            app:layout_widthPercent="10%sh" />
+            android:background="@color/md_grey_200"
+            app:layout_heightPercent="3%sh" />
+
+        <!-- 设备故障 8% -->
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/breakdown"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_heightPercent="8%sh"
+            app:layout_paddingLeftPercent="3%sh"
+            app:layout_paddingRightPercent="3%sh">
+
+            <TextView
+                android:id="@+id/tvBreakdown"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/md_black"
+                android:hint="设备故障"
+                android:textColorHint="@color/md_grey_500"
+                app:layout_textSizePercent="3%sh" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/md_grey_200" />
+
+        <!-- 维修地址 8% -->
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_heightPercent="8%sh"
+            app:layout_paddingLeftPercent="3%sh"
+            app:layout_paddingRightPercent="3%sh">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="维修地址"
+                android:textColor="@color/md_grey_500"
+                app:layout_textSizePercent="3%sh" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/md_grey_200" />
+
+        <!-- 报修人员 10% -->
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_heightPercent="8%sh"
+            app:layout_paddingLeftPercent="3%sh"
+            app:layout_paddingRightPercent="3%sh">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="报修人员"
+                android:textColor="@color/md_grey_500"
+                app:layout_textSizePercent="3%sh" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/md_grey_200"
+            app:layout_heightPercent="3%sh" />
+
+        <!-- 处理方式 10% -->
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_heightPercent="8%sh"
+            app:layout_paddingLeftPercent="3%sh"
+            app:layout_paddingRightPercent="3%sh">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="处理方式"
+                android:textColor="@color/md_grey_500"
+                app:layout_textSizePercent="3%sh" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/md_grey_200" />
+
+        <!-- 补充说明 10% -->
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_heightPercent="8%sh"
+            app:layout_paddingLeftPercent="3%sh"
+            app:layout_paddingRightPercent="3%sh">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="补充说明"
+                android:textColor="@color/md_grey_500"
+                app:layout_textSizePercent="3%sh" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/md_grey_200" />
 
 
     </com.zhy.android.percent.support.PercentLinearLayout>
 
-</com.zhy.android.percent.support.PercentLinearLayout>
+</com.flipboard.bottomsheet.BottomSheetLayout>

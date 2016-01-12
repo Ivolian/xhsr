@@ -1,4 +1,4 @@
-package unicorn.com.xhsr;
+package unicorn.com.xhsr.other;
 
 import android.content.Context;
 import android.content.res.TypedArray;

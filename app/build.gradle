@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 
+
+
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -22,6 +25,10 @@ android {
         renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
     }
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
 }
 
 dependencies {
@@ -41,4 +48,12 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.bartoszlipinski.recyclerviewheader:library:1.2.0'
+    compile 'com.r0adkll:slidableactivity:2.0.5-SNAPSHOT'
+    compile 'com.flipboard:bottomsheet-core:1.5.0'
+    compile 'com.flipboard:bottomsheet-commons:1.5.0'
+    compile 'com.yqritc:recyclerview-flexibledivider:1.2.6'
+    compile 'org.simple:androideventbus:1.0.5'
+    compile 'com.f2prateek.dart:dart:1.1.0'
+    compile 'com.github.kingideayou:SlideBottomPanel:1.0.6'
+    compile "com.briangriffey:slideuppane:1.0@aar"
 }
