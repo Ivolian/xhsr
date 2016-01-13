@@ -32,6 +32,20 @@ public class QuickOrderActivity extends DraggerActivity {
 
     // =============================== onCreate & onDestroy ===============================
 
+    @OnClick(R.id.cancel)
+    public void cancel(){
+        closeActivity();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 2333) {
+            String result = data.getStringExtra("result");
+            tvRepair.setText(result);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +58,7 @@ public class QuickOrderActivity extends DraggerActivity {
 
         ButterKnife.bind(this);
         initViews();
-
+        setSlideEnabled(false);
     }
 
     @Override
@@ -58,10 +72,13 @@ public class QuickOrderActivity extends DraggerActivity {
         initBottomSheet();
     }
 
+    @Bind(R.id.tvRepair)
+    TextView tvRepair;
+
     @OnClick(R.id.repair)
     public void test() {
         Intent intent = new Intent(this, GroupSelectActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 2333);
     }
 
 

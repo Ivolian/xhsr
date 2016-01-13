@@ -15,6 +15,7 @@
         app:layout_heightPercent="10%sh">
 
         <com.zhy.android.percent.support.PercentFrameLayout
+            android:id="@+id/cancel"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -42,6 +43,7 @@
             app:layout_textSizePercent="3.5%sh" />
 
         <com.zhy.android.percent.support.PercentFrameLayout
+            android:id="@+id/confirm"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackgroundBorderless"

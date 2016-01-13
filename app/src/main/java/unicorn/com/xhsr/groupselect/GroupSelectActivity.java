@@ -1,5 +1,6 @@
 package unicorn.com.xhsr.groupselect;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,6 +52,27 @@ public class GroupSelectActivity extends DraggerActivity {
     private void initViews() {
         initRvMain();
         initRvSub();
+    }
+
+    @OnClick(R.id.cancel)
+    public void cancel(){
+        closeActivity();
+    }
+
+    @OnClick(R.id.confirm)
+    public void confirm(){
+        Intent intent =new Intent();
+        intent.putExtra("result",getResult());
+        setResult(2333,intent);
+        closeActivity();
+    }
+
+    private String getResult(){
+        String result = "";
+        for (TextView tvValue:tvValueList){
+            result  += tvValue.getText().toString();
+        }
+        return  result.replace(">","");
     }
 
 
@@ -107,7 +129,7 @@ public class GroupSelectActivity extends DraggerActivity {
             return;
         }
         refreshRvMain(GroupSelectHelper.create(level, arrPositionSelected[level], null));
-        clearValueList(level);
+
     }
 
     private void clearValueList(int level) {
@@ -142,6 +164,8 @@ public class GroupSelectActivity extends DraggerActivity {
     private void onRvMainSelect(GroupSelectObject groupSelectObject) {
         onSelect(groupSelectObject);
         refreshRvSub(groupSelectObject);
+        clearValueList(groupSelectObject.level);
+
     }
 
     @Subscriber(tag = "onSubSelect")
