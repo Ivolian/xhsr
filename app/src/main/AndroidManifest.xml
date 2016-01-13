@@ -19,7 +19,7 @@
         </activity>
         <activity android:name=".QuickOrderActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".GroupSelectActivity"
+        <activity android:name=".groupselect.GroupSelectActivity"
             android:screenOrientation="portrait"/>
 
     </application>

@@ -5,8 +5,8 @@ import java.io.Serializable;
 
 public class SelectObject implements Serializable{
 
-    String value;
+    public String value;
 
-    int position;
+   public int position;
 
 }

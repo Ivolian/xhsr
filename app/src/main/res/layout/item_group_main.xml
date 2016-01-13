@@ -12,23 +12,21 @@
 
         <View
             android:id="@+id/highlight"
-            app:layout_widthPercent="2%sw"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:background="@color/md_grey_200"
-            />
+            app:layout_widthPercent="1.5%sw" />
 
         <TextView
-        android:gravity="center"
             android:id="@+id/value"
             android:layout_width="0dp"
-            android:background="@color/md_grey_200"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/md_grey_200"
+            android:gravity="center"
             android:text="故障1"
             android:textColor="@color/md_grey_500"
             app:layout_textSizePercent="2.5%sh" />
-
 
     </com.zhy.android.percent.support.PercentLinearLayout>
 

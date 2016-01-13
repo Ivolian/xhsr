@@ -52,4 +52,5 @@ dependencies {
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.6'
     compile 'org.simple:androideventbus:1.0.5'
     compile 'com.github.ppamorim:dragger:1.2'
+    compile 'jp.wasabeef:recyclerview-animators:2.1.0'
 }

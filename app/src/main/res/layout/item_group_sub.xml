@@ -1,0 +1,23 @@
+<com.zhy.android.percent.support.PercentFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/row"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/md_white"
+    app:theme="@style/AppTheme2">
+
+    <TextView
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+
+        android:id="@+id/value"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="故障1"
+        android:textColor="@color/md_black"
+        app:layout_heightPercent="8%sh"
+        app:layout_textSizePercent="2.5%sh" />
+
+</com.zhy.android.percent.support.PercentFrameLayout>
+

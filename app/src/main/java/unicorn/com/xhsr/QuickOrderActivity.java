@@ -24,6 +24,7 @@ import org.simple.eventbus.Subscriber;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 
 
 public class QuickOrderActivity extends DraggerActivity {
