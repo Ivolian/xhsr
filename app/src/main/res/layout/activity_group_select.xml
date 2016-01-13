@@ -5,7 +5,7 @@
     android:background="@color/md_white"
     android:orientation="vertical">
 
-     <!--标题 10%-->
+    <!-- 标题 10%-->
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -59,55 +59,56 @@
 
     </com.zhy.android.percent.support.PercentLinearLayout>
 
+    <!-- 搜索框 10%-->
     <com.zhy.android.percent.support.PercentFrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="?attr/colorPrimary"
+        app:layout_heightPercent="10%sh"
+        app:layout_paddingBottomPercent="2%sw"
         app:layout_paddingLeftPercent="2%sw"
         app:layout_paddingRightPercent="2%sw"
-        app:layout_paddingTopPercent="2%sw"
-        app:layout_paddingBottomPercent="2%sw"
-        app:layout_heightPercent="10%sh">
+        app:layout_paddingTopPercent="2%sw">
 
         <com.zhy.android.percent.support.PercentLinearLayout
-            android:background="@color/md_white"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/md_white"
             android:gravity="center_vertical"
-            >
+            android:orientation="horizontal">
 
 
-        <EditText android:layout_width="0dp"
+            <EditText
+                android:layout_width="0dp"
 
-            android:layout_weight="1"
-            android:hint="输入设备相关信息"
-            android:textColor="@color/md_black"
-            android:textColorHint="@color/md_blue_grey_200"
-            android:layout_height="match_parent"
-            app:layout_textSizePercent="3%sh"
-            android:textCursorDrawable="@drawable/color_cursor"
-            app:layout_paddingLeftPercent="5%sw"
-        android:background="@color/md_white"
-            />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/md_white"
+                android:hint="输入设备相关信息"
+                android:textColor="@color/md_black"
+                android:textColorHint="@color/md_blue_grey_200"
+                android:textCursorDrawable="@drawable/color_cursor"
+                app:layout_paddingLeftPercent="4%sw"
+                app:layout_textSizePercent="3%sh" />
 
-        <com.mikepenz.iconics.view.IconicsImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            app:iiv_color="?attr/colorPrimary"
-            app:iiv_icon="gmi-close-circle"
-            app:layout_heightPercent="4%sh"
-            app:layout_widthPercent="4%sh"
-            app:layout_marginLeftPercent="4%sw"
-            app:layout_marginRightPercent="4%sw"
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                app:iiv_color="?attr/colorPrimary"
+                app:iiv_icon="gmi-close-circle"
+                app:layout_heightPercent="4%sh"
+                app:layout_marginLeftPercent="4%sw"
+                app:layout_marginRightPercent="4%sw"
+                app:layout_widthPercent="4%sh"
 
-            />
+                />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 
-
     </com.zhy.android.percent.support.PercentFrameLayout>
+
+
 
 </com.zhy.android.percent.support.PercentLinearLayout>
 

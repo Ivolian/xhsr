@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 lastClickTime = SystemClock.elapsedRealtime();
                 Intent intent = new Intent(MainActivity.this, QuickOrderActivity.class);
                 startActivity(intent);
+
             }
         });
 

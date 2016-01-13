@@ -1,17 +1,16 @@
 package unicorn.com.xhsr;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
-import com.r0adkll.slidr.Slidr;
-import com.r0adkll.slidr.model.SlidrConfig;
+import com.github.ppamorim.dragger.DraggerActivity;
+import com.github.ppamorim.dragger.DraggerPosition;
 
 import org.simple.eventbus.EventBus;
 
 import butterknife.ButterKnife;
 
 
-public class GroupSelectActivity extends AppCompatActivity {
+public class GroupSelectActivity extends DraggerActivity {
 
 
     // =============================== onCreate & onDestroy ===============================
@@ -23,7 +22,9 @@ public class GroupSelectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_group_select);
         ButterKnife.bind(this);
         initViews();
-        Slidr.attach(this, new SlidrConfig.Builder().edge(true).build());
+        setFriction(10);
+        setDraggerPosition(DraggerPosition.RIGHT);
+
     }
 
     @Override

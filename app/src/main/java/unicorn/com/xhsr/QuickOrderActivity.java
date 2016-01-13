@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,8 +14,8 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.flipboard.bottomsheet.BottomSheetLayout;
-import com.r0adkll.slidr.Slidr;
-import com.r0adkll.slidr.model.SlidrConfig;
+import com.github.ppamorim.dragger.DraggerActivity;
+import com.github.ppamorim.dragger.DraggerPosition;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import org.simple.eventbus.EventBus;
@@ -27,7 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class QuickOrderActivity extends AppCompatActivity {
+public class QuickOrderActivity extends DraggerActivity {
 
 
     // =============================== onCreate & onDestroy ===============================
@@ -37,9 +36,14 @@ public class QuickOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         setContentView(R.layout.activity_quick_order);
+//        setShadowView(R.drawable.shadow);
+
+        setFriction(10);
+        setDraggerPosition(DraggerPosition.RIGHT);
+
         ButterKnife.bind(this);
         initViews();
-        Slidr.attach(this, new SlidrConfig.Builder().edge(true).build());
+
     }
 
     @Override
