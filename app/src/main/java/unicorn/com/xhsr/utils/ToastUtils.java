@@ -1,7 +1,9 @@
-package unicorn.com.xhsr;
+package unicorn.com.xhsr.utils;
 
 import android.view.Gravity;
 import android.widget.Toast;
+
+import unicorn.com.xhsr.SimpleApplication;
 
 
 public class ToastUtils {
