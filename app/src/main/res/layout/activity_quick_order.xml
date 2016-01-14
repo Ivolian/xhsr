@@ -8,6 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/md_white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical"
         app:theme="@style/AppTheme2">
 
@@ -112,8 +114,8 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_heightPercent="8%sh"
-            app:layout_paddingLeftPercent="3%sh"
-            app:layout_paddingRightPercent="3%sh">
+            app:layout_paddingLeftPercent="5%sw"
+            app:layout_paddingRightPercent="5%sw">
 
             <TextView
                 android:layout_width="0dp"
@@ -152,8 +154,8 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_heightPercent="8%sh"
-            app:layout_paddingLeftPercent="3%sh"
-            app:layout_paddingRightPercent="3%sh">
+            app:layout_paddingLeftPercent="5%sw"
+            app:layout_paddingRightPercent="5%sw">
 
             <TextView
                 android:layout_width="0dp"
@@ -185,8 +187,8 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_heightPercent="8%sh"
-            app:layout_paddingLeftPercent="3%sh"
-            app:layout_paddingRightPercent="3%sh">
+            app:layout_paddingLeftPercent="5%sw"
+            app:layout_paddingRightPercent="5%sw">
 
             <TextView
                 android:layout_width="0dp"
@@ -219,8 +221,8 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_heightPercent="8%sh"
-            app:layout_paddingLeftPercent="3%sh"
-            app:layout_paddingRightPercent="3%sh">
+            app:layout_paddingLeftPercent="5%sw"
+            app:layout_paddingRightPercent="5%sw">
 
             <TextView
                 android:layout_width="0dp"
@@ -252,15 +254,15 @@
 
         <!-- 补充说明 8% -->
         <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackground"
-            android:clickable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_heightPercent="8%sh"
-            app:layout_paddingLeftPercent="3%sh"
-            app:layout_paddingRightPercent="3%sh">
+            app:layout_paddingLeftPercent="5%sw"
+            app:layout_paddingRightPercent="5%sw">
 
             <TextView
                 android:layout_width="0dp"
@@ -271,11 +273,50 @@
                 app:layout_textSizePercent="3%sh" />
 
             <ImageView
+                android:id="@+id/descriptionArrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_arrow_right" />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/elDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ael_duration="500"
+            app:ael_expanded="false"
+            app:ael_orientation="vertical">
+
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/md_grey_200" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:gravity="left|top"
+                    android:hint="请填写补充说明"
+                    android:minHeight="100dp"
+                    android:textColor="@color/md_black"
+                    android:textColorHint="@color/md_grey_400"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    app:layout_paddingBottomPercent="3%sw"
+                    app:layout_paddingLeftPercent="5%sw"
+                    app:layout_paddingRightPercent="5%sw"
+                    app:layout_paddingTopPercent="3%sw"
+                    app:layout_textSizePercent="2.8%sh" />
+
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
         <View
             android:layout_width="match_parent"

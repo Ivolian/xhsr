@@ -55,4 +55,6 @@ dependencies {
     compile 'jp.wasabeef:recyclerview-animators:2.1.0'
     compile 'com.f2prateek.dart:dart:2.0.0-RC1'
     provided 'com.f2prateek.dart:dart-processor:2.0.0-RC1'
+    compile 'com.github.aakira:expandable-layout:1.4.1@aar'
+    compile 'com.github.florent37:viewanimator:1.0.0@aar'
 }

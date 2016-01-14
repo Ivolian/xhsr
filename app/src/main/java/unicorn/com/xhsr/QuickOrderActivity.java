@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.flipboard.bottomsheet.BottomSheetLayout;
+import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.github.ppamorim.dragger.DraggerActivity;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
@@ -64,7 +66,7 @@ public class QuickOrderActivity extends DraggerActivity {
 
     @OnClick(R.id.equipment)
     public void equipmentOnClick() {
-        GroupSelectHelper.startGroupActivity(this, "选择设备", 5);
+        GroupSelectHelper.startGroupSelectActivity(this, "选择设备", 5);
     }
 
     @Bind(R.id.tvEquipment)
@@ -132,6 +134,25 @@ public class QuickOrderActivity extends DraggerActivity {
         bottomSheet.dismissSheet();
         String handleMode = (String) selectObject.value;
         tvHandleMode.setText(handleMode);
+    }
+
+
+    // =============================== 补充说明 ===============================
+
+    @Bind(R.id.descriptionArrow)
+    ImageView ivDescriptionArrow;
+
+    @Bind(R.id.elDescription)
+    ExpandableRelativeLayout elDescription;
+
+    @OnClick(R.id.description)
+    public void descriptionOnClick() {
+        ViewAnimator
+                .animate(ivDescriptionArrow)
+                .rotation(elDescription.isExpanded() ? 0 : 90)
+                .duration(500)
+                .start();
+        elDescription.toggle();
     }
 
 
