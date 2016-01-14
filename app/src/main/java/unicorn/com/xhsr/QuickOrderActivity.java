@@ -150,7 +150,7 @@ public class QuickOrderActivity extends DraggerActivity {
         ViewAnimator
                 .animate(ivDescriptionArrow)
                 .rotation(elDescription.isExpanded() ? 0 : 90)
-                .duration(500)
+                .duration(300)
                 .start();
         elDescription.toggle();
     }
