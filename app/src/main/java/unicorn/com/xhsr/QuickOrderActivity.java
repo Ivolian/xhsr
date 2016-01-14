@@ -81,9 +81,11 @@ public class QuickOrderActivity extends DraggerActivity {
     @OnClick(R.id.repair)
     public void test() {
         Intent intent = new Intent(this, GroupSelectActivity.class);
+        intent.putExtra("title","选择设备");
         intent.putExtra("maxLevel",5);
         startActivityForResult(intent, 2333);
     }
+
 
 
     // =============================== repair text drawable ===============================

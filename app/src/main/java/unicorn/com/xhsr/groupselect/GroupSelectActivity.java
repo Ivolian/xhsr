@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.f2prateek.dart.Dart;
@@ -28,15 +30,23 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
 import unicorn.com.xhsr.R;
+import unicorn.com.xhsr.SelectAdapter;
 
 
 public class GroupSelectActivity extends DraggerActivity {
+
+    @InjectExtra("title")
+    String title;
+
 
     @InjectExtra("maxLevel")
     Integer maxLevel;
 
     @Bind(R.id.result_container)
     PercentLinearLayout resultContainer;
+
+    @Bind(R.id.title)
+    TextView tvTitle;
 
     // =============================== onCreate & onDestroy ===============================
 
@@ -47,7 +57,7 @@ public class GroupSelectActivity extends DraggerActivity {
         setContentView(R.layout.activity_group_select);
         ButterKnife.bind(this);
         Dart.inject(this);
-
+tvTitle.setText(title);
         initViews();
 
         setSlideEnabled(false);
@@ -73,7 +83,41 @@ public class GroupSelectActivity extends DraggerActivity {
                }
            });
        }
+
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().equals("")){
+                    rvTest.setVisibility(View.INVISIBLE);
+                }else {
+                    rvTest.setVisibility(View.VISIBLE);
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
+
+    private void initRxTest(){
+        rvTest.setLayoutManager(new LinearLayoutManager(this));
+        rvTest.setAdapter(new SelectAdapter("",null));
+        rvTest.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
+
+    }
+
+    @Bind(R.id.tvSearch)
+    EditText etSearch;
+
 
     @Override
     public void onDestroy() {
@@ -84,6 +128,7 @@ public class GroupSelectActivity extends DraggerActivity {
     private void initViews() {
         initRvMain();
         initRvSub();
+            initRxTest();
     }
 
     @OnClick(R.id.cancel)
@@ -107,6 +152,8 @@ public class GroupSelectActivity extends DraggerActivity {
         return  result.replace(">","");
     }
 
+    @Bind(R.id.rvTest)
+    RecyclerView rvTest;
 
     // =============================== rvMain ===============================
 
