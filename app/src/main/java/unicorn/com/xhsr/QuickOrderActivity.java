@@ -66,7 +66,7 @@ public class QuickOrderActivity extends DraggerActivity {
 
     @OnClick(R.id.equipment)
     public void equipmentOnClick() {
-        GroupSelectHelper.startGroupSelectActivity(this, "选择设备", 5);
+        GroupSelectHelper.startGroupSelectActivity(this, "选择设备", 3);
     }
 
     @Bind(R.id.tvEquipment)
