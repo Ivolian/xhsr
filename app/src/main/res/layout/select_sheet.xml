@@ -45,7 +45,7 @@
     </com.zhy.android.percent.support.PercentLinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycleview"
+        android:id="@+id/recycleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

@@ -3,10 +3,10 @@ package unicorn.com.xhsr;
 
 import java.io.Serializable;
 
-public class SelectObject implements Serializable{
+public class SelectObject implements Serializable {
 
-    public String value;
+    public Object value;
 
-   public int position;
+    public int position;
 
 }

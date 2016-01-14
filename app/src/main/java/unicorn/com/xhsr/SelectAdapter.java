@@ -1,6 +1,5 @@
 package unicorn.com.xhsr;
 
-import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,19 +20,17 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder
 
     List<String> valueList;
 
-    String eventTag;
+    String callbackTag;
 
-    SelectObject selectObject;
+    int positionSelected;
 
-    public SelectAdapter(String eventTag, SelectObject selectObject) {
-
+    public SelectAdapter(String callbackTag, int positionSelected) {
         valueList = new ArrayList<>();
-        for (int i = 0; i != 30; i++) {
-            valueList.add("列表值 " + (i + 1));
+        for (int i = 0; i != 4; i++) {
+            valueList.add("可选值 " + (i + 1));
         }
-
-        this.eventTag = eventTag;
-        this.selectObject = selectObject;
+        this.callbackTag = callbackTag;
+        this.positionSelected = positionSelected;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -47,21 +44,14 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder
         }
 
         @OnClick(R.id.row)
-        public void selectRow() {
+        public void selectItem() {
             int position = getAdapterPosition();
             String value = valueList.get(position);
             SelectObject selectObject = new SelectObject();
             selectObject.position = position;
             selectObject.value = value;
-            EventBus.getDefault().post(selectObject, eventTag);
+            EventBus.getDefault().post(selectObject, callbackTag);
         }
-    }
-
-
-    // ================================== onCreateViewHolder ==================================
-
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_select, viewGroup, false));
     }
 
 
@@ -71,15 +61,16 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         String value = valueList.get(position);
         viewHolder.tvValue.setText(value);
-        if (selectObject != null) {
-            Context context = viewHolder.tvValue.getContext();
-            int textColor = ContextCompat.getColor(context, position == selectObject.position ? R.color.colorPrimary : R.color.md_grey_500);
-            viewHolder.tvValue.setTextColor(textColor);
-        }
+        int textColor = ContextCompat.getColor(viewHolder.tvValue.getContext(), position == positionSelected ? R.color.colorPrimary : R.color.md_grey_500);
+        viewHolder.tvValue.setTextColor(textColor);
     }
 
 
-    // ================================== getItemCount ==================================
+    // ==================================  ==================================
+
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_select, viewGroup, false));
+    }
 
     @Override
     public int getItemCount() {

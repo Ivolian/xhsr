@@ -15,16 +15,14 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.github.ppamorim.dragger.DraggerActivity;
-import com.github.ppamorim.dragger.DraggerPosition;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import unicorn.com.xhsr.groupselect.GroupSelectActivity;
+import unicorn.com.xhsr.groupselect.GroupSelectHelper;
 
 
 public class QuickOrderActivity extends DraggerActivity {
@@ -32,36 +30,13 @@ public class QuickOrderActivity extends DraggerActivity {
 
     // =============================== onCreate & onDestroy ===============================
 
-    @OnClick(R.id.cancel)
-    public void cancel(){
-        closeActivity();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 2333) {
-            String result = data.getStringExtra("result");
-            tvRepair.setText(result);
-        }
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         setContentView(R.layout.activity_quick_order);
-        ButterKnife.bind(this);
+        ActivityHelp.initActivity(this);
         initViews();
-
-//        setShadowView(R.drawable.shadow);
-
-        setSlideEnabled(false);
-      setTension(1);
-        setDraggerPosition(DraggerPosition.RIGHT);
-
-
     }
 
     @Override
@@ -71,39 +46,46 @@ public class QuickOrderActivity extends DraggerActivity {
     }
 
     private void initViews() {
-        initRepairTextDrawable();
+        initEquipment();
         initBottomSheet();
     }
 
-    @Bind(R.id.tvRepair)
-    TextView tvRepair;
 
-    @OnClick(R.id.repair)
-    public void test() {
-        Intent intent = new Intent(this, GroupSelectActivity.class);
-        intent.putExtra("title","选择设备");
-        intent.putExtra("maxLevel",5);
-        startActivityForResult(intent, 2333);
-    }
+    // =============================== 选择需要维修的设备 ===============================
 
+    @Bind(R.id.tdEquipment)
+    ImageView tdEquipment;
 
-
-    // =============================== repair text drawable ===============================
-
-    @Bind(R.id.repair_text_drawable)
-    ImageView ivRepairTextDrawable;
-
-    private void initRepairTextDrawable() {
+    private void initEquipment() {
         int colorPrimary = ContextCompat.getColor(this, R.color.colorPrimary);
         TextDrawable textDrawable = TextDrawable.builder().buildRound("修", colorPrimary);
-        ivRepairTextDrawable.setImageDrawable(textDrawable);
+        tdEquipment.setImageDrawable(textDrawable);
     }
+
+    @OnClick(R.id.equipment)
+    public void equipmentOnClick() {
+        GroupSelectHelper.startGroupActivity(this, "选择设备", 5);
+    }
+
+    @Bind(R.id.tvEquipment)
+    TextView tvEquipment;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 2333) {
+            String result = data.getStringExtra(GroupSelectHelper.RESULT);
+            tvEquipment.setText(result);
+        }
+    }
+
 
     // =============================== bottom sheet ===============================
 
     @Bind(R.id.bottomsheet)
     BottomSheetLayout bottomSheet;
 
+    @SuppressWarnings("deprecation")
     private void initBottomSheet() {
         WindowManager windowManager = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
         int height = windowManager.getDefaultDisplay().getHeight();
@@ -120,15 +102,17 @@ public class QuickOrderActivity extends DraggerActivity {
 
     @OnClick(R.id.breakdown)
     public void selectBreakdown() {
-        showSelectSheetView("选择设备故障", "onBreakdownSelect", soBreakdown);
+        showSelectSheet("选择设备故障", "onBreakdownSelect", soBreakdown == null ? -1 : soBreakdown.position);
     }
 
     @Subscriber(tag = "onBreakdownSelect")
     private void onBreakdownSelect(SelectObject selectObject) {
         soBreakdown = selectObject;
-        tvBreakdown.setText(selectObject.value);
         bottomSheet.dismissSheet();
+        String breakdown = (String) selectObject.value;
+        tvBreakdown.setText(breakdown);
     }
+
 
     // =============================== 处理方式 ===============================
 
@@ -139,35 +123,44 @@ public class QuickOrderActivity extends DraggerActivity {
 
     @OnClick(R.id.handleMode)
     public void selectHandleMode() {
-        showSelectSheetView("选择处理方式", "onHandleModeSelect", soHandleMode);
+        showSelectSheet("选择处理方式", "onHandleModeSelect", soHandleMode == null ? -1 : soHandleMode.position);
     }
 
     @Subscriber(tag = "onHandleModeSelect")
     private void onHandleModeSelect(SelectObject selectObject) {
         soHandleMode = selectObject;
-        tvHandleMode.setText(selectObject.value);
         bottomSheet.dismissSheet();
+        String handleMode = (String) selectObject.value;
+        tvHandleMode.setText(handleMode);
     }
 
 
-    private void showSelectSheetView(String title, String eventTag, SelectObject selectObject) {
-        View rootView = LayoutInflater.from(this).inflate(R.layout.fragment_select, bottomSheet, false);
+    // =============================== showSelectSheet ===============================
+
+    private void showSelectSheet(String sheetTitle, String callbackTag, int positionSelected) {
+        View rootView = LayoutInflater.from(this).inflate(R.layout.select_sheet, bottomSheet, false);
+        TextView tvTitle = (TextView) rootView.findViewById(R.id.title);
+        tvTitle.setText(sheetTitle);
         rootView.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 bottomSheet.dismissSheet();
             }
         });
-        TextView tvTitle = (TextView) rootView.findViewById(R.id.title);
-        tvTitle.setText(title);
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycleview);
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new SelectAdapter(eventTag, selectObject));
+        recyclerView.setAdapter(new SelectAdapter(callbackTag, positionSelected));
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
-        if (selectObject != null) {
-            recyclerView.scrollToPosition(selectObject.position);
-        }
+        recyclerView.scrollToPosition(positionSelected);
         bottomSheet.showWithSheetView(rootView);
+    }
+
+
+    // =============================== 基础方法 ===============================
+
+    @OnClick(R.id.cancel)
+    public void cancel() {
+        closeActivity();
     }
 
 

@@ -57,32 +57,30 @@ public class GroupSelectActivity extends DraggerActivity {
         setContentView(R.layout.activity_group_select);
         ButterKnife.bind(this);
         Dart.inject(this);
-tvTitle.setText(title);
+        tvTitle.setText(title);
         initViews();
 
         setSlideEnabled(false);
         setTension(1);
         setDraggerPosition(DraggerPosition.RIGHT);
-      arrPositionSelected = new int[maxLevel + 1];
-
-
+        arrPositionSelected = new int[maxLevel + 1];
 
 
         tvValueList = new ArrayList<>();
-       for (int i=0;i<=maxLevel;i++) {
-           TextView textView = new TextView(this);
-           textView.setTextColor(getResources().getColor(R.color.md_blue_grey_500));
-           textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,16);
-           ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-           resultContainer.addView(textView, layoutParams);
-           tvValueList.add(textView);
-           textView.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   valueOnClick(v);
-               }
-           });
-       }
+        for (int i = 0; i <= maxLevel; i++) {
+            TextView textView = new TextView(this);
+            textView.setTextColor(getResources().getColor(R.color.md_blue_grey_500));
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            resultContainer.addView(textView, layoutParams);
+            tvValueList.add(textView);
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    valueOnClick(v);
+                }
+            });
+        }
 
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -92,9 +90,9 @@ tvTitle.setText(title);
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().equals("")){
+                if (s.toString().equals("")) {
                     rvTest.setVisibility(View.INVISIBLE);
-                }else {
+                } else {
                     rvTest.setVisibility(View.VISIBLE);
 
                 }
@@ -108,9 +106,9 @@ tvTitle.setText(title);
 
     }
 
-    private void initRxTest(){
+    private void initRxTest() {
         rvTest.setLayoutManager(new LinearLayoutManager(this));
-        rvTest.setAdapter(new SelectAdapter("",null));
+        rvTest.setAdapter(new SelectAdapter("", -1));
         rvTest.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
 
     }
@@ -128,28 +126,28 @@ tvTitle.setText(title);
     private void initViews() {
         initRvMain();
         initRvSub();
-            initRxTest();
+        initRxTest();
     }
 
     @OnClick(R.id.cancel)
-    public void cancel(){
+    public void cancel() {
         closeActivity();
     }
 
     @OnClick(R.id.confirm)
-    public void confirm(){
-        Intent intent =new Intent();
-        intent.putExtra("result",getResult());
-        setResult(2333,intent);
+    public void confirm() {
+        Intent intent = new Intent();
+        intent.putExtra("result", getResult());
+        setResult(2333, intent);
         closeActivity();
     }
 
-    private String getResult(){
+    private String getResult() {
         String result = "";
-        for (TextView tvValue:tvValueList){
-            result  += tvValue.getText().toString();
+        for (TextView tvValue : tvValueList) {
+            result += tvValue.getText().toString();
         }
-        return  result.replace(">","");
+        return result.replace(">", "");
     }
 
     @Bind(R.id.rvTest)
@@ -257,7 +255,7 @@ tvTitle.setText(title);
     private void onSelect(GroupSelectObject groupSelectObject) {
         int level = groupSelectObject.level;
         int position = groupSelectObject.selectObject.position;
-        String value = groupSelectObject.selectObject.value;
+        String value = (String) groupSelectObject.selectObject.value;
         if (level == 0) {
             value = value;
         } else {

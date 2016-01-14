@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     // =============================== recycleview ===============================
 
-    @Bind(R.id.recycleview)
+    @Bind(R.id.recycleView)
     RecyclerView recyclerView;
 
     private void initRecyclerView() {
