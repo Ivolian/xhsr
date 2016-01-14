@@ -113,41 +113,24 @@
     </com.zhy.android.percent.support.PercentFrameLayout>
 
     <!-- 选择结果 8%-->
-    <com.zhy.android.percent.support.PercentLinearLayout
-        android:layout_width="match_parent"
+    <HorizontalScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:gravity="center_vertical"
+        android:scrollbars="none"
         app:layout_heightPercent="8%sh">
 
-        <TextView
-            android:id="@+id/level1"
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/result_container"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/md_blue_grey_500"
-            app:layout_textSizePercent="2.6%sh" />
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
-        <TextView
-            android:id="@+id/level2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/md_blue_grey_500"
-            app:layout_textSizePercent="2.6%sh" />
 
-        <TextView
-            android:id="@+id/level3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/md_blue_grey_500"
-            app:layout_textSizePercent="2.6%sh" />
-
-        <TextView
-            android:id="@+id/level4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/md_blue_grey_500"
-            app:layout_textSizePercent="2.6%sh" />
-
-    </com.zhy.android.percent.support.PercentLinearLayout>
+        </com.zhy.android.percent.support.PercentLinearLayout>
+    </HorizontalScrollView>
 
     <View
         android:layout_width="match_parent"

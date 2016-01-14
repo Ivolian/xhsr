@@ -4,11 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
+import com.f2prateek.dart.Dart;
+import com.f2prateek.dart.InjectExtra;
 import com.github.ppamorim.dragger.DraggerActivity;
 import com.github.ppamorim.dragger.DraggerPosition;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
+import com.zhy.android.percent.support.PercentLinearLayout;
 
 import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
@@ -21,11 +28,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
 import unicorn.com.xhsr.R;
-import unicorn.com.xhsr.utils.ToastUtils;
 
 
 public class GroupSelectActivity extends DraggerActivity {
 
+    @InjectExtra("maxLevel")
+    Integer maxLevel;
+
+    @Bind(R.id.result_container)
+    PercentLinearLayout resultContainer;
 
     // =============================== onCreate & onDestroy ===============================
 
@@ -35,12 +46,33 @@ public class GroupSelectActivity extends DraggerActivity {
         EventBus.getDefault().register(this);
         setContentView(R.layout.activity_group_select);
         ButterKnife.bind(this);
+        Dart.inject(this);
+
         initViews();
-        setFriction(10);
-        setDraggerPosition(DraggerPosition.RIGHT);
+
         setSlideEnabled(false);
+        setTension(1);
+        setDraggerPosition(DraggerPosition.RIGHT);
+      arrPositionSelected = new int[maxLevel + 1];
 
 
+
+
+        tvValueList = new ArrayList<>();
+       for (int i=0;i<=maxLevel;i++) {
+           TextView textView = new TextView(this);
+           textView.setTextColor(getResources().getColor(R.color.md_blue_grey_500));
+           textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,16);
+           ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+           resultContainer.addView(textView, layoutParams);
+           tvValueList.add(textView);
+           textView.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   valueOnClick(v);
+               }
+           });
+       }
     }
 
     @Override
@@ -106,7 +138,7 @@ public class GroupSelectActivity extends DraggerActivity {
 
     private void initRvSub() {
         rvSub.setLayoutManager(new LinearLayoutManager(this));
-        subAdapter = new SubAdapter();
+        subAdapter = new SubAdapter(maxLevel);
         rvSub.setAdapter(subAdapter);
         rvSub.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
 
@@ -115,15 +147,14 @@ public class GroupSelectActivity extends DraggerActivity {
 
     // =============================== 一大堆 ===============================
 
-    int maxLevel = 3;
 
-    int[] arrPositionSelected = new int[maxLevel + 1];
+    int[] arrPositionSelected;
 
-    @Bind({R.id.level1, R.id.level2, R.id.level3, R.id.level4})
+
     List<TextView> tvValueList;
 
-    @OnClick({R.id.level1, R.id.level2, R.id.level3, R.id.level4})
-    public void valueOnClick(TextView tvValue) {
+
+    public void valueOnClick(View tvValue) {
         int level = tvValueList.indexOf(tvValue);
         if (level == maxLevel) {
             return;
@@ -140,7 +171,6 @@ public class GroupSelectActivity extends DraggerActivity {
 
     private void refreshRvSub(GroupSelectObject groupSelectObject) {
         int mainLevel = groupSelectObject.level;
-        ToastUtils.show("refreshRvSub " +  mainLevel);
 
         subAdapter.level = mainLevel + 1;
         subAdapter.positionSelected = -1;
@@ -176,12 +206,13 @@ public class GroupSelectActivity extends DraggerActivity {
         }
     }
 
+
     private void onSelect(GroupSelectObject groupSelectObject) {
         int level = groupSelectObject.level;
         int position = groupSelectObject.selectObject.position;
         String value = groupSelectObject.selectObject.value;
         if (level == 0) {
-            value = "    " + value;
+            value = value;
         } else {
             value = "  >  " + value;
         }

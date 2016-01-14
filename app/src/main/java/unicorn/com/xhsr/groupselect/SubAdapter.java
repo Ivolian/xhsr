@@ -22,11 +22,17 @@ import unicorn.com.xhsr.R;
 
 public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
 
+    private int maxLevel;
+
     public int level = -1;
 
     int positionSelected = -1;
 
     List<String> valueList = new ArrayList<>();
+
+    public SubAdapter(int maxLevel) {
+        this.maxLevel = maxLevel;
+    }
 
     public void setValueList(List<String> valueList) {
         this.valueList = valueList;
@@ -67,7 +73,7 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
         String value = valueList.get(position);
         viewHolder.tvValue.setText(value);
 
-        if (level == 3) {
+        if (level == maxLevel) {
 
             boolean isSelect = position == positionSelected;
             Context context = viewHolder.tvValue.getContext();

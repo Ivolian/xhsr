@@ -46,19 +46,22 @@ public class QuickOrderActivity extends DraggerActivity {
         }
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         setContentView(R.layout.activity_quick_order);
-//        setShadowView(R.drawable.shadow);
-
-        setFriction(10);
-        setDraggerPosition(DraggerPosition.RIGHT);
-
         ButterKnife.bind(this);
         initViews();
+
+//        setShadowView(R.drawable.shadow);
+
         setSlideEnabled(false);
+      setTension(1);
+        setDraggerPosition(DraggerPosition.RIGHT);
+
+
     }
 
     @Override
@@ -78,6 +81,7 @@ public class QuickOrderActivity extends DraggerActivity {
     @OnClick(R.id.repair)
     public void test() {
         Intent intent = new Intent(this, GroupSelectActivity.class);
+        intent.putExtra("maxLevel",5);
         startActivityForResult(intent, 2333);
     }
 
