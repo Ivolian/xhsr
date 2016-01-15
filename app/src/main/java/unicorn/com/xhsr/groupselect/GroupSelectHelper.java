@@ -20,10 +20,11 @@ public class GroupSelectHelper {
         return groupSelectObject;
     }
 
-    public static void startGroupSelectActivity(Activity activity, String name, int maxLevel) {
+    public static void startGroupSelectActivity(Activity activity, String name, int maxLevel,int resultCode) {
         Intent intent = new Intent(activity, GroupSelectActivity.class);
         intent.putExtra("name", name);
         intent.putExtra("maxLevel", maxLevel);
+        intent.putExtra("resultCode",resultCode);
         activity.startActivityForResult(intent, 2333);
     }
 

@@ -53,6 +53,8 @@ public class GroupSelectActivity extends DraggerActivity {
     @InjectExtra("maxLevel")
     Integer maxLevel;
 
+    @InjectExtra("resultCode")
+    Integer resultCode;
 
     // =============================== onCreate & onDestroy ===============================
 
@@ -148,7 +150,7 @@ public class GroupSelectActivity extends DraggerActivity {
     private void finishWithResult(String result) {
         Intent intent = new Intent();
         intent.putExtra("result", result);
-        setResult(2333, intent);
+        setResult(resultCode, intent);
         closeActivity();
     }
 

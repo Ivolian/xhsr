@@ -66,21 +66,36 @@ public class QuickOrderActivity extends DraggerActivity {
 
     @OnClick(R.id.equipment)
     public void equipmentOnClick() {
-        GroupSelectHelper.startGroupSelectActivity(this, "设备", 3);
+        GroupSelectHelper.startGroupSelectActivity(this, "设备", 3, EQUIPMENT_RESULT_CODE);
     }
 
     @Bind(R.id.tvEquipment)
     TextView tvEquipment;
 
+    public int EQUIPMENT_RESULT_CODE = 1;
+
+    public int ADDRESS_RESULT_CODE = 2;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 2333) {
+        if (resultCode == EQUIPMENT_RESULT_CODE) {
             String result = data.getStringExtra(GroupSelectHelper.RESULT);
             tvEquipment.setText(result);
         }
+        if (resultCode == ADDRESS_RESULT_CODE) {
+            String result = data.getStringExtra(GroupSelectHelper.RESULT);
+            tvAddress.setText(result);
+        }
     }
 
+    @Bind(R.id.tvAddress)
+    TextView tvAddress;
+
+    @OnClick(R.id.address)
+    public void addressOnClick() {
+        GroupSelectHelper.startGroupSelectActivity(this, "维修地址", 1, ADDRESS_RESULT_CODE);
+    }
 
     // =============================== bottom sheet ===============================
 
