@@ -10,7 +10,7 @@ public class GroupSelectHelper {
 
     public static String RESULT = "result";
 
-    public static GroupSelectObject create(int level, int position, String value) {
+    public static GroupSelectObject createGroupSelectObject(int level, int position, String value) {
         SelectObject selectObject = new SelectObject();
         selectObject.position = position;
         selectObject.value = value;
@@ -20,9 +20,9 @@ public class GroupSelectHelper {
         return groupSelectObject;
     }
 
-    public static void startGroupSelectActivity(Activity activity, String title, int maxLevel) {
+    public static void startGroupSelectActivity(Activity activity, String name, int maxLevel) {
         Intent intent = new Intent(activity, GroupSelectActivity.class);
-        intent.putExtra("title", title);
+        intent.putExtra("name", name);
         intent.putExtra("maxLevel", maxLevel);
         activity.startActivityForResult(intent, 2333);
     }

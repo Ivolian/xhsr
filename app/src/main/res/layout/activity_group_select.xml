@@ -7,31 +7,24 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <!-- 标题 10%-->
+    <!-- 标题栏 10% -->
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:gravity="center_vertical"
         app:layout_heightPercent="10%sh">
 
-        <com.zhy.android.percent.support.PercentFrameLayout
+        <TextView
             android:id="@+id/cancel"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="?attr/colorPrimary"
             app:layout_heightPercent="10%sh"
-            app:layout_widthPercent="10%sh">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="取消"
-                android:textColor="?attr/colorPrimary"
-                app:layout_textSizePercent="2.6%sh" />
-
-        </com.zhy.android.percent.support.PercentFrameLayout>
+            app:layout_textSizePercent="2.6%sh"
+            app:layout_widthPercent="10%sh" />
 
         <TextView
             android:id="@+id/title"
@@ -39,28 +32,21 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="选择设备"
+            android:text="快速下单"
             android:textColor="@color/md_black"
-            app:layout_textSizePercent="3.5%sh" />
+            app:layout_textSizePercent="3.2%sh" />
 
-        <com.zhy.android.percent.support.PercentFrameLayout
+        <TextView
             android:id="@+id/confirm"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
+            android:gravity="center"
+            android:text="确认"
+            android:textColor="?attr/colorPrimary"
             app:layout_heightPercent="10%sh"
-            app:layout_widthPercent="10%sh">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="确认"
-                android:textColor="?attr/colorPrimary"
-                app:layout_textSizePercent="2.6%sh" />
-
-        </com.zhy.android.percent.support.PercentFrameLayout>
+            app:layout_textSizePercent="2.6%sh"
+            app:layout_widthPercent="10%sh" />
 
     </com.zhy.android.percent.support.PercentLinearLayout>
 
@@ -82,15 +68,14 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-
             <EditText
-                android:id="@+id/tvSearch"
+                android:id="@+id/search"
                 android:layout_width="0dp"
-
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/md_white"
-                android:hint="输入设备相关信息"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:textColor="@color/md_black"
                 android:textColorHint="@color/md_blue_grey_200"
                 android:textCursorDrawable="@drawable/color_cursor"
@@ -98,17 +83,17 @@
                 app:layout_textSizePercent="3%sh" />
 
             <com.mikepenz.iconics.view.IconicsImageView
+                android:id="@+id/clear"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
+                android:visibility="invisible"
                 app:iiv_color="?attr/colorPrimary"
                 app:iiv_icon="gmi-close-circle"
                 app:layout_heightPercent="4%sh"
                 app:layout_marginLeftPercent="4%sw"
                 app:layout_marginRightPercent="4%sw"
-                app:layout_widthPercent="4%sh"
-
-                />
+                app:layout_widthPercent="4%sh" />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 
@@ -122,61 +107,61 @@
         <!-- main sub -->
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
-    <!-- 选择结果 8%-->
-    <HorizontalScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:scrollbars="none"
-        app:layout_heightPercent="8%sh">
-
-        <com.zhy.android.percent.support.PercentLinearLayout
-            android:id="@+id/result_container"
-            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:orientation="vertical">
+            <!-- 选择结果 8%-->
+            <HorizontalScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:scrollbars="none"
+                app:layout_heightPercent="8%sh">
 
+                <com.zhy.android.percent.support.PercentLinearLayout
+                    android:id="@+id/selectResultContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+
+                </com.zhy.android.percent.support.PercentLinearLayout>
+            </HorizontalScrollView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/md_grey_300" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvMain"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvSub"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3" />
+
+            </LinearLayout>
 
         </com.zhy.android.percent.support.PercentLinearLayout>
-    </HorizontalScrollView>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/md_grey_300" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvMain"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvSub"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3" />
-
-    </LinearLayout>
-
-</com.zhy.android.percent.support.PercentLinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:visibility="invisible"
-            android:background="@color/md_white"
-            android:id="@+id/rvTest"
+            android:id="@+id/rvSearchResult"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"/>
+            android:background="@color/md_white"
+            android:visibility="invisible" />
 
     </com.zhy.android.percent.support.PercentFrameLayout>
 

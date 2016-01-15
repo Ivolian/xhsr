@@ -33,7 +33,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     public void selectItem(int position){
         positionSelected = position;
         String value = valueList.get(position);
-        GroupSelectObject groupSelectObject = GroupSelectHelper.create(level,position,value);
+        GroupSelectObject groupSelectObject = GroupSelectHelper.createGroupSelectObject(level,position,value);
         EventBus.getDefault().post(groupSelectObject, "onMainSelect");
         notifyDataSetChanged();
     }

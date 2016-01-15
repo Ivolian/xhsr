@@ -1,0 +1,40 @@
+<com.zhy.android.percent.support.PercentFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/md_white"
+    app:theme="@style/AppTheme2">
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:id="@+id/row"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_paddingLeftPercent="5%sw"
+        app:layout_paddingRightPercent="3%sw"
+
+        >
+
+        <TextView
+            android:id="@+id/value"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:text="故障1"
+            android:textColor="@color/md_grey_500"
+            app:layout_heightPercent="8%sh"
+            app:layout_textSizePercent="2.7%sh" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_up" />
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+
+</com.zhy.android.percent.support.PercentFrameLayout>
