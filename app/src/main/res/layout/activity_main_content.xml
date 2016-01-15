@@ -15,7 +15,7 @@
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/ss2"
+        android:background="@color/colorPrimary"
         android:orientation="vertical"
         app:layout_heightPercent="35%sh">
 
