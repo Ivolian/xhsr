@@ -18,13 +18,14 @@
             android:layout_height="0dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            app:layout_marginTopPercent="5%sh"
             app:layout_heightPercent="25%sh">
 
             <!-- 头像 15% -->
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:src="@drawable/head"
+                android:src="@drawable/head2"
                 app:layout_heightPercent="15%sh"
                 app:layout_widthPercent="15%sh" />
 
@@ -33,8 +34,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:text="ivolianer"
-                android:textColor="@color/md_orange_200"
+                android:text="张仲天"
+                android:textColor="@color/md_grey_50"
                 app:layout_textSizePercent="3.5%sh" />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
@@ -59,8 +60,8 @@
             <com.mikepenz.iconics.view.IconicsImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:iiv_color="@color/md_grey_400"
-                app:iiv_icon="gmd-golf-course"
+                app:iiv_color="@color/md_white"
+                app:iiv_icon="gmi-settings"
                 app:layout_heightPercent="4%sh"
                 app:layout_widthPercent="4%sh" />
 
@@ -69,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="高尔夫课程"
+                android:text="个人设置"
                 android:textColor="@color/md_white"
                 app:layout_textSizePercent="3%sh" />
 
@@ -93,8 +94,8 @@
             <com.mikepenz.iconics.view.IconicsImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:iiv_color="@color/md_grey_400"
-                app:iiv_icon="gmd-beach-access"
+                app:iiv_color="@color/md_white"
+                app:iiv_icon="gmi-calendar-note"
                 app:layout_heightPercent="4%sh"
                 app:layout_widthPercent="4%sh" />
 
@@ -103,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="度假旅游"
+                android:text="工作计划"
                 android:textColor="@color/md_white"
                 app:layout_textSizePercent="3%sh" />
 
@@ -127,8 +128,8 @@
             <com.mikepenz.iconics.view.IconicsImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:iiv_color="@color/md_grey_400"
-                app:iiv_icon="cmd-motorbike"
+                app:iiv_color="@color/md_white"
+                app:iiv_icon="gmi-time-countdown"
                 app:layout_heightPercent="4%sh"
                 app:layout_widthPercent="4%sh" />
 
@@ -137,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="摩托赛车"
+                android:text="待办事项"
                 android:textColor="@color/md_white"
                 app:layout_textSizePercent="3%sh" />
 
@@ -169,8 +170,8 @@
             <com.mikepenz.iconics.view.IconicsImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:iiv_color="@color/md_grey_400"
-                app:iiv_icon="gmd-cake"
+                app:iiv_color="@color/md_white"
+                app:iiv_icon="gmi-collection-item-1"
                 app:layout_heightPercent="4%sh"
                 app:layout_widthPercent="4%sh" />
 
@@ -179,7 +180,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="生日蛋糕"
+                android:text="待定"
                 android:textColor="@color/md_white"
                 app:layout_textSizePercent="3%sh" />
 
@@ -203,8 +204,8 @@
             <com.mikepenz.iconics.view.IconicsImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:iiv_color="@color/md_grey_400"
-                app:iiv_icon="gmd-pool"
+                app:iiv_color="@color/md_white"
+                app:iiv_icon="gmi-collection-item-2"
                 app:layout_heightPercent="4%sh"
                 app:layout_widthPercent="4%sh" />
 
@@ -213,7 +214,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="游泳项目"
+                android:text="待定"
                 android:textColor="@color/md_white"
                 app:layout_textSizePercent="3%sh" />
 
@@ -237,8 +238,8 @@
             <com.mikepenz.iconics.view.IconicsImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:iiv_color="@color/md_grey_400"
-                app:iiv_icon="gmd-wc"
+                app:iiv_color="@color/md_white"
+                app:iiv_icon="gmi-collection-item-3"
                 app:layout_heightPercent="4%sh"
                 app:layout_widthPercent="4%sh" />
 
@@ -247,7 +248,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="人有三急"
+                android:text="待定"
                 android:textColor="@color/md_white"
                 app:layout_textSizePercent="3%sh" />
 
