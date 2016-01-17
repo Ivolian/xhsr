@@ -14,13 +14,17 @@ import de.greenrobot.dao.internal.DaoConfig;
 /**
  * {@inheritDoc}
  * 
- * @see de.greenrobot.dao.AbstractDaoSession
+ * @see AbstractDaoSession
  */
 public class DaoSession extends AbstractDaoSession {
 
     private final DaoConfig processingModeDaoConfig;
+    private final DaoConfig equipmentCategoryDaoConfig;
+    private final DaoConfig equipmentDaoConfig;
 
     private final ProcessingModeDao processingModeDao;
+    private final EquipmentCategoryDao equipmentCategoryDao;
+    private final EquipmentDao equipmentDao;
 
     public DaoSession(SQLiteDatabase db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
             daoConfigMap) {
@@ -29,17 +33,37 @@ public class DaoSession extends AbstractDaoSession {
         processingModeDaoConfig = daoConfigMap.get(ProcessingModeDao.class).clone();
         processingModeDaoConfig.initIdentityScope(type);
 
+        equipmentCategoryDaoConfig = daoConfigMap.get(EquipmentCategoryDao.class).clone();
+        equipmentCategoryDaoConfig.initIdentityScope(type);
+
+        equipmentDaoConfig = daoConfigMap.get(EquipmentDao.class).clone();
+        equipmentDaoConfig.initIdentityScope(type);
+
         processingModeDao = new ProcessingModeDao(processingModeDaoConfig, this);
+        equipmentCategoryDao = new EquipmentCategoryDao(equipmentCategoryDaoConfig, this);
+        equipmentDao = new EquipmentDao(equipmentDaoConfig, this);
 
         registerDao(ProcessingMode.class, processingModeDao);
+        registerDao(EquipmentCategory.class, equipmentCategoryDao);
+        registerDao(Equipment.class, equipmentDao);
     }
     
     public void clear() {
         processingModeDaoConfig.getIdentityScope().clear();
+        equipmentCategoryDaoConfig.getIdentityScope().clear();
+        equipmentDaoConfig.getIdentityScope().clear();
     }
 
     public ProcessingModeDao getProcessingModeDao() {
         return processingModeDao;
+    }
+
+    public EquipmentCategoryDao getEquipmentCategoryDao() {
+        return equipmentCategoryDao;
+    }
+
+    public EquipmentDao getEquipmentDao() {
+        return equipmentDao;
     }
 
 }

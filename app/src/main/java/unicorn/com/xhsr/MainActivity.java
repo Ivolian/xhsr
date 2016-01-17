@@ -37,7 +37,10 @@ public class MainActivity extends AppCompatActivity {
     private void initViews() {
         initDragLayout();
         initRecyclerView();
-        new BasicDataGotter().getData();
+
+        BasicDataGotter basicDataGotter = new BasicDataGotter();
+        basicDataGotter.getProcessMode();
+        basicDataGotter.getEquipment();
     }
 
     // =============================== drag layout ===============================

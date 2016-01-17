@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import unicorn.com.xhsr.greendao.Equipment;
+import unicorn.com.xhsr.greendao.EquipmentCategory;
 import unicorn.com.xhsr.greendao.ProcessingMode;
 import unicorn.com.xhsr.greendao.ProcessingModeDao;
 import unicorn.com.xhsr.utils.ToastUtils;
@@ -22,14 +24,13 @@ import unicorn.com.xhsr.utils.ToastUtils;
  */
 public class BasicDataGotter {
 
-    public void getData() {
+    public void getProcessMode() {
 
         String url = "http://withub.net.cn/hems/api/v1/hems/workOrder/code/ProcessingMode";
         StringRequest jsonArrayRequest = new StringRequest(url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String responses) {
-                     ToastUtils.show("hehe");
                         try {
                             JSONArray response = new JSONArray(responses);
                             List<ProcessingMode> processingModeList = new ArrayList<>();
@@ -54,14 +55,82 @@ public class BasicDataGotter {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        ToastUtils.show("3232");
+
                     }
                 }
-        ){
+        ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
-                map.put("Cookie", "JSESSIONID=" +"CE46D6C7FD5F1D2AD08B2CD3F6D80CB1");
+                map.put("Cookie", "JSESSIONID=" + "CE46D6C7FD5F1D2AD08B2CD3F6D80CB1");
+                return map;
+            }
+        };
+        SimpleVolley.addRequest(jsonArrayRequest);
+    }
+
+
+    public void getEquipment() {
+
+        String url = "http://withub.net.cn/hems/api/v1/hems/equipment/all";
+        StringRequest jsonArrayRequest = new StringRequest(url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String responses) {
+
+                        try {
+                            JSONArray response = new JSONArray(responses);
+
+
+                            List<EquipmentCategory> equipmentCategoryList = new ArrayList<>();
+                            for (int i = 0; i != response.length(); i++) {
+                                JSONObject categoryJSONObject = response.getJSONObject(i);
+                                EquipmentCategory equipmentCategory = new EquipmentCategory();
+                                equipmentCategory.setObjectId(i + "");
+                                equipmentCategory.setName(categoryJSONObject.getString("name"));
+                                equipmentCategory.setOrderNo(i);
+                                equipmentCategoryList.add(equipmentCategory);
+                            }
+                            SimpleApplication.getEquipmentCategoryDao().deleteAll();
+                            SimpleApplication.getEquipmentCategoryDao().insertInTx(equipmentCategoryList);
+
+
+                            List<Equipment> equipmentList = new ArrayList<>();
+                            for (int i = 0; i != response.length(); i++) {
+                                JSONObject categoryJSONObject = response.getJSONObject(i);
+                                String categoryId = i + "";
+                                JSONArray items = categoryJSONObject.getJSONArray("items");
+                                for (int j = 0; j != items.length(); j++) {
+                                    JSONObject equipmentJSONObject = items.getJSONObject(j);
+                                    Equipment equipment = new Equipment();
+                                    equipment.setObjectId(equipmentJSONObject.getString("objectId"));
+                                    equipment.setName(equipmentJSONObject.getString("name"));
+                                    equipment.setOrderNo(j);
+                                    equipment.setCategoryId(categoryId);
+                                    equipmentList.add(equipment);
+                                }
+                            }
+                            SimpleApplication.getEquipmentDao().deleteAll();
+                            SimpleApplication.getEquipmentDao().insertInTx(equipmentList);
+
+
+                        } catch (Exception e) {
+                            ToastUtils.show(e.getMessage());
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put("Cookie", "JSESSIONID=" + "CE46D6C7FD5F1D2AD08B2CD3F6D80CB1");
                 return map;
             }
         };
