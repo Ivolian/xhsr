@@ -124,15 +124,18 @@ setProcessModeDefaultValue();
 
     @OnClick(R.id.equipment)
     public void equipmentOnClick() {
-        GroupSelectHelper.startGroupSelectActivity(this, "设备", 3, EQUIPMENT_RESULT_CODE);
+
+
+
+        GroupSelectHelper.startGroupSelectActivity(this, "设备", 1, EQUIPMENT_RESULT_CODE);
     }
 
     @Bind(R.id.tvEquipment)
     TextView tvEquipment;
 
-    public int EQUIPMENT_RESULT_CODE = 1;
+    public int EQUIPMENT_RESULT_CODE = 1001;
 
-    public int ADDRESS_RESULT_CODE = 2;
+    public int ADDRESS_RESULT_CODE = 1002;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

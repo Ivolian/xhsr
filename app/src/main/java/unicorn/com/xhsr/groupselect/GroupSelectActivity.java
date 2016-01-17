@@ -30,7 +30,13 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
 import unicorn.com.xhsr.ActivityHelp;
+import unicorn.com.xhsr.DataHelp;
 import unicorn.com.xhsr.R;
+import unicorn.com.xhsr.SimpleApplication;
+import unicorn.com.xhsr.greendao.Equipment;
+import unicorn.com.xhsr.greendao.EquipmentCategory;
+import unicorn.com.xhsr.greendao.EquipmentCategoryDao;
+import unicorn.com.xhsr.select.SelectObject;
 
 
 public class GroupSelectActivity extends DraggerActivity {
@@ -115,7 +121,7 @@ public class GroupSelectActivity extends DraggerActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 ivClear.setVisibility(TextUtils.isEmpty(s) ? View.INVISIBLE : View.VISIBLE);
-                rvSearchResult.setVisibility(TextUtils.isEmpty(s) ? View.INVISIBLE : View.VISIBLE);
+//                rvSearchResult.setVisibility(TextUtils.isEmpty(s) ? View.INVISIBLE : View.VISIBLE);
             }
 
             @Override
@@ -154,6 +160,41 @@ public class GroupSelectActivity extends DraggerActivity {
         closeActivity();
     }
 
+  GroupSelectActivity.DataGottor dataGottor = new  GroupSelectActivity.DataGottor(){
+        @Override
+        public List<SelectObject> getMainDataList(int level) {
+
+            final List<EquipmentCategory> equipmentCategoryList = DataHelp.getEquipmentCategoryList();
+            final List<SelectObject> dataList = new ArrayList<>();
+            for (EquipmentCategory equipmentCategory:equipmentCategoryList){
+                SelectObject selectObject = new SelectObject();
+                selectObject.objectId = equipmentCategory.getObjectId();
+                selectObject.value = equipmentCategory.getName();
+                dataList.add(selectObject);
+            }
+
+            return dataList;
+        }
+
+        @Override
+        public List<SelectObject> getSubDataList(int level, int position) {
+            EquipmentCategoryDao equipmentCategoryDao = SimpleApplication.getEquipmentCategoryDao();
+            EquipmentCategory equipmentCategory = equipmentCategoryDao
+                    .queryBuilder()
+                    .where(EquipmentCategoryDao.Properties.OrderNo.eq(position))
+                    .list().get(0);
+            final List<SelectObject> dataList = new ArrayList<>();
+            List<Equipment> equipmentList = equipmentCategory.getEquipmentList();
+            for (Equipment equipment:equipmentList){
+                SelectObject selectObject = new SelectObject();
+                selectObject.objectId = equipment.getObjectId();
+                selectObject.value = equipment.getName();
+                dataList.add(selectObject);
+            }
+
+            return dataList;
+        }
+    };
 
     // =============================== 选择结果部分 ===============================
 
@@ -220,7 +261,7 @@ public class GroupSelectActivity extends DraggerActivity {
 
         // 初始化主列表
         mainAdapter.level = 0;
-        mainAdapter.setValueList(getValueList(0));
+        mainAdapter.setDataList(dataGottor.getMainDataList(0));
         mainAdapter.notifyDataSetChanged();
         mainAdapter.selectItem(0);
     }
@@ -255,7 +296,7 @@ public class GroupSelectActivity extends DraggerActivity {
 
         subAdapter.level = mainLevel + 1;
         subAdapter.positionSelected = -1;
-        subAdapter.setValueList(getValueList(subAdapter.level));
+        subAdapter.setDataList(dataGottor.getSubDataList(subAdapter.level,groupSelectObject.selectObject.position));
         subAdapter.notifyDataSetChanged();
         rvSub.smoothScrollToPosition(0);
 
@@ -264,7 +305,7 @@ public class GroupSelectActivity extends DraggerActivity {
     private void restoreMainList(GroupSelectObject groupSelectObject) {
         mainAdapter.positionSelected = -1;
         mainAdapter.level = groupSelectObject.level;
-        mainAdapter.setValueList(getValueList(groupSelectObject.level));
+        mainAdapter.setDataList(dataGottor.getMainDataList(groupSelectObject.level));
         mainAdapter.selectItem(groupSelectObject.selectObject.position);
         rvMain.smoothScrollToPosition(groupSelectObject.selectObject.position);
     }
@@ -288,7 +329,7 @@ public class GroupSelectActivity extends DraggerActivity {
     private void onSelect(GroupSelectObject groupSelectObject) {
         int level = groupSelectObject.level;
         int position = groupSelectObject.selectObject.position;
-        String value = (String) groupSelectObject.selectObject.value;
+        String value =  groupSelectObject.selectObject.value;
         if (level != 0) {
             value = "  >  " + value;
         }
@@ -304,13 +345,11 @@ public class GroupSelectActivity extends DraggerActivity {
         closeActivity();
     }
 
-    private List<String> getValueList(int level) {
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i != 30; i++) {
-            list.add("第" + (level + 1) + "层" + (i + 1));
-        }
-        return list;
-    }
 
+  public   interface DataGottor{
+        public List<SelectObject> getMainDataList(int level);
+
+      public List<SelectObject> getSubDataList(int level,int position );
+    }
 
 }

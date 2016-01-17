@@ -19,6 +19,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
+import unicorn.com.xhsr.select.SelectObject;
 
 public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
 
@@ -28,20 +29,20 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
 
     int positionSelected = -1;
 
-    List<String> valueList = new ArrayList<>();
+    List<SelectObject> dataList = new ArrayList<>();
 
     public SubAdapter(int maxLevel) {
         this.maxLevel = maxLevel;
     }
 
-    public void setValueList(List<String> valueList) {
-        this.valueList = valueList;
+    public void setDataList(List<SelectObject> dataList) {
+        this.dataList = dataList;
     }
 
     public void selectItem(int position) {
         positionSelected = position;
-        String value = valueList.get(position);
-        GroupSelectObject groupSelectObject = GroupSelectHelper.createGroupSelectObject(level, position, value);
+        SelectObject data = dataList.get(position);
+        GroupSelectObject groupSelectObject = GroupSelectHelper.createGroupSelectObject(level, position, data.value);
         EventBus.getDefault().post(groupSelectObject, "onSubSelect");
         notifyDataSetChanged();
     }
@@ -70,8 +71,8 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        String value = valueList.get(position);
-        viewHolder.tvValue.setText(value);
+        SelectObject data = dataList.get(position);
+        viewHolder.tvValue.setText(data.value);
 
         if (level == maxLevel) {
 
@@ -106,7 +107,7 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return valueList.size();
+        return dataList.size();
     }
 
 }
