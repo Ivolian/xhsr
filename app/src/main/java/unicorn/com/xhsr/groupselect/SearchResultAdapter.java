@@ -15,16 +15,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
+import unicorn.com.xhsr.select.SelectObject;
 
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.ViewHolder> {
 
-    List<String> valueList ;
+    List<SelectObject> dataList = new ArrayList<>();
 
-    public SearchResultAdapter() {
-        valueList = new ArrayList<>();
-        for (int i = 0; i != 10; i++) {
-            valueList.add("可选值 " + (i + 1));
-        }
+    public void setDataList(List<SelectObject> dataList) {
+        this.dataList = dataList;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -39,8 +37,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
         @OnClick(R.id.row)
         public void rowOnClick() {
-            String value = valueList.get(getAdapterPosition());
-            EventBus.getDefault().post(value, "onSearchResultSelect");
+            SelectObject data = dataList.get(getAdapterPosition());
+            EventBus.getDefault().post(data.value, "onSearchResultSelect");
         }
     }
 
@@ -49,8 +47,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        String value = valueList.get(position);
-        viewHolder.tvValue.setText(value);
+        SelectObject data = dataList.get(position);
+        viewHolder.tvValue.setText(data.value);
 
     }
 
@@ -64,7 +62,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
     @Override
     public int getItemCount() {
-        return valueList.size();
+        return dataList.size();
     }
 
 }

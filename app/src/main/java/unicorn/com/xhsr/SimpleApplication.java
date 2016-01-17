@@ -34,6 +34,10 @@ public class SimpleApplication extends Application {
 
     private static DaoSession daoSession;
 
+    public static DaoSession getDaoSession() {
+        return daoSession;
+    }
+
     public static ProcessingModeDao getProcessingModeDao() {
         return daoSession.getProcessingModeDao();
     }

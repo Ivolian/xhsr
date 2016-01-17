@@ -82,7 +82,7 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
             int textColor = ContextCompat.getColor(context, isSelect ? R.color.md_white : R.color.md_black);
             viewHolder.tvValue.setTextColor(textColor);
 
-            int bgColor = ContextCompat.getColor(context, isSelect ? R.color.md_blue_grey_500 : R.color.md_white);
+            int bgColor = ContextCompat.getColor(context, isSelect ? R.color.colorPrimary : R.color.md_white);
             viewHolder.row.setBackgroundColor(bgColor);
 
 

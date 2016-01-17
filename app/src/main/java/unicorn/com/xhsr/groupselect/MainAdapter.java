@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.select.SelectObject;
+import unicorn.com.xhsr.select.SelectObjectWithPosition;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
@@ -34,7 +35,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     public void selectItem(int position){
         positionSelected = position;
         SelectObject data = dataList.get(position);
-        GroupSelectObject groupSelectObject = GroupSelectHelper.createGroupSelectObject(level,position,data.value);
+        GroupSelectObject groupSelectObject = new GroupSelectObject();
+        SelectObjectWithPosition selectObjectWithPosition= new SelectObjectWithPosition();
+        selectObjectWithPosition.position = position;
+        selectObjectWithPosition.value = data.value;
+        selectObjectWithPosition.objectId =data.objectId;
+
+        groupSelectObject.selectObject  = selectObjectWithPosition;
         EventBus.getDefault().post(groupSelectObject, "onMainSelect");
         notifyDataSetChanged();
     }

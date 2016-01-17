@@ -32,15 +32,22 @@ import org.json.JSONObject;
 import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import unicorn.com.xhsr.greendao.Equipment;
+import unicorn.com.xhsr.greendao.EquipmentCategory;
+import unicorn.com.xhsr.greendao.EquipmentCategoryDao;
+import unicorn.com.xhsr.greendao.EquipmentDao;
 import unicorn.com.xhsr.greendao.ProcessingMode;
+import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
 import unicorn.com.xhsr.select.SelectAdapter;
+import unicorn.com.xhsr.select.SelectObject;
 import unicorn.com.xhsr.select.SelectObjectWithPosition;
 import unicorn.com.xhsr.speech.JsonParser;
 import unicorn.com.xhsr.utils.ToastUtils;
@@ -71,7 +78,7 @@ public class QuickOrderActivity extends DraggerActivity {
     private void initViews() {
         initEquipment();
         initBottomSheet();
-setProcessModeDefaultValue();
+        setProcessModeDefaultValue();
         mIat = SpeechRecognizer.createRecognizer(this, mInitListener);
 
     }
@@ -86,29 +93,26 @@ setProcessModeDefaultValue();
         mIat.setParameter(SpeechConstant.RESULT_TYPE, "json");
 
 
-
-            // 设置语言
-            mIat.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
-            // 设置语言区域
-            mIat.setParameter(SpeechConstant.ACCENT,"mandarin");
+        // 设置语言
+        mIat.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
+        // 设置语言区域
+        mIat.setParameter(SpeechConstant.ACCENT, "mandarin");
 
 
         // 设置语音前端点:静音超时时间，即用户多长时间不说话则当做超时处理
-        mIat.setParameter(SpeechConstant.VAD_BOS,  "4000");
+        mIat.setParameter(SpeechConstant.VAD_BOS, "4000");
 
         // 设置语音后端点:后端点静音检测时间，即用户停止说话多长时间内即认为不再输入， 自动停止录音
-        mIat.setParameter(SpeechConstant.VAD_EOS,  "1000");
+        mIat.setParameter(SpeechConstant.VAD_EOS, "1000");
 
         // 设置标点符号,设置为"0"返回结果无标点,设置为"1"返回结果有标点
-        mIat.setParameter(SpeechConstant.ASR_PTT,  "1");
-
+        mIat.setParameter(SpeechConstant.ASR_PTT, "1");
 
 
         // 设置听写结果是否结果动态修正，为“1”则在听写过程中动态递增地返回结果，否则只在听写结束之后返回最终结果
         // 注：该参数暂时只对在线听写有效
         mIat.setParameter(SpeechConstant.ASR_DWA, "0");
     }
-
 
 
     // =============================== 选择需要维修的设备 ===============================
@@ -125,8 +129,66 @@ setProcessModeDefaultValue();
     @OnClick(R.id.equipment)
     public void equipmentOnClick() {
 
+        GroupSelectActivity.dataProvider = new GroupSelectActivity.DataProvider() {
+            @Override
+            public List<SelectObject> getMainDataList() {
 
+                // todo 目前可以无视 level 参数
 
+                EquipmentCategoryDao equipmentCategoryDao = SimpleApplication.getDaoSession().getEquipmentCategoryDao();
+                final List<EquipmentCategory> equipmentCategoryList = equipmentCategoryDao.queryBuilder()
+                        .orderAsc(EquipmentCategoryDao.Properties.OrderNo)
+                        .list();
+                List<SelectObject> dataList = new ArrayList<>();
+                for (EquipmentCategory equipmentCategory : equipmentCategoryList) {
+                    SelectObject selectObject = new SelectObject();
+                    selectObject.objectId = equipmentCategory.getObjectId();
+                    selectObject.value = equipmentCategory.getName();
+                    dataList.add(selectObject);
+                }
+                return dataList;
+            }
+
+            @Override
+            public List<SelectObject> getSubDataList(SelectObject so) {
+                EquipmentDao equipmentDao = SimpleApplication.getDaoSession().getEquipmentDao();
+                List<Equipment> equipmentList = equipmentDao.queryBuilder()
+                        .where(EquipmentDao.Properties.CategoryId.eq(so.objectId))
+                        .list();
+                final List<SelectObject> dataList = new ArrayList<>();
+                for (Equipment equipment : equipmentList) {
+                    SelectObject selectObject = new SelectObject();
+                    selectObject.objectId = equipment.getObjectId();
+                    selectObject.value = equipment.getName();
+                    dataList.add(selectObject);
+                }
+                return dataList;
+            }
+
+            @Override
+            public List<SelectObject> getSearchResultDataList(String query) {
+
+                List<SelectObject> dataList = new ArrayList<>();
+
+                EquipmentCategoryDao equipmentCategoryDao = SimpleApplication.getDaoSession().getEquipmentCategoryDao();
+                List<EquipmentCategory> equipmentCategoryList = equipmentCategoryDao.queryBuilder()
+                        .where(EquipmentCategoryDao.Properties.Name.like("%" + query + "%"))
+                        .orderAsc(EquipmentCategoryDao.Properties.OrderNo)
+                        .list();
+                for (EquipmentCategory equipmentCategory : equipmentCategoryList) {
+                    for (Equipment equipment : equipmentCategory.getEquipmentList()) {
+                        SelectObject selectObject = new SelectObject();
+                        selectObject.objectId = equipment.getObjectId();
+                        selectObject.value = equipmentCategory.getName() + " / " + equipment.getName();
+                        dataList.add(selectObject);
+                    }
+                }
+
+                // todo
+
+                return dataList;
+            }
+        };
         GroupSelectHelper.startGroupSelectActivity(this, "设备", 1, EQUIPMENT_RESULT_CODE);
     }
 
@@ -211,8 +273,8 @@ setProcessModeDefaultValue();
         tvProcessMode.setText(selectObjectProcessMode.value);
     }
 
-    private void setProcessModeDefaultValue(){
-        List<ProcessingMode> processingModeList =DataHelp.getProcessModeList();
+    private void setProcessModeDefaultValue() {
+        List<ProcessingMode> processingModeList = DataHelp.getProcessModeList();
         ProcessingMode processingMode = processingModeList.get(0);
         tvProcessMode.setText(processingMode.getName());
         sopProcessMode = new SelectObjectWithPosition();
@@ -273,7 +335,7 @@ setProcessModeDefaultValue();
         public void onResult(RecognizerResult results, boolean isLast) {
 
 
-           printResult(results);
+            printResult(results);
 
 
         }
