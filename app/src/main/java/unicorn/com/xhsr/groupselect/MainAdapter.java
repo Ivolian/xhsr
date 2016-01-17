@@ -18,7 +18,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.select.SelectObject;
-import unicorn.com.xhsr.select.SelectObjectWithPosition;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
@@ -32,18 +31,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         this.dataList = dataList;
     }
 
-    public void selectItem(int position){
+    public void selectItem(int position) {
         positionSelected = position;
-        SelectObject data = dataList.get(position);
-        GroupSelectObject groupSelectObject = new GroupSelectObject();
-        SelectObjectWithPosition selectObjectWithPosition= new SelectObjectWithPosition();
-        selectObjectWithPosition.position = position;
-        selectObjectWithPosition.value = data.value;
-        selectObjectWithPosition.objectId =data.objectId;
-
-        groupSelectObject.selectObject  = selectObjectWithPosition;
-        EventBus.getDefault().post(groupSelectObject, "onMainSelect");
         notifyDataSetChanged();
+
+        SelectObject data = dataList.get(position);
+        EventBus.getDefault().post(GroupSelectHelper.createGroupSelectObject(level, position, data), "onMainSelect");
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -73,16 +66,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         SelectObject data = dataList.get(position);
         viewHolder.tvValue.setText(data.value);
 
-        boolean isSelect = position == positionSelected;
+        boolean isSelected = position == positionSelected;
         Context context = viewHolder.tvValue.getContext();
-        int highlightColor = ContextCompat.getColor(context, isSelect ? R.color.colorPrimary : R.color.md_grey_200);
+        int highlightColor = ContextCompat.getColor(context, isSelected ? R.color.colorPrimary : R.color.md_grey_200);
         viewHolder.highlight.setBackgroundColor(highlightColor);
-        int textBgColor = ContextCompat.getColor(context, isSelect ? R.color.md_white : R.color.md_grey_200);
+        int textBgColor = ContextCompat.getColor(context, isSelected ? R.color.md_white : R.color.md_grey_200);
         viewHolder.tvValue.setBackgroundColor(textBgColor);
     }
-
-
-    // ==================================  ==================================
 
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_group_main, viewGroup, false));

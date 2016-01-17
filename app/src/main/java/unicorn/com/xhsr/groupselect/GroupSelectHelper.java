@@ -4,18 +4,18 @@ package unicorn.com.xhsr.groupselect;
 import android.app.Activity;
 import android.content.Intent;
 
+import unicorn.com.xhsr.select.SelectHelper;
+import unicorn.com.xhsr.select.SelectObject;
 import unicorn.com.xhsr.select.SelectObjectWithPosition;
 
 public class GroupSelectHelper {
 
     public static String RESULT = "result";
 
-    public static GroupSelectObject createGroupSelectObject(int level, int position, String value) {
-        SelectObjectWithPosition selectObject = new SelectObjectWithPosition();
-        selectObject.position = position;
-        selectObject.value = value;
+    public static GroupSelectObject createGroupSelectObject(int level, int position, SelectObject selectObject) {
+        SelectObjectWithPosition selectObjectWithPosition = SelectHelper.create(selectObject,position);
         GroupSelectObject groupSelectObject = new GroupSelectObject();
-        groupSelectObject.selectObject = selectObject;
+        groupSelectObject.selectObjectWithPosition = selectObjectWithPosition;
         groupSelectObject.level = level;
         return groupSelectObject;
     }

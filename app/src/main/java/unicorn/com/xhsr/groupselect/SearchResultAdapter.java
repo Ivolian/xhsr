@@ -38,7 +38,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         @OnClick(R.id.row)
         public void rowOnClick() {
             SelectObject data = dataList.get(getAdapterPosition());
-            EventBus.getDefault().post(data.value, "onSearchResultSelect");
+            EventBus.getDefault().post(data, "onSearchResultSelect");
         }
     }
 
@@ -49,12 +49,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         SelectObject data = dataList.get(position);
         viewHolder.tvValue.setText(data.value);
-
     }
-
-
-    //
-
 
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_search_result, viewGroup, false));

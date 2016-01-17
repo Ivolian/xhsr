@@ -41,17 +41,17 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
 
     public void selectItem(int position) {
         positionSelected = position;
-        SelectObject data = dataList.get(position);
-        GroupSelectObject groupSelectObject = GroupSelectHelper.createGroupSelectObject(level, position, data.value);
-        EventBus.getDefault().post(groupSelectObject, "onSubSelect");
         notifyDataSetChanged();
+
+        SelectObject data = dataList.get(position);
+        EventBus.getDefault().post(GroupSelectHelper.createGroupSelectObject(level, position, data), "onSubSelect");
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-
         @Bind(R.id.row)
-        PercentFrameLayout  row;
+        PercentFrameLayout row;
+
         @Bind(R.id.value)
         TextView tvValue;
 
@@ -86,9 +86,9 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
             viewHolder.row.setBackgroundColor(bgColor);
 
 
-        }else {
+        } else {
             Context context = viewHolder.tvValue.getContext();
-            int textColor = ContextCompat.getColor( context,R.color.md_black);
+            int textColor = ContextCompat.getColor(context, R.color.md_black);
             viewHolder.tvValue.setTextColor(textColor);
 
             int bgColor = ContextCompat.getColor(context, R.color.md_white);
@@ -96,10 +96,6 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
 
         }
     }
-
-
-    //
-
 
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_group_sub, viewGroup, false));

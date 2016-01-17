@@ -5,7 +5,7 @@ import unicorn.com.xhsr.select.SelectObjectWithPosition;
 
 public class GroupSelectObject {
 
-    public SelectObjectWithPosition selectObject;
+    public SelectObjectWithPosition selectObjectWithPosition;
 
     public int level;
 

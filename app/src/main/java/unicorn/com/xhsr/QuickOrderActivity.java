@@ -246,10 +246,10 @@ public class QuickOrderActivity extends DraggerActivity {
 //    }
 //
 //    @Subscriber(tag = "onBreakdownSelect")
-//    private void onBreakdownSelect(SelectObject selectObject) {
-//        soBreakdown = selectObject;
+//    private void onBreakdownSelect(SelectObject selectObjectWithPosition) {
+//        soBreakdown = selectObjectWithPosition;
 //        bottomSheet.dismissSheet();
-//        String breakdown = (String) selectObject.value;
+//        String breakdown = (String) selectObjectWithPosition.value;
 //        tvBreakdown.setText(breakdown);
 //    }
 

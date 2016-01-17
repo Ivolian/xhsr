@@ -46,18 +46,32 @@ public class GroupSelectActivity extends DraggerActivity {
      */
 
 
+    // =============================== data provider ===============================
+
     public static DataProvider dataProvider;
+
+
+    public interface DataProvider {
+
+        List<SelectObject> getMainDataList();
+
+        List<SelectObject> getSubDataList(SelectObject selectObject);
+
+        List<SelectObject> getSearchResultDataList(String query);
+
+    }
+
 
     // =============================== extra ===============================
 
     @InjectExtra("name")
     String name;
 
-    @InjectExtra("maxLevel")
-    Integer maxLevel;
-
     @InjectExtra("resultCode")
     Integer resultCode;
+
+    Integer maxLevel = 1;
+
 
     // =============================== onCreate & onDestroy ===============================
 
@@ -115,12 +129,20 @@ public class GroupSelectActivity extends DraggerActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ivClear.setVisibility(TextUtils.isEmpty(s) ? View.INVISIBLE : View.VISIBLE);
-                rvSearchResult.setVisibility(TextUtils.isEmpty(s) ? View.INVISIBLE : View.VISIBLE);
-
-                if (!TextUtils.isEmpty(s)) {
-                    searchResultAdapter.setDataList(dataProvider.getSearchResultDataList(s.toString()));
-                    searchResultAdapter.notifyDataSetChanged();
+                boolean empty = TextUtils.isEmpty(s);
+                if (empty) {
+                    ivClear.setVisibility(View.INVISIBLE);
+                    rvSearchResult.setVisibility(View.INVISIBLE);
+                } else {
+                    ivClear.setVisibility(View.VISIBLE);
+                    List<SelectObject> dataList = dataProvider.getSearchResultDataList(s.toString());
+                    if (dataList.isEmpty()) {
+                        rvSearchResult.setVisibility(View.INVISIBLE);
+                    } else {
+                        rvSearchResult.setVisibility(View.VISIBLE);
+                        searchResultAdapter.setDataList(dataList);
+                        searchResultAdapter.notifyDataSetChanged();
+                    }
                 }
             }
 
@@ -134,6 +156,15 @@ public class GroupSelectActivity extends DraggerActivity {
     @OnClick(R.id.clear)
     public void clearOnClick() {
         etSearch.setText("");
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (rvSearchResult.getVisibility() == View.VISIBLE) {
+            rvSearchResult.setVisibility(View.INVISIBLE);
+        } else {
+            super.onBackPressed();
+        }
     }
 
 
@@ -152,11 +183,11 @@ public class GroupSelectActivity extends DraggerActivity {
     }
 
     @Subscriber(tag = "onSearchResultSelect")
-    private void onSearchResultSelect(String valueSelect) {
-        finishWithResult(valueSelect);
+    private void onSearchResultSelect(SelectObject selectObject) {
+        finishAfterSetResult(selectObject.value);
     }
 
-    private void finishWithResult(String result) {
+    private void finishAfterSetResult(String result) {
         Intent intent = new Intent();
         intent.putExtra("result", result);
         setResult(resultCode, intent);
@@ -197,12 +228,12 @@ public class GroupSelectActivity extends DraggerActivity {
         if (level == maxLevel) {
             return;
         }
-        restoreMainList(GroupSelectHelper.createGroupSelectObject(level, positionHandler[level], null));
+        refreshRvMain(positionHandler[level]);
     }
 
     @OnClick(R.id.confirm)
     public void confirm() {
-        finishWithResult(getSelectResult());
+        finishAfterSetResult(getSelectResult());
     }
 
     private String getSelectResult() {
@@ -210,7 +241,7 @@ public class GroupSelectActivity extends DraggerActivity {
         for (TextView tvValue : tvValueList) {
             result += tvValue.getText().toString();
         }
-        return result.replace("/", "");
+        return result;
     }
 
 
@@ -230,7 +261,6 @@ public class GroupSelectActivity extends DraggerActivity {
         // 初始化主列表
         mainAdapter.level = 0;
         mainAdapter.setDataList(dataProvider.getMainDataList());
-        mainAdapter.notifyDataSetChanged();
         mainAdapter.selectItem(0);
     }
 
@@ -253,56 +283,48 @@ public class GroupSelectActivity extends DraggerActivity {
     // =============================== 一大堆 ===============================
 
 
-    private void clearValueList(int level) {
-        for (int i = level + 1; i <= maxLevel; i++) {
-            tvValueList.get(i).setText("");
-        }
-    }
-
-    private void refreshRvSub(GroupSelectObject groupSelectObject) {
-        int mainLevel = groupSelectObject.level;
-
-        subAdapter.level = mainLevel + 1;
-        subAdapter.positionSelected = -1;
-        subAdapter.setDataList(dataProvider.getSubDataList(groupSelectObject.selectObject));
-        subAdapter.notifyDataSetChanged();
-        rvSub.smoothScrollToPosition(0);
-
-    }
-
-    private void restoreMainList(GroupSelectObject groupSelectObject) {
-        mainAdapter.positionSelected = -1;
-        mainAdapter.level = groupSelectObject.level;
-        mainAdapter.setDataList(dataProvider.getMainDataList());
-        mainAdapter.selectItem(groupSelectObject.selectObject.position);
-        rvMain.smoothScrollToPosition(groupSelectObject.selectObject.position);
-    }
-
     @Subscriber(tag = "onMainSelect")
     private void onRvMainSelect(GroupSelectObject groupSelectObject) {
-        onSelect(groupSelectObject);
+        refreshSelectResult(groupSelectObject);
         refreshRvSub(groupSelectObject);
-        clearValueList(groupSelectObject.level);
-
     }
 
     @Subscriber(tag = "onSubSelect")
     private void onRvSubSelect(GroupSelectObject groupSelectObject) {
-        onSelect(groupSelectObject);
-        if (groupSelectObject.level != maxLevel) {
-            restoreMainList(groupSelectObject);
-        }
+        refreshSelectResult(groupSelectObject);
     }
 
-    private void onSelect(GroupSelectObject groupSelectObject) {
+    private void refreshSelectResult(GroupSelectObject groupSelectObject) {
         int level = groupSelectObject.level;
-        int position = groupSelectObject.selectObject.position;
-        String value = groupSelectObject.selectObject.value;
+        int position = groupSelectObject.selectObjectWithPosition.position;
+        String value = groupSelectObject.selectObjectWithPosition.value;
         if (level != 0) {
             value = "  /  " + value;
         }
         tvValueList.get(level).setText(value);
         positionHandler[level] = position;
+    }
+
+    private void refreshRvMain(int positionSelected) {
+        mainAdapter.setDataList(dataProvider.getMainDataList());
+        mainAdapter.selectItem(positionSelected);
+        rvMain.smoothScrollToPosition(positionSelected);
+    }
+
+    private void refreshRvSub(GroupSelectObject groupSelectObject) {
+        int mainLevel = groupSelectObject.level;
+        clearSelectResult(mainLevel);
+        subAdapter.level = mainLevel + 1;
+        subAdapter.positionSelected = -1;
+        subAdapter.setDataList(dataProvider.getSubDataList(groupSelectObject.selectObjectWithPosition));
+        subAdapter.notifyDataSetChanged();
+        rvSub.smoothScrollToPosition(0);
+    }
+
+    private void clearSelectResult(int level) {
+        for (int i = level + 1; i <= maxLevel; i++) {
+            tvValueList.get(i).setText("");
+        }
     }
 
 
@@ -313,15 +335,5 @@ public class GroupSelectActivity extends DraggerActivity {
         closeActivity();
     }
 
-
-    public interface DataProvider {
-
-        List<SelectObject> getMainDataList();
-
-        List<SelectObject> getSubDataList(SelectObject selectObject);
-
-        List<SelectObject> getSearchResultDataList(String query);
-
-    }
 
 }
