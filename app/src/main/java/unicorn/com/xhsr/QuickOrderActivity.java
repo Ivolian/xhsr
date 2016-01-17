@@ -187,22 +187,22 @@ public class QuickOrderActivity extends DraggerActivity {
 
     // =============================== 处理方式 ===============================
 
-    @Bind(R.id.tvHandleMode)
-    TextView tvHandleMode;
+    @Bind(R.id.tvProcessMode)
+    TextView tvProcessMode;
 
-    SelectObject soHandleMode;
+    SelectObject selectObjectProcessMode;
 
-    @OnClick(R.id.handleMode)
+    @OnClick(R.id.processMode)
     public void selectHandleMode() {
-        showSelectSheet("选择处理方式", "onHandleModeSelect", soHandleMode == null ? -1 : soHandleMode.position);
+        showSelectSheet("选择处理方式", "onProcessModeSelect", selectObjectProcessMode == null ? -1 : selectObjectProcessMode.position);
     }
 
-    @Subscriber(tag = "onHandleModeSelect")
+    @Subscriber(tag = "onProcessModeSelect")
     private void onHandleModeSelect(SelectObject selectObject) {
-        soHandleMode = selectObject;
+        selectObjectProcessMode = selectObject;
         bottomSheet.dismissSheet();
         String handleMode = (String) selectObject.value;
-        tvHandleMode.setText(handleMode);
+        tvProcessMode.setText(handleMode);
     }
 
 
