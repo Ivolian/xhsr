@@ -62,4 +62,6 @@ dependencies {
     compile 'jp.wasabeef:recyclerview-animators:2.1.0'
     compile 'com.github.aakira:expandable-layout:1.4.1@aar'
     compile files('libs/Msc.jar')
+        compile(name: 'scan', ext: 'aar')
+
 }

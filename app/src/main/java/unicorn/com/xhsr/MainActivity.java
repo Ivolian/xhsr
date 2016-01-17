@@ -9,9 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.EditText;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
+import com.yo.libs.app.DimensCodeTools;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,12 +48,10 @@ public class MainActivity extends AppCompatActivity {
         dragLayout.setDragListener(new DragLayout.DragListener() {
             @Override
             public void onOpen() {
-
             }
 
             @Override
             public void onClose() {
-
             }
 
             @Override
@@ -75,18 +75,19 @@ public class MainActivity extends AppCompatActivity {
 
 
     long lastClickTime = 0;
+
     private void initRecycleViewHeader() {
         RecyclerViewHeader recyclerViewHeader = RecyclerViewHeader.fromXml(this, R.layout.recycle_view_head);
-        recyclerViewHeader.findViewById(R.id.test).setBackground(getCircleDrawable(R.color.md_blue_400));
-        recyclerViewHeader.findViewById(R.id.test2).setBackground(getCircleDrawable(R.color.md_red_400));
-        recyclerViewHeader.findViewById(R.id.test3).setBackground(getCircleDrawable(R.color.md_teal_400));
+        recyclerViewHeader.findViewById(R.id.quickOrder).setBackground(getCircleDrawable(R.color.md_blue_400));
+        recyclerViewHeader.findViewById(R.id.test2).setBackground(getCircleDrawable(R.color.md_teal_400));
+        recyclerViewHeader.findViewById(R.id.test3).setBackground(getCircleDrawable(R.color.md_red_400));
 
 
         recyclerViewHeader.findViewById(R.id.quick_order).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (lastClickTime != 0){
-                    if(SystemClock.elapsedRealtime() - lastClickTime < 1000){
+                if (lastClickTime != 0) {
+                    if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
                         return;
                     }
                 }
@@ -116,5 +117,20 @@ public class MainActivity extends AppCompatActivity {
         dragLayout.open(true);
     }
 
+    public static int  SCAN_RESULT_CODE = 1001;
 
+    @OnClick(R.id.scan)
+    public void scanOnClick(){
+        DimensCodeTools.startScan(this);
+    }
+
+@Bind(R.id.equipmentCode)
+    EditText etEquipmentCode;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String res = DimensCodeTools.scanForResult(requestCode, resultCode, data);
+            etEquipmentCode.setText(res);
+    }
 }

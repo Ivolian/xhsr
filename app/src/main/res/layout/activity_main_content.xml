@@ -9,9 +9,9 @@
         android:id="@+id/recycleView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_marginTopPercent="34%sh"/>
+        app:layout_marginTopPercent="34%sh" />
 
-     <!--窗帘部分 35%-->
+    <!--窗帘部分 35%-->
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -41,9 +41,9 @@
                     android:layout_height="0dp"
                     android:layout_gravity="center"
                     app:iiv_color="@android:color/white"
-                    app:iiv_icon="cmd-settings"
-                    app:layout_heightPercent="3%sh"
-                    app:layout_widthPercent="3%sh" />
+                    app:iiv_icon="gmi-account-circle"
+                    app:layout_heightPercent="3.4%sh"
+                    app:layout_widthPercent="3.4%sh" />
 
             </com.zhy.android.percent.support.PercentFrameLayout>
 
@@ -54,7 +54,7 @@
                 android:gravity="center"
                 android:text="协和综服"
                 android:textColor="@color/md_white"
-                app:layout_textSizePercent="3.5%sh" />
+                app:layout_textSizePercent="3.6%sh" />
 
             <com.zhy.android.percent.support.PercentFrameLayout
                 android:layout_width="0dp"
@@ -69,9 +69,9 @@
                     android:layout_height="0dp"
                     android:layout_gravity="center"
                     app:iiv_color="@android:color/white"
-                    app:iiv_icon="faw-user-md"
-                    app:layout_heightPercent="3%sh"
-                    app:layout_widthPercent="3%sh" />
+                    app:iiv_icon="faw-envelope-o"
+                    app:layout_heightPercent="3.4%sh"
+                    app:layout_widthPercent="3.4%sh" />
 
             </com.zhy.android.percent.support.PercentFrameLayout>
 
@@ -88,20 +88,20 @@
             app:layout_marginRightPercent="3%sh"
             app:layout_paddingPercent="2%sh">
 
-            <TextView
+            <EditText
+                android:id="@+id/equipmentCode"
+                android:textCursorDrawable="@drawable/color_cursor"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="请输入维修设备查询信息"
+                android:background="@null"
+                android:hint="输入或扫描设备码"
+                android:textColor="@color/md_black"
                 android:textColorHint="@color/md_blue_grey_200"
                 app:layout_textSizePercent="3%sh" />
 
-            <View
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:background="@color/md_blue_grey_200" />
-
             <com.mikepenz.iconics.view.IconicsImageView
+                android:id="@+id/scan"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:iiv_color="?attr/colorPrimary"
