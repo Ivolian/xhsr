@@ -1,11 +1,11 @@
 package unicorn.com.xhsr.groupselect;
 
-import unicorn.com.xhsr.SelectObject;
+import unicorn.com.xhsr.select.SelectObjectWithPosition;
 
 
 public class GroupSelectObject {
 
-    public SelectObject selectObject;
+    public SelectObjectWithPosition selectObject;
 
     public int level;
 

@@ -1,12 +1,12 @@
-package unicorn.com.xhsr;
+package unicorn.com.xhsr.select;
 
 
 import java.io.Serializable;
 
 public class SelectObject implements Serializable {
 
-    public Object value;
+    public String value;
 
-    public int position;
+    public String objectId;
 
 }

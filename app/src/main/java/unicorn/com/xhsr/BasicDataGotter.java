@@ -42,7 +42,7 @@ public class BasicDataGotter {
                                 processingModeList.add(processingMode);
                             }
 
-                            ProcessingModeDao processingModeDao = SimpleApplication.getMenuDao();
+                            ProcessingModeDao processingModeDao = SimpleApplication.getProcessingModeDao();
                             processingModeDao.deleteAll();
                             processingModeDao.insertInTx(processingModeList);
                         } catch (Exception e) {

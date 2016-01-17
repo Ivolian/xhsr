@@ -32,13 +32,11 @@ public class SimpleApplication extends Application {
 
     private static DaoSession daoSession;
 
-    public static ProcessingModeDao getMenuDao() {
-
+    public static ProcessingModeDao getProcessingModeDao() {
         return daoSession.getProcessingModeDao();
     }
 
     private void initGreenDao() {
-
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "xhsr-db", null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);

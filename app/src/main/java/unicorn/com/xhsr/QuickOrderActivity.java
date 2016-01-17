@@ -34,10 +34,14 @@ import org.simple.eventbus.Subscriber;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import unicorn.com.xhsr.greendao.ProcessingMode;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
+import unicorn.com.xhsr.select.SelectAdapter;
+import unicorn.com.xhsr.select.SelectObjectWithPosition;
 import unicorn.com.xhsr.speech.JsonParser;
 import unicorn.com.xhsr.utils.ToastUtils;
 
@@ -67,7 +71,7 @@ public class QuickOrderActivity extends DraggerActivity {
     private void initViews() {
         initEquipment();
         initBottomSheet();
-
+setProcessModeDefaultValue();
         mIat = SpeechRecognizer.createRecognizer(this, mInitListener);
 
     }
@@ -166,23 +170,23 @@ public class QuickOrderActivity extends DraggerActivity {
 
     // =============================== 设备故障 ===============================
 
-    @Bind(R.id.tvBreakdown)
-    TextView tvBreakdown;
-
-    SelectObject soBreakdown;
-
-    @OnClick(R.id.breakdown)
-    public void selectBreakdown() {
-        showSelectSheet("选择设备故障", "onBreakdownSelect", soBreakdown == null ? -1 : soBreakdown.position);
-    }
-
-    @Subscriber(tag = "onBreakdownSelect")
-    private void onBreakdownSelect(SelectObject selectObject) {
-        soBreakdown = selectObject;
-        bottomSheet.dismissSheet();
-        String breakdown = (String) selectObject.value;
-        tvBreakdown.setText(breakdown);
-    }
+//    @Bind(R.id.tvBreakdown)
+//    TextView tvBreakdown;
+//
+//    SelectObject soBreakdown;
+//
+//    @OnClick(R.id.breakdown)
+//    public void selectBreakdown() {
+//        showSelectSheet("选择设备故障", "onBreakdownSelect", soBreakdown == null ? -1 : soBreakdown.position);
+//    }
+//
+//    @Subscriber(tag = "onBreakdownSelect")
+//    private void onBreakdownSelect(SelectObject selectObject) {
+//        soBreakdown = selectObject;
+//        bottomSheet.dismissSheet();
+//        String breakdown = (String) selectObject.value;
+//        tvBreakdown.setText(breakdown);
+//    }
 
 
     // =============================== 处理方式 ===============================
@@ -190,19 +194,28 @@ public class QuickOrderActivity extends DraggerActivity {
     @Bind(R.id.tvProcessMode)
     TextView tvProcessMode;
 
-    SelectObject selectObjectProcessMode;
+    SelectObjectWithPosition sopProcessMode;
 
     @OnClick(R.id.processMode)
     public void selectHandleMode() {
-        showSelectSheet("选择处理方式", "onProcessModeSelect", selectObjectProcessMode == null ? -1 : selectObjectProcessMode.position);
+        showSelectSheet("选择处理方式", "onProcessModeSelect", sopProcessMode == null ? -1 : sopProcessMode.position);
     }
 
     @Subscriber(tag = "onProcessModeSelect")
-    private void onHandleModeSelect(SelectObject selectObject) {
-        selectObjectProcessMode = selectObject;
+    private void onHandleModeSelect(SelectObjectWithPosition selectObjectProcessMode) {
+        sopProcessMode = selectObjectProcessMode;
         bottomSheet.dismissSheet();
-        String handleMode = (String) selectObject.value;
-        tvProcessMode.setText(handleMode);
+        tvProcessMode.setText(selectObjectProcessMode.value);
+    }
+
+    private void setProcessModeDefaultValue(){
+        List<ProcessingMode> processingModeList =DataHelp.getProcessModeList();
+        ProcessingMode processingMode = processingModeList.get(0);
+        tvProcessMode.setText(processingMode.getName());
+        sopProcessMode = new SelectObjectWithPosition();
+        sopProcessMode.value = processingMode.getName();
+        sopProcessMode.objectId = processingMode.getObjectId();
+        sopProcessMode.position = 0;
     }
 
 
