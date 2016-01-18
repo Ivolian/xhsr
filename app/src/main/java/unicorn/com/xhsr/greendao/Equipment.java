@@ -17,10 +17,6 @@ public class Equipment implements java.io.Serializable {
     public Equipment() {
     }
 
-    public Equipment(String objectId) {
-        this.objectId = objectId;
-    }
-
     public Equipment(String objectId, String name, int orderNo, String categoryId) {
         this.objectId = objectId;
         this.name = name;

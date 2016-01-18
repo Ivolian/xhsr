@@ -155,6 +155,7 @@ public class QuickOrderActivity extends DraggerActivity {
 
             @Override
             public List<SelectObject> getSubDataList(SelectObject so) {
+                ToastUtils.show(so.objectId);
                 EquipmentDao equipmentDao = SimpleApplication.getDaoSession().getEquipmentDao();
                 List<Equipment> equipmentList = equipmentDao.queryBuilder()
                         .where(EquipmentDao.Properties.CategoryId.eq(so.objectId))

@@ -93,6 +93,13 @@ public class BasicDataGotter {
                                 equipmentCategory.setOrderNo(i);
                                 equipmentCategoryList.add(equipmentCategory);
                             }
+
+                            EquipmentCategory equipmentCategory = new EquipmentCategory();
+                            equipmentCategory.setObjectId("root");
+                            equipmentCategory.setName("常用设备");
+                            equipmentCategory.setOrderNo(-1);
+                            equipmentCategoryList.add(equipmentCategory);
+
                             SimpleApplication.getEquipmentCategoryDao().deleteAll();
                             SimpleApplication.getEquipmentCategoryDao().insertInTx(equipmentCategoryList);
 

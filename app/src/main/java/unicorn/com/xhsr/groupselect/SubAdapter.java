@@ -18,7 +18,11 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import unicorn.com.xhsr.R;
+import unicorn.com.xhsr.SimpleApplication;
+import unicorn.com.xhsr.greendao.Equipment;
 import unicorn.com.xhsr.select.SelectHelper;
 import unicorn.com.xhsr.select.SelectObject;
 
@@ -55,6 +59,32 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
         @OnClick(R.id.value)
         public void rowOnClick() {
             selectItem(getAdapterPosition());
+        }
+
+        @OnLongClick(R.id.value)
+
+        public boolean rowOnLongClick(){
+
+            final SelectObject data = dataList.get(getAdapterPosition());
+            new SweetAlertDialog(tvValue.getContext(), SweetAlertDialog.NORMAL_TYPE)
+                    .setTitleText("设为常用？")
+                    .setConfirmText("确认")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            Equipment equipment = new Equipment();
+                            equipment.setOrderNo(0);
+                            equipment.setCategoryId("root");
+                            equipment.setName(data.value);
+                            equipment.setObjectId(data.objectId);
+
+                            SimpleApplication.getDaoSession().getEquipmentDao().insert(equipment);
+
+                            sDialog.dismissWithAnimation();
+                        }
+                    })
+                    .show();
+        return true;
         }
     }
 

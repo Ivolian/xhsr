@@ -154,6 +154,7 @@
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.RecyclerView
+                    android:background="@color/md_grey_200"
                     android:id="@+id/rvMain"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
