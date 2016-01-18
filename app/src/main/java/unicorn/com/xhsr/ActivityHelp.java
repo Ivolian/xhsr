@@ -16,7 +16,7 @@ public class ActivityHelp {
         if (activity instanceof DraggerActivity) {
             DraggerActivity draggerActivity = (DraggerActivity) activity;
             draggerActivity.setSlideEnabled(false);
-            draggerActivity.setTension(1);
+            draggerActivity.setTension(2);
             draggerActivity.setDraggerPosition(DraggerPosition.RIGHT);
         }
     }
