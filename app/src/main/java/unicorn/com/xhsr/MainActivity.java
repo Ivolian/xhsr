@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         BasicDataGotter basicDataGotter = new BasicDataGotter();
         basicDataGotter.getProcessMode();
         basicDataGotter.getEquipment();
+        basicDataGotter.getBuildingAndFloor();
     }
 
     // =============================== drag layout ===============================

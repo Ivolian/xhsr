@@ -178,6 +178,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:layout_marginLeftPercent="3%sh"
                     android:src="@drawable/ic_arrow_right" />
 
             </com.zhy.android.percent.support.PercentLinearLayout>

@@ -184,12 +184,12 @@ public class GroupSelectActivity extends DraggerActivity {
 
     @Subscriber(tag = "onSearchResultSelect")
     private void onSearchResultSelect(SelectObject selectObject) {
-        finishAfterSetResult(selectObject.value);
+        finishAfterSetResult(selectObject);
     }
 
-    private void finishAfterSetResult(String result) {
+    private void finishAfterSetResult(SelectObject selectObject) {
         Intent intent = new Intent();
-        intent.putExtra("result", result);
+        intent.putExtra("result", selectObject);
         setResult(resultCode, intent);
         closeActivity();
     }
@@ -231,9 +231,14 @@ public class GroupSelectActivity extends DraggerActivity {
         refreshRvMain(positionHandler[level]);
     }
 
+    String objectId;
+
     @OnClick(R.id.confirm)
     public void confirm() {
-        finishAfterSetResult(getSelectResult());
+        SelectObject selectObject =new SelectObject();
+        selectObject.value = getSelectResult();
+        selectObject.objectId = objectId;
+        finishAfterSetResult(selectObject);
     }
 
     private String getSelectResult() {
@@ -292,6 +297,7 @@ public class GroupSelectActivity extends DraggerActivity {
     @Subscriber(tag = "onSubSelect")
     private void onRvSubSelect(GroupSelectObject groupSelectObject) {
         refreshSelectResult(groupSelectObject);
+        objectId = groupSelectObject.selectObjectWithPosition.objectId;
     }
 
     private void refreshSelectResult(GroupSelectObject groupSelectObject) {

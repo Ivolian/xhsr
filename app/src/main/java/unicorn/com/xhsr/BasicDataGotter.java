@@ -13,8 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import unicorn.com.xhsr.greendao.Building;
 import unicorn.com.xhsr.greendao.Equipment;
 import unicorn.com.xhsr.greendao.EquipmentCategory;
+import unicorn.com.xhsr.greendao.Floor;
 import unicorn.com.xhsr.greendao.ProcessingMode;
 import unicorn.com.xhsr.greendao.ProcessingModeDao;
 import unicorn.com.xhsr.utils.ToastUtils;
@@ -137,5 +139,72 @@ public class BasicDataGotter {
         SimpleVolley.addRequest(jsonArrayRequest);
     }
 
+
+    public void getBuildingAndFloor() {
+
+        String url = "http://withub.net.cn/hems/api/v1/hems/building/tree?id=1&fetchChild=true";
+        StringRequest jsonArrayRequest = new StringRequest(url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String responses) {
+
+                        try {
+                            JSONArray response = new JSONArray(responses);
+
+
+                            List<Building> buildingList = new ArrayList<>();
+                            for (int i = 0; i != response.length(); i++) {
+                                JSONObject buildingJSONObject = response.getJSONObject(i);
+                                Building building = new Building();
+                                building.setObjectId(i + "");
+                                building.setName(buildingJSONObject.getString("name"));
+                                building.setOrderNo(i);
+                                buildingList.add(building);
+                            }
+                            SimpleApplication.getDaoSession().getBuildingDao().deleteAll();
+                            SimpleApplication.getDaoSession().getBuildingDao().insertInTx(buildingList);
+
+
+                            List<Floor> floorList = new ArrayList<>();
+                            for (int i = 0; i != response.length(); i++) {
+                                JSONObject buildingJSONObject = response.getJSONObject(i);
+                                String buildingId = i + "";
+                                JSONArray items = buildingJSONObject.getJSONArray("items");
+                                for (int j = 0; j != items.length(); j++) {
+                                    JSONObject floorJSONObject = items.getJSONObject(j);
+                                    Floor floor = new Floor();
+                                    floor.setObjectId(floorJSONObject.getString("objectId"));
+                                    floor.setName(floorJSONObject.getString("name"));
+                                    floor.setOrderNo(j);
+                                    floor.setBuildingId(buildingId);
+                                    floorList.add(floor);
+                                }
+                            }
+                            SimpleApplication.getDaoSession().getFloorDao().deleteAll();
+                            SimpleApplication.getDaoSession().getFloorDao().insertInTx(floorList);
+
+
+                        } catch (Exception e) {
+                            ToastUtils.show(e.getMessage());
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put("Cookie", "JSESSIONID=" + "CE46D6C7FD5F1D2AD08B2CD3F6D80CB1");
+                return map;
+            }
+        };
+        SimpleVolley.addRequest(jsonArrayRequest);
+    }
 
 }

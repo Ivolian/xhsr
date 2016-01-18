@@ -39,10 +39,14 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import unicorn.com.xhsr.greendao.Building;
+import unicorn.com.xhsr.greendao.BuildingDao;
 import unicorn.com.xhsr.greendao.Equipment;
 import unicorn.com.xhsr.greendao.EquipmentCategory;
 import unicorn.com.xhsr.greendao.EquipmentCategoryDao;
 import unicorn.com.xhsr.greendao.EquipmentDao;
+import unicorn.com.xhsr.greendao.Floor;
+import unicorn.com.xhsr.greendao.FloorDao;
 import unicorn.com.xhsr.greendao.ProcessingMode;
 import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
@@ -115,10 +119,14 @@ public class QuickOrderActivity extends DraggerActivity {
     }
 
 
-    // =============================== 选择需要维修的设备 ===============================
+    // =============================== 设备 ===============================
+
+    public int EQUIPMENT_RESULT_CODE = 1001;
 
     @Bind(R.id.tdEquipment)
     ImageView tdEquipment;
+
+    SelectObject selectObjectEquipment;
 
     private void initEquipment() {
         int colorPrimary = ContextCompat.getColor(this, R.color.colorPrimary);
@@ -128,13 +136,9 @@ public class QuickOrderActivity extends DraggerActivity {
 
     @OnClick(R.id.equipment)
     public void equipmentOnClick() {
-
         GroupSelectActivity.dataProvider = new GroupSelectActivity.DataProvider() {
             @Override
             public List<SelectObject> getMainDataList() {
-
-                // todo 目前可以无视 level 参数
-
                 EquipmentCategoryDao equipmentCategoryDao = SimpleApplication.getDaoSession().getEquipmentCategoryDao();
                 final List<EquipmentCategory> equipmentCategoryList = equipmentCategoryDao.queryBuilder()
                         .orderAsc(EquipmentCategoryDao.Properties.OrderNo)
@@ -169,7 +173,6 @@ public class QuickOrderActivity extends DraggerActivity {
             public List<SelectObject> getSearchResultDataList(String query) {
 
                 List<SelectObject> dataList = new ArrayList<>();
-
                 EquipmentCategoryDao equipmentCategoryDao = SimpleApplication.getDaoSession().getEquipmentCategoryDao();
                 List<EquipmentCategory> equipmentCategoryList = equipmentCategoryDao.queryBuilder()
                         .where(EquipmentCategoryDao.Properties.Name.like("%" + query + "%"))
@@ -195,28 +198,93 @@ public class QuickOrderActivity extends DraggerActivity {
     @Bind(R.id.tvEquipment)
     TextView tvEquipment;
 
-    public int EQUIPMENT_RESULT_CODE = 1001;
+
 
     public int ADDRESS_RESULT_CODE = 1002;
+
+
+    // =============================== onActivityResult ===============================
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == EQUIPMENT_RESULT_CODE) {
-            String result = data.getStringExtra(GroupSelectHelper.RESULT);
-            tvEquipment.setText(result);
+            SelectObject selectObject = (SelectObject) data.getSerializableExtra(GroupSelectHelper.RESULT);
+            selectObjectEquipment  = selectObject;
+            tvEquipment.setText(selectObject.value);
         }
         if (resultCode == ADDRESS_RESULT_CODE) {
-            String result = data.getStringExtra(GroupSelectHelper.RESULT);
-            tvAddress.setText(result);
+            SelectObject selectObject = (SelectObject) data.getSerializableExtra(GroupSelectHelper.RESULT);
+            selectObjectAddress  = selectObject;
+            tvAddress.setText(selectObject.value);
         }
     }
 
+
+    SelectObject selectObjectAddress;
     @Bind(R.id.tvAddress)
     TextView tvAddress;
 
     @OnClick(R.id.address)
     public void addressOnClick() {
+
+        GroupSelectActivity.dataProvider = new GroupSelectActivity.DataProvider() {
+            @Override
+            public List<SelectObject> getMainDataList() {
+                BuildingDao buildingDao = SimpleApplication.getDaoSession().getBuildingDao();
+                final List<Building> buildingList = buildingDao.queryBuilder()
+                        .orderAsc(BuildingDao.Properties.OrderNo)
+                        .list();
+                List<SelectObject> dataList = new ArrayList<>();
+                for (Building building : buildingList) {
+                    SelectObject selectObject = new SelectObject();
+                    selectObject.objectId = building.getObjectId();
+                    selectObject.value = building.getName();
+                    dataList.add(selectObject);
+                }
+                return dataList;
+            }
+
+            @Override
+            public List<SelectObject> getSubDataList(SelectObject so) {
+                FloorDao floorDao = SimpleApplication.getDaoSession().getFloorDao();
+                List<Floor> floorList = floorDao.queryBuilder()
+                        .where(FloorDao.Properties.BuildingId.eq(so.objectId))
+                        .list();
+                final List<SelectObject> dataList = new ArrayList<>();
+                for (Floor floor : floorList) {
+                    SelectObject selectObject = new SelectObject();
+                    selectObject.objectId = floor.getObjectId();
+                    selectObject.value = floor.getName();
+                    dataList.add(selectObject);
+                }
+                return dataList;
+            }
+
+            @Override
+            public List<SelectObject> getSearchResultDataList(String query) {
+
+                List<SelectObject> dataList = new ArrayList<>();
+                BuildingDao buildingDao = SimpleApplication.getDaoSession().getBuildingDao();
+                List<Building> buildingList = buildingDao.queryBuilder()
+                        .where(BuildingDao.Properties.Name.like("%" + query + "%"))
+                        .orderAsc(BuildingDao.Properties.OrderNo)
+                        .list();
+                for (Building building : buildingList) {
+                    for (Floor floor : building.getFloorList()) {
+                        SelectObject selectObject = new SelectObject();
+                        selectObject.objectId = floor.getObjectId();
+                        selectObject.value = building.getName() + " / " + floor.getName();
+                        dataList.add(selectObject);
+                    }
+                }
+
+                // todo
+
+                return dataList;
+            }
+        };
+
         GroupSelectHelper.startGroupSelectActivity(this, "维修地址", 1, ADDRESS_RESULT_CODE);
     }
 

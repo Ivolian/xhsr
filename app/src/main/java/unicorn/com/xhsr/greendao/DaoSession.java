@@ -21,10 +21,14 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig processingModeDaoConfig;
     private final DaoConfig equipmentCategoryDaoConfig;
     private final DaoConfig equipmentDaoConfig;
+    private final DaoConfig buildingDaoConfig;
+    private final DaoConfig floorDaoConfig;
 
     private final ProcessingModeDao processingModeDao;
     private final EquipmentCategoryDao equipmentCategoryDao;
     private final EquipmentDao equipmentDao;
+    private final BuildingDao buildingDao;
+    private final FloorDao floorDao;
 
     public DaoSession(SQLiteDatabase db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
             daoConfigMap) {
@@ -39,19 +43,31 @@ public class DaoSession extends AbstractDaoSession {
         equipmentDaoConfig = daoConfigMap.get(EquipmentDao.class).clone();
         equipmentDaoConfig.initIdentityScope(type);
 
+        buildingDaoConfig = daoConfigMap.get(BuildingDao.class).clone();
+        buildingDaoConfig.initIdentityScope(type);
+
+        floorDaoConfig = daoConfigMap.get(FloorDao.class).clone();
+        floorDaoConfig.initIdentityScope(type);
+
         processingModeDao = new ProcessingModeDao(processingModeDaoConfig, this);
         equipmentCategoryDao = new EquipmentCategoryDao(equipmentCategoryDaoConfig, this);
         equipmentDao = new EquipmentDao(equipmentDaoConfig, this);
+        buildingDao = new BuildingDao(buildingDaoConfig, this);
+        floorDao = new FloorDao(floorDaoConfig, this);
 
         registerDao(ProcessingMode.class, processingModeDao);
         registerDao(EquipmentCategory.class, equipmentCategoryDao);
         registerDao(Equipment.class, equipmentDao);
+        registerDao(Building.class, buildingDao);
+        registerDao(Floor.class, floorDao);
     }
     
     public void clear() {
         processingModeDaoConfig.getIdentityScope().clear();
         equipmentCategoryDaoConfig.getIdentityScope().clear();
         equipmentDaoConfig.getIdentityScope().clear();
+        buildingDaoConfig.getIdentityScope().clear();
+        floorDaoConfig.getIdentityScope().clear();
     }
 
     public ProcessingModeDao getProcessingModeDao() {
@@ -64,6 +80,14 @@ public class DaoSession extends AbstractDaoSession {
 
     public EquipmentDao getEquipmentDao() {
         return equipmentDao;
+    }
+
+    public BuildingDao getBuildingDao() {
+        return buildingDao;
+    }
+
+    public FloorDao getFloorDao() {
+        return floorDao;
     }
 
 }
