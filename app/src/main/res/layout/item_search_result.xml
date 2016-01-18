@@ -30,7 +30,7 @@
         <com.mikepenz.iconics.view.IconicsImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:iiv_color="?attr/colorPrimary"
+            app:iiv_color="@color/colorPrimary"
             app:iiv_icon="ion-android-open"
             app:layout_marginRightPercent="2%sw"
             app:layout_marginLeftPercent="2%sw"
