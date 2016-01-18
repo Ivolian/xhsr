@@ -104,29 +104,42 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <!-- main sub -->
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <!-- 选择结果 8%-->
             <HorizontalScrollView
-                android:id="@+id/scrollView"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:scrollbars="none"
                 app:layout_heightPercent="8%sh">
 
                 <com.zhy.android.percent.support.PercentLinearLayout
-                    android:id="@+id/selectResultContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp">
 
+                    <TextView
+                        android:id="@+id/selectResultMain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        app:layout_textSizePercent="2.8%sh" />
+
+                    <TextView
+                        android:id="@+id/selectResultSub"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        app:layout_marginLeftPercent="3%sw"
+                        app:layout_textSizePercent="2.8%sh" />
 
                 </com.zhy.android.percent.support.PercentLinearLayout>
+
             </HorizontalScrollView>
 
             <View
@@ -144,13 +157,13 @@
                     android:id="@+id/rvMain"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_weight="2" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvSub"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_weight="3" />
 
             </LinearLayout>
 

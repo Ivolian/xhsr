@@ -69,6 +69,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         Model model = modelList.get(position);
+
+
         viewHolder.tvText.setText(model.text);
         viewHolder.iivIcon.setIcon(model.icon);
     }

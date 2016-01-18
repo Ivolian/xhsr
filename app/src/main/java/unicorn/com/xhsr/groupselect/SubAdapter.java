@@ -19,21 +19,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
+import unicorn.com.xhsr.select.SelectHelper;
 import unicorn.com.xhsr.select.SelectObject;
 
 public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
 
-    private int maxLevel;
-
-    public int level = -1;
-
     int positionSelected = -1;
 
     List<SelectObject> dataList = new ArrayList<>();
-
-    public SubAdapter(int maxLevel) {
-        this.maxLevel = maxLevel;
-    }
 
     public void setDataList(List<SelectObject> dataList) {
         this.dataList = dataList;
@@ -42,9 +35,8 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
     public void selectItem(int position) {
         positionSelected = position;
         notifyDataSetChanged();
-
         SelectObject data = dataList.get(position);
-        EventBus.getDefault().post(GroupSelectHelper.createGroupSelectObject(level, position, data), "onSubSelect");
+        EventBus.getDefault().post(SelectHelper.create(data,position), "onSubSelect");
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -74,27 +66,12 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
         SelectObject data = dataList.get(position);
         viewHolder.tvValue.setText(data.value);
 
-        if (level == maxLevel) {
-
-            boolean isSelect = position == positionSelected;
-            Context context = viewHolder.tvValue.getContext();
-
-            int textColor = ContextCompat.getColor(context, isSelect ? R.color.md_white : R.color.md_black);
-            viewHolder.tvValue.setTextColor(textColor);
-
-            int bgColor = ContextCompat.getColor(context, isSelect ? R.color.colorPrimary : R.color.md_white);
-            viewHolder.row.setBackgroundColor(bgColor);
-
-
-        } else {
-            Context context = viewHolder.tvValue.getContext();
-            int textColor = ContextCompat.getColor(context, R.color.md_black);
-            viewHolder.tvValue.setTextColor(textColor);
-
-            int bgColor = ContextCompat.getColor(context, R.color.md_white);
-            viewHolder.row.setBackgroundColor(bgColor);
-
-        }
+        boolean isSelected = position == positionSelected;
+        Context context = viewHolder.tvValue.getContext();
+        int textColor = ContextCompat.getColor(context, isSelected ? R.color.md_white : R.color.md_black);
+        viewHolder.tvValue.setTextColor(textColor);
+        int bgColor = ContextCompat.getColor(context, isSelected ? R.color.colorPrimary : R.color.md_white);
+        viewHolder.row.setBackgroundColor(bgColor);
     }
 
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {

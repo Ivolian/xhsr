@@ -17,11 +17,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
+import unicorn.com.xhsr.select.SelectHelper;
 import unicorn.com.xhsr.select.SelectObject;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
-
-    public int level = -1;
 
     int positionSelected = -1;
 
@@ -34,9 +33,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     public void selectItem(int position) {
         positionSelected = position;
         notifyDataSetChanged();
-
         SelectObject data = dataList.get(position);
-        EventBus.getDefault().post(GroupSelectHelper.createGroupSelectObject(level, position, data), "onMainSelect");
+        EventBus.getDefault().post(SelectHelper.create(data,position), "onMainSelect");
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -64,7 +62,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         SelectObject data = dataList.get(position);
-        viewHolder.tvValue.setText(data.value);
+
+        // 选择设备的特殊处理
+        String value = data.value;
+        String[] arr = value.split("/");
+        if (arr.length == 2) {
+            value = arr[0] + "\r\n" + arr[1];
+        }
+        viewHolder.tvValue.setText(value);
 
         boolean isSelected = position == positionSelected;
         Context context = viewHolder.tvValue.getContext();

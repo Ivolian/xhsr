@@ -64,7 +64,7 @@ public class BasicDataGotter {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
-                map.put("Cookie", "JSESSIONID=" + "CE46D6C7FD5F1D2AD08B2CD3F6D80CB1");
+                map.put("Cookie", "JSESSIONID=" + "46B2F076CF14BE7DC0177FE02C139D49");
                 return map;
             }
         };
@@ -132,7 +132,7 @@ public class BasicDataGotter {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
-                map.put("Cookie", "JSESSIONID=" + "CE46D6C7FD5F1D2AD08B2CD3F6D80CB1");
+                map.put("Cookie", "JSESSIONID=" + "46B2F076CF14BE7DC0177FE02C139D49");
                 return map;
             }
         };
@@ -200,7 +200,7 @@ public class BasicDataGotter {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
-                map.put("Cookie", "JSESSIONID=" + "CE46D6C7FD5F1D2AD08B2CD3F6D80CB1");
+                map.put("Cookie", "JSESSIONID=" + "46B2F076CF14BE7DC0177FE02C139D49");
                 return map;
             }
         };

@@ -2,15 +2,12 @@ package unicorn.com.xhsr.groupselect;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,12 +15,10 @@ import android.widget.TextView;
 import com.f2prateek.dart.InjectExtra;
 import com.github.ppamorim.dragger.DraggerActivity;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
-import com.zhy.android.percent.support.PercentLinearLayout;
 
 import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -32,6 +27,7 @@ import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
 import unicorn.com.xhsr.ActivityHelp;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.select.SelectObject;
+import unicorn.com.xhsr.select.SelectObjectWithPosition;
 
 
 public class GroupSelectActivity extends DraggerActivity {
@@ -49,7 +45,6 @@ public class GroupSelectActivity extends DraggerActivity {
     // =============================== data provider ===============================
 
     public static DataProvider dataProvider;
-
 
     public interface DataProvider {
 
@@ -69,8 +64,6 @@ public class GroupSelectActivity extends DraggerActivity {
 
     @InjectExtra("resultCode")
     Integer resultCode;
-
-    Integer maxLevel = 1;
 
 
     // =============================== onCreate & onDestroy ===============================
@@ -94,7 +87,6 @@ public class GroupSelectActivity extends DraggerActivity {
         initTitle();
         initSearchBox();
         initRvSearchResult();
-        initSelectResult();
         initRvMain();
         initRvSub();
     }
@@ -197,56 +189,22 @@ public class GroupSelectActivity extends DraggerActivity {
 
     // =============================== 选择结果部分 ===============================
 
-    List<TextView> tvValueList;
+    @Bind(R.id.selectResultMain)
+    TextView tvSelectResultMain;
 
-    int[] positionHandler;
+    @Bind(R.id.selectResultSub)
+    TextView tvSelectResultSub;
 
-    @Bind(R.id.selectResultContainer)
-    PercentLinearLayout selectResultContainer;
+    SelectObject selectObjectMain;
 
-    private void initSelectResult() {
-        tvValueList = new ArrayList<>();
-        positionHandler = new int[maxLevel + 1];
-        for (int i = 0; i <= maxLevel; i++) {
-            TextView textView = new TextView(this);
-            textView.setTextColor(ContextCompat.getColor(this, R.color.md_blue_grey_500));
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    valueOnClick(v);
-                }
-            });
-            selectResultContainer.addView(textView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            tvValueList.add(textView);
-        }
-    }
-
-    @SuppressWarnings("SuspiciousMethodCalls")
-    private void valueOnClick(View tvValue) {
-        int level = tvValueList.indexOf(tvValue);
-        if (level == maxLevel) {
-            return;
-        }
-        refreshRvMain(positionHandler[level]);
-    }
-
-    String objectId;
+    SelectObject selectObjectSub;
 
     @OnClick(R.id.confirm)
     public void confirm() {
-        SelectObject selectObject =new SelectObject();
-        selectObject.value = getSelectResult();
-        selectObject.objectId = objectId;
+        SelectObject selectObject = new SelectObject();
+        selectObject.value = selectObjectMain.value + " / " + selectObjectSub.value;
+        selectObject.objectId = selectObjectSub.objectId;
         finishAfterSetResult(selectObject);
-    }
-
-    private String getSelectResult() {
-        String result = "";
-        for (TextView tvValue : tvValueList) {
-            result += tvValue.getText().toString();
-        }
-        return result;
     }
 
 
@@ -262,9 +220,6 @@ public class GroupSelectActivity extends DraggerActivity {
         mainAdapter = new MainAdapter();
         rvMain.setAdapter(new SlideInLeftAnimationAdapter(mainAdapter));
         rvMain.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
-
-        // 初始化主列表
-        mainAdapter.level = 0;
         mainAdapter.setDataList(dataProvider.getMainDataList());
         mainAdapter.selectItem(0);
     }
@@ -279,58 +234,29 @@ public class GroupSelectActivity extends DraggerActivity {
 
     private void initRvSub() {
         rvSub.setLayoutManager(new LinearLayoutManager(this));
-        subAdapter = new SubAdapter(maxLevel);
+        subAdapter = new SubAdapter();
         rvSub.setAdapter(subAdapter);
         rvSub.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
     }
 
 
-    // =============================== 一大堆 ===============================
-
+    // =============================== onSelect ===============================
 
     @Subscriber(tag = "onMainSelect")
-    private void onRvMainSelect(GroupSelectObject groupSelectObject) {
-        refreshSelectResult(groupSelectObject);
-        refreshRvSub(groupSelectObject);
-    }
-
-    @Subscriber(tag = "onSubSelect")
-    private void onRvSubSelect(GroupSelectObject groupSelectObject) {
-        refreshSelectResult(groupSelectObject);
-        objectId = groupSelectObject.selectObjectWithPosition.objectId;
-    }
-
-    private void refreshSelectResult(GroupSelectObject groupSelectObject) {
-        int level = groupSelectObject.level;
-        int position = groupSelectObject.selectObjectWithPosition.position;
-        String value = groupSelectObject.selectObjectWithPosition.value;
-        if (level != 0) {
-            value = "  /  " + value;
-        }
-        tvValueList.get(level).setText(value);
-        positionHandler[level] = position;
-    }
-
-    private void refreshRvMain(int positionSelected) {
-        mainAdapter.setDataList(dataProvider.getMainDataList());
-        mainAdapter.selectItem(positionSelected);
-        rvMain.smoothScrollToPosition(positionSelected);
-    }
-
-    private void refreshRvSub(GroupSelectObject groupSelectObject) {
-        int mainLevel = groupSelectObject.level;
-        clearSelectResult(mainLevel);
-        subAdapter.level = mainLevel + 1;
+    private void onRvMainSelect(SelectObjectWithPosition selectObjectWithPosition) {
+        selectObjectMain = selectObjectWithPosition;
+        tvSelectResultMain.setText(selectObjectWithPosition.value);
+        tvSelectResultSub.setText("");
         subAdapter.positionSelected = -1;
-        subAdapter.setDataList(dataProvider.getSubDataList(groupSelectObject.selectObjectWithPosition));
+        subAdapter.setDataList(dataProvider.getSubDataList(selectObjectWithPosition));
         subAdapter.notifyDataSetChanged();
         rvSub.smoothScrollToPosition(0);
     }
 
-    private void clearSelectResult(int level) {
-        for (int i = level + 1; i <= maxLevel; i++) {
-            tvValueList.get(i).setText("");
-        }
+    @Subscriber(tag = "onSubSelect")
+    private void onRvSubSelect(SelectObjectWithPosition selectObjectWithPosition) {
+        tvSelectResultSub.setText(selectObjectWithPosition.value);
+        selectObjectSub = selectObjectWithPosition;
     }
 
 

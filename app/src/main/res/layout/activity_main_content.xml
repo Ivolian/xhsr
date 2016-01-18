@@ -143,7 +143,7 @@
                 app:iiv_color="@color/md_white"
                 app:iiv_icon="faw-qrcode"
                 app:layout_heightPercent="3.5%sh"
-                app:layout_marginLeftPercent="3%sw"
+                app:layout_marginLeftPercent="4%sw"
                 app:layout_widthPercent="3.5%sh" />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
