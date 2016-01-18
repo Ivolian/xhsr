@@ -195,9 +195,9 @@ public class GroupSelectActivity extends DraggerActivity {
     @Bind(R.id.selectResultSub)
     TextView tvSelectResultSub;
 
-    SelectObject selectObjectMain;
+    SelectObjectWithPosition selectObjectMain;
 
-    SelectObject selectObjectSub;
+    SelectObjectWithPosition selectObjectSub;
 
     @OnClick(R.id.confirm)
     public void confirm() {
