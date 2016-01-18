@@ -3,77 +3,93 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/md_white"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
+    <!-- 下半部分 -->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycleView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_marginTopPercent="34%sh" />
+        app:layout_marginTopPercent="37%sh" />
 
-    <!--窗帘部分 35%-->
+    <!-- 上半部分 38%-->
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:orientation="vertical"
-        app:layout_heightPercent="35%sh">
+        app:layout_heightPercent="38%sh">
 
-        <!-- 标题 10% -->
+        <!-- 天气 12% -->
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            app:layout_heightPercent="10%sh">
+            app:layout_heightPercent="12%sh"
+            app:layout_marginLeftPercent="4%sw"
+            app:layout_marginRightPercent="4%sw"
+            app:layout_marginTopPercent="2%sh">
 
-            <com.zhy.android.percent.support.PercentFrameLayout
-                android:id="@+id/setting"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                app:layout_heightPercent="10%sh"
-                app:layout_widthPercent="10%sh">
-
-                <com.mikepenz.iconics.view.IconicsImageView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center"
-                    app:iiv_color="@android:color/white"
-                    app:iiv_icon="ion-navicon"
-                    app:layout_heightPercent="3.4%sh"
-                    app:layout_widthPercent="3.4%sh" />
-
-            </com.zhy.android.percent.support.PercentFrameLayout>
-
-            <TextView
-                android:layout_width="0dp"
+            <com.devspark.robototextview.widget.RobotoTextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="协和综服"
+                android:text="3&#176;"
                 android:textColor="@color/md_white"
-                app:layout_textSizePercent="3.6%sh" />
+                app:fontFamily="roboto"
+                app:layout_textSizePercent="8%sh"
+                app:textWeight="thin" />
 
-            <com.zhy.android.percent.support.PercentFrameLayout
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                app:layout_marginLeftPercent="4%sw">
+
+                <com.zhy.android.percent.support.PercentLinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <su.levenetc.android.badgeview.BadgeView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:badgeBackgroundColor="@color/md_blue_a100"
+                        app:badgePadding="3dp"
+                        app:badgeText="185"
+                        app:badgeTextSize="12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="轻度污染"
+                        android:textColor="@color/md_white"
+                        app:layout_marginLeftPercent="2%sw"
+                        app:layout_textSizePercent="2.8%sh" />
+
+                </com.zhy.android.percent.support.PercentLinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="徐汇区  多云"
+                    android:textColor="@color/md_white"
+                    app:layout_textSizePercent="2.8%sh" />
+
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
+            <com.mikepenz.iconics.view.IconicsImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                app:layout_heightPercent="10%sh"
-                app:layout_widthPercent="10%sh">
-
-                <com.mikepenz.iconics.view.IconicsImageView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center"
-                    app:iiv_color="@android:color/white"
-                    app:iiv_icon="ion-chatbubble-working"
-                    app:layout_heightPercent="3.4%sh"
-                    app:layout_widthPercent="3.4%sh" />
-
-            </com.zhy.android.percent.support.PercentFrameLayout>
+                app:iiv_color="@color/md_grey_50"
+                app:iiv_icon="wic-day-sunny-overcast"
+                app:layout_heightPercent="8%sh"
+                app:layout_widthPercent="8%sh" />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 
@@ -81,52 +97,74 @@
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/md_white"
+            android:background="#79ffffff"
             android:gravity="center_vertical"
             app:layout_heightPercent="8%sh"
-            app:layout_marginLeftPercent="3%sh"
-            app:layout_marginRightPercent="3%sh"
-            app:layout_paddingPercent="2%sh">
+            app:layout_marginLeftPercent="4%sw"
+            app:layout_marginRightPercent="4%sw"
+            app:layout_paddingPercent="3%sw">
+
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:iiv_color="@color/md_white"
+                app:iiv_icon="ion-ios-search-strong"
+                app:layout_heightPercent="3.5%sh"
+                app:layout_widthPercent="3.5%sh" />
 
             <EditText
                 android:id="@+id/equipmentCode"
-                android:textCursorDrawable="@drawable/color_cursor"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@null"
                 android:hint="输入或扫描设备码"
-                android:textColor="@color/md_black"
-                android:textColorHint="@color/md_blue_grey_200"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/md_white"
+                android:textColorHint="@color/md_white"
+                android:textCursorDrawable="@drawable/color_cursor"
+                app:layout_marginLeftPercent="3%sw"
                 app:layout_textSizePercent="3%sh" />
+
+            <com.mikepenz.iconics.view.IconicsImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:iiv_color="@color/md_white"
+                app:iiv_icon="ion-android-microphone"
+                app:layout_heightPercent="3.5%sh"
+                app:layout_marginLeftPercent="3%sw"
+                app:layout_widthPercent="3.5%sh" />
 
             <com.mikepenz.iconics.view.IconicsImageView
                 android:id="@+id/scan"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:iiv_color="?attr/colorPrimary"
+                app:iiv_color="@color/md_white"
                 app:iiv_icon="faw-qrcode"
-                app:layout_heightPercent="4%sh"
-                app:layout_marginLeftPercent="2%sh"
-                app:layout_widthPercent="4%sh" />
+                app:layout_heightPercent="3.5%sh"
+                app:layout_marginLeftPercent="3%sw"
+                app:layout_widthPercent="3.5%sh" />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 
-        <!-- 维修 17% -->
+        <!-- 维修 16% -->
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            app:layout_heightPercent="17%sh">
+            app:layout_heightPercent="16%sh">
 
             <com.zhy.android.percent.support.PercentLinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_heightPercent="12%sh"
+                app:layout_marginPercent="2%sh">
 
                 <com.mikepenz.iconics.view.IconicsImageView
                     android:layout_width="0dp"
@@ -148,12 +186,14 @@
 
             <com.zhy.android.percent.support.PercentLinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_heightPercent="12%sh"
+                app:layout_marginPercent="2%sh">
 
                 <com.mikepenz.iconics.view.IconicsImageView
                     android:layout_width="0dp"
@@ -175,12 +215,14 @@
 
             <com.zhy.android.percent.support.PercentLinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_heightPercent="12%sh"
+                app:layout_marginPercent="2%sh">
 
                 <com.mikepenz.iconics.view.IconicsImageView
                     android:layout_width="0dp"

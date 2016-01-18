@@ -18,6 +18,7 @@ import com.yo.libs.app.DimensCodeTools;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import su.levenetc.android.badgeview.BadgeView;
 import unicorn.com.xhsr.draglayout.view.DragLayout;
 import unicorn.com.xhsr.other.DividerGridItemDecoration;
 
@@ -109,18 +110,12 @@ public class MainActivity extends AppCompatActivity {
     private TextDrawable getCircleDrawable(@ColorRes int colorRes) {
         int color = ContextCompat.getColor(this, colorRes);
         return TextDrawable.builder().buildRound("", color);
+
     }
 
 
     // =============================== onClick ===============================
 
-
-    @OnClick(R.id.setting)
-    public void onSettingClick() {
-
-
-        dragLayout.open(true);
-    }
 
     public static int  SCAN_RESULT_CODE = 1001;
 
