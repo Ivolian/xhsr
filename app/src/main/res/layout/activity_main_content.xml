@@ -59,7 +59,7 @@
                     <su.levenetc.android.badgeview.BadgeView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:badgeBackgroundColor="@color/colorAccent"
+                        app:badgeBackgroundColor="@color/md_blue_a100"
                         app:badgePadding="3dp"
                         app:badgeText="185"
                         app:badgeTextSize="12dp" />

@@ -111,6 +111,7 @@
 
             <!-- 选择结果 8%-->
             <HorizontalScrollView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:scrollbars="none"
@@ -142,10 +143,10 @@
 
             </HorizontalScrollView>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/md_grey_300" />
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0.5dp"-->
+                <!--android:background="@color/md_grey_300" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"

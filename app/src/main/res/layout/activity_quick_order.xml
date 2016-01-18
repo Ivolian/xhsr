@@ -5,341 +5,348 @@
     android:layout_height="match_parent"
     android:background="@color/md_white">
 
-    <ScrollView
+    <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        app:theme="@style/AppTheme2">
 
+        <!-- 标题栏 10% -->
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="vertical"
-            app:theme="@style/AppTheme2">
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
+            app:layout_heightPercent="10%sh">
 
-            <!-- 标题栏 10% -->
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/cancel"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:gravity="center_vertical"
-                app:layout_heightPercent="10%sh">
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="?attr/colorPrimary"
+                app:layout_heightPercent="10%sh"
+                app:layout_textSizePercent="2.6%sh"
+                app:layout_widthPercent="10%sh" />
 
-                <TextView
-                    android:id="@+id/cancel"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:gravity="center"
-                    android:text="取消"
-                    android:textColor="?attr/colorPrimary"
-                    app:layout_heightPercent="10%sh"
-                    app:layout_textSizePercent="2.6%sh"
-                    app:layout_widthPercent="10%sh" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="快速下单"
-                    android:textColor="@color/md_black"
-                    app:layout_textSizePercent="3.2%sh" />
-
-                <TextView
-                    android:id="@+id/confirm"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:gravity="center"
-                    android:text="确认"
-                    android:textColor="?attr/colorPrimary"
-                    app:layout_heightPercent="10%sh"
-                    app:layout_textSizePercent="2.6%sh"
-                    app:layout_widthPercent="10%sh" />
-
-            </com.zhy.android.percent.support.PercentLinearLayout>
-
-            <!-- 朴实的分割线 -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/md_grey_200" />
-
-            <!-- 选择维修设备 15% -->
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/equipment"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                app:layout_heightPercent="15%sh"
-                app:layout_paddingLeftPercent="5%sw"
-                app:layout_paddingRightPercent="5%sw">
-
-                <ImageView
-                    android:id="@+id/tdEquipment"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_heightPercent="6%sh"
-                    app:layout_marginRightPercent="3%sw"
-                    app:layout_widthPercent="6%sh" />
-
-                <TextView
-                    android:id="@+id/tvEquipment"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="请选择需要维修的设备"
-                    android:textColor="@color/md_black"
-                    android:textColorHint="@color/md_grey_400"
-                    app:layout_textSizePercent="3%sh" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_arrow_right" />
-
-            </com.zhy.android.percent.support.PercentLinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@color/md_grey_200"
-                app:layout_heightPercent="3%sh" />
-
-            <!-- 设备故障 8% -->
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/breakdown"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                app:layout_heightPercent="8%sh"
-                app:layout_paddingLeftPercent="5%sw"
-                app:layout_paddingRightPercent="5%sw">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="设备故障"
-                    android:textColorHint="@color/md_grey_500"
-                    app:layout_textSizePercent="3%sh" />
-
-                <TextView
-                    android:id="@+id/tvBreakdown"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/md_black"
-                    app:layout_textSizePercent="3%sh" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_arrow_right"
-                    app:layout_marginLeftPercent="3%sh" />
-
-            </com.zhy.android.percent.support.PercentLinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/md_grey_200" />
-
-            <!-- 维修地址 8% -->
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/address"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                app:layout_heightPercent="8%sh"
-                app:layout_paddingLeftPercent="5%sw"
-                app:layout_paddingRightPercent="5%sw">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="维修地址"
-                    android:textColor="@color/md_grey_500"
-                    app:layout_textSizePercent="3%sh" />
-
-                <TextView
-                    android:id="@+id/tvAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/md_black"
-                    app:layout_textSizePercent="3%sh" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_marginLeftPercent="3%sh"
-                    android:src="@drawable/ic_arrow_right" />
-
-            </com.zhy.android.percent.support.PercentLinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/md_grey_200" />
-
-            <!-- 报修人员 8% -->
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                app:layout_heightPercent="8%sh"
-                app:layout_paddingLeftPercent="5%sw"
-                app:layout_paddingRightPercent="5%sw">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="报修人员"
-                    android:textColor="@color/md_grey_500"
-                    app:layout_textSizePercent="3%sh" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_arrow_right" />
-
-            </com.zhy.android.percent.support.PercentLinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@color/md_grey_200"
-                app:layout_heightPercent="3%sh" />
-
-            <!-- 处理方式 8% -->
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/processMode"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                app:layout_heightPercent="8%sh"
-                app:layout_paddingLeftPercent="5%sw"
-                app:layout_paddingRightPercent="5%sw">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="处理方式"
-                    android:textColorHint="@color/md_grey_500"
-                    app:layout_textSizePercent="3%sh" />
-
-                <TextView
-                    android:id="@+id/tvProcessMode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/md_black"
-                    app:layout_textSizePercent="3%sh" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_arrow_right"
-                    app:layout_marginLeftPercent="3%sh" />
-
-            </com.zhy.android.percent.support.PercentLinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/md_grey_200" />
-
-            <!-- 补充说明 8% -->
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                app:layout_heightPercent="8%sh"
-                app:layout_paddingLeftPercent="5%sw"
-                app:layout_paddingRightPercent="5%sw">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="补充说明"
-                    android:textColor="@color/md_grey_500"
-                    app:layout_textSizePercent="3%sh" />
-
-                <ImageView
-                    android:id="@+id/descriptionArrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_arrow_right" />
-
-            </com.zhy.android.percent.support.PercentLinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/md_grey_200" />
-
-            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
-                android:id="@+id/elDescription"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:ael_duration="300"
-                app:ael_expanded="false"
-                app:ael_orientation="vertical">
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="快速下单"
+                android:textColor="@color/md_black"
+                app:layout_textSizePercent="3.2%sh" />
 
-                <com.zhy.android.percent.support.PercentLinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <EditText
-                        android:id="@+id/etDescription"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:background="@null"
-                        android:gravity="left|top"
-                        android:hint="请填写补充说明"
-                        android:textColor="@color/md_black"
-                        android:textColorHint="@color/md_grey_400"
-                        android:textCursorDrawable="@drawable/color_cursor"
-                        app:layout_heightPercent="24%sh"
-                        app:layout_paddingBottomPercent="3%sw"
-                        app:layout_paddingLeftPercent="5%sw"
-                        app:layout_paddingRightPercent="5%sw"
-                        app:layout_paddingTopPercent="3%sw"
-                        app:layout_textSizePercent="2.8%sh" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/md_grey_200" />
-
-                </com.zhy.android.percent.support.PercentLinearLayout>
-
-            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@color/md_grey_200" />
+            <TextView
+                android:id="@+id/confirm"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:gravity="center"
+                android:text="确认"
+                android:textColor="?attr/colorPrimary"
+                app:layout_heightPercent="10%sh"
+                app:layout_textSizePercent="2.6%sh"
+                app:layout_widthPercent="10%sh" />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 
-    </ScrollView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/md_grey_200" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical"
+
+                >
+                <!-- 选择维修设备 15% -->
+                <com.zhy.android.percent.support.PercentLinearLayout
+                    android:id="@+id/equipment"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_heightPercent="15%sh"
+                    app:layout_paddingLeftPercent="5%sw"
+                    app:layout_paddingRightPercent="5%sw">
+
+                    <ImageView
+                        android:id="@+id/tdEquipment"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_heightPercent="6%sh"
+                        app:layout_marginRightPercent="3%sw"
+                        app:layout_widthPercent="6%sh" />
+
+                    <TextView
+                        android:id="@+id/tvEquipment"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="请选择需要维修的设备"
+                        android:textColor="@color/md_black"
+                        android:textColorHint="@color/md_grey_400"
+                        app:layout_textSizePercent="3%sh" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow_right" />
+
+                </com.zhy.android.percent.support.PercentLinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/md_grey_200"
+                    app:layout_heightPercent="3%sh" />
+
+                <!-- 设备故障 8% -->
+                <com.zhy.android.percent.support.PercentLinearLayout
+                    android:id="@+id/breakdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_heightPercent="8%sh"
+                    app:layout_paddingLeftPercent="5%sw"
+                    app:layout_paddingRightPercent="5%sw">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="设备故障"
+                        android:textColorHint="@color/md_grey_500"
+                        app:layout_textSizePercent="3%sh" />
+
+                    <TextView
+                        android:id="@+id/tvBreakdown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/md_black"
+                        app:layout_textSizePercent="3%sh" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow_right"
+                        app:layout_marginLeftPercent="3%sh" />
+
+                </com.zhy.android.percent.support.PercentLinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/md_grey_200" />
+
+                <!-- 维修地址 8% -->
+                <com.zhy.android.percent.support.PercentLinearLayout
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_heightPercent="8%sh"
+                    app:layout_paddingLeftPercent="5%sw"
+                    app:layout_paddingRightPercent="5%sw">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="维修地址"
+                        android:textColor="@color/md_grey_500"
+                        app:layout_textSizePercent="3%sh" />
+
+                    <TextView
+                        android:id="@+id/tvAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/md_black"
+                        app:layout_textSizePercent="3%sh" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow_right"
+                        app:layout_marginLeftPercent="3%sh" />
+
+                </com.zhy.android.percent.support.PercentLinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/md_grey_200" />
+
+                <!-- 报修人员 8% -->
+                <com.zhy.android.percent.support.PercentLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_heightPercent="8%sh"
+                    app:layout_paddingLeftPercent="5%sw"
+                    app:layout_paddingRightPercent="5%sw">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="报修人员"
+                        android:textColor="@color/md_grey_500"
+                        app:layout_textSizePercent="3%sh" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow_right" />
+
+                </com.zhy.android.percent.support.PercentLinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/md_grey_200"
+                    app:layout_heightPercent="3%sh" />
+
+                <!-- 处理方式 8% -->
+                <com.zhy.android.percent.support.PercentLinearLayout
+                    android:id="@+id/processMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_heightPercent="8%sh"
+                    app:layout_paddingLeftPercent="5%sw"
+                    app:layout_paddingRightPercent="5%sw">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="处理方式"
+                        android:textColorHint="@color/md_grey_500"
+                        app:layout_textSizePercent="3%sh" />
+
+                    <TextView
+                        android:id="@+id/tvProcessMode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/md_black"
+                        app:layout_textSizePercent="3%sh" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow_right"
+                        app:layout_marginLeftPercent="3%sh" />
+
+                </com.zhy.android.percent.support.PercentLinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/md_grey_200" />
+
+                <!-- 补充说明 8% -->
+                <com.zhy.android.percent.support.PercentLinearLayout
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_heightPercent="8%sh"
+                    app:layout_paddingLeftPercent="5%sw"
+                    app:layout_paddingRightPercent="5%sw">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="补充说明"
+                        android:textColor="@color/md_grey_500"
+                        app:layout_textSizePercent="3%sh" />
+
+                    <ImageView
+                        android:id="@+id/descriptionArrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow_right" />
+
+                </com.zhy.android.percent.support.PercentLinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/md_grey_200" />
+
+                <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                    android:id="@+id/elDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:ael_duration="300"
+                    app:ael_expanded="false"
+                    app:ael_orientation="vertical">
+
+                    <com.zhy.android.percent.support.PercentLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/etDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:background="@null"
+                            android:gravity="left|top"
+                            android:hint="请填写补充说明"
+                            android:textColor="@color/md_black"
+                            android:textColorHint="@color/md_grey_400"
+                            android:textCursorDrawable="@drawable/color_cursor"
+                            app:layout_heightPercent="24%sh"
+                            app:layout_paddingBottomPercent="3%sw"
+                            app:layout_paddingLeftPercent="5%sw"
+                            app:layout_paddingRightPercent="5%sw"
+                            app:layout_paddingTopPercent="3%sw"
+                            app:layout_textSizePercent="2.8%sh" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="@color/md_grey_200" />
+
+                    </com.zhy.android.percent.support.PercentLinearLayout>
+
+                </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@color/md_grey_200" />
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
+        </ScrollView>
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
 
 </com.flipboard.bottomsheet.BottomSheetLayout>
