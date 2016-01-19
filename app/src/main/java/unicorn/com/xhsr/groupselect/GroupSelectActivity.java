@@ -32,6 +32,7 @@ import unicorn.com.xhsr.select.SelectObjectWithPosition;
 
 public class GroupSelectActivity extends DraggerActivity {
 
+
     /*
         GroupSelect 分为 5 块部分
         1. 查询框
@@ -120,14 +121,13 @@ public class GroupSelectActivity extends DraggerActivity {
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                boolean empty = TextUtils.isEmpty(s);
-                if (empty) {
+            public void onTextChanged(CharSequence input, int start, int before, int count) {
+                if (TextUtils.isEmpty(input)) {
                     ivClear.setVisibility(View.INVISIBLE);
                     rvSearchResult.setVisibility(View.INVISIBLE);
                 } else {
                     ivClear.setVisibility(View.VISIBLE);
-                    List<SelectObject> dataList = dataProvider.getSearchResultDataList(s.toString());
+                    List<SelectObject> dataList = dataProvider.getSearchResultDataList(input.toString());
                     if (dataList.isEmpty()) {
                         rvSearchResult.setVisibility(View.INVISIBLE);
                     } else {

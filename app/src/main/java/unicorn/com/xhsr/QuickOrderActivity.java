@@ -129,7 +129,7 @@ public class QuickOrderActivity extends DraggerActivity {
     SelectObject selectObjectEquipment;
 
     private void initEquipment() {
-        int colorPrimary = ContextCompat.getColor(this, R.color.colorAccent);
+        int colorPrimary = ContextCompat.getColor(this, R.color.colorPrimary);
         TextDrawable textDrawable = TextDrawable.builder().buildRound("修", colorPrimary);
         tdEquipment.setImageDrawable(textDrawable);
     }
