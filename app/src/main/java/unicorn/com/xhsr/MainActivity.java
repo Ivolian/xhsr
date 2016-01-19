@@ -10,6 +10,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         initViews();
     }
 
+    @Bind(R.id.waitRepair)
+    TextView tvWaitRepair;
+
     private void initViews() {
         initDragLayout();
         initRecyclerView();
@@ -45,7 +49,10 @@ public class MainActivity extends AppCompatActivity {
         basicDataGotter.getEquipment();
         basicDataGotter.getBuildingAndFloor();
         basicDataGotter.getDepartment();
-    }
+
+
+        }
+
 
     // =============================== drag layout ===============================
 
@@ -101,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 lastClickTime = SystemClock.elapsedRealtime();
                 Intent intent = new Intent(MainActivity.this, QuickOrderActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,2333);
 
             }
         });
@@ -133,6 +140,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         String res = DimensCodeTools.scanForResult(requestCode, resultCode, data);
+       if (res!=null)
             etEquipmentCode.setText(res);
+
+        tvWaitRepair.setText(DataHelp.wait_repair?"待维修(1)":"待维修");
     }
 }

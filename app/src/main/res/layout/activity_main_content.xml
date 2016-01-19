@@ -77,7 +77,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="曹杨区  多云"
+                    android:text="朝阳区  多云"
                     android:textColor="@color/md_white"
                     app:layout_textSizePercent="2.8%sh" />
 
@@ -175,6 +175,7 @@
                     app:layout_widthPercent="4%sh" />
 
                 <TextView
+                    android:id="@+id/waitRepair"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="待维修"

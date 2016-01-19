@@ -244,4 +244,7 @@ public class DataHelp {
         };
     }
 
+
+    public static boolean wait_repair = false;
+
 }

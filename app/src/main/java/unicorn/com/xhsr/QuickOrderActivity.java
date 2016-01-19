@@ -40,7 +40,6 @@ import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
 import unicorn.com.xhsr.select.SelectAdapter;
 import unicorn.com.xhsr.select.SelectObject;
-import unicorn.com.xhsr.select.SelectObjectWithPosition;
 import unicorn.com.xhsr.speech.JsonParser;
 import unicorn.com.xhsr.utils.ToastUtils;
 
@@ -357,6 +356,14 @@ public class QuickOrderActivity extends DraggerActivity {
 
     @OnClick(R.id.cancel)
     public void cancel() {
+        closeActivity();
+    }
+
+
+
+    @OnClick(R.id.confirm)
+    public void confirm() {
+        DataHelp.wait_repair = true;
         closeActivity();
     }
 
