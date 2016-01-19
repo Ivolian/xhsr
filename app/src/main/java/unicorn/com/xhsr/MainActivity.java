@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         initViews();
     }
 
-    @Bind(R.id.waitRepair)
+    @Bind(R.id.tvWaitRepair)
     TextView tvWaitRepair;
 
     private void initViews() {
@@ -144,5 +144,11 @@ public class MainActivity extends AppCompatActivity {
             etEquipmentCode.setText(res);
 
         tvWaitRepair.setText(DataHelp.wait_repair?"待维修(1)":"待维修");
+    }
+
+    @OnClick(R.id.waitRepair)
+    public void waitRepairOnClick(){
+        Intent intent =new Intent(this,WaitRepairActivity.class);
+        startActivity(intent);
     }
 }

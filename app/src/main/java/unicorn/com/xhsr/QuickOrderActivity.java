@@ -3,6 +3,7 @@ package unicorn.com.xhsr;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,6 +57,17 @@ public class QuickOrderActivity extends DraggerActivity {
         setContentView(R.layout.activity_quick_order);
         ActivityHelp.initActivity(this);
         initViews();
+
+        findViewById(R.id.quickOrder).setBackground(getCircleDrawable(R.color.md_light_blue_200));
+        findViewById(R.id.test2).setBackground(getCircleDrawable(R.color.md_orange_200));
+        findViewById(R.id.test3).setBackground(getCircleDrawable(R.color.md_red_200));
+
+    }
+
+    private TextDrawable getCircleDrawable(@ColorRes int colorRes) {
+        int color = ContextCompat.getColor(this, colorRes);
+        return TextDrawable.builder().buildRoundRect("", color,30);
+
     }
 
     @Override

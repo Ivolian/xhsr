@@ -63,6 +63,10 @@
         <activity
             android:name=".RepairPersonActivity"
             android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".WaitRepairActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ProcessModeActivity"
             android:screenOrientation="portrait"

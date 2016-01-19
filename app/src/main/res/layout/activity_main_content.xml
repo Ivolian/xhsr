@@ -156,6 +156,8 @@
             app:layout_heightPercent="16%sh">
 
             <com.zhy.android.percent.support.PercentLinearLayout
+                android:id="@+id/waitRepair"
+
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -175,7 +177,7 @@
                     app:layout_widthPercent="4%sh" />
 
                 <TextView
-                    android:id="@+id/waitRepair"
+                    android:id="@+id/tvWaitRepair"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="待维修"
