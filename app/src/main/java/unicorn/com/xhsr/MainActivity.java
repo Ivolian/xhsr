@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
         BasicDataGotter basicDataGotter = new BasicDataGotter();
         basicDataGotter.getProcessMode();
+        basicDataGotter.getProcessTimeLimit();
+        basicDataGotter.getEmergencyDegree();
         basicDataGotter.getEquipment();
         basicDataGotter.getBuildingAndFloor();
         basicDataGotter.getDepartment();

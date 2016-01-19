@@ -16,11 +16,15 @@ import java.util.Map;
 import unicorn.com.xhsr.greendao.Building;
 import unicorn.com.xhsr.greendao.Department;
 import unicorn.com.xhsr.greendao.DepartmentCategory;
+import unicorn.com.xhsr.greendao.EmergencyDegree;
+import unicorn.com.xhsr.greendao.EmergencyDegreeDao;
 import unicorn.com.xhsr.greendao.Equipment;
 import unicorn.com.xhsr.greendao.EquipmentCategory;
 import unicorn.com.xhsr.greendao.Floor;
 import unicorn.com.xhsr.greendao.ProcessingMode;
 import unicorn.com.xhsr.greendao.ProcessingModeDao;
+import unicorn.com.xhsr.greendao.ProcessingTimeLimit;
+import unicorn.com.xhsr.greendao.ProcessingTimeLimitDao;
 import unicorn.com.xhsr.utils.ToastUtils;
 
 /**
@@ -73,6 +77,96 @@ public class BasicDataGotter {
         SimpleVolley.addRequest(jsonArrayRequest);
     }
 
+
+    public void getProcessTimeLimit() {
+        String url = "http://withub.net.cn/hems/api/v1/hems/workOrder/code/ProcessingTimeLimit";
+        StringRequest jsonArrayRequest = new StringRequest(url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String responses) {
+                        try {
+                            JSONArray response = new JSONArray(responses);
+                            List<ProcessingTimeLimit> processingTimeLimitList = new ArrayList<>();
+                            for (int i = 0; i != response.length(); i++) {
+                                JSONObject jsonObject = response.getJSONObject(i);
+                                ProcessingTimeLimit processingTimeLimit = new ProcessingTimeLimit();
+                                processingTimeLimit.setObjectId(jsonObject.getString("objectId"));
+                                processingTimeLimit.setName(jsonObject.getString("name"));
+                                processingTimeLimit.setOrderNo(i);
+                                processingTimeLimitList.add(processingTimeLimit);
+                            }
+
+                            ProcessingTimeLimitDao processingTimeLimitDao = SimpleApplication.getDaoSession().getProcessingTimeLimitDao();
+                            processingTimeLimitDao.deleteAll();
+                            processingTimeLimitDao.insertInTx(processingTimeLimitList);
+                        } catch (Exception e) {
+
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put("Cookie", "JSESSIONID=" +ConfigUtils.SESSION_ID);
+                return map;
+            }
+        };
+        SimpleVolley.addRequest(jsonArrayRequest);
+    }
+
+
+    public void getEmergencyDegree() {
+
+        String url = "http://withub.net.cn/hems/api/v1/hems/workOrder/code/EmergencyDegree";
+        StringRequest jsonArrayRequest = new StringRequest(url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String responses) {
+                        try {
+                            JSONArray response = new JSONArray(responses);
+                            List<EmergencyDegree> emergencyDegreeList = new ArrayList<>();
+                            for (int i = 0; i != response.length(); i++) {
+                                JSONObject jsonObject = response.getJSONObject(i);
+                                EmergencyDegree emergencyDegree = new EmergencyDegree();
+                                emergencyDegree.setObjectId(jsonObject.getString("objectId"));
+                                emergencyDegree.setName(jsonObject.getString("name"));
+                                emergencyDegree.setOrderNo(i);
+                                emergencyDegreeList.add(emergencyDegree);
+                            }
+
+                            EmergencyDegreeDao emergencyDegreeDao = SimpleApplication.getDaoSession().getEmergencyDegreeDao();
+                            emergencyDegreeDao.deleteAll();
+                            emergencyDegreeDao.insertInTx(emergencyDegreeList);
+                        } catch (Exception e) {
+
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put("Cookie", "JSESSIONID=" +ConfigUtils.SESSION_ID);
+                return map;
+            }
+        };
+        SimpleVolley.addRequest(jsonArrayRequest);
+    }
 
     public void getEquipment() {
 

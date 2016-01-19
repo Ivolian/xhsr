@@ -9,10 +9,8 @@
 //
 
 1. 选择设备初始化
-2. 报修人员页面
-3. 处理方式页面
-4. 语音
-5. dataProvider
+2. 语音
+3. Select DataProvider
 
 //
 

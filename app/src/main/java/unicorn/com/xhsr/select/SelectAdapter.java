@@ -18,7 +18,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.SimpleApplication;
+import unicorn.com.xhsr.greendao.EmergencyDegree;
 import unicorn.com.xhsr.greendao.ProcessingMode;
+import unicorn.com.xhsr.greendao.ProcessingTimeLimit;
 
 public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder> {
 
@@ -38,6 +40,25 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder
                 dataList.add(selectObject);
             }
         }
+        if (callbackTag.equals("onProcessTimeLimitSelect")) {
+            dataList = new ArrayList<>();
+            for (ProcessingTimeLimit processingTimeLimit : SimpleApplication.getDaoSession().getProcessingTimeLimitDao().loadAll()) {
+                SelectObject selectObject = new SelectObject();
+                selectObject.value = processingTimeLimit.getName();
+                selectObject.objectId = processingTimeLimit.getObjectId();
+                dataList.add(selectObject);
+            }
+        }
+        if (callbackTag.equals("onEmergencyDegreeSelect")) {
+            dataList = new ArrayList<>();
+            for (EmergencyDegree emergencyDegree : SimpleApplication.getDaoSession().getEmergencyDegreeDao().loadAll()) {
+                SelectObject selectObject = new SelectObject();
+                selectObject.value = emergencyDegree.getName();
+                selectObject.objectId = emergencyDegree.getObjectId();
+                dataList.add(selectObject);
+            }
+        }
+
         this.callbackTag = callbackTag;
         this.positionSelected = positionSelected;
     }

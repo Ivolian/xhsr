@@ -30,15 +30,12 @@ import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.simple.eventbus.EventBus;
-import org.simple.eventbus.Subscriber;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import unicorn.com.xhsr.greendao.ProcessingMode;
 import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
 import unicorn.com.xhsr.select.SelectAdapter;
@@ -73,7 +70,6 @@ public class QuickOrderActivity extends DraggerActivity {
     private void initViews() {
         initEquipment();
         initBottomSheet();
-        setProcessModeDefaultValue();
         mIat = SpeechRecognizer.createRecognizer(this, mInitListener);
 
     }
@@ -209,32 +205,16 @@ public class QuickOrderActivity extends DraggerActivity {
 
     // =============================== 处理方式 ===============================
 
-    @Bind(R.id.tvProcessMode)
-    TextView tvProcessMode;
 
-    SelectObjectWithPosition sopProcessMode;
+
 
     @OnClick(R.id.processMode)
     public void selectHandleMode() {
-        showSelectSheet("选择处理方式", "onProcessModeSelect", sopProcessMode == null ? -1 : sopProcessMode.position);
+        Intent intent = new Intent(this,ProcessModeActivity.class);
+        startActivity(intent);
     }
 
-    @Subscriber(tag = "onProcessModeSelect")
-    private void onHandleModeSelect(SelectObjectWithPosition selectObjectProcessMode) {
-        sopProcessMode = selectObjectProcessMode;
-        bottomSheet.dismissSheet();
-        tvProcessMode.setText(selectObjectProcessMode.value);
-    }
 
-    private void setProcessModeDefaultValue() {
-        List<ProcessingMode> processingModeList = SimpleApplication.getDaoSession().getProcessingModeDao().loadAll();
-        ProcessingMode processingMode = processingModeList.get(0);
-        tvProcessMode.setText(processingMode.getName());
-        sopProcessMode = new SelectObjectWithPosition();
-        sopProcessMode.value = processingMode.getName();
-        sopProcessMode.objectId = processingMode.getObjectId();
-        sopProcessMode.position = 0;
-    }
 
 
     // =============================== 补充说明 ===============================

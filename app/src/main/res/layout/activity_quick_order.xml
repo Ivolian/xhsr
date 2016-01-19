@@ -248,12 +248,7 @@
                         android:textColorHint="@color/md_grey_500"
                         app:layout_textSizePercent="3%sh" />
 
-                    <TextView
-                        android:id="@+id/tvProcessMode"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/md_black"
-                        app:layout_textSizePercent="3%sh" />
+
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -340,10 +335,7 @@
 
                 </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@color/md_grey_200" />
+
             </com.zhy.android.percent.support.PercentLinearLayout>
 
         </ScrollView>

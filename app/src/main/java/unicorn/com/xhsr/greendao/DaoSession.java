@@ -10,6 +10,8 @@ import de.greenrobot.dao.identityscope.IdentityScopeType;
 import de.greenrobot.dao.internal.DaoConfig;
 
 import unicorn.com.xhsr.greendao.ProcessingMode;
+import unicorn.com.xhsr.greendao.ProcessingTimeLimit;
+import unicorn.com.xhsr.greendao.EmergencyDegree;
 import unicorn.com.xhsr.greendao.EquipmentCategory;
 import unicorn.com.xhsr.greendao.Equipment;
 import unicorn.com.xhsr.greendao.Building;
@@ -18,6 +20,8 @@ import unicorn.com.xhsr.greendao.DepartmentCategory;
 import unicorn.com.xhsr.greendao.Department;
 
 import unicorn.com.xhsr.greendao.ProcessingModeDao;
+import unicorn.com.xhsr.greendao.ProcessingTimeLimitDao;
+import unicorn.com.xhsr.greendao.EmergencyDegreeDao;
 import unicorn.com.xhsr.greendao.EquipmentCategoryDao;
 import unicorn.com.xhsr.greendao.EquipmentDao;
 import unicorn.com.xhsr.greendao.BuildingDao;
@@ -35,6 +39,8 @@ import unicorn.com.xhsr.greendao.DepartmentDao;
 public class DaoSession extends AbstractDaoSession {
 
     private final DaoConfig processingModeDaoConfig;
+    private final DaoConfig processingTimeLimitDaoConfig;
+    private final DaoConfig emergencyDegreeDaoConfig;
     private final DaoConfig equipmentCategoryDaoConfig;
     private final DaoConfig equipmentDaoConfig;
     private final DaoConfig buildingDaoConfig;
@@ -43,6 +49,8 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig departmentDaoConfig;
 
     private final ProcessingModeDao processingModeDao;
+    private final ProcessingTimeLimitDao processingTimeLimitDao;
+    private final EmergencyDegreeDao emergencyDegreeDao;
     private final EquipmentCategoryDao equipmentCategoryDao;
     private final EquipmentDao equipmentDao;
     private final BuildingDao buildingDao;
@@ -56,6 +64,12 @@ public class DaoSession extends AbstractDaoSession {
 
         processingModeDaoConfig = daoConfigMap.get(ProcessingModeDao.class).clone();
         processingModeDaoConfig.initIdentityScope(type);
+
+        processingTimeLimitDaoConfig = daoConfigMap.get(ProcessingTimeLimitDao.class).clone();
+        processingTimeLimitDaoConfig.initIdentityScope(type);
+
+        emergencyDegreeDaoConfig = daoConfigMap.get(EmergencyDegreeDao.class).clone();
+        emergencyDegreeDaoConfig.initIdentityScope(type);
 
         equipmentCategoryDaoConfig = daoConfigMap.get(EquipmentCategoryDao.class).clone();
         equipmentCategoryDaoConfig.initIdentityScope(type);
@@ -76,6 +90,8 @@ public class DaoSession extends AbstractDaoSession {
         departmentDaoConfig.initIdentityScope(type);
 
         processingModeDao = new ProcessingModeDao(processingModeDaoConfig, this);
+        processingTimeLimitDao = new ProcessingTimeLimitDao(processingTimeLimitDaoConfig, this);
+        emergencyDegreeDao = new EmergencyDegreeDao(emergencyDegreeDaoConfig, this);
         equipmentCategoryDao = new EquipmentCategoryDao(equipmentCategoryDaoConfig, this);
         equipmentDao = new EquipmentDao(equipmentDaoConfig, this);
         buildingDao = new BuildingDao(buildingDaoConfig, this);
@@ -84,6 +100,8 @@ public class DaoSession extends AbstractDaoSession {
         departmentDao = new DepartmentDao(departmentDaoConfig, this);
 
         registerDao(ProcessingMode.class, processingModeDao);
+        registerDao(ProcessingTimeLimit.class, processingTimeLimitDao);
+        registerDao(EmergencyDegree.class, emergencyDegreeDao);
         registerDao(EquipmentCategory.class, equipmentCategoryDao);
         registerDao(Equipment.class, equipmentDao);
         registerDao(Building.class, buildingDao);
@@ -94,6 +112,8 @@ public class DaoSession extends AbstractDaoSession {
     
     public void clear() {
         processingModeDaoConfig.getIdentityScope().clear();
+        processingTimeLimitDaoConfig.getIdentityScope().clear();
+        emergencyDegreeDaoConfig.getIdentityScope().clear();
         equipmentCategoryDaoConfig.getIdentityScope().clear();
         equipmentDaoConfig.getIdentityScope().clear();
         buildingDaoConfig.getIdentityScope().clear();
@@ -104,6 +124,14 @@ public class DaoSession extends AbstractDaoSession {
 
     public ProcessingModeDao getProcessingModeDao() {
         return processingModeDao;
+    }
+
+    public ProcessingTimeLimitDao getProcessingTimeLimitDao() {
+        return processingTimeLimitDao;
+    }
+
+    public EmergencyDegreeDao getEmergencyDegreeDao() {
+        return emergencyDegreeDao;
     }
 
     public EquipmentCategoryDao getEquipmentCategoryDao() {
