@@ -51,7 +51,7 @@ public class GroupSelectActivity extends DraggerActivity {
 
         List<SelectObject> getMainDataList();
 
-        List<SelectObject> getSubDataList(SelectObject selectObject);
+        List<SelectObject> getSubDataList(String objectIdSelected);
 
         List<SelectObject> getSearchResultDataList(String query);
 
@@ -248,7 +248,7 @@ public class GroupSelectActivity extends DraggerActivity {
         tvSelectResultMain.setText(selectObjectWithPosition.value);
         tvSelectResultSub.setText("");
         subAdapter.positionSelected = -1;
-        subAdapter.setDataList(dataProvider.getSubDataList(selectObjectWithPosition));
+        subAdapter.setDataList(dataProvider.getSubDataList(selectObjectWithPosition.objectId));
         subAdapter.notifyDataSetChanged();
         rvSub.smoothScrollToPosition(0);
     }

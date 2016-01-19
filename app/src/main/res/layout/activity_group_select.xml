@@ -54,7 +54,7 @@
     <com.zhy.android.percent.support.PercentFrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/colorAccent"
+        android:background="@color/colorPrimary"
         app:layout_heightPercent="10%sh"
         app:layout_paddingBottomPercent="2%sw"
         app:layout_paddingLeftPercent="2%sw"
@@ -154,11 +154,11 @@
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.RecyclerView
-                    android:background="@color/md_grey_200"
                     android:id="@+id/rvMain"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2" />
+                    android:layout_weight="2"
+                    android:background="@color/md_grey_200" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvSub"

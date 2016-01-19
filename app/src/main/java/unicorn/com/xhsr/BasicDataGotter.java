@@ -45,7 +45,7 @@ public class BasicDataGotter {
                                 processingModeList.add(processingMode);
                             }
 
-                            ProcessingModeDao processingModeDao = SimpleApplication.getProcessingModeDao();
+                            ProcessingModeDao processingModeDao = SimpleApplication.getDaoSession().getProcessingModeDao();
                             processingModeDao.deleteAll();
                             processingModeDao.insertInTx(processingModeList);
                         } catch (Exception e) {
@@ -100,8 +100,8 @@ public class BasicDataGotter {
                             equipmentCategory.setOrderNo(-1);
                             equipmentCategoryList.add(equipmentCategory);
 
-                            SimpleApplication.getEquipmentCategoryDao().deleteAll();
-                            SimpleApplication.getEquipmentCategoryDao().insertInTx(equipmentCategoryList);
+                            SimpleApplication.getDaoSession().getEquipmentCategoryDao().deleteAll();
+                            SimpleApplication.getDaoSession().getEquipmentCategoryDao().insertInTx(equipmentCategoryList);
 
 
                             List<Equipment> equipmentList = new ArrayList<>();
@@ -119,8 +119,8 @@ public class BasicDataGotter {
                                     equipmentList.add(equipment);
                                 }
                             }
-                            SimpleApplication.getEquipmentDao().deleteAll();
-                            SimpleApplication.getEquipmentDao().insertInTx(equipmentList);
+                            SimpleApplication.getDaoSession().getEquipmentDao().deleteAll();
+                            SimpleApplication.getDaoSession().getEquipmentDao().insertInTx(equipmentList);
 
 
                         } catch (Exception e) {

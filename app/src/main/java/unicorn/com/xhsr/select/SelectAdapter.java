@@ -1,7 +1,6 @@
 package unicorn.com.xhsr.select;
 
 import android.content.Context;
-import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,11 +16,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import unicorn.com.xhsr.DataHelp;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.greendao.ProcessingMode;
-import unicorn.com.xhsr.greendao.ProcessingModeDao;
 
 public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder> {
 
@@ -34,7 +31,7 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder
     public SelectAdapter(String callbackTag, int positionSelected) {
         if (callbackTag.equals("onProcessModeSelect")) {
             dataList = new ArrayList<>();
-            for (ProcessingMode processingMode : DataHelp.getProcessModeList()) {
+            for (ProcessingMode processingMode : SimpleApplication.getDaoSession().getProcessingModeDao().loadAll()) {
                 SelectObject selectObject = new SelectObject();
                 selectObject.value = processingMode.getName();
                 selectObject.objectId = processingMode.getObjectId();

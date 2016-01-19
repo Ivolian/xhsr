@@ -7,9 +7,6 @@ import com.iflytek.cloud.SpeechUtility;
 
 import unicorn.com.xhsr.greendao.DaoMaster;
 import unicorn.com.xhsr.greendao.DaoSession;
-import unicorn.com.xhsr.greendao.EquipmentCategoryDao;
-import unicorn.com.xhsr.greendao.EquipmentDao;
-import unicorn.com.xhsr.greendao.ProcessingModeDao;
 
 
 public class SimpleApplication extends Application {
@@ -38,18 +35,6 @@ public class SimpleApplication extends Application {
         return daoSession;
     }
 
-    public static ProcessingModeDao getProcessingModeDao() {
-        return daoSession.getProcessingModeDao();
-    }
-
-    public static EquipmentCategoryDao getEquipmentCategoryDao() {
-        return daoSession.getEquipmentCategoryDao();
-    }
-
-
-    public static EquipmentDao getEquipmentDao() {
-        return daoSession.getEquipmentDao();
-    }
 
     private void initGreenDao() {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "xhsr-db", null);
