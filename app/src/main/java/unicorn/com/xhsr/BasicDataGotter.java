@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 import unicorn.com.xhsr.greendao.Building;
+import unicorn.com.xhsr.greendao.Department;
+import unicorn.com.xhsr.greendao.DepartmentCategory;
 import unicorn.com.xhsr.greendao.Equipment;
 import unicorn.com.xhsr.greendao.EquipmentCategory;
 import unicorn.com.xhsr.greendao.Floor;
@@ -64,7 +66,7 @@ public class BasicDataGotter {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
-                map.put("Cookie", "JSESSIONID=" + "46B2F076CF14BE7DC0177FE02C139D49");
+                map.put("Cookie", "JSESSIONID=" +ConfigUtils.SESSION_ID);
                 return map;
             }
         };
@@ -139,7 +141,7 @@ public class BasicDataGotter {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
-                map.put("Cookie", "JSESSIONID=" + "46B2F076CF14BE7DC0177FE02C139D49");
+                map.put("Cookie", "JSESSIONID=" + ConfigUtils.SESSION_ID);
                 return map;
             }
         };
@@ -207,11 +209,80 @@ public class BasicDataGotter {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
-                map.put("Cookie", "JSESSIONID=" + "46B2F076CF14BE7DC0177FE02C139D49");
+                map.put("Cookie", "JSESSIONID=" + ConfigUtils.SESSION_ID);
                 return map;
             }
         };
         SimpleVolley.addRequest(jsonArrayRequest);
     }
 
+
+    public void getDepartment() {
+
+        String url = "http://withub.net.cn/hems/api/v1/hems/department/tree?id=1&fetchChild=true";
+        StringRequest jsonArrayRequest = new StringRequest(url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String responses) {
+
+                        try {
+                            JSONArray response = new JSONArray(responses);
+
+
+                            List<DepartmentCategory> departmentCategoryList = new ArrayList<>();
+                            for (int i = 0; i != response.length(); i++) {
+                                JSONObject categoryJSONObject = response.getJSONObject(i);
+                                DepartmentCategory departmentCategory = new DepartmentCategory();
+                                departmentCategory.setObjectId(i + "");
+                                departmentCategory.setName(categoryJSONObject.getString("name"));
+                                departmentCategory.setOrderNo(i);
+                                departmentCategoryList.add(departmentCategory);
+                            }
+
+
+                            SimpleApplication.getDaoSession().getDepartmentCategoryDao().deleteAll();
+                            SimpleApplication.getDaoSession().getDepartmentCategoryDao().insertInTx(departmentCategoryList);
+
+
+                            List<Department> departmentList = new ArrayList<>();
+                            for (int i = 0; i != response.length(); i++) {
+                                JSONObject categoryJSONObject = response.getJSONObject(i);
+                                String categoryId = i + "";
+                                JSONArray items = categoryJSONObject.getJSONArray("items");
+                                for (int j = 0; j != items.length(); j++) {
+                                    JSONObject departmentJSONObject = items.getJSONObject(j);
+                                    Department department = new Department();
+                                    department.setObjectId(departmentJSONObject.getString("objectId"));
+                                    department.setName(departmentJSONObject.getString("name"));
+                                    department.setOrderNo(j);
+                                    department.setCategoryId(categoryId);
+                                    departmentList.add(department);
+                                }
+                            }
+                            SimpleApplication.getDaoSession().getDepartmentDao().deleteAll();
+                            SimpleApplication.getDaoSession().getDepartmentDao().insertInTx(departmentList);
+
+
+                        } catch (Exception e) {
+                            ToastUtils.show(e.getMessage());
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put("Cookie", "JSESSIONID=" + ConfigUtils.SESSION_ID);
+                return map;
+            }
+        };
+        SimpleVolley.addRequest(jsonArrayRequest);
+    }
 }

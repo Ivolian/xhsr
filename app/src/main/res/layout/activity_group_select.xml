@@ -88,7 +88,7 @@
                 android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:visibility="invisible"
-                app:iiv_color="@color/colorAccent"
+                app:iiv_color="@color/colorPrimary"
                 app:iiv_icon="gmi-close-circle"
                 app:layout_heightPercent="4%sh"
                 app:layout_marginLeftPercent="4%sw"

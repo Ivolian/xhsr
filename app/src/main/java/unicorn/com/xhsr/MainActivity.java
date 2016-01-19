@@ -18,7 +18,6 @@ import com.yo.libs.app.DimensCodeTools;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import su.levenetc.android.badgeview.BadgeView;
 import unicorn.com.xhsr.draglayout.view.DragLayout;
 import unicorn.com.xhsr.other.DividerGridItemDecoration;
 
@@ -43,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         basicDataGotter.getProcessMode();
         basicDataGotter.getEquipment();
         basicDataGotter.getBuildingAndFloor();
+        basicDataGotter.getDepartment();
     }
 
     // =============================== drag layout ===============================

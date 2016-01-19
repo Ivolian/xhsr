@@ -196,6 +196,7 @@
 
                 <!-- 报修人员 8% -->
                 <com.zhy.android.percent.support.PercentLinearLayout
+                    android:id="@+id/repairPerson"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="?attr/selectableItemBackground"

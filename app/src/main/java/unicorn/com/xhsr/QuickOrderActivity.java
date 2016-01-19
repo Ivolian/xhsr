@@ -32,17 +32,12 @@ import org.json.JSONObject;
 import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import unicorn.com.xhsr.greendao.Equipment;
-import unicorn.com.xhsr.greendao.EquipmentCategory;
-import unicorn.com.xhsr.greendao.EquipmentCategoryDao;
-import unicorn.com.xhsr.greendao.EquipmentDao;
 import unicorn.com.xhsr.greendao.ProcessingMode;
 import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
@@ -114,6 +109,12 @@ public class QuickOrderActivity extends DraggerActivity {
         mIat.setParameter(SpeechConstant.ASR_DWA, "0");
     }
 
+    @OnClick(R.id.repairPerson)
+    public void repairPersonOnClick() {
+        Intent intent = new Intent(this, RepairPersonActivity.class);
+        startActivity(intent);
+    }
+
 
     // =============================== 设备 ===============================
 
@@ -132,78 +133,7 @@ public class QuickOrderActivity extends DraggerActivity {
 
     @OnClick(R.id.equipment)
     public void equipmentOnClick() {
-        GroupSelectActivity.dataProvider = new GroupSelectActivity.DataProvider() {
-            @Override
-            public List<SelectObject> getMainDataList() {
-                EquipmentCategoryDao equipmentCategoryDao = SimpleApplication.getDaoSession().getEquipmentCategoryDao();
-                final List<EquipmentCategory> equipmentCategoryList = equipmentCategoryDao.queryBuilder()
-                        .orderAsc(EquipmentCategoryDao.Properties.OrderNo)
-                        .list();
-                List<SelectObject> dataList = new ArrayList<>();
-                for (EquipmentCategory equipmentCategory : equipmentCategoryList) {
-                    SelectObject selectObject = new SelectObject();
-                    selectObject.objectId = equipmentCategory.getObjectId();
-                    selectObject.value = equipmentCategory.getName();
-                    dataList.add(selectObject);
-                }
-                return dataList;
-            }
-
-            @Override
-            public List<SelectObject> getSubDataList(String objectId) {
-                EquipmentDao equipmentDao = SimpleApplication.getDaoSession().getEquipmentDao();
-                List<Equipment> equipmentList = equipmentDao.queryBuilder()
-                        .where(EquipmentDao.Properties.CategoryId.eq(objectId))
-                        .list();
-                final List<SelectObject> dataList = new ArrayList<>();
-                for (Equipment equipment : equipmentList) {
-                    SelectObject selectObject = new SelectObject();
-                    selectObject.objectId = equipment.getObjectId();
-                    selectObject.value = equipment.getName();
-                    dataList.add(selectObject);
-                }
-                return dataList;
-            }
-
-            @Override
-            public List<SelectObject> getSearchResultDataList(String query) {
-
-                List<SelectObject> resultList = new ArrayList<>();
-                List<String> objectIdList = new ArrayList<>();
-
-                // 过滤设备目录
-                EquipmentCategoryDao equipmentCategoryDao = SimpleApplication.getDaoSession().getEquipmentCategoryDao();
-                List<EquipmentCategory> equipmentCategoryList = equipmentCategoryDao.queryBuilder()
-                        .where(EquipmentCategoryDao.Properties.Name.like("%" + query + "%"))
-                        .orderAsc(EquipmentCategoryDao.Properties.OrderNo)
-                        .list();
-                for (EquipmentCategory equipmentCategory : equipmentCategoryList) {
-                    for (Equipment equipment : equipmentCategory.getEquipmentList()) {
-                        SelectObject selectObject = new SelectObject();
-                        selectObject.objectId = equipment.getObjectId();
-                        selectObject.value = equipmentCategory.getName() + " / " + equipment.getName();
-                        resultList.add(selectObject);
-                        objectIdList.add(equipment.getObjectId());
-                    }
-                }
-
-                // 过滤设备
-                EquipmentDao equipmentDao = SimpleApplication.getDaoSession().getEquipmentDao();
-                List<Equipment> equipmentList = equipmentDao.queryBuilder()
-                        .where(EquipmentDao.Properties.Name.like("%" + query + "%"))
-                        .orderAsc(EquipmentDao.Properties.OrderNo)
-                        .list();
-                for (Equipment equipment : equipmentList) {
-                    if (objectIdList.contains(equipment.getObjectId())) {
-                        SelectObject selectObject = new SelectObject();
-                        selectObject.objectId = equipment.getObjectId();
-                        selectObject.value = equipment.getName();
-                        resultList.add(selectObject);
-                    }
-                }
-                return resultList;
-            }
-        };
+        GroupSelectActivity.dataProvider = DataHelp.getEquipmentDataProvider();
         GroupSelectHelper.startGroupSelectActivity(this, "设备", 1, EQUIPMENT_RESULT_CODE);
     }
 
@@ -412,13 +342,13 @@ public class QuickOrderActivity extends DraggerActivity {
                 .start();
         elDescription.toggle();
 
-        setParam();
-        ret = mIat.startListening(mRecognizerListener);
-        if (ret != ErrorCode.SUCCESS) {
-            ToastUtils.show("听写失败,错误码：" + ret);
-        } else {
-            ToastUtils.show("请开始说话");
-        }
+//        setParam();
+//        ret = mIat.startListening(mRecognizerListener);
+//        if (ret != ErrorCode.SUCCESS) {
+//            ToastUtils.show("听写失败,错误码：" + ret);
+//        } else {
+//            ToastUtils.show("请开始说话");
+//        }
     }
 
 

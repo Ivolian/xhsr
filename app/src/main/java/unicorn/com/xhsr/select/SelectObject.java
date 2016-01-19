@@ -9,4 +9,14 @@ public class SelectObject implements Serializable {
 
     public String objectId;
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof SelectObject) {
+            SelectObject another = (SelectObject) o;
+            return this.objectId.equals(another.objectId);
+        }
+        return false;
+    }
+
 }
