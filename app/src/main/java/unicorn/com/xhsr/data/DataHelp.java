@@ -8,10 +8,6 @@ import java.util.List;
 import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.data.greendao.Building;
 import unicorn.com.xhsr.data.greendao.BuildingDao;
-import unicorn.com.xhsr.data.greendao.Department;
-import unicorn.com.xhsr.data.greendao.DepartmentCategory;
-import unicorn.com.xhsr.data.greendao.DepartmentCategoryDao;
-import unicorn.com.xhsr.data.greendao.DepartmentDao;
 import unicorn.com.xhsr.data.greendao.EmergencyDegree;
 import unicorn.com.xhsr.data.greendao.EmergencyDegreeDao;
 import unicorn.com.xhsr.data.greendao.Equipment;
@@ -186,70 +182,72 @@ public class DataHelp {
         return new GroupSelectActivity.DataProvider() {
             @Override
             public List<SelectObject> getMainDataList() {
-                DepartmentCategoryDao departmentCategoryDao = SimpleApplication.getDaoSession().getDepartmentCategoryDao();
-                final List<DepartmentCategory> departmentCategoryList = departmentCategoryDao.queryBuilder()
-                        .orderAsc(DepartmentCategoryDao.Properties.OrderNo)
-                        .list();
-                List<SelectObject> selectObjectList = new ArrayList<>();
-                for (DepartmentCategory departmentCategory : departmentCategoryList) {
-                    SelectObject selectObject = new SelectObject();
-                    selectObject.objectId = departmentCategory.getObjectId();
-                    selectObject.value = departmentCategory.getName();
-                    selectObjectList.add(selectObject);
-                }
-                return selectObjectList;
+//                DepartmentCategoryDao departmentCategoryDao = SimpleApplication.getDaoSession().getDepartmentCategoryDao();
+//                final List<DepartmentCategory> departmentCategoryList = departmentCategoryDao.queryBuilder()
+//                        .orderAsc(DepartmentCategoryDao.Properties.OrderNo)
+//                        .list();
+//                List<SelectObject> selectObjectList = new ArrayList<>();
+//                for (DepartmentCategory departmentCategory : departmentCategoryList) {
+//                    SelectObject selectObject = new SelectObject();
+//                    selectObject.objectId = departmentCategory.getObjectId();
+//                    selectObject.value = departmentCategory.getName();
+//                    selectObjectList.add(selectObject);
+//                }
+//                return selectObjectList;
+                return null;
             }
 
             @Override
             public List<SelectObject> getSubDataList(String categoryId) {
-                DepartmentDao departmentDao = SimpleApplication.getDaoSession().getDepartmentDao();
-                List<Department> departmentList = departmentDao.queryBuilder()
-                        .where(DepartmentDao.Properties.CategoryId.eq(categoryId))
-                        .orderAsc(DepartmentDao.Properties.OrderNo)
-                        .list();
-                final List<SelectObject> selectObjectList = new ArrayList<>();
-                for (Department department : departmentList) {
-                    SelectObject selectObject = new SelectObject();
-                    selectObject.objectId = department.getObjectId();
-                    selectObject.value = department.getName();
-                    selectObjectList.add(selectObject);
-                }
-                return selectObjectList;
+//                DepartmentDao departmentDao = SimpleApplication.getDaoSession().getDepartmentDao();
+//                List<Department> departmentList = departmentDao.queryBuilder()
+//                        .where(DepartmentDao.Properties.CategoryId.eq(categoryId))
+//                        .orderAsc(DepartmentDao.Properties.OrderNo)
+//                        .list();
+//                final List<SelectObject> selectObjectList = new ArrayList<>();
+//                for (Department department : departmentList) {
+//                    SelectObject selectObject = new SelectObject();
+//                    selectObject.objectId = department.getObjectId();
+//                    selectObject.value = department.getName();
+//                    selectObjectList.add(selectObject);
+//                }
+//                return selectObjectList;
+                return null;
             }
 
             @Override
             public List<SelectObject> getSearchResultDataList(String query) {
 
-                // 过滤设备目录
-                List<SelectObject> selectObjectList = new ArrayList<>();
-                DepartmentCategoryDao equipmentCategoryDao = SimpleApplication.getDaoSession().getDepartmentCategoryDao();
-                List<DepartmentCategory> departmentCategoryList = equipmentCategoryDao.queryBuilder()
-                        .where(DepartmentCategoryDao.Properties.Name.like("%" + query + "%"))
-                        .orderAsc(DepartmentCategoryDao.Properties.OrderNo)
-                        .list();
-                for (DepartmentCategory departmentCategory : departmentCategoryList) {
-                    for (Department department : departmentCategory.getDepartmentList()) {
-                        SelectObject selectObject = new SelectObject();
-                        selectObject.objectId = department.getObjectId();
-                        selectObject.value = departmentCategory.getName() + " / " + department.getName();
-                        selectObjectList.add(selectObject);
-                    }
-                }
-
-                // 过滤设备
-                DepartmentDao departmentDao = SimpleApplication.getDaoSession().getDepartmentDao();
-                List<Department> departmentList = departmentDao.queryBuilder()
-                        .where(DepartmentDao.Properties.Name.like("%" + query + "%"))
-                        .orderAsc(DepartmentDao.Properties.OrderNo)
-                        .list();
-                for (Department department : departmentList) {
-                    SelectObject selectObject = new SelectObject();
-                    selectObject.objectId = department.getObjectId();
-                    selectObject.value = department.getName();
-                    selectObjectList.add(selectObject);
-                    // todo
-                }
-                return selectObjectList;
+//                // 过滤设备目录
+//                List<SelectObject> selectObjectList = new ArrayList<>();
+//                DepartmentCategoryDao equipmentCategoryDao = SimpleApplication.getDaoSession().getDepartmentCategoryDao();
+//                List<DepartmentCategory> departmentCategoryList = equipmentCategoryDao.queryBuilder()
+//                        .where(DepartmentCategoryDao.Properties.Name.like("%" + query + "%"))
+//                        .orderAsc(DepartmentCategoryDao.Properties.OrderNo)
+//                        .list();
+//                for (DepartmentCategory departmentCategory : departmentCategoryList) {
+//                    for (Department department : departmentCategory.getDepartmentList()) {
+//                        SelectObject selectObject = new SelectObject();
+//                        selectObject.objectId = department.getObjectId();
+//                        selectObject.value = departmentCategory.getName() + " / " + department.getName();
+//                        selectObjectList.add(selectObject);
+//                    }
+//                }
+//
+//                // 过滤设备
+//                DepartmentDao departmentDao = SimpleApplication.getDaoSession().getDepartmentDao();
+//                List<Department> departmentList = departmentDao.queryBuilder()
+//                        .where(DepartmentDao.Properties.Name.like("%" + query + "%"))
+//                        .orderAsc(DepartmentDao.Properties.OrderNo)
+//                        .list();
+//                for (Department department : departmentList) {
+//                    SelectObject selectObject = new SelectObject();
+//                    selectObject.objectId = department.getObjectId();
+//                    selectObject.value = department.getName();
+//                    selectObjectList.add(selectObject);
+//                    // todo
+//                }
+        return null;
             }
         };
     }

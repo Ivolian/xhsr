@@ -25,7 +25,6 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig equipmentDaoConfig;
     private final DaoConfig buildingDaoConfig;
     private final DaoConfig floorDaoConfig;
-    private final DaoConfig departmentCategoryDaoConfig;
     private final DaoConfig departmentDaoConfig;
 
     private final ProcessingModeDao processingModeDao;
@@ -35,7 +34,6 @@ public class DaoSession extends AbstractDaoSession {
     private final EquipmentDao equipmentDao;
     private final BuildingDao buildingDao;
     private final FloorDao floorDao;
-    private final DepartmentCategoryDao departmentCategoryDao;
     private final DepartmentDao departmentDao;
 
     public DaoSession(SQLiteDatabase db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
@@ -63,9 +61,6 @@ public class DaoSession extends AbstractDaoSession {
         floorDaoConfig = daoConfigMap.get(FloorDao.class).clone();
         floorDaoConfig.initIdentityScope(type);
 
-        departmentCategoryDaoConfig = daoConfigMap.get(DepartmentCategoryDao.class).clone();
-        departmentCategoryDaoConfig.initIdentityScope(type);
-
         departmentDaoConfig = daoConfigMap.get(DepartmentDao.class).clone();
         departmentDaoConfig.initIdentityScope(type);
 
@@ -76,7 +71,6 @@ public class DaoSession extends AbstractDaoSession {
         equipmentDao = new EquipmentDao(equipmentDaoConfig, this);
         buildingDao = new BuildingDao(buildingDaoConfig, this);
         floorDao = new FloorDao(floorDaoConfig, this);
-        departmentCategoryDao = new DepartmentCategoryDao(departmentCategoryDaoConfig, this);
         departmentDao = new DepartmentDao(departmentDaoConfig, this);
 
         registerDao(ProcessingMode.class, processingModeDao);
@@ -86,7 +80,6 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(Equipment.class, equipmentDao);
         registerDao(Building.class, buildingDao);
         registerDao(Floor.class, floorDao);
-        registerDao(DepartmentCategory.class, departmentCategoryDao);
         registerDao(Department.class, departmentDao);
     }
     
@@ -98,7 +91,6 @@ public class DaoSession extends AbstractDaoSession {
         equipmentDaoConfig.getIdentityScope().clear();
         buildingDaoConfig.getIdentityScope().clear();
         floorDaoConfig.getIdentityScope().clear();
-        departmentCategoryDaoConfig.getIdentityScope().clear();
         departmentDaoConfig.getIdentityScope().clear();
     }
 
@@ -128,10 +120,6 @@ public class DaoSession extends AbstractDaoSession {
 
     public FloorDao getFloorDao() {
         return floorDao;
-    }
-
-    public DepartmentCategoryDao getDepartmentCategoryDao() {
-        return departmentCategoryDao;
     }
 
     public DepartmentDao getDepartmentDao() {

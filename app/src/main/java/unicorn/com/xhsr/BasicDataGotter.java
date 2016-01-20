@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import unicorn.com.xhsr.data.greendao.Building;
-import unicorn.com.xhsr.data.greendao.Department;
-import unicorn.com.xhsr.data.greendao.DepartmentCategory;
 import unicorn.com.xhsr.data.greendao.EmergencyDegree;
 import unicorn.com.xhsr.data.greendao.EmergencyDegreeDao;
 import unicorn.com.xhsr.data.greendao.Equipment;
@@ -323,39 +321,39 @@ public class BasicDataGotter {
                         try {
                             JSONArray response = new JSONArray(responses);
 
-
-                            List<DepartmentCategory> departmentCategoryList = new ArrayList<>();
-                            for (int i = 0; i != response.length(); i++) {
-                                JSONObject categoryJSONObject = response.getJSONObject(i);
-                                DepartmentCategory departmentCategory = new DepartmentCategory();
-                                departmentCategory.setObjectId(i + "");
-                                departmentCategory.setName(categoryJSONObject.getString("name"));
-                                departmentCategory.setOrderNo(i);
-                                departmentCategoryList.add(departmentCategory);
-                            }
-
-
-                            SimpleApplication.getDaoSession().getDepartmentCategoryDao().deleteAll();
-                            SimpleApplication.getDaoSession().getDepartmentCategoryDao().insertInTx(departmentCategoryList);
-
-
-                            List<Department> departmentList = new ArrayList<>();
-                            for (int i = 0; i != response.length(); i++) {
-                                JSONObject categoryJSONObject = response.getJSONObject(i);
-                                String categoryId = i + "";
-                                JSONArray items = categoryJSONObject.getJSONArray("items");
-                                for (int j = 0; j != items.length(); j++) {
-                                    JSONObject departmentJSONObject = items.getJSONObject(j);
-                                    Department department = new Department();
-                                    department.setObjectId(departmentJSONObject.getString("objectId"));
-                                    department.setName(departmentJSONObject.getString("name"));
-                                    department.setOrderNo(j);
-                                    department.setCategoryId(categoryId);
-                                    departmentList.add(department);
-                                }
-                            }
-                            SimpleApplication.getDaoSession().getDepartmentDao().deleteAll();
-                            SimpleApplication.getDaoSession().getDepartmentDao().insertInTx(departmentList);
+//
+//                            List<DepartmentCategory> departmentCategoryList = new ArrayList<>();
+//                            for (int i = 0; i != response.length(); i++) {
+//                                JSONObject categoryJSONObject = response.getJSONObject(i);
+//                                DepartmentCategory departmentCategory = new DepartmentCategory();
+//                                departmentCategory.setObjectId(i + "");
+//                                departmentCategory.setName(categoryJSONObject.getString("name"));
+//                                departmentCategory.setOrderNo(i);
+//                                departmentCategoryList.add(departmentCategory);
+//                            }
+//
+//
+//                            SimpleApplication.getDaoSession().getDepartmentCategoryDao().deleteAll();
+//                            SimpleApplication.getDaoSession().getDepartmentCategoryDao().insertInTx(departmentCategoryList);
+//
+//
+//                            List<Department> departmentList = new ArrayList<>();
+//                            for (int i = 0; i != response.length(); i++) {
+//                                JSONObject categoryJSONObject = response.getJSONObject(i);
+//                                String categoryId = i + "";
+//                                JSONArray items = categoryJSONObject.getJSONArray("items");
+//                                for (int j = 0; j != items.length(); j++) {
+//                                    JSONObject departmentJSONObject = items.getJSONObject(j);
+//                                    Department department = new Department();
+//                                    department.setObjectId(departmentJSONObject.getString("objectId"));
+//                                    department.setName(departmentJSONObject.getString("name"));
+//                                    department.setOrderNo(j);
+//                                    department.setCategoryId(categoryId);
+//                                    departmentList.add(department);
+//                                }
+//                            }
+//                            SimpleApplication.getDaoSession().getDepartmentDao().deleteAll();
+//                            SimpleApplication.getDaoSession().getDepartmentDao().insertInTx(departmentList);
 
 
                         } catch (Exception e) {

@@ -118,7 +118,7 @@ public class QuickOrderActivity extends BaseActivity {
 
     @OnClick(R.id.repairPerson)
     public void repairPersonOnClick() {
-        Intent intent = new Intent(this, RepairPersonActivity.class);
+        Intent intent = new Intent(this, RepairPersonInfoActivity.class);
         startActivity(intent);
     }
 

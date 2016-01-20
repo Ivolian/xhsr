@@ -12,16 +12,16 @@ public class Department implements java.io.Serializable {
     private String name;
     private int orderNo;
     /** Not-null value. */
-    private String categoryId;
+    private String floorId;
 
     public Department() {
     }
 
-    public Department(String objectId, String name, int orderNo, String categoryId) {
+    public Department(String objectId, String name, int orderNo, String floorId) {
         this.objectId = objectId;
         this.name = name;
         this.orderNo = orderNo;
-        this.categoryId = categoryId;
+        this.floorId = floorId;
     }
 
     /** Not-null value. */
@@ -53,13 +53,13 @@ public class Department implements java.io.Serializable {
     }
 
     /** Not-null value. */
-    public String getCategoryId() {
-        return categoryId;
+    public String getFloorId() {
+        return floorId;
     }
 
     /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setFloorId(String floorId) {
+        this.floorId = floorId;
     }
 
 }

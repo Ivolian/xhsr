@@ -1,9 +1,10 @@
 package unicorn.com.xhsr.data.greendao;
 
-import java.util.List;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+
+import java.util.List;
 
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
@@ -30,6 +31,8 @@ public class FloorDao extends AbstractDao<Floor, String> {
         public final static Property BuildingId = new Property(3, String.class, "buildingId", false, "BUILDING_ID");
     };
 
+    private DaoSession daoSession;
+
     private Query<Floor> building_FloorListQuery;
 
     public FloorDao(DaoConfig config) {
@@ -38,6 +41,7 @@ public class FloorDao extends AbstractDao<Floor, String> {
     
     public FloorDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
+        this.daoSession = daoSession;
     }
 
     /** Creates the underlying database table. */
@@ -64,6 +68,12 @@ public class FloorDao extends AbstractDao<Floor, String> {
         stmt.bindString(2, entity.getName());
         stmt.bindLong(3, entity.getOrderNo());
         stmt.bindString(4, entity.getBuildingId());
+    }
+
+    @Override
+    protected void attachEntity(Floor entity) {
+        super.attachEntity(entity);
+        entity.__setDaoSession(daoSession);
     }
 
     /** @inheritdoc */

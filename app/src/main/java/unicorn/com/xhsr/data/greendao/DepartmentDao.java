@@ -1,9 +1,10 @@
 package unicorn.com.xhsr.data.greendao;
 
-import java.util.List;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+
+import java.util.List;
 
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
@@ -27,10 +28,10 @@ public class DepartmentDao extends AbstractDao<Department, Void> {
         public final static Property ObjectId = new Property(0, String.class, "objectId", false, "OBJECT_ID");
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
         public final static Property OrderNo = new Property(2, int.class, "orderNo", false, "ORDER_NO");
-        public final static Property CategoryId = new Property(3, String.class, "categoryId", false, "CATEGORY_ID");
+        public final static Property FloorId = new Property(3, String.class, "floorId", false, "FLOOR_ID");
     };
 
-    private Query<Department> departmentCategory_DepartmentListQuery;
+    private Query<Department> floor_DepartmentListQuery;
 
     public DepartmentDao(DaoConfig config) {
         super(config);
@@ -47,7 +48,7 @@ public class DepartmentDao extends AbstractDao<Department, Void> {
                 "\"OBJECT_ID\" TEXT NOT NULL ," + // 0: objectId
                 "\"NAME\" TEXT NOT NULL ," + // 1: name
                 "\"ORDER_NO\" INTEGER NOT NULL ," + // 2: orderNo
-                "\"CATEGORY_ID\" TEXT NOT NULL );"); // 3: categoryId
+                "\"FLOOR_ID\" TEXT NOT NULL );"); // 3: floorId
     }
 
     /** Drops the underlying database table. */
@@ -63,7 +64,7 @@ public class DepartmentDao extends AbstractDao<Department, Void> {
         stmt.bindString(1, entity.getObjectId());
         stmt.bindString(2, entity.getName());
         stmt.bindLong(3, entity.getOrderNo());
-        stmt.bindString(4, entity.getCategoryId());
+        stmt.bindString(4, entity.getFloorId());
     }
 
     /** @inheritdoc */
@@ -79,7 +80,7 @@ public class DepartmentDao extends AbstractDao<Department, Void> {
             cursor.getString(offset + 0), // objectId
             cursor.getString(offset + 1), // name
             cursor.getInt(offset + 2), // orderNo
-            cursor.getString(offset + 3) // categoryId
+            cursor.getString(offset + 3) // floorId
         );
         return entity;
     }
@@ -90,7 +91,7 @@ public class DepartmentDao extends AbstractDao<Department, Void> {
         entity.setObjectId(cursor.getString(offset + 0));
         entity.setName(cursor.getString(offset + 1));
         entity.setOrderNo(cursor.getInt(offset + 2));
-        entity.setCategoryId(cursor.getString(offset + 3));
+        entity.setFloorId(cursor.getString(offset + 3));
      }
     
     /** @inheritdoc */
@@ -112,18 +113,18 @@ public class DepartmentDao extends AbstractDao<Department, Void> {
         return true;
     }
     
-    /** Internal query to resolve the "departmentList" to-many relationship of DepartmentCategory. */
-    public List<Department> _queryDepartmentCategory_DepartmentList(String categoryId) {
+    /** Internal query to resolve the "departmentList" to-many relationship of Floor. */
+    public List<Department> _queryFloor_DepartmentList(String floorId) {
         synchronized (this) {
-            if (departmentCategory_DepartmentListQuery == null) {
+            if (floor_DepartmentListQuery == null) {
                 QueryBuilder<Department> queryBuilder = queryBuilder();
-                queryBuilder.where(Properties.CategoryId.eq(null));
+                queryBuilder.where(Properties.FloorId.eq(null));
                 queryBuilder.orderRaw("T.'ORDER_NO' ASC");
-                departmentCategory_DepartmentListQuery = queryBuilder.build();
+                floor_DepartmentListQuery = queryBuilder.build();
             }
         }
-        Query<Department> query = departmentCategory_DepartmentListQuery.forCurrentThread();
-        query.setParameter(0, categoryId);
+        Query<Department> query = floor_DepartmentListQuery.forCurrentThread();
+        query.setParameter(0, floorId);
         return query.list();
     }
 

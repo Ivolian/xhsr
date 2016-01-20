@@ -1,57 +1,99 @@
-<com.flipboard.bottomsheet.BottomSheetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/bottomsheet"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/md_white">
+    android:background="@color/md_white"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    app:theme="@style/AppTheme2">
 
+    <!-- 标题栏 -->
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        app:layout_heightPercent="10%sh">
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="?attr/colorPrimary"
+            app:layout_heightPercent="10%sh"
+            app:layout_textSizePercent="2.6%sh"
+            app:layout_widthPercent="10%sh" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="报修人员"
+            android:textColor="@color/md_black"
+            app:layout_textSizePercent="3.3%sh" />
+
+        <TextView
+            android:id="@+id/confirm"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:text="确认"
+            android:textColor="?attr/colorPrimary"
+            app:layout_heightPercent="10%sh"
+            app:layout_textSizePercent="2.6%sh"
+            app:layout_widthPercent="10%sh" />
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/md_grey_200" />
+
+    <!-- 三个选项 -->
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical"
-        app:theme="@style/AppTheme2">
+        android:orientation="vertical">
 
-        <!-- 标题栏 10% -->
+        <!-- 报修人员 8% -->
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:gravity="center_vertical"
-            app:layout_heightPercent="10%sh">
+            android:orientation="horizontal"
+            app:layout_heightPercent="8%sh"
+            app:layout_paddingLeftPercent="5%sw"
+            app:layout_paddingRightPercent="5%sw">
 
             <TextView
-                android:id="@+id/cancel"
+                android:layout_weight="1"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:gravity="center"
-                android:text="取消"
-                android:textColor="?attr/colorPrimary"
-                app:layout_heightPercent="10%sh"
-                app:layout_textSizePercent="2.6%sh"
-                app:layout_widthPercent="10%sh" />
+                android:layout_height="wrap_content"
+                android:text="报修人员"
+                android:textColor="@color/md_grey_500"
+                app:layout_textSizePercent="3%sh" />
 
-            <TextView
+            <EditText
+                android:id="@+id/personName"
+                android:singleLine="true"
+                android:maxLines="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="报修人员"
+                android:background="@null"
+                android:gravity="right"
+                android:hint="请输入报修人员"
                 android:textColor="@color/md_black"
-                app:layout_textSizePercent="3.2%sh" />
-
-            <TextView
-                android:id="@+id/confirm"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:gravity="center"
-                android:text="确认"
-                android:textColor="?attr/colorPrimary"
-                app:layout_heightPercent="10%sh"
-                app:layout_textSizePercent="2.6%sh"
-                app:layout_widthPercent="10%sh" />
+                android:textColorHint="@color/md_grey_400"
+                android:textCursorDrawable="@drawable/color_cursor"
+                app:layout_marginLeftPercent="5%sw"
+                app:layout_textSizePercent="2.8%sh" />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 
@@ -60,139 +102,86 @@
             android:layout_height="0.5dp"
             android:background="@color/md_grey_200" />
 
-        <ScrollView
+        <!-- 人员工号 8% -->
+        <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_heightPercent="8%sh"
+            app:layout_paddingLeftPercent="5%sw"
+            app:layout_paddingRightPercent="5%sw">
 
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="人员工号"
+                android:textColor="@color/md_grey_500"
+                app:layout_textSizePercent="3%sh" />
 
-                android:orientation="vertical"
+            <EditText
+                android:id="@+id/personCode"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="right"
+                android:hint="请输入人员工号"
+                android:textColor="@color/md_black"
+                android:textColorHint="@color/md_grey_400"
+                android:textCursorDrawable="@drawable/color_cursor"
+                app:layout_marginLeftPercent="5%sw"
+                app:layout_textSizePercent="2.8%sh" />
 
-                >
+        </com.zhy.android.percent.support.PercentLinearLayout>
 
-                <!-- 报修部门 8% -->
-                <com.zhy.android.percent.support.PercentLinearLayout
-                    android:id="@+id/department"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_heightPercent="8%sh"
-                    app:layout_paddingLeftPercent="5%sw"
-                    app:layout_paddingRightPercent="5%sw">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/md_grey_200" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="报修部门"
-                        android:textColorHint="@color/md_grey_500"
-                        app:layout_textSizePercent="3%sh" />
+        <!-- 报修部门 8% -->
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/department"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_heightPercent="8%sh"
+            app:layout_paddingLeftPercent="5%sw"
+            app:layout_paddingRightPercent="5%sw">
 
-                    <TextView
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="报修部门"
+                android:textColorHint="@color/md_grey_500"
+                app:layout_textSizePercent="3%sh" />
 
-                        android:id="@+id/tvDepartment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/md_black"
-                        app:layout_textSizePercent="3%sh" />
+            <TextView
+                android:id="@+id/tvDepartment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/md_black"
+                app:layout_textSizePercent="2.8%sh" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_arrow_right"
-                        app:layout_marginLeftPercent="3%sh" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right"
+                app:layout_marginLeftPercent="2%sh" />
 
-                </com.zhy.android.percent.support.PercentLinearLayout>
+        </com.zhy.android.percent.support.PercentLinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/md_grey_200" />
-
-
-                <!-- 报修人员 8% -->
-                <com.zhy.android.percent.support.PercentLinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_heightPercent="8%sh"
-                    app:layout_paddingLeftPercent="5%sw"
-                    app:layout_paddingRightPercent="5%sw">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="报修人员"
-                        android:textColor="@color/md_grey_500"
-                        app:layout_textSizePercent="3%sh" />
-
-                    <EditText
-                        app:layout_textSizePercent="3%sh"
-                        android:textCursorDrawable="@drawable/color_cursor"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:gravity="right"
-                        android:hint="请输入报修人员"
-                        android:textColor="@color/md_black"
-                        android:textColorHint="@color/md_grey_400"
-                        app:layout_marginLeftPercent="5%sw" />
-
-                </com.zhy.android.percent.support.PercentLinearLayout>
-
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/md_grey_200" />
-
-                <!-- 人员工号 8% -->
-                <com.zhy.android.percent.support.PercentLinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_heightPercent="8%sh"
-                    app:layout_paddingLeftPercent="5%sw"
-                    app:layout_paddingRightPercent="5%sw">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="人员工号"
-                        android:textColor="@color/md_grey_500"
-                        app:layout_textSizePercent="3%sh" />
-
-                    <EditText
-                        app:layout_textSizePercent="3%sh"
-                        android:textCursorDrawable="@drawable/color_cursor"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:gravity="right"
-                        android:hint="请输入人员工号"
-                        android:textColor="@color/md_black"
-                        android:textColorHint="@color/md_grey_400"
-                        app:layout_marginLeftPercent="5%sw" />
-
-                </com.zhy.android.percent.support.PercentLinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/md_grey_200" />
-
-            </com.zhy.android.percent.support.PercentLinearLayout>
-
-        </ScrollView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/md_grey_200" />
 
     </com.zhy.android.percent.support.PercentLinearLayout>
 
-</com.flipboard.bottomsheet.BottomSheetLayout>
+</com.zhy.android.percent.support.PercentLinearLayout>
