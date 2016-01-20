@@ -25,9 +25,11 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.OnClick;
 import unicorn.com.xhsr.base.BaseActivity;
+import unicorn.com.xhsr.data.DataHelp;
 import unicorn.com.xhsr.draglayout.view.DragLayout;
 import unicorn.com.xhsr.other.DividerGridItemDecoration;
 import unicorn.com.xhsr.utils.TextDrawableUtils;
+import unicorn.com.xhsr.volley.SimpleVolley;
 
 public class MainActivity extends BaseActivity {
 

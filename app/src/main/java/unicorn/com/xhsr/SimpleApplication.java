@@ -5,8 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.iflytek.cloud.SpeechUtility;
 
-import unicorn.com.xhsr.greendao.DaoMaster;
-import unicorn.com.xhsr.greendao.DaoSession;
+import unicorn.com.xhsr.data.greendao.DaoMaster;
+import unicorn.com.xhsr.data.greendao.DaoSession;
+import unicorn.com.xhsr.volley.SimpleVolley;
 
 
 public class SimpleApplication extends Application {

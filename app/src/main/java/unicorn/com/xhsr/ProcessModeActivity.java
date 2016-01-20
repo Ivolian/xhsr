@@ -19,9 +19,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import unicorn.com.xhsr.base.BaseActivity;
-import unicorn.com.xhsr.greendao.EmergencyDegree;
-import unicorn.com.xhsr.greendao.ProcessingMode;
-import unicorn.com.xhsr.greendao.ProcessingTimeLimit;
+import unicorn.com.xhsr.data.greendao.EmergencyDegree;
+import unicorn.com.xhsr.data.greendao.ProcessingMode;
+import unicorn.com.xhsr.data.greendao.ProcessingTimeLimit;
 import unicorn.com.xhsr.select.SelectAdapter;
 import unicorn.com.xhsr.select.SelectObjectWithPosition;
 

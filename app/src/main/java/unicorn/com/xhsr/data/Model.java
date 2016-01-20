@@ -1,4 +1,4 @@
-package unicorn.com.xhsr;
+package unicorn.com.xhsr.data;
 
 /**
  * Created by Administrator on 2016/1/10.

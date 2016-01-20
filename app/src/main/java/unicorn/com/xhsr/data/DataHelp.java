@@ -1,20 +1,21 @@
-package unicorn.com.xhsr;
+package unicorn.com.xhsr.data;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import unicorn.com.xhsr.greendao.Building;
-import unicorn.com.xhsr.greendao.BuildingDao;
-import unicorn.com.xhsr.greendao.Department;
-import unicorn.com.xhsr.greendao.DepartmentCategory;
-import unicorn.com.xhsr.greendao.DepartmentCategoryDao;
-import unicorn.com.xhsr.greendao.DepartmentDao;
-import unicorn.com.xhsr.greendao.Equipment;
-import unicorn.com.xhsr.greendao.EquipmentCategory;
-import unicorn.com.xhsr.greendao.EquipmentCategoryDao;
-import unicorn.com.xhsr.greendao.EquipmentDao;
-import unicorn.com.xhsr.greendao.Floor;
-import unicorn.com.xhsr.greendao.FloorDao;
+import unicorn.com.xhsr.SimpleApplication;
+import unicorn.com.xhsr.data.greendao.Building;
+import unicorn.com.xhsr.data.greendao.BuildingDao;
+import unicorn.com.xhsr.data.greendao.Department;
+import unicorn.com.xhsr.data.greendao.DepartmentCategory;
+import unicorn.com.xhsr.data.greendao.DepartmentCategoryDao;
+import unicorn.com.xhsr.data.greendao.DepartmentDao;
+import unicorn.com.xhsr.data.greendao.Equipment;
+import unicorn.com.xhsr.data.greendao.EquipmentCategory;
+import unicorn.com.xhsr.data.greendao.EquipmentCategoryDao;
+import unicorn.com.xhsr.data.greendao.EquipmentDao;
+import unicorn.com.xhsr.data.greendao.Floor;
+import unicorn.com.xhsr.data.greendao.FloorDao;
 import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.select.SelectObject;
 

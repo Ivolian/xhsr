@@ -22,7 +22,7 @@ import butterknife.OnLongClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.SimpleApplication;
-import unicorn.com.xhsr.greendao.Equipment;
+import unicorn.com.xhsr.data.greendao.Equipment;
 import unicorn.com.xhsr.select.SelectHelper;
 import unicorn.com.xhsr.select.SelectObject;
 

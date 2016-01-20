@@ -18,9 +18,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.SimpleApplication;
-import unicorn.com.xhsr.greendao.EmergencyDegree;
-import unicorn.com.xhsr.greendao.ProcessingMode;
-import unicorn.com.xhsr.greendao.ProcessingTimeLimit;
+import unicorn.com.xhsr.data.greendao.EmergencyDegree;
+import unicorn.com.xhsr.data.greendao.ProcessingMode;
+import unicorn.com.xhsr.data.greendao.ProcessingTimeLimit;
 
 public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder> {
 
