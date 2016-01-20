@@ -1,5 +1,6 @@
 package unicorn.com.xhsr.base;
 
+import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 
@@ -25,6 +26,16 @@ public class BaseActivity extends AppCompatActivity {
         Dart.inject(this);
         super.setContentView(layoutResID);
         ButterKnife.bind(this);
+    }
+
+    protected void startActivity(Class clazz){
+        Intent intent = new Intent(this,clazz);
+        startActivity(intent);
+    }
+
+    protected void startActivityForResult(Class clazz){
+        Intent intent = new Intent(this,clazz);
+        startActivityForResult(intent,2333);
     }
 
 }

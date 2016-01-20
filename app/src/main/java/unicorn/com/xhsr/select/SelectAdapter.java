@@ -10,58 +10,34 @@ import android.widget.TextView;
 
 import org.simple.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
-import unicorn.com.xhsr.SimpleApplication;
-import unicorn.com.xhsr.data.greendao.EmergencyDegree;
-import unicorn.com.xhsr.data.greendao.ProcessingMode;
-import unicorn.com.xhsr.data.greendao.ProcessingTimeLimit;
 
 public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder> {
 
-    List<SelectObject> dataList;
+    public interface DataProvider {
+        List<SelectObject> getDataList();
+    }
 
-    String callbackTag;
+    //
+
+    DataProvider dataProvider;
 
     int positionSelected;
 
-    public SelectAdapter(String callbackTag, int positionSelected) {
-        if (callbackTag.equals("onProcessModeSelect")) {
-            dataList = new ArrayList<>();
-            for (ProcessingMode processingMode : SimpleApplication.getDaoSession().getProcessingModeDao().loadAll()) {
-                SelectObject selectObject = new SelectObject();
-                selectObject.value = processingMode.getName();
-                selectObject.objectId = processingMode.getObjectId();
-                dataList.add(selectObject);
-            }
-        }
-        if (callbackTag.equals("onProcessTimeLimitSelect")) {
-            dataList = new ArrayList<>();
-            for (ProcessingTimeLimit processingTimeLimit : SimpleApplication.getDaoSession().getProcessingTimeLimitDao().loadAll()) {
-                SelectObject selectObject = new SelectObject();
-                selectObject.value = processingTimeLimit.getName();
-                selectObject.objectId = processingTimeLimit.getObjectId();
-                dataList.add(selectObject);
-            }
-        }
-        if (callbackTag.equals("onEmergencyDegreeSelect")) {
-            dataList = new ArrayList<>();
-            for (EmergencyDegree emergencyDegree : SimpleApplication.getDaoSession().getEmergencyDegreeDao().loadAll()) {
-                SelectObject selectObject = new SelectObject();
-                selectObject.value = emergencyDegree.getName();
-                selectObject.objectId = emergencyDegree.getObjectId();
-                dataList.add(selectObject);
-            }
-        }
+    String callbackTag;
 
-        this.callbackTag = callbackTag;
+    public SelectAdapter(DataProvider dataProvider, int positionSelected, String eventTag) {
+        this.dataProvider = dataProvider;
+        this.callbackTag = eventTag;
         this.positionSelected = positionSelected;
     }
+
+    //
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -75,10 +51,8 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder
 
         @OnClick(R.id.row)
         public void selectItem() {
-            int position = getAdapterPosition();
-            SelectObject selectObject = dataList.get(position);
-            SelectObjectWithPosition selectObjectWithPosition = SelectHelper.create(selectObject, position);
-            EventBus.getDefault().post(selectObjectWithPosition, callbackTag);
+            String objectIdSelected = dataProvider.getDataList().get(getAdapterPosition()).objectId;
+            EventBus.getDefault().post(objectIdSelected, callbackTag);
         }
     }
 
@@ -87,7 +61,7 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        SelectObject selectObject = dataList.get(position);
+        SelectObject selectObject = dataProvider.getDataList().get(position);
         viewHolder.tvValue.setText(selectObject.value);
 
         // 选中项高亮
@@ -102,7 +76,7 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return dataList.size();
+        return dataProvider.getDataList().size();
     }
 
 }

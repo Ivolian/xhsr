@@ -1,5 +1,7 @@
 package unicorn.com.xhsr.data;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,13 +12,20 @@ import unicorn.com.xhsr.data.greendao.Department;
 import unicorn.com.xhsr.data.greendao.DepartmentCategory;
 import unicorn.com.xhsr.data.greendao.DepartmentCategoryDao;
 import unicorn.com.xhsr.data.greendao.DepartmentDao;
+import unicorn.com.xhsr.data.greendao.EmergencyDegree;
+import unicorn.com.xhsr.data.greendao.EmergencyDegreeDao;
 import unicorn.com.xhsr.data.greendao.Equipment;
 import unicorn.com.xhsr.data.greendao.EquipmentCategory;
 import unicorn.com.xhsr.data.greendao.EquipmentCategoryDao;
 import unicorn.com.xhsr.data.greendao.EquipmentDao;
 import unicorn.com.xhsr.data.greendao.Floor;
 import unicorn.com.xhsr.data.greendao.FloorDao;
+import unicorn.com.xhsr.data.greendao.ProcessingMode;
+import unicorn.com.xhsr.data.greendao.ProcessingModeDao;
+import unicorn.com.xhsr.data.greendao.ProcessingTimeLimit;
+import unicorn.com.xhsr.data.greendao.ProcessingTimeLimitDao;
 import unicorn.com.xhsr.groupselect.GroupSelectActivity;
+import unicorn.com.xhsr.select.SelectAdapter;
 import unicorn.com.xhsr.select.SelectObject;
 
 
@@ -102,7 +111,7 @@ public class DataHelp {
 
     public static GroupSelectActivity.DataProvider getEquipmentDataProvider() {
 
-       return new GroupSelectActivity.DataProvider() {
+        return new GroupSelectActivity.DataProvider() {
             @Override
             public List<SelectObject> getMainDataList() {
                 EquipmentCategoryDao equipmentCategoryDao = SimpleApplication.getDaoSession().getEquipmentCategoryDao();
@@ -162,10 +171,10 @@ public class DataHelp {
                         .orderAsc(EquipmentDao.Properties.OrderNo)
                         .list();
                 for (Equipment equipment : equipmentList) {
-                        SelectObject selectObject = new SelectObject();
-                        selectObject.objectId = equipment.getObjectId();
-                        selectObject.value = equipment.getName();
-                        selectObjectList.add(selectObject);
+                    SelectObject selectObject = new SelectObject();
+                    selectObject.objectId = equipment.getObjectId();
+                    selectObject.value = equipment.getName();
+                    selectObjectList.add(selectObject);
                 }
                 return selectObjectList;
             }
@@ -247,5 +256,84 @@ public class DataHelp {
 
 
     public static boolean wait_repair = false;
+
+
+    public static SelectAdapter.DataProvider getProcessModeDataProvider() {
+
+        return new SelectAdapter.DataProvider() {
+            @Override
+            public List<SelectObject> getDataList() {
+                ProcessingModeDao processingModeDao = SimpleApplication.getDaoSession().getProcessingModeDao();
+                List<ProcessingMode> processingModeList = processingModeDao.queryBuilder()
+                        .orderAsc(ProcessingModeDao.Properties.OrderNo)
+                        .list();
+                List<SelectObject> dataList = new ArrayList<>();
+                for (ProcessingMode processingMode : processingModeList) {
+                    SelectObject selectObject = new SelectObject();
+                    selectObject.objectId = processingMode.getObjectId();
+                    selectObject.value = processingMode.getName();
+                    dataList.add(selectObject);
+                }
+                return dataList;
+            }
+        };
+
+    }
+
+    public static SelectAdapter.DataProvider getProcessTimeLimitDataProvider() {
+
+        return new SelectAdapter.DataProvider() {
+            @Override
+            public List<SelectObject> getDataList() {
+                ProcessingTimeLimitDao processingModeDao = SimpleApplication.getDaoSession().getProcessingTimeLimitDao();
+                List<ProcessingTimeLimit> processingTimeLimitList = processingModeDao.queryBuilder()
+                        .orderAsc(ProcessingTimeLimitDao.Properties.OrderNo)
+                        .list();
+                List<SelectObject> dataList = new ArrayList<>();
+                for (ProcessingTimeLimit processingTimeLimit : processingTimeLimitList) {
+                    SelectObject selectObject = new SelectObject();
+                    selectObject.objectId = processingTimeLimit.getObjectId();
+                    selectObject.value = processingTimeLimit.getName();
+                    dataList.add(selectObject);
+                }
+                return dataList;
+            }
+        };
+
+    }
+
+
+    public static SelectAdapter.DataProvider getEmergencyDegreeDataProvider() {
+
+        return new SelectAdapter.DataProvider() {
+            @Override
+            public List<SelectObject> getDataList() {
+                EmergencyDegreeDao processingModeDao = SimpleApplication.getDaoSession().getEmergencyDegreeDao();
+                List<EmergencyDegree> emergencyDegreeList = processingModeDao.queryBuilder()
+                        .orderAsc(EmergencyDegreeDao.Properties.OrderNo)
+                        .list();
+                List<SelectObject> dataList = new ArrayList<>();
+                for (EmergencyDegree dataProvider : emergencyDegreeList) {
+                    SelectObject selectObject = new SelectObject();
+                    selectObject.objectId = dataProvider.getObjectId();
+                    selectObject.value = dataProvider.getName();
+                    dataList.add(selectObject);
+                }
+                return dataList;
+            }
+        };
+
+    }
+
+
+
+    public static String getValue(SelectAdapter.DataProvider dataProvider, String objectIdSelected) {
+        for (SelectObject selectObject : dataProvider.getDataList()) {
+            if (TextUtils.equals(selectObject.objectId, objectIdSelected)) {
+                return selectObject.value;
+            }
+        }
+        return "";
+    }
 
 }

@@ -44,16 +44,15 @@ public class QuickOrderActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         setContentView(R.layout.activity_quick_order);
+        setContentView(R.layout.activity_quick_order);
         initViews();
 
-        findViewById(R.id.message).setBackground(TextDrawableUtils.getRoundRectDrawable(this,R.color.md_light_blue_300));
-        findViewById(R.id.takePhoto).setBackground(TextDrawableUtils.getRoundRectDrawable(this,R.color.md_orange_300));
-        findViewById(R.id.video).setBackground(TextDrawableUtils.getRoundRectDrawable(this,R.color.md_red_300));
-        findViewById(R.id.history).setBackground(TextDrawableUtils.getRoundRectDrawable(this,R.color.md_brown_300));
+        findViewById(R.id.message).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_light_blue_300));
+        findViewById(R.id.takePhoto).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_orange_300));
+        findViewById(R.id.video).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_red_300));
+        findViewById(R.id.history).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_brown_300));
 
     }
-
 
 
     @Override
@@ -139,6 +138,9 @@ public class QuickOrderActivity extends BaseActivity {
 
     // =============================== onActivityResult ===============================
 
+    @Bind(R.id.tvProcessMode)
+    TextView tvProcessMode;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -152,6 +154,13 @@ public class QuickOrderActivity extends BaseActivity {
             selectObjectAddress = selectObject;
             tvFloor.setText(selectObject.value);
         }
+        if (resultCode == ProcessModeActivity.PROCESS_MODE_RESULT_CODE) {
+            processModeId = data.getStringExtra("processModeId");
+            processTimeLimitId = data.getStringExtra("processTimeLimitId");
+            emergencyDegreeId = data.getStringExtra("emergencyDegreeId");
+            tvProcessMode.setText(DataHelp.getValue(DataHelp.getProcessModeDataProvider(), processModeId));
+        }
+
     }
 
 
@@ -167,7 +176,6 @@ public class QuickOrderActivity extends BaseActivity {
     }
 
     // =============================== bottom sheet ===============================
-
 
 
     // =============================== 设备故障 ===============================
@@ -193,16 +201,22 @@ public class QuickOrderActivity extends BaseActivity {
 
     // =============================== 处理方式 ===============================
 
+    String processModeId = null;
 
+    String processTimeLimitId = null;
 
+    String emergencyDegreeId = null;
 
     @OnClick(R.id.processMode)
-    public void selectHandleMode() {
-        Intent intent = new Intent(this,ProcessModeActivity.class);
-        startActivity(intent);
+    public void processModeOnClick() {
+        if (!ClickHelp.isFastClick()) {
+            Intent intent = new Intent(this, ProcessModeActivity.class);
+            intent.putExtra("processModeId", processModeId);
+            intent.putExtra("processTimeLimitId", processTimeLimitId);
+            intent.putExtra("emergencyDegreeId", emergencyDegreeId);
+            startActivityForResult(intent, 2333);
+        }
     }
-
-
 
 
     // =============================== 补充说明 ===============================
@@ -320,15 +334,12 @@ public class QuickOrderActivity extends BaseActivity {
     }
 
 
-
-
     // =============================== 基础方法 ===============================
 
     @OnClick(R.id.cancel)
     public void cancel() {
         finish();
     }
-
 
 
     @OnClick(R.id.confirm)
