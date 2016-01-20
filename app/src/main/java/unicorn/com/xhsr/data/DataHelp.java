@@ -8,6 +8,8 @@ import java.util.List;
 import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.data.greendao.Building;
 import unicorn.com.xhsr.data.greendao.BuildingDao;
+import unicorn.com.xhsr.data.greendao.Department;
+import unicorn.com.xhsr.data.greendao.DepartmentDao;
 import unicorn.com.xhsr.data.greendao.EmergencyDegree;
 import unicorn.com.xhsr.data.greendao.EmergencyDegreeDao;
 import unicorn.com.xhsr.data.greendao.Equipment;
@@ -143,59 +145,56 @@ public class DataHelp {
         return new GroupSelectActivity.DataProvider() {
             @Override
             public List<SelectObject> getMainDataList() {
-                BuildingDao buildingDao = SimpleApplication.getDaoSession().getBuildingDao();
-                final List<Building> buildingList = buildingDao.queryBuilder()
-                        .orderAsc(BuildingDao.Properties.OrderNo)
+                DepartmentDao departmentDao = SimpleApplication.getDaoSession().getDepartmentDao();
+                final List<Department> buildingList = departmentDao.queryBuilder()
+                        .where(DepartmentDao.Properties.Level.eq(0))
+                        .orderAsc(DepartmentDao.Properties.OrderNo)
                         .list();
                 List<SelectObject> selectObjectList = new ArrayList<>();
-                for (Building building : buildingList) {
+                for (Department department : buildingList) {
                     SelectObject selectObject = new SelectObject();
-                    selectObject.objectId = building.getObjectId();
-                    selectObject.value = building.getName();
+                    selectObject.objectId = department.getObjectId();
+                    selectObject.value = department.getName();
                     selectObjectList.add(selectObject);
                 }
                 return selectObjectList;
             }
 
             @Override
-            public List<SelectObject> getSubDataList(String fatherId) {
-
-                return null;
+            public List<SelectObject> getSubDataList(String departmentId) {
+                DepartmentDao departmentDao = SimpleApplication.getDaoSession().getDepartmentDao();
+                List<Department> level1List = departmentDao.queryBuilder()
+                        .where(DepartmentDao.Properties.ParentId.eq(departmentId))
+                        .orderAsc(DepartmentDao.Properties.OrderNo)
+                        .list();
+                final List<SelectObject> selectObjectList = new ArrayList<>();
+                for (Department level1 : level1List) {
+                    for (Department level2 : level1.getChildren()) {
+                        SelectObject selectObject = new SelectObject();
+                        selectObject.objectId = level2.getObjectId();
+                        selectObject.value = level1.getName() + " / " + level2.getName();
+                        selectObjectList.add(selectObject);
+                    }
+                }
+                return selectObjectList;
             }
 
             @Override
             public List<SelectObject> getSearchResultDataList(String query) {
-
-//                // 过滤设备目录
-//                List<SelectObject> selectObjectList = new ArrayList<>();
-//                DepartmentCategoryDao equipmentCategoryDao = SimpleApplication.getDaoSession().getDepartmentCategoryDao();
-//                List<DepartmentCategory> departmentCategoryList = equipmentCategoryDao.queryBuilder()
-//                        .where(DepartmentCategoryDao.Properties.Name.like("%" + query + "%"))
-//                        .orderAsc(DepartmentCategoryDao.Properties.OrderNo)
-//                        .list();
-//                for (DepartmentCategory departmentCategory : departmentCategoryList) {
-//                    for (Department department : departmentCategory.getDepartmentList()) {
-//                        SelectObject selectObject = new SelectObject();
-//                        selectObject.objectId = department.getObjectId();
-//                        selectObject.value = departmentCategory.getName() + " / " + department.getName();
-//                        selectObjectList.add(selectObject);
-//                    }
-//                }
-//
-//                // 过滤设备
-//                DepartmentDao departmentDao = SimpleApplication.getDaoSession().getDepartmentDao();
-//                List<Department> departmentList = departmentDao.queryBuilder()
-//                        .where(DepartmentDao.Properties.Name.like("%" + query + "%"))
-//                        .orderAsc(DepartmentDao.Properties.OrderNo)
-//                        .list();
-//                for (Department department : departmentList) {
-//                    SelectObject selectObject = new SelectObject();
-//                    selectObject.objectId = department.getObjectId();
-//                    selectObject.value = department.getName();
-//                    selectObjectList.add(selectObject);
-//                    // todo
-//                }
-                return null;
+                List<SelectObject> selectObjectList = new ArrayList<>();
+                DepartmentDao departmentDao = SimpleApplication.getDaoSession().getDepartmentDao();
+                List<Department> level2List = departmentDao.queryBuilder()
+                        .where(DepartmentDao.Properties.Level.eq(2))
+                        .where(DepartmentDao.Properties.FullName.like("%" + query + "%"))
+                        .orderAsc(DepartmentDao.Properties.OrderNo)
+                        .list();
+                for (Department level2 : level2List) {
+                    SelectObject selectObject = new SelectObject();
+                    selectObject.objectId = level2.getObjectId();
+                    selectObject.value = level2.getFullName();
+                    selectObjectList.add(selectObject);
+                }
+                return selectObjectList;
             }
         };
     }

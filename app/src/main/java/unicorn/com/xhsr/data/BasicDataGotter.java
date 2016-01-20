@@ -1,21 +1,17 @@
 package unicorn.com.xhsr.data;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import unicorn.com.xhsr.ConfigUtils;
 import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.data.greendao.Building;
+import unicorn.com.xhsr.data.greendao.Department;
 import unicorn.com.xhsr.data.greendao.EmergencyDegree;
 import unicorn.com.xhsr.data.greendao.Equipment;
 import unicorn.com.xhsr.data.greendao.EquipmentCategory;
@@ -217,32 +213,62 @@ public class BasicDataGotter {
 
     public void getDepartment() {
         String url = "http://withub.net.cn/hems/api/v1/hems/department/tree?id=1&fetchChild=true";
-        StringRequest jsonArrayRequest = new StringRequest(url,
+        StringRequest jsonArrayRequest = new StringRequestWithSessionCheck(url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String responses) {
                         try {
+                            JSONArray response = new JSONArray(responses);
+                            List<Department> departmentList = new ArrayList<>();
+                            for (int i = 0; i != response.length(); i++) {
+                                JSONObject level0Object = response.getJSONObject(i);
+                                String level0Id = level0Object.getString("id");
+                                Department level0 = new Department();
+                                level0.setParentId("root");
+                                level0.setLevel(0);
+                                level0.setObjectId(level0Id);
+                                level0.setName(level0Object.getString("name"));
+                                level0.setFullName(level0.getName());
+                                level0.setOrderNo(level0Object.getInt("orderNo"));
+                                departmentList.add(level0);
 
+                                JSONArray level0Items = level0Object.getJSONArray("items");
+                                for (int j = 0; j != level0Items.length(); j++) {
+                                    JSONObject level1Object = level0Items.getJSONObject(j);
+                                    String level1Id = level1Object.getString("id");
+                                    Department level1 = new Department();
+                                    level1.setParentId(level0Id);
+                                    level1.setLevel(1);
+                                    level1.setObjectId(level1Id);
+                                    level1.setName(level1Object.getString("name"));
+                                    level1.setFullName(level0.getName() + " / " + level1.getName());
+                                    level1.setOrderNo(level1Object.getInt("orderNo"));
+                                    departmentList.add(level1);
+
+                                    JSONArray level1Items = level1Object.getJSONArray("items");
+                                    for (int k = 0; k != level1Items.length(); k++) {
+                                        JSONObject level2Object = level1Items.getJSONObject(k);
+                                        String level2Id = level2Object.getString("id");
+                                        Department level2 = new Department();
+                                        level2.setParentId(level1Id);
+                                        level2.setLevel(2);
+                                        level2.setObjectId(level2Id);
+                                        level2.setName(level2Object.getString("name"));
+                                        level2.setFullName(level0.getName() + " / " + level1.getName() + " / " + level2.getName());
+                                        level2.setOrderNo(level2Object.getInt("orderNo"));
+                                        departmentList.add(level2);
+                                    }
+                                }
+                            }
+                            SimpleApplication.getDaoSession().getDepartmentDao().deleteAll();
+                            SimpleApplication.getDaoSession().getDepartmentDao().insertInTx(departmentList);
                         } catch (Exception e) {
-                            ToastUtils.show(e.getMessage());
+                            //
                         }
-
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> map = new HashMap<>();
-                map.put("Cookie", "JSESSIONID=" + ConfigUtils.SESSION_ID);
-                return map;
-            }
-        };
+                SimpleVolley.getDefaultErrorListener()
+        );
         SimpleVolley.addRequest(jsonArrayRequest);
     }
 
