@@ -24,7 +24,7 @@
             app:layout_paddingTopPercent="1%sh">
 
             <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/quickOrder"
+                android:id="@+id/message"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:gravity="center"
@@ -64,7 +64,7 @@
             app:layout_paddingTopPercent="1%sh">
 
             <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/test2"
+                android:id="@+id/takePhoto"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:gravity="center"
@@ -104,7 +104,7 @@
             app:layout_paddingTopPercent="1%sh">
 
             <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/test3"
+                android:id="@+id/video"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:gravity="center"

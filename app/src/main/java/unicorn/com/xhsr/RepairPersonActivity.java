@@ -2,23 +2,23 @@ package unicorn.com.xhsr;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
 import unicorn.com.xhsr.select.SelectObject;
 
 
-public class RepairPersonActivity extends AppCompatActivity {
+public class RepairPersonActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repair_person);
-        ActivityHelp.initActivity(this);
+
     }
 
     @OnClick(R.id.department)

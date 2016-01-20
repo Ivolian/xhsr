@@ -2,7 +2,6 @@ package unicorn.com.xhsr.groupselect;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -24,13 +23,13 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
-import unicorn.com.xhsr.ActivityHelp;
 import unicorn.com.xhsr.R;
+import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.select.SelectObject;
 import unicorn.com.xhsr.select.SelectObjectWithPosition;
 
 
-public class GroupSelectActivity extends AppCompatActivity {
+public class GroupSelectActivity extends BaseActivity {
 
 
     /*
@@ -74,7 +73,7 @@ public class GroupSelectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         setContentView(R.layout.activity_group_select);
-        ActivityHelp.initActivity(this);
+
         initViews();
     }
 

@@ -1,25 +1,15 @@
 package unicorn.com.xhsr;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
-import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.github.florent37.viewanimator.ViewAnimator;
-
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.RecognizerListener;
@@ -27,26 +17,25 @@ import com.iflytek.cloud.RecognizerResult;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechRecognizer;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.simple.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
-import unicorn.com.xhsr.select.SelectAdapter;
 import unicorn.com.xhsr.select.SelectObject;
 import unicorn.com.xhsr.speech.JsonParser;
+import unicorn.com.xhsr.utils.TextDrawableUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 
 
-public class QuickOrderActivity extends AppCompatActivity {
+public class QuickOrderActivity extends BaseActivity {
 
 
     // =============================== onCreate & onDestroy ===============================
@@ -54,26 +43,21 @@ public class QuickOrderActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
-        setContentView(R.layout.activity_quick_order);
-        ActivityHelp.initActivity(this);
+         setContentView(R.layout.activity_quick_order);
         initViews();
 
-        findViewById(R.id.quickOrder).setBackground(getCircleDrawable(R.color.md_light_blue_200));
-        findViewById(R.id.test2).setBackground(getCircleDrawable(R.color.md_orange_200));
-        findViewById(R.id.test3).setBackground(getCircleDrawable(R.color.md_red_200));
+        findViewById(R.id.message).setBackground(TextDrawableUtils.getRoundRectDrawable(this,R.color.md_light_blue_300));
+        findViewById(R.id.takePhoto).setBackground(TextDrawableUtils.getRoundRectDrawable(this,R.color.md_orange_300));
+        findViewById(R.id.video).setBackground(TextDrawableUtils.getRoundRectDrawable(this,R.color.md_red_300));
+        findViewById(R.id.history).setBackground(TextDrawableUtils.getRoundRectDrawable(this,R.color.md_brown_300));
 
     }
 
-    private TextDrawable getCircleDrawable(@ColorRes int colorRes) {
-        int color = ContextCompat.getColor(this, colorRes);
-        return TextDrawable.builder().buildRoundRect("", color,30);
 
-    }
 
     @Override
     public void onDestroy() {
-        EventBus.getDefault().unregister(this);
+
         super.onDestroy();
         mIat.cancel();
         mIat.destroy();
@@ -81,7 +65,7 @@ public class QuickOrderActivity extends AppCompatActivity {
 
     private void initViews() {
         initEquipment();
-        initBottomSheet();
+
         mIat = SpeechRecognizer.createRecognizer(this, mInitListener);
 
     }
@@ -183,15 +167,6 @@ public class QuickOrderActivity extends AppCompatActivity {
 
     // =============================== bottom sheet ===============================
 
-    @Bind(R.id.bottomsheet)
-    BottomSheetLayout bottomSheet;
-
-    @SuppressWarnings("deprecation")
-    private void initBottomSheet() {
-        WindowManager windowManager = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
-        int height = windowManager.getDefaultDisplay().getHeight();
-        bottomSheet.setPeekSheetTranslation(height * 0.65f);
-    }
 
 
     // =============================== 设备故障 ===============================
@@ -344,25 +319,6 @@ public class QuickOrderActivity extends AppCompatActivity {
     }
 
 
-    // =============================== showSelectSheet ===============================
-
-    private void showSelectSheet(String sheetTitle, String callbackTag, int positionSelected) {
-        View rootView = LayoutInflater.from(this).inflate(R.layout.select_sheet, bottomSheet, false);
-        TextView tvTitle = (TextView) rootView.findViewById(R.id.title);
-        tvTitle.setText(sheetTitle);
-        rootView.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomSheet.dismissSheet();
-            }
-        });
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycleView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new SelectAdapter(callbackTag, positionSelected));
-        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
-        recyclerView.scrollToPosition(positionSelected);
-        bottomSheet.showWithSheetView(rootView);
-    }
 
 
     // =============================== 基础方法 ===============================

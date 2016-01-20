@@ -2,16 +2,16 @@ package unicorn.com.xhsr;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import butterknife.Bind;
+import unicorn.com.xhsr.base.BaseActivity;
 
 /**
  * Created by Administrator on 2016/1/19.
  */
-public class WaitRepairActivity extends AppCompatActivity {
+public class WaitRepairActivity extends BaseActivity {
 
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -21,7 +21,6 @@ public class WaitRepairActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait_repair);
-        ActivityHelp.initActivity(this);
 
         initRecyclerView();
     }

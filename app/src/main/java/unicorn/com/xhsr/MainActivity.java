@@ -2,7 +2,6 @@ package unicorn.com.xhsr;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -25,11 +24,12 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.draglayout.view.DragLayout;
 import unicorn.com.xhsr.other.DividerGridItemDecoration;
 import unicorn.com.xhsr.utils.TextDrawableUtils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
 
     // =============================== onCreate ===============================
@@ -37,17 +37,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_main);
-        ActivityHelp.initActivity(this);
         init();
      }
-
-    @Override
-    public void onDestroy() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
-    }
 
     private void init(){
         initViews();
@@ -136,9 +128,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void initRecycleViewHeader() {
         RecyclerViewHeader recyclerViewHeader = RecyclerViewHeader.fromXml(this, R.layout.recycle_view_head);
-        recyclerViewHeader.findViewById(R.id.quickOrder).setBackground(TextDrawableUtils.getCircleDrawable(this,R.color.md_blue_400));
-        recyclerViewHeader.findViewById(R.id.test2).setBackground(TextDrawableUtils.getCircleDrawable(this,R.color.md_teal_400));
-        recyclerViewHeader.findViewById(R.id.test3).setBackground(TextDrawableUtils.getCircleDrawable(this,R.color.md_red_400));
+        recyclerViewHeader.findViewById(R.id.message).setBackground(TextDrawableUtils.getCircleDrawable(this,R.color.md_blue_400));
+        recyclerViewHeader.findViewById(R.id.takePhoto).setBackground(TextDrawableUtils.getCircleDrawable(this,R.color.md_teal_400));
+        recyclerViewHeader.findViewById(R.id.video).setBackground(TextDrawableUtils.getCircleDrawable(this,R.color.md_red_400));
         recyclerViewHeader.findViewById(R.id.quick_order).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -2,7 +2,6 @@ package unicorn.com.xhsr;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,37 +12,31 @@ import android.widget.TextView;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
-import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.greendao.EmergencyDegree;
 import unicorn.com.xhsr.greendao.ProcessingMode;
 import unicorn.com.xhsr.greendao.ProcessingTimeLimit;
 import unicorn.com.xhsr.select.SelectAdapter;
 import unicorn.com.xhsr.select.SelectObjectWithPosition;
 
-public class ProcessModeActivity extends AppCompatActivity {
+public class ProcessModeActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
+
         setContentView(R.layout.activity_process_mode);
-        ActivityHelp.initActivity(this);
+
         initBottomSheet();
         setProcessModeDefaultValue();
         setProcessTimeLimitDefaultValue();
         setEmergencyDegreeDefaultValue();
-    }
-
-    @Override
-    public void onDestroy() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
     }
 
 

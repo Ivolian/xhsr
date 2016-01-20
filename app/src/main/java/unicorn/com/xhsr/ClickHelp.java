@@ -14,5 +14,4 @@ public class ClickHelp {
         return false;
     }
 
-
 }
