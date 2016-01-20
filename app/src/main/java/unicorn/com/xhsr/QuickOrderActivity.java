@@ -68,7 +68,22 @@ public class QuickOrderActivity extends BaseActivity {
 
         mIat = SpeechRecognizer.createRecognizer(this, mInitListener);
 
+        processModeId = DataHelp.getProcessModeDataProvider().getDataList().get(0).objectId;
+        processTimeLimitId = DataHelp.getProcessTimeLimitDataProvider().getDataList().get(0).objectId;
+        emergencyDegreeId = DataHelp.getEmergencyDegreeDataProvider().getDataList().get(0).objectId;
+
+        setProcessModeText();
+
     }
+
+    private void setProcessModeText(){
+        String text1 =  DataHelp.getValue(DataHelp.getProcessModeDataProvider(),processModeId);
+        String text2 =  DataHelp.getValue(DataHelp.getProcessTimeLimitDataProvider(),processTimeLimitId);
+        String text3 =  DataHelp.getValue(DataHelp.getEmergencyDegreeDataProvider(),emergencyDegreeId);
+        String text = text1 + " / " + text2 + " / " + text3;
+        tvProcessMode.setText(text);
+    }
+
 
     public void setParam() {
         // 清空参数
@@ -158,7 +173,7 @@ public class QuickOrderActivity extends BaseActivity {
             processModeId = data.getStringExtra("processModeId");
             processTimeLimitId = data.getStringExtra("processTimeLimitId");
             emergencyDegreeId = data.getStringExtra("emergencyDegreeId");
-            tvProcessMode.setText(DataHelp.getValue(DataHelp.getProcessModeDataProvider(), processModeId));
+            setProcessModeText();
         }
 
     }
@@ -201,11 +216,11 @@ public class QuickOrderActivity extends BaseActivity {
 
     // =============================== 处理方式 ===============================
 
-    String processModeId = null;
+    String processModeId ;
 
-    String processTimeLimitId = null;
+    String processTimeLimitId ;
 
-    String emergencyDegreeId = null;
+    String emergencyDegreeId ;
 
     @OnClick(R.id.processMode)
     public void processModeOnClick() {

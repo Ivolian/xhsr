@@ -89,7 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/md_black"
-                    app:layout_textSizePercent="3%sh" />
+                    app:layout_textSizePercent="2.8%sh" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -129,7 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/md_black"
-                    app:layout_textSizePercent="3%sh" />
+                    app:layout_textSizePercent="2.8%sh" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -169,7 +169,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/md_black"
-                    app:layout_textSizePercent="3%sh" />
+                    app:layout_textSizePercent="2.8%sh" />
 
                 <ImageView
                     android:layout_width="wrap_content"

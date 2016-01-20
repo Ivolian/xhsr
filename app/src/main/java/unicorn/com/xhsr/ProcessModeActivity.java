@@ -2,7 +2,6 @@ package unicorn.com.xhsr;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.widget.TextView;
 
 import com.f2prateek.dart.InjectExtra;
@@ -27,29 +26,19 @@ public class ProcessModeActivity extends BottomSheetActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_process_mode);
-        setDefaultValue();
+        showDefaultValue();
     }
 
-    private void setDefaultValue() {
-        if (processModeId == null) {
-            processModeId = dpProcessMode.getDataList().get(0).objectId;
-        }
-        onProcessModeSelect(processModeId);
-        if (processTimeLimitId == null) {
-            processTimeLimitId = dpProcessTimeLimit.getDataList().get(0).objectId;
-        }
-        onProcessTimeLimitSelect(processTimeLimitId);
-        if (emergencyDegreeId == null) {
-            emergencyDegreeId = dpEmergencyDegree.getDataList().get(0).objectId;
-        }
-        onEmergencyDegreeSelect(emergencyDegreeId);
+    private void showDefaultValue() {
+        tvProcessMode.setText(DataHelp.getValue(dpProcessMode, processModeId));
+        tvProcessTimeLimit.setText(DataHelp.getValue(dpProcessTimeLimit, processTimeLimitId));
+        tvEmergencyDegree.setText(DataHelp.getValue(dpEmergencyDegree, emergencyDegreeId));
     }
 
 
     // =============================== 处理方式 ===============================
 
     @InjectExtra("processModeId")
-    @Nullable
     String processModeId;
 
     @Bind(R.id.tvProcessMode)
@@ -73,7 +62,6 @@ public class ProcessModeActivity extends BottomSheetActivity {
     // =============================== 处理时限 ===============================
 
     @InjectExtra("processTimeLimitId")
-    @Nullable
     String processTimeLimitId;
 
     SelectAdapter.DataProvider dpProcessTimeLimit = DataHelp.getProcessTimeLimitDataProvider();
@@ -97,8 +85,7 @@ public class ProcessModeActivity extends BottomSheetActivity {
     // =============================== 紧急程度 ===============================
 
     @InjectExtra("emergencyDegreeId")
-    @Nullable
-    String emergencyDegreeId = null;
+    String emergencyDegreeId;
 
     SelectAdapter.DataProvider dpEmergencyDegree = DataHelp.getEmergencyDegreeDataProvider();
 
