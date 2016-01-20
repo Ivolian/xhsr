@@ -2,6 +2,7 @@ package unicorn.com.xhsr.groupselect;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -13,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.f2prateek.dart.InjectExtra;
-import com.github.ppamorim.dragger.DraggerActivity;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import org.simple.eventbus.EventBus;
@@ -30,7 +30,7 @@ import unicorn.com.xhsr.select.SelectObject;
 import unicorn.com.xhsr.select.SelectObjectWithPosition;
 
 
-public class GroupSelectActivity extends DraggerActivity {
+public class GroupSelectActivity extends AppCompatActivity {
 
 
     /*
@@ -183,7 +183,7 @@ public class GroupSelectActivity extends DraggerActivity {
         Intent intent = new Intent();
         intent.putExtra("result", selectObject);
         setResult(resultCode, intent);
-        closeActivity();
+    finish();
     }
 
 
@@ -264,7 +264,7 @@ public class GroupSelectActivity extends DraggerActivity {
 
     @OnClick(R.id.cancel)
     public void cancel() {
-        closeActivity();
+        finish();
     }
 
 

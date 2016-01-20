@@ -2,9 +2,8 @@ package unicorn.com.xhsr;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
-
-import com.github.ppamorim.dragger.DraggerActivity;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -13,7 +12,7 @@ import unicorn.com.xhsr.groupselect.GroupSelectHelper;
 import unicorn.com.xhsr.select.SelectObject;
 
 
-public class RepairPersonActivity extends DraggerActivity {
+public class RepairPersonActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +46,12 @@ public class RepairPersonActivity extends DraggerActivity {
 
     @OnClick(R.id.cancel)
     public void cancel() {
-        closeActivity();
+        finish();
     }
 
     @OnClick(R.id.confirm)
     public void confirm() {
-        closeActivity();
+        finish();
     }
 
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,7 +19,7 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.github.florent37.viewanimator.ViewAnimator;
-import com.github.ppamorim.dragger.DraggerActivity;
+
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.RecognizerListener;
@@ -45,7 +46,7 @@ import unicorn.com.xhsr.speech.JsonParser;
 import unicorn.com.xhsr.utils.ToastUtils;
 
 
-public class QuickOrderActivity extends DraggerActivity {
+public class QuickOrderActivity extends AppCompatActivity {
 
 
     // =============================== onCreate & onDestroy ===============================
@@ -368,7 +369,7 @@ public class QuickOrderActivity extends DraggerActivity {
 
     @OnClick(R.id.cancel)
     public void cancel() {
-        closeActivity();
+        finish();
     }
 
 
@@ -376,7 +377,7 @@ public class QuickOrderActivity extends DraggerActivity {
     @OnClick(R.id.confirm)
     public void confirm() {
         DataHelp.wait_repair = true;
-        closeActivity();
+        finish();
     }
 
 

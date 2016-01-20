@@ -2,9 +2,6 @@ package unicorn.com.xhsr;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.annotation.ColorRes;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,15 +9,25 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.amulyakhare.textdrawable.TextDrawable;
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
 import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
 import com.yo.libs.app.DimensCodeTools;
 
+import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import unicorn.com.xhsr.draglayout.view.DragLayout;
 import unicorn.com.xhsr.other.DividerGridItemDecoration;
+import unicorn.com.xhsr.utils.TextDrawableUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,18 +37,59 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        initViews();
+        ActivityHelp.initActivity(this);
+        init();
+     }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
-    @Bind(R.id.tvWaitRepair)
-    TextView tvWaitRepair;
+    private void init(){
+        initViews();
+        getSessionId();
+    }
 
     private void initViews() {
         initDragLayout();
         initRecyclerView();
+    }
 
+    private void getSessionId(){
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                "http://withub.net.cn/hems/login",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                    }
+                },
+                SimpleVolley.getDefaultErrorListener()
+        ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put("username", "admin");
+                map.put("password", "admin");
+                return map;
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                ConfigUtils.SESSION_ID = response.headers.get("jsessionid");
+                EventBus.getDefault().post(new Object(),"getBasicData");
+                return super.parseNetworkResponse(response);
+            }
+        };
+        SimpleVolley.getRequestQueue().add(stringRequest);
+    }
+
+    @Subscriber(tag = "getBasicData")
+    public void getBasicData(Object o){
         BasicDataGotter basicDataGotter = new BasicDataGotter();
         basicDataGotter.getProcessMode();
         basicDataGotter.getProcessTimeLimit();
@@ -49,9 +97,7 @@ public class MainActivity extends AppCompatActivity {
         basicDataGotter.getEquipment();
         basicDataGotter.getBuildingAndFloor();
         basicDataGotter.getDepartment();
-
-
-        }
+    }
 
 
     // =============================== drag layout ===============================
@@ -88,45 +134,45 @@ public class MainActivity extends AppCompatActivity {
         initRecycleViewHeader();
     }
 
-
-    long lastClickTime = 0;
-
     private void initRecycleViewHeader() {
         RecyclerViewHeader recyclerViewHeader = RecyclerViewHeader.fromXml(this, R.layout.recycle_view_head);
-        recyclerViewHeader.findViewById(R.id.quickOrder).setBackground(getCircleDrawable(R.color.md_blue_400));
-        recyclerViewHeader.findViewById(R.id.test2).setBackground(getCircleDrawable(R.color.md_teal_400));
-        recyclerViewHeader.findViewById(R.id.test3).setBackground(getCircleDrawable(R.color.md_red_400));
-
-
+        recyclerViewHeader.findViewById(R.id.quickOrder).setBackground(TextDrawableUtils.getCircleDrawable(this,R.color.md_blue_400));
+        recyclerViewHeader.findViewById(R.id.test2).setBackground(TextDrawableUtils.getCircleDrawable(this,R.color.md_teal_400));
+        recyclerViewHeader.findViewById(R.id.test3).setBackground(TextDrawableUtils.getCircleDrawable(this,R.color.md_red_400));
         recyclerViewHeader.findViewById(R.id.quick_order).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (lastClickTime != 0) {
-                    if (SystemClock.elapsedRealtime() - lastClickTime < 1000) {
-                        return;
-                    }
-                }
-                lastClickTime = SystemClock.elapsedRealtime();
+              if (ClickHelp.isFastClick()){
+                  return;
+              }
                 Intent intent = new Intent(MainActivity.this, QuickOrderActivity.class);
                 startActivityForResult(intent,2333);
-
             }
         });
-
         recyclerViewHeader.attachTo(recyclerView);
     }
 
-    private TextDrawable getCircleDrawable(@ColorRes int colorRes) {
-        int color = ContextCompat.getColor(this, colorRes);
-        return TextDrawable.builder().buildRound("", color);
 
-    }
+
+
+
+
+
+
+
+
+    @Bind(R.id.tvWaitRepair)
+    TextView tvWaitRepair;
+
+
+
+
+
 
 
     // =============================== onClick ===============================
 
 
-    public static int  SCAN_RESULT_CODE = 1001;
 
     @OnClick(R.id.scan)
     public void scanOnClick(){

@@ -1,1 +1,1 @@
-include ':app', ':dragger'
+include ':app'

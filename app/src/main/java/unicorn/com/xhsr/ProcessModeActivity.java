@@ -2,6 +2,7 @@ package unicorn.com.xhsr;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +11,6 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.flipboard.bottomsheet.BottomSheetLayout;
-import com.github.ppamorim.dragger.DraggerActivity;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import org.simple.eventbus.EventBus;
@@ -26,7 +26,7 @@ import unicorn.com.xhsr.greendao.ProcessingTimeLimit;
 import unicorn.com.xhsr.select.SelectAdapter;
 import unicorn.com.xhsr.select.SelectObjectWithPosition;
 
-public class ProcessModeActivity extends DraggerActivity {
+public class ProcessModeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,12 +170,12 @@ public class ProcessModeActivity extends DraggerActivity {
 
     @OnClick(R.id.cancel)
     public void cancel() {
-        closeActivity();
+        finish();
     }
 
     @OnClick(R.id.confirm)
     public void confirm() {
-        closeActivity();
+        finish();
     }
 
 }

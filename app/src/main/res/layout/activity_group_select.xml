@@ -127,14 +127,14 @@
                         android:id="@+id/selectResultMain"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
+                        android:textColor="@color/md_black"
                         app:layout_textSizePercent="2.8%sh" />
 
                     <TextView
                         android:id="@+id/selectResultSub"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
+                        android:textColor="@color/md_black"
                         app:layout_marginLeftPercent="3%sw"
                         app:layout_textSizePercent="2.8%sh" />
 
