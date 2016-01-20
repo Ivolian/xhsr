@@ -1,4 +1,4 @@
-package unicorn.com.xhsr;
+package unicorn.com.xhsr.other;
 
 
 import unicorn.com.xhsr.utils.ToastUtils;

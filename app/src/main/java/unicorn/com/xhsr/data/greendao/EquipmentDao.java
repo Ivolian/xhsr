@@ -27,8 +27,9 @@ public class EquipmentDao extends AbstractDao<Equipment, Void> {
     public static class Properties {
         public final static Property ObjectId = new Property(0, String.class, "objectId", false, "OBJECT_ID");
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
-        public final static Property OrderNo = new Property(2, int.class, "orderNo", false, "ORDER_NO");
-        public final static Property CategoryId = new Property(3, String.class, "categoryId", false, "CATEGORY_ID");
+        public final static Property FullName = new Property(2, String.class, "fullName", false, "FULL_NAME");
+        public final static Property OrderNo = new Property(3, int.class, "orderNo", false, "ORDER_NO");
+        public final static Property CategoryId = new Property(4, String.class, "categoryId", false, "CATEGORY_ID");
     };
 
     private Query<Equipment> equipmentCategory_EquipmentListQuery;
@@ -47,8 +48,9 @@ public class EquipmentDao extends AbstractDao<Equipment, Void> {
         db.execSQL("CREATE TABLE " + constraint + "\"EQUIPMENT\" (" + //
                 "\"OBJECT_ID\" TEXT NOT NULL ," + // 0: objectId
                 "\"NAME\" TEXT NOT NULL ," + // 1: name
-                "\"ORDER_NO\" INTEGER NOT NULL ," + // 2: orderNo
-                "\"CATEGORY_ID\" TEXT NOT NULL );"); // 3: categoryId
+                "\"FULL_NAME\" TEXT NOT NULL ," + // 2: fullName
+                "\"ORDER_NO\" INTEGER NOT NULL ," + // 3: orderNo
+                "\"CATEGORY_ID\" TEXT NOT NULL );"); // 4: categoryId
     }
 
     /** Drops the underlying database table. */
@@ -63,8 +65,9 @@ public class EquipmentDao extends AbstractDao<Equipment, Void> {
         stmt.clearBindings();
         stmt.bindString(1, entity.getObjectId());
         stmt.bindString(2, entity.getName());
-        stmt.bindLong(3, entity.getOrderNo());
-        stmt.bindString(4, entity.getCategoryId());
+        stmt.bindString(3, entity.getFullName());
+        stmt.bindLong(4, entity.getOrderNo());
+        stmt.bindString(5, entity.getCategoryId());
     }
 
     /** @inheritdoc */
@@ -79,8 +82,9 @@ public class EquipmentDao extends AbstractDao<Equipment, Void> {
         Equipment entity = new Equipment( //
             cursor.getString(offset + 0), // objectId
             cursor.getString(offset + 1), // name
-            cursor.getInt(offset + 2), // orderNo
-            cursor.getString(offset + 3) // categoryId
+            cursor.getString(offset + 2), // fullName
+            cursor.getInt(offset + 3), // orderNo
+            cursor.getString(offset + 4) // categoryId
         );
         return entity;
     }
@@ -90,8 +94,9 @@ public class EquipmentDao extends AbstractDao<Equipment, Void> {
     public void readEntity(Cursor cursor, Equipment entity, int offset) {
         entity.setObjectId(cursor.getString(offset + 0));
         entity.setName(cursor.getString(offset + 1));
-        entity.setOrderNo(cursor.getInt(offset + 2));
-        entity.setCategoryId(cursor.getString(offset + 3));
+        entity.setFullName(cursor.getString(offset + 2));
+        entity.setOrderNo(cursor.getInt(offset + 3));
+        entity.setCategoryId(cursor.getString(offset + 4));
      }
     
     /** @inheritdoc */

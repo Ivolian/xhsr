@@ -30,6 +30,7 @@ import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.DataHelp;
 import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
+import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.select.SelectObject;
 import unicorn.com.xhsr.speech.JsonParser;
 import unicorn.com.xhsr.utils.TextDrawableUtils;
@@ -186,7 +187,7 @@ public class QuickOrderActivity extends BaseActivity {
 
     @OnClick(R.id.floor)
     public void floorOnClick() {
-        GroupSelectActivity.dataProvider = DataHelp.getFloorDataProvider();
+        GroupSelectActivity.dataProvider = DataHelp.getBuildingDataProvider();
         GroupSelectHelper.startGroupSelectActivity(this, "维修地址", 1, ADDRESS_RESULT_CODE);
     }
 

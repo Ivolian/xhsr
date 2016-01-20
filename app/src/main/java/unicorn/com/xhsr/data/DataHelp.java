@@ -14,8 +14,6 @@ import unicorn.com.xhsr.data.greendao.Equipment;
 import unicorn.com.xhsr.data.greendao.EquipmentCategory;
 import unicorn.com.xhsr.data.greendao.EquipmentCategoryDao;
 import unicorn.com.xhsr.data.greendao.EquipmentDao;
-import unicorn.com.xhsr.data.greendao.Floor;
-import unicorn.com.xhsr.data.greendao.FloorDao;
 import unicorn.com.xhsr.data.greendao.ProcessingMode;
 import unicorn.com.xhsr.data.greendao.ProcessingModeDao;
 import unicorn.com.xhsr.data.greendao.ProcessingTimeLimit;
@@ -27,13 +25,14 @@ import unicorn.com.xhsr.select.SelectObject;
 
 public class DataHelp {
 
-    public static GroupSelectActivity.DataProvider getFloorDataProvider() {
+    public static GroupSelectActivity.DataProvider getBuildingDataProvider() {
 
         return new GroupSelectActivity.DataProvider() {
             @Override
             public List<SelectObject> getMainDataList() {
                 BuildingDao buildingDao = SimpleApplication.getDaoSession().getBuildingDao();
                 final List<Building> buildingList = buildingDao.queryBuilder()
+                        .where(BuildingDao.Properties.ParentId.eq("root"))
                         .orderAsc(BuildingDao.Properties.OrderNo)
                         .list();
                 List<SelectObject> selectObjectList = new ArrayList<>();
@@ -47,17 +46,17 @@ public class DataHelp {
             }
 
             @Override
-            public List<SelectObject> getSubDataList(String buildingId) {
-                FloorDao floorDao = SimpleApplication.getDaoSession().getFloorDao();
-                List<Floor> floorList = floorDao.queryBuilder()
-                        .where(FloorDao.Properties.BuildingId.eq(buildingId))
-                        .orderAsc(FloorDao.Properties.OrderNo)
+            public List<SelectObject> getSubDataList(String parentId) {
+                BuildingDao buildingDao = SimpleApplication.getDaoSession().getBuildingDao();
+                List<Building> equipmentList = buildingDao.queryBuilder()
+                        .where(BuildingDao.Properties.ParentId.eq(parentId))
+                        .orderAsc(BuildingDao.Properties.OrderNo)
                         .list();
                 final List<SelectObject> selectObjectList = new ArrayList<>();
-                for (Floor floor : floorList) {
+                for (Building building : equipmentList) {
                     SelectObject selectObject = new SelectObject();
-                    selectObject.objectId = floor.getObjectId();
-                    selectObject.value = floor.getName();
+                    selectObject.objectId = building.getObjectId();
+                    selectObject.value = building.getName();
                     selectObjectList.add(selectObject);
                 }
                 return selectObjectList;
@@ -65,45 +64,24 @@ public class DataHelp {
 
             @Override
             public List<SelectObject> getSearchResultDataList(String query) {
-
-                // 过滤建筑
                 List<SelectObject> selectObjectList = new ArrayList<>();
                 BuildingDao buildingDao = SimpleApplication.getDaoSession().getBuildingDao();
-                List<Building> buildingList = buildingDao.queryBuilder()
-                        .where(BuildingDao.Properties.Name.like("%" + query + "%"))
+                List<Building> children = buildingDao.queryBuilder()
+                        .where(BuildingDao.Properties.Level.eq(1))
+                        .where(BuildingDao.Properties.FullName.like("%" + query + "%"))
                         .orderAsc(BuildingDao.Properties.OrderNo)
                         .list();
-                for (Building building : buildingList) {
-                    for (Floor floor : building.getFloorList()) {
-                        SelectObject selectObject = new SelectObject();
-                        selectObject.objectId = floor.getObjectId();
-                        selectObject.value = building.getName() + " / " + floor.getName();
-                        selectObjectList.add(selectObject);
-                    }
-                }
-
-                // 过滤楼层
-                FloorDao floorDao = SimpleApplication.getDaoSession().getFloorDao();
-                List<Floor> floorList = floorDao.queryBuilder()
-                        .where(FloorDao.Properties.Name.like("%" + query + "%"))
-                        .orderAsc(FloorDao.Properties.OrderNo)
-                        .list();
-                for (Floor floor : floorList) {
+                for (Building child : children) {
                     SelectObject selectObject = new SelectObject();
-                    selectObject.objectId = floor.getObjectId();
-                    selectObject.value = floor.getName();
+                    selectObject.objectId = child.getObjectId();
+                    selectObject.value = child.getFullName();
                     selectObjectList.add(selectObject);
-                    if (!selectObjectList.contains(selectObject)) {
-                        selectObjectList.add(selectObject);
-                    }
                 }
-
                 return selectObjectList;
             }
         };
 
     }
-
 
     public static GroupSelectActivity.DataProvider getEquipmentDataProvider() {
 
@@ -143,33 +121,16 @@ public class DataHelp {
 
             @Override
             public List<SelectObject> getSearchResultDataList(String query) {
-
-                // 过滤设备目录
                 List<SelectObject> selectObjectList = new ArrayList<>();
-                EquipmentCategoryDao equipmentCategoryDao = SimpleApplication.getDaoSession().getEquipmentCategoryDao();
-                List<EquipmentCategory> equipmentCategoryList = equipmentCategoryDao.queryBuilder()
-                        .where(EquipmentCategoryDao.Properties.Name.like("%" + query + "%"))
-                        .orderAsc(EquipmentCategoryDao.Properties.OrderNo)
-                        .list();
-                for (EquipmentCategory equipmentCategory : equipmentCategoryList) {
-                    for (Equipment equipment : equipmentCategory.getEquipmentList()) {
-                        SelectObject selectObject = new SelectObject();
-                        selectObject.objectId = equipment.getObjectId();
-                        selectObject.value = equipmentCategory.getName() + " / " + equipment.getName();
-                        selectObjectList.add(selectObject);
-                    }
-                }
-
-                // 过滤设备
                 EquipmentDao equipmentDao = SimpleApplication.getDaoSession().getEquipmentDao();
                 List<Equipment> equipmentList = equipmentDao.queryBuilder()
-                        .where(EquipmentDao.Properties.Name.like("%" + query + "%"))
+                        .where(EquipmentDao.Properties.FullName.like("%" + query + "%"))
                         .orderAsc(EquipmentDao.Properties.OrderNo)
                         .list();
                 for (Equipment equipment : equipmentList) {
                     SelectObject selectObject = new SelectObject();
                     selectObject.objectId = equipment.getObjectId();
-                    selectObject.value = equipment.getName();
+                    selectObject.value = equipment.getFullName();
                     selectObjectList.add(selectObject);
                 }
                 return selectObjectList;
@@ -182,36 +143,23 @@ public class DataHelp {
         return new GroupSelectActivity.DataProvider() {
             @Override
             public List<SelectObject> getMainDataList() {
-//                DepartmentCategoryDao departmentCategoryDao = SimpleApplication.getDaoSession().getDepartmentCategoryDao();
-//                final List<DepartmentCategory> departmentCategoryList = departmentCategoryDao.queryBuilder()
-//                        .orderAsc(DepartmentCategoryDao.Properties.OrderNo)
-//                        .list();
-//                List<SelectObject> selectObjectList = new ArrayList<>();
-//                for (DepartmentCategory departmentCategory : departmentCategoryList) {
-//                    SelectObject selectObject = new SelectObject();
-//                    selectObject.objectId = departmentCategory.getObjectId();
-//                    selectObject.value = departmentCategory.getName();
-//                    selectObjectList.add(selectObject);
-//                }
-//                return selectObjectList;
-                return null;
+                BuildingDao buildingDao = SimpleApplication.getDaoSession().getBuildingDao();
+                final List<Building> buildingList = buildingDao.queryBuilder()
+                        .orderAsc(BuildingDao.Properties.OrderNo)
+                        .list();
+                List<SelectObject> selectObjectList = new ArrayList<>();
+                for (Building building : buildingList) {
+                    SelectObject selectObject = new SelectObject();
+                    selectObject.objectId = building.getObjectId();
+                    selectObject.value = building.getName();
+                    selectObjectList.add(selectObject);
+                }
+                return selectObjectList;
             }
 
             @Override
-            public List<SelectObject> getSubDataList(String categoryId) {
-//                DepartmentDao departmentDao = SimpleApplication.getDaoSession().getDepartmentDao();
-//                List<Department> departmentList = departmentDao.queryBuilder()
-//                        .where(DepartmentDao.Properties.CategoryId.eq(categoryId))
-//                        .orderAsc(DepartmentDao.Properties.OrderNo)
-//                        .list();
-//                final List<SelectObject> selectObjectList = new ArrayList<>();
-//                for (Department department : departmentList) {
-//                    SelectObject selectObject = new SelectObject();
-//                    selectObject.objectId = department.getObjectId();
-//                    selectObject.value = department.getName();
-//                    selectObjectList.add(selectObject);
-//                }
-//                return selectObjectList;
+            public List<SelectObject> getSubDataList(String fatherId) {
+
                 return null;
             }
 
@@ -247,17 +195,18 @@ public class DataHelp {
 //                    selectObjectList.add(selectObject);
 //                    // todo
 //                }
-        return null;
+                return null;
             }
         };
     }
 
+    //
 
     public static boolean wait_repair = false;
 
+    //
 
     public static SelectAdapter.DataProvider getProcessModeDataProvider() {
-
         return new SelectAdapter.DataProvider() {
             @Override
             public List<SelectObject> getDataList() {
@@ -275,11 +224,9 @@ public class DataHelp {
                 return dataList;
             }
         };
-
     }
 
     public static SelectAdapter.DataProvider getProcessTimeLimitDataProvider() {
-
         return new SelectAdapter.DataProvider() {
             @Override
             public List<SelectObject> getDataList() {
@@ -297,12 +244,9 @@ public class DataHelp {
                 return dataList;
             }
         };
-
     }
 
-
     public static SelectAdapter.DataProvider getEmergencyDegreeDataProvider() {
-
         return new SelectAdapter.DataProvider() {
             @Override
             public List<SelectObject> getDataList() {
@@ -320,10 +264,9 @@ public class DataHelp {
                 return dataList;
             }
         };
-
     }
 
-
+    //
 
     public static String getValue(SelectAdapter.DataProvider dataProvider, String objectIdSelected) {
         for (SelectObject selectObject : dataProvider.getDataList()) {

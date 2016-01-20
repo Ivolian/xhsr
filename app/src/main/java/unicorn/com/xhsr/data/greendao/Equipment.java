@@ -10,6 +10,8 @@ public class Equipment implements java.io.Serializable {
     private String objectId;
     /** Not-null value. */
     private String name;
+    /** Not-null value. */
+    private String fullName;
     private int orderNo;
     /** Not-null value. */
     private String categoryId;
@@ -17,9 +19,10 @@ public class Equipment implements java.io.Serializable {
     public Equipment() {
     }
 
-    public Equipment(String objectId, String name, int orderNo, String categoryId) {
+    public Equipment(String objectId, String name, String fullName, int orderNo, String categoryId) {
         this.objectId = objectId;
         this.name = name;
+        this.fullName = fullName;
         this.orderNo = orderNo;
         this.categoryId = categoryId;
     }
@@ -42,6 +45,16 @@ public class Equipment implements java.io.Serializable {
     /** Not-null value; ensure this value is available before it is saved to the database. */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /** Not-null value. */
+    public String getFullName() {
+        return fullName;
+    }
+
+    /** Not-null value; ensure this value is available before it is saved to the database. */
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public int getOrderNo() {
