@@ -2,6 +2,7 @@ package unicorn.com.xhsr.groupselect;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -15,7 +16,6 @@ import android.widget.TextView;
 import com.f2prateek.dart.InjectExtra;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
-import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
 import java.util.List;
@@ -25,8 +25,9 @@ import butterknife.OnClick;
 import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.base.BaseActivity;
+import unicorn.com.xhsr.data.DataHelp;
 import unicorn.com.xhsr.select.SelectObject;
-import unicorn.com.xhsr.select.SelectObjectWithPosition;
+import unicorn.com.xhsr.utils.ToastUtils;
 
 
 public class GroupSelectActivity extends BaseActivity {
@@ -50,9 +51,13 @@ public class GroupSelectActivity extends BaseActivity {
 
         List<SelectObject> getMainDataList();
 
-        List<SelectObject> getSubDataList(String objectIdSelected);
+        List<SelectObject> getSubDataList(String selectedId);
 
         List<SelectObject> getSearchResultDataList(String query);
+
+        String getValue(String selectedId, String tag);
+
+        int getPosition(String selectedId, String tag);
 
     }
 
@@ -61,6 +66,10 @@ public class GroupSelectActivity extends BaseActivity {
 
     @InjectExtra("name")
     String name;
+
+    @Nullable
+    @InjectExtra("selectedId")
+    String selectedId;
 
     @InjectExtra("resultCode")
     Integer resultCode;
@@ -71,16 +80,8 @@ public class GroupSelectActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_group_select);
-
         initViews();
-    }
-
-    @Override
-    public void onDestroy() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
     }
 
     private void initViews() {
@@ -109,7 +110,7 @@ public class GroupSelectActivity extends BaseActivity {
     EditText etSearch;
 
     @Bind(R.id.clear)
-    ImageView ivClear;
+    ImageView clear;
 
     private void initSearchBox() {
         etSearch.setHint("输入" + name + "相关信息");
@@ -122,10 +123,10 @@ public class GroupSelectActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence input, int start, int before, int count) {
                 if (TextUtils.isEmpty(input)) {
-                    ivClear.setVisibility(View.INVISIBLE);
+                    clear.setVisibility(View.INVISIBLE);
                     rvSearchResult.setVisibility(View.INVISIBLE);
                 } else {
-                    ivClear.setVisibility(View.VISIBLE);
+                    clear.setVisibility(View.VISIBLE);
                     List<SelectObject> dataList = dataProvider.getSearchResultDataList(input.toString());
                     if (dataList.isEmpty()) {
                         rvSearchResult.setVisibility(View.INVISIBLE);
@@ -174,37 +175,18 @@ public class GroupSelectActivity extends BaseActivity {
     }
 
     @Subscriber(tag = "onSearchResultSelect")
-    private void onSearchResultSelect(SelectObject selectObject) {
-        finishAfterSetResult(selectObject);
-    }
-
-    private void finishAfterSetResult(SelectObject selectObject) {
-        Intent intent = new Intent();
-        intent.putExtra("result", selectObject);
-        setResult(resultCode, intent);
-    finish();
+    private void onSearchResultSelect(String selectId) {
+        finishAfterSetResult(selectId);
     }
 
 
     // =============================== 选择结果部分 ===============================
 
-    @Bind(R.id.selectResultMain)
-    TextView tvSelectResultMain;
+    @Bind(R.id.mainSelectResult)
+    TextView mainSelectResult;
 
-    @Bind(R.id.selectResultSub)
-    TextView tvSelectResultSub;
-
-    SelectObjectWithPosition selectObjectMain;
-
-    SelectObjectWithPosition selectObjectSub;
-
-    @OnClick(R.id.confirm)
-    public void confirm() {
-        SelectObject selectObject = new SelectObject();
-        selectObject.value = selectObjectMain.value + " / " + selectObjectSub.value;
-        selectObject.objectId = selectObjectSub.objectId;
-        finishAfterSetResult(selectObject);
-    }
+    @Bind(R.id.subSelectResult)
+    TextView subSelectResult;
 
 
     // =============================== 主列表 ===============================
@@ -220,7 +202,12 @@ public class GroupSelectActivity extends BaseActivity {
         rvMain.setAdapter(new SlideInLeftAnimationAdapter(mainAdapter));
         rvMain.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
         mainAdapter.setDataList(dataProvider.getMainDataList());
-        mainAdapter.selectItem(0);
+        if (selectedId == null) {
+            mainAdapter.selectItem(0);
+        } else {
+            mainAdapter.selectItem(dataProvider.getPosition(selectedId, DataHelp.MAIN_TAG));
+        }
+
     }
 
 
@@ -236,26 +223,30 @@ public class GroupSelectActivity extends BaseActivity {
         subAdapter = new SubAdapter();
         rvSub.setAdapter(subAdapter);
         rvSub.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
+        if (selectedId != null){
+            subAdapter.selectItem(dataProvider.getPosition(selectedId,DataHelp.SUB_TAG));
+        }
     }
 
 
     // =============================== onSelect ===============================
 
     @Subscriber(tag = "onMainSelect")
-    private void onRvMainSelect(SelectObjectWithPosition selectObjectWithPosition) {
-        selectObjectMain = selectObjectWithPosition;
-        tvSelectResultMain.setText(selectObjectWithPosition.value);
-        tvSelectResultSub.setText("");
+    private void onRvMainSelect(String mainId) {
+        mainSelectResult.setText(dataProvider.getValue(mainId, DataHelp.MAIN_TAG));
+        this.selectedId = null;
+        subSelectResult.setText("");
+
         subAdapter.positionSelected = -1;
-        subAdapter.setDataList(dataProvider.getSubDataList(selectObjectWithPosition.objectId));
+        subAdapter.setDataList(dataProvider.getSubDataList(mainId));
         subAdapter.notifyDataSetChanged();
         rvSub.smoothScrollToPosition(0);
     }
 
     @Subscriber(tag = "onSubSelect")
-    private void onRvSubSelect(SelectObjectWithPosition selectObjectWithPosition) {
-        tvSelectResultSub.setText(selectObjectWithPosition.value);
-        selectObjectSub = selectObjectWithPosition;
+    private void onRvSubSelect(String selectedId) {
+        this.selectedId = selectedId;
+        subSelectResult.setText(dataProvider.getValue(selectedId, DataHelp.SUB_TAG));
     }
 
 
@@ -263,6 +254,22 @@ public class GroupSelectActivity extends BaseActivity {
 
     @OnClick(R.id.cancel)
     public void cancel() {
+        finish();
+    }
+
+    @OnClick(R.id.confirm)
+    public void confirm() {
+        if (selectedId == null) {
+            ToastUtils.show("请先选择" + name);
+            return;
+        }
+        finishAfterSetResult(selectedId);
+    }
+
+    private void finishAfterSetResult(String selectedId) {
+        Intent data = new Intent();
+        data.putExtra("selectedId", selectedId);
+        setResult(resultCode, data);
         finish();
     }
 

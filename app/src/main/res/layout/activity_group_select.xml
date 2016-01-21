@@ -124,14 +124,14 @@
                     android:paddingRight="10dp">
 
                     <TextView
-                        android:id="@+id/selectResultMain"
+                        android:id="@+id/mainSelectResult"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/md_black"
                         app:layout_textSizePercent="2.8%sh" />
 
                     <TextView
-                        android:id="@+id/selectResultSub"
+                        android:id="@+id/subSelectResult"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/md_black"

@@ -38,7 +38,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         @OnClick(R.id.row)
         public void rowOnClick() {
             SelectObject data = dataList.get(getAdapterPosition());
-            EventBus.getDefault().post(data, "onSearchResultSelect");
+            EventBus.getDefault().post(data.objectId, "onSearchResultSelect");
         }
     }
 

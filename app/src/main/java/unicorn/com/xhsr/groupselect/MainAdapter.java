@@ -17,7 +17,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
-import unicorn.com.xhsr.select.SelectHelper;
 import unicorn.com.xhsr.select.SelectObject;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
@@ -25,6 +24,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     int positionSelected = -1;
 
     List<SelectObject> dataList = new ArrayList<>();
+
+    public List<SelectObject> getDataList() {
+        return dataList;
+    }
 
     public void setDataList(List<SelectObject> dataList) {
         this.dataList = dataList;
@@ -34,7 +37,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         positionSelected = position;
         notifyDataSetChanged();
         SelectObject data = dataList.get(position);
-        EventBus.getDefault().post(SelectHelper.create(data,position), "onMainSelect");
+        EventBus.getDefault().post(data.objectId, "onMainSelect");
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

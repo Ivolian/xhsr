@@ -23,7 +23,6 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.data.greendao.Equipment;
-import unicorn.com.xhsr.select.SelectHelper;
 import unicorn.com.xhsr.select.SelectObject;
 
 public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
@@ -40,7 +39,7 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
         positionSelected = position;
         notifyDataSetChanged();
         SelectObject data = dataList.get(position);
-        EventBus.getDefault().post(SelectHelper.create(data,position), "onSubSelect");
+        EventBus.getDefault().post(data.objectId, "onSubSelect");
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

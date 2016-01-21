@@ -142,14 +142,14 @@ public class QuickOrderActivity extends BaseActivity {
     @OnClick(R.id.equipment)
     public void equipmentOnClick() {
         GroupSelectActivity.dataProvider = DataHelp.getEquipmentDataProvider();
-        GroupSelectHelper.startGroupSelectActivity(this, "设备", 1, EQUIPMENT_RESULT_CODE);
+        GroupSelectHelper.startGroupSelectActivity(this, "设备", "", EQUIPMENT_RESULT_CODE);
     }
 
     @Bind(R.id.tvEquipment)
     TextView tvEquipment;
 
 
-    public int ADDRESS_RESULT_CODE = 1002;
+    public int BUILDING_RESULT_CODE = 1002;
 
 
     // =============================== onActivityResult ===============================
@@ -157,18 +157,19 @@ public class QuickOrderActivity extends BaseActivity {
     @Bind(R.id.tvProcessMode)
     TextView tvProcessMode;
 
+    String buildingId;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == EQUIPMENT_RESULT_CODE) {
-            SelectObject selectObject = (SelectObject) data.getSerializableExtra(GroupSelectHelper.RESULT);
-            selectObjectEquipment = selectObject;
-            tvEquipment.setText(selectObject.value);
+            String objectIdSelected = data.getStringExtra("objectIdSelected");
+            tvEquipment.setText(objectIdSelected);
         }
-        if (resultCode == ADDRESS_RESULT_CODE) {
-            SelectObject selectObject = (SelectObject) data.getSerializableExtra(GroupSelectHelper.RESULT);
-            selectObjectAddress = selectObject;
-            tvFloor.setText(selectObject.value);
+        if (resultCode == BUILDING_RESULT_CODE) {
+            String objectId = data.getStringExtra("objectId");
+           buildingId= objectId;
+            tvBuilding.setText(GroupSelectActivity.dataProvider.getValue(objectId,DataHelp.FULL_TAG));
         }
         if (resultCode == ProcessModeActivity.PROCESS_MODE_RESULT_CODE) {
             processModeId = data.getStringExtra("processModeId");
@@ -180,39 +181,15 @@ public class QuickOrderActivity extends BaseActivity {
     }
 
 
-    SelectObject selectObjectAddress;
+    @Bind(R.id.tvBuilding)
+    TextView tvBuilding;
 
-    @Bind(R.id.tvFloor)
-    TextView tvFloor;
-
-    @OnClick(R.id.floor)
+    @OnClick(R.id.building)
     public void floorOnClick() {
         GroupSelectActivity.dataProvider = DataHelp.getBuildingDataProvider();
-        GroupSelectHelper.startGroupSelectActivity(this, "维修地址", 1, ADDRESS_RESULT_CODE);
+        GroupSelectHelper.startGroupSelectActivity(this, "维修地址", buildingId, BUILDING_RESULT_CODE);
     }
 
-    // =============================== bottom sheet ===============================
-
-
-    // =============================== 设备故障 ===============================
-
-//    @Bind(R.id.tvBreakdown)
-//    TextView tvBreakdown;
-//
-//    SelectObject soBreakdown;
-//
-//    @OnClick(R.id.breakdown)
-//    public void selectBreakdown() {
-//        showSelectSheet("选择设备故障", "onBreakdownSelect", soBreakdown == null ? -1 : soBreakdown.position);
-//    }
-//
-//    @Subscriber(tag = "onBreakdownSelect")
-//    private void onBreakdownSelect(SelectObject selectObjectWithPosition) {
-//        soBreakdown = selectObjectWithPosition;
-//        bottomSheet.dismissSheet();
-//        String breakdown = (String) selectObjectWithPosition.value;
-//        tvBreakdown.setText(breakdown);
-//    }
 
 
     // =============================== 处理方式 ===============================

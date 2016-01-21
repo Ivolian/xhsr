@@ -150,7 +150,7 @@
 
             <!-- 维修地址 8% -->
             <com.zhy.android.percent.support.PercentLinearLayout
-                android:id="@+id/floor"
+                android:id="@+id/building"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="?attr/selectableItemBackground"
@@ -169,7 +169,7 @@
                     app:layout_textSizePercent="3%sh" />
 
                 <TextView
-                    android:id="@+id/tvFloor"
+                    android:id="@+id/tvBuilding"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/md_black"
