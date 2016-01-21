@@ -30,6 +30,7 @@ import unicorn.com.xhsr.data.DataHelp;
 import unicorn.com.xhsr.draglayout.view.DragLayout;
 import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.other.DividerGridItemDecoration;
+import unicorn.com.xhsr.utils.ConfigUtils;
 import unicorn.com.xhsr.utils.TextDrawableUtils;
 import unicorn.com.xhsr.volley.SimpleVolley;
 

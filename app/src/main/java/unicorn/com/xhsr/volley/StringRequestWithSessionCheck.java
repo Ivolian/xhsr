@@ -7,7 +7,7 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-import unicorn.com.xhsr.ConfigUtils;
+import unicorn.com.xhsr.utils.ConfigUtils;
 
 
 public class StringRequestWithSessionCheck extends StringRequest {

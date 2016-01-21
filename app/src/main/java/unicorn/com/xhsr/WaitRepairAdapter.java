@@ -16,13 +16,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class AssistAdapter extends RecyclerView.Adapter<AssistAdapter.ViewHolder> {
+public class WaitRepairAdapter extends RecyclerView.Adapter<WaitRepairAdapter.ViewHolder> {
 
 
     private List<Object> dataList = new ArrayList<>();
 
 
-    public AssistAdapter() {
+    public WaitRepairAdapter() {
         for (int i = 0; i != 20; i++) {
             dataList.add(new Object());
         }
@@ -52,7 +52,7 @@ public class AssistAdapter extends RecyclerView.Adapter<AssistAdapter.ViewHolder
     // ================================== onCreateViewHolder ==================================
 
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_assist, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_wait_repair, viewGroup, false));
     }
 
 

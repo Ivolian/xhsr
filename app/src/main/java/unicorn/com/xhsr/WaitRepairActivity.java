@@ -25,11 +25,11 @@ public class WaitRepairActivity extends BaseActivity {
         initRecyclerView();
     }
 
-    AssistAdapter assistAdapter;
+    WaitRepairAdapter waitRepairAdapter;
     private void initRecyclerView() {
         recyclerView.setLayoutManager(getLinearLayoutManager(this));
-        assistAdapter = new AssistAdapter();
-        recyclerView.setAdapter(assistAdapter);
+        waitRepairAdapter = new WaitRepairAdapter();
+        recyclerView.setAdapter(waitRepairAdapter);
     }
 
     public  LinearLayoutManager getLinearLayoutManager(Context context) {

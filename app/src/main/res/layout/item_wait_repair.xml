@@ -1,0 +1,88 @@
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:background="@color/md_white"
+    android:orientation="horizontal">
+
+    <com.zhy.android.percent.support.PercentFrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_widthPercent="25%sw">
+
+        <ImageView
+            android:id="@+id/textDrawable"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            app:layout_heightPercent="7%sh"
+            app:layout_marginTopPercent="8%sh"
+            app:layout_widthPercent="7%sh" />
+
+    </com.zhy.android.percent.support.PercentFrameLayout>
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        app:layout_paddingPercent="4%sw">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="科室用电 / 插座"
+            android:textColor="@color/md_black"
+            app:layout_textSizePercent="3.2%sh" />
+
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_paddingTopPercent="1%sh">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="故障: 短路"
+                app:layout_textSizePercent="2.8%sh" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="待维修"
+                android:textColor="@color/md_orange_400"
+                app:layout_paddingLeftPercent="2%sw"
+                app:layout_textSizePercent="2.8%sh" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="地址: 外科楼 1F"
+            android:textColor="@color/md_black"
+            app:layout_paddingTopPercent="1%sh"
+            app:layout_textSizePercent="2.8%sh" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="报修单号:  1346773221"
+            android:textColor="@color/md_grey_600"
+            app:layout_paddingTopPercent="3%sh"
+            app:layout_textSizePercent="2.7%sh" />
+
+        <TextView
+            app:layout_paddingTopPercent="1%sh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2016-01-21 15:01:32"
+            android:textColor="@color/md_grey_600"
+            app:layout_textSizePercent="2.7%sh" />
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+</com.zhy.android.percent.support.PercentLinearLayout>
+
