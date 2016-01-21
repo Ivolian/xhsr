@@ -67,4 +67,5 @@ dependencies {
     compile 'com.github.elevenetc:badgeview:v1.0.0'
     compile 'com.mikepenz:weather-icons-typeface:2.0.10.1@aar'
     compile 'cn.pedant.sweetalert:library:1.3'
+    compile 'com.flyco.dialog:FlycoDialog_Lib:1.2.6@aar'
 }

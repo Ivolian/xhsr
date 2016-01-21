@@ -2,6 +2,7 @@ package unicorn.com.xhsr;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,6 +15,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
+import com.flyco.animation.BounceEnter.BounceTopEnter;
+import com.flyco.animation.SlideExit.SlideBottomExit;
+import com.flyco.dialog.widget.NormalDialog;
 import com.yo.libs.app.DimensCodeTools;
 
 import org.simple.eventbus.EventBus;
@@ -108,6 +112,7 @@ public class MainActivity extends BaseActivity {
         dragLayout.setDragListener(new DragLayout.DragListener() {
             @Override
             public void onOpen() {
+
             }
 
             @Override

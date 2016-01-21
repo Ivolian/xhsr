@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.flyco.animation.BounceEnter.BounceTopEnter;
+import com.flyco.animation.SlideExit.SlideBottomExit;
+import com.flyco.dialog.widget.NormalDialog;
 import com.zhy.android.percent.support.PercentFrameLayout;
 
 import org.simple.eventbus.EventBus;
@@ -19,10 +22,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import unicorn.com.xhsr.R;
-import unicorn.com.xhsr.SimpleApplication;
-import unicorn.com.xhsr.data.greendao.Equipment;
 import unicorn.com.xhsr.select.SelectObject;
 
 public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
@@ -76,25 +76,20 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
 
         public boolean rowOnLongClick(){
 
-            final SelectObject data = dataList.get(getAdapterPosition());
-            new SweetAlertDialog(tvValue.getContext(), SweetAlertDialog.NORMAL_TYPE)
-                    .setTitleText("设为常用？")
-                    .setConfirmText("确认")
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            Equipment equipment = new Equipment();
-                            equipment.setOrderNo(0);
-                            equipment.setCategoryId("root");
-                            equipment.setName(data.value);
-                            equipment.setObjectId(data.objectId);
-
-                            SimpleApplication.getDaoSession().getEquipmentDao().insert(equipment);
-
-                            sDialog.dismissWithAnimation();
-                        }
-                    })
+            Context context = tvValue.getContext();
+            int colorPrimary = ContextCompat.getColor(context,R.color.colorPrimary);
+            final NormalDialog dialog = new NormalDialog(context);
+            dialog.isTitleShow(true)
+                    .title("提示")
+                    .titleLineColor(colorPrimary)
+                    .titleTextColor(colorPrimary)
+                    .content("确定将 \"" + tvValue.getText() + "\" 设置为常用?")
+                    .contentTextSize(18)
+                    .btnText("确认", "取消")//
+                    .showAnim(new BounceTopEnter())//
+                    .dismissAnim(new SlideBottomExit())//
                     .show();
+
         return true;
         }
     }
