@@ -36,32 +36,7 @@ public class DataHelp {
     public static GroupSelectActivity.DataProvider getBuildingDataProvider() {
 
         return new GroupSelectActivity.DataProvider() {
-            @Override
-            public int getPosition(String selectedId, String tag) {
-                BuildingDao buildingDao = SimpleApplication.getDaoSession().getBuildingDao();
-                final List<Building> buildingList = buildingDao.queryBuilder()
-                        .where(BuildingDao.Properties.ObjectId.eq(selectedId))
-                        .list();
-                Building building = buildingList.get(0);
-               return building.getOrderNo();
-            }
 
-            @Override
-            public String getValue(String selectedId, String tag) {
-                BuildingDao buildingDao = SimpleApplication.getDaoSession().getBuildingDao();
-                final List<Building> buildingList = buildingDao.queryBuilder()
-                        .where(BuildingDao.Properties.ObjectId.eq(selectedId))
-                        .list();
-                Building building = buildingList.get(0);
-                switch (tag) {
-                    case MAIN_TAG:
-                    case SUB_TAG:
-                        return building.getName();
-                    case FULL_TAG:
-                        return building.getFullName();
-                }
-                return "";
-            }
 
             @Override
             public List<SelectObject> getMainDataList() {
@@ -81,10 +56,10 @@ public class DataHelp {
             }
 
             @Override
-            public List<SelectObject> getSubDataList(String selectedId) {
+            public List<SelectObject> getSubDataList(String mainId) {
                 BuildingDao buildingDao = SimpleApplication.getDaoSession().getBuildingDao();
                 List<Building> equipmentList = buildingDao.queryBuilder()
-                        .where(BuildingDao.Properties.ParentId.eq(selectedId))
+                        .where(BuildingDao.Properties.ParentId.eq(mainId))
                         .orderAsc(BuildingDao.Properties.OrderNo)
                         .list();
                 final List<SelectObject> selectObjectList = new ArrayList<>();
@@ -122,15 +97,7 @@ public class DataHelp {
 
         return new GroupSelectActivity.DataProvider() {
 
-            @Override
-            public int getPosition(String selectedId, String tag) {
-                return 0;
-            }
 
-            @Override
-            public String getValue(String selectedId, String tag) {
-                return null;
-            }
 
             @Override
             public List<SelectObject> getMainDataList() {
@@ -149,10 +116,10 @@ public class DataHelp {
             }
 
             @Override
-            public List<SelectObject> getSubDataList(String selectedId) {
+            public List<SelectObject> getSubDataList(String mainId) {
                 EquipmentDao equipmentDao = SimpleApplication.getDaoSession().getEquipmentDao();
                 List<Equipment> equipmentList = equipmentDao.queryBuilder()
-                        .where(EquipmentDao.Properties.CategoryId.eq(selectedId))
+                        .where(EquipmentDao.Properties.CategoryId.eq(mainId))
                         .orderAsc(EquipmentDao.Properties.OrderNo)
                         .list();
                 final List<SelectObject> selectObjectList = new ArrayList<>();
@@ -187,15 +154,7 @@ public class DataHelp {
     public static GroupSelectActivity.DataProvider getDepartmentDataProvider() {
 
         return new GroupSelectActivity.DataProvider() {
-            @Override
-            public int getPosition(String selectedId, String tag) {
-                return 0;
-            }
 
-            @Override
-            public String getValue(String selectedId, String tag) {
-                return null;
-            }
 
             @Override
             public List<SelectObject> getMainDataList() {
@@ -215,10 +174,10 @@ public class DataHelp {
             }
 
             @Override
-            public List<SelectObject> getSubDataList(String selectedId) {
+            public List<SelectObject> getSubDataList(String mainId) {
                 DepartmentDao departmentDao = SimpleApplication.getDaoSession().getDepartmentDao();
                 List<Department> level1List = departmentDao.queryBuilder()
-                        .where(DepartmentDao.Properties.ParentId.eq(selectedId))
+                        .where(DepartmentDao.Properties.ParentId.eq(mainId))
                         .orderAsc(DepartmentDao.Properties.OrderNo)
                         .list();
                 final List<SelectObject> selectObjectList = new ArrayList<>();

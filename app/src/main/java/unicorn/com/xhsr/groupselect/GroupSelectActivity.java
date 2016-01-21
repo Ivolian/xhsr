@@ -25,7 +25,6 @@ import butterknife.OnClick;
 import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.base.BaseActivity;
-import unicorn.com.xhsr.data.DataHelp;
 import unicorn.com.xhsr.select.SelectObject;
 import unicorn.com.xhsr.utils.ToastUtils;
 
@@ -34,12 +33,11 @@ public class GroupSelectActivity extends BaseActivity {
 
 
     /*
-        GroupSelect 分为 5 块部分
+        GroupSelect 分为 4 块部分
         1. 查询框
         2. 查询结果列表
-        3. 选择结果
-        4. 主列表
-        5. 副列表
+        3. 主列表
+        4. 副列表
      */
 
 
@@ -51,13 +49,9 @@ public class GroupSelectActivity extends BaseActivity {
 
         List<SelectObject> getMainDataList();
 
-        List<SelectObject> getSubDataList(String selectedId);
+        List<SelectObject> getSubDataList(String mainId);
 
         List<SelectObject> getSearchResultDataList(String query);
-
-        String getValue(String selectedId, String tag);
-
-        int getPosition(String selectedId, String tag);
 
     }
 
@@ -68,8 +62,12 @@ public class GroupSelectActivity extends BaseActivity {
     String name;
 
     @Nullable
-    @InjectExtra("selectedId")
-    String selectedId;
+    @InjectExtra("mainId")
+    String mainId;
+
+    @Nullable
+    @InjectExtra("subId")
+    String subId;
 
     @InjectExtra("resultCode")
     Integer resultCode;
@@ -175,18 +173,16 @@ public class GroupSelectActivity extends BaseActivity {
     }
 
     @Subscriber(tag = "onSearchResultSelect")
-    private void onSearchResultSelect(String selectId) {
-        finishAfterSetResult(selectId);
+    private void onSearchResultSelect(String subId) {
+        finishAfterSetResult(subId);
     }
 
-
-    // =============================== 选择结果部分 ===============================
-
-    @Bind(R.id.mainSelectResult)
-    TextView mainSelectResult;
-
-    @Bind(R.id.subSelectResult)
-    TextView subSelectResult;
+    private void finishAfterSetResult(String objectId) {
+        Intent data = new Intent();
+        data.putExtra("objectId", objectId);
+        setResult(resultCode, data);
+        finish();
+    }
 
 
     // =============================== 主列表 ===============================
@@ -202,12 +198,7 @@ public class GroupSelectActivity extends BaseActivity {
         rvMain.setAdapter(new SlideInLeftAnimationAdapter(mainAdapter));
         rvMain.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
         mainAdapter.setDataList(dataProvider.getMainDataList());
-        if (selectedId == null) {
             mainAdapter.selectItem(0);
-        } else {
-            mainAdapter.selectItem(dataProvider.getPosition(selectedId, DataHelp.MAIN_TAG));
-        }
-
     }
 
 
@@ -223,9 +214,7 @@ public class GroupSelectActivity extends BaseActivity {
         subAdapter = new SubAdapter();
         rvSub.setAdapter(subAdapter);
         rvSub.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
-        if (selectedId != null){
-            subAdapter.selectItem(dataProvider.getPosition(selectedId,DataHelp.SUB_TAG));
-        }
+
     }
 
 
@@ -233,20 +222,18 @@ public class GroupSelectActivity extends BaseActivity {
 
     @Subscriber(tag = "onMainSelect")
     private void onRvMainSelect(String mainId) {
-        mainSelectResult.setText(dataProvider.getValue(mainId, DataHelp.MAIN_TAG));
-        this.selectedId = null;
-        subSelectResult.setText("");
-
+        subId = null;
         subAdapter.positionSelected = -1;
         subAdapter.setDataList(dataProvider.getSubDataList(mainId));
         subAdapter.notifyDataSetChanged();
         rvSub.smoothScrollToPosition(0);
+
+
     }
 
     @Subscriber(tag = "onSubSelect")
-    private void onRvSubSelect(String selectedId) {
-        this.selectedId = selectedId;
-        subSelectResult.setText(dataProvider.getValue(selectedId, DataHelp.SUB_TAG));
+    private void onRvSubSelect(String subId) {
+        this.subId = subId;
     }
 
 
@@ -259,19 +246,14 @@ public class GroupSelectActivity extends BaseActivity {
 
     @OnClick(R.id.confirm)
     public void confirm() {
-        if (selectedId == null) {
+        if (subId == null) {
             ToastUtils.show("请先选择" + name);
             return;
         }
-        finishAfterSetResult(selectedId);
+        finishAfterSetResult(subId);
     }
 
-    private void finishAfterSetResult(String selectedId) {
-        Intent data = new Intent();
-        data.putExtra("selectedId", selectedId);
-        setResult(resultCode, data);
-        finish();
-    }
+
 
 
 }

@@ -40,6 +40,16 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         EventBus.getDefault().post(data.objectId, "onMainSelect");
     }
 
+
+    public void selectItem(String mainId) {
+        int position = -1;
+        for (SelectObject selectObject:dataList){
+            if (mainId.equals(selectObject.objectId)){
+                position = dataList.indexOf(selectObject);
+            }
+        }
+        selectItem(position);
+    }
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.highlight)

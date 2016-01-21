@@ -209,10 +209,18 @@
                     android:textColor="@color/md_grey_500"
                     app:layout_textSizePercent="3%sh" />
 
+                <TextView
+                    android:id="@+id/tvRepairPerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/md_black"
+                    app:layout_textSizePercent="2.8%sh" />
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_arrow_right" />
+                    android:src="@drawable/ic_arrow_right"
+                    app:layout_marginLeftPercent="2%sh" />
 
             </com.zhy.android.percent.support.PercentLinearLayout>
 

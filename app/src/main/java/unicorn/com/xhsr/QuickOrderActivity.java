@@ -28,10 +28,13 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.DataHelp;
+import unicorn.com.xhsr.data.greendao.Building;
+import unicorn.com.xhsr.data.greendao.BuildingDao;
+import unicorn.com.xhsr.data.greendao.Equipment;
+import unicorn.com.xhsr.data.greendao.EquipmentDao;
 import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
 import unicorn.com.xhsr.other.ClickHelp;
-import unicorn.com.xhsr.select.SelectObject;
 import unicorn.com.xhsr.speech.JsonParser;
 import unicorn.com.xhsr.utils.TextDrawableUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
@@ -52,16 +55,6 @@ public class QuickOrderActivity extends BaseActivity {
         findViewById(R.id.takePhoto).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_orange_300));
         findViewById(R.id.video).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_red_300));
         findViewById(R.id.history).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_brown_300));
-
-    }
-
-
-    @Override
-    public void onDestroy() {
-
-        super.onDestroy();
-        mIat.cancel();
-        mIat.destroy();
     }
 
     private void initViews() {
@@ -77,13 +70,167 @@ public class QuickOrderActivity extends BaseActivity {
 
     }
 
-    private void setProcessModeText(){
-        String text1 =  DataHelp.getValue(DataHelp.getProcessModeDataProvider(),processModeId);
-        String text2 =  DataHelp.getValue(DataHelp.getProcessTimeLimitDataProvider(),processTimeLimitId);
-        String text3 =  DataHelp.getValue(DataHelp.getEmergencyDegreeDataProvider(),emergencyDegreeId);
+
+    // =============================== 设备 ===============================
+
+    public int EQUIPMENT_RESULT_CODE = 1001;
+
+    @Bind(R.id.tvEquipment)
+    TextView tvEquipment;
+
+    @OnClick(R.id.equipment)
+    public void equipmentOnClick() {
+        GroupSelectActivity.dataProvider = DataHelp.getEquipmentDataProvider();
+        GroupSelectHelper.startGroupSelectActivity(this, "设备", EQUIPMENT_RESULT_CODE);
+    }
+
+    @Bind(R.id.tdEquipment)
+    ImageView tdEquipment;
+
+    private void initEquipment() {
+        int colorPrimary = ContextCompat.getColor(this, R.color.colorPrimary);
+        TextDrawable textDrawable = TextDrawable.builder().buildRound("修", colorPrimary);
+        tdEquipment.setImageDrawable(textDrawable);
+    }
+
+
+    // =============================== 设备故障 ===============================
+
+    // todo
+
+
+    // =============================== 维修地址 ===============================
+
+    public int BUILDING_RESULT_CODE = 1002;
+
+    @Bind(R.id.tvBuilding)
+    TextView tvBuilding;
+
+    @OnClick(R.id.building)
+    public void buildingOnClick() {
+        GroupSelectActivity.dataProvider = DataHelp.getBuildingDataProvider();
+        GroupSelectHelper.startGroupSelectActivity(this, "维修地址", BUILDING_RESULT_CODE);
+    }
+
+
+    // =============================== 报修人员 ===============================
+
+    public static int REPAIR_PERSON_RESULT_CODE = 1003;
+
+    String personName;
+
+    @Bind(R.id.tvRepairPerson)
+    TextView tvRepairPerson;
+
+    @OnClick(R.id.repairPerson)
+    public void repairPersonOnClick() {
+        Intent intent = new Intent(this, RepairPersonActivity.class);
+        intent.putExtra("personName",personName);
+        startActivityForResult(intent, REPAIR_PERSON_RESULT_CODE);
+    }
+
+
+    // =============================== 处理方式 ===============================
+
+    public static int PROCESS_MODE_RESULT_CODE = 1004;
+
+    String processModeId;
+
+    String processTimeLimitId;
+
+    String emergencyDegreeId;
+
+    @OnClick(R.id.processMode)
+    public void processModeOnClick() {
+        if (!ClickHelp.isFastClick()) {
+            Intent intent = new Intent(this, ProcessModeActivity.class);
+            intent.putExtra("processModeId", processModeId);
+            intent.putExtra("processTimeLimitId", processTimeLimitId);
+            intent.putExtra("emergencyDegreeId", emergencyDegreeId);
+            startActivityForResult(intent, 2333);
+        }
+    }
+
+    @Bind(R.id.tvProcessMode)
+    TextView tvProcessMode;
+
+    private void setProcessModeText() {
+        String text1 = DataHelp.getValue(DataHelp.getProcessModeDataProvider(), processModeId);
+        String text2 = DataHelp.getValue(DataHelp.getProcessTimeLimitDataProvider(), processTimeLimitId);
+        String text3 = DataHelp.getValue(DataHelp.getEmergencyDegreeDataProvider(), emergencyDegreeId);
         String text = text1 + " / " + text2 + " / " + text3;
         tvProcessMode.setText(text);
     }
+
+
+    // =============================== 补充说明 ===============================
+
+    @Bind(R.id.etDescription)
+    EditText etDescription;
+
+    @Bind(R.id.descriptionArrow)
+    ImageView descriptionArrow;
+
+    @Bind(R.id.elDescription)
+    ExpandableRelativeLayout erlDescription;
+
+    @OnClick(R.id.description)
+    public void descriptionOnClick() {
+        ViewAnimator
+                .animate(descriptionArrow)
+                .rotation(erlDescription.isExpanded() ? 0 : 90)
+                .duration(300)
+                .start();
+        erlDescription.toggle();
+
+//        setParam();
+//        ret = mIat.startListening(mRecognizerListener);
+//        if (ret != ErrorCode.SUCCESS) {
+//            ToastUtils.show("听写失败,错误码：" + ret);
+//        } else {
+//            ToastUtils.show("请开始说话");
+//        }
+    }
+
+
+    // =============================== onActivityResult ===============================
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == EQUIPMENT_RESULT_CODE) {
+            String objectId = data.getStringExtra("objectId");
+            Equipment equipment = SimpleApplication.getDaoSession().getEquipmentDao().queryBuilder().where(EquipmentDao.Properties.ObjectId.eq(objectId)).unique();
+            tvEquipment.setText(equipment.getFullName());
+        }
+        if (resultCode == BUILDING_RESULT_CODE) {
+            String objectId = data.getStringExtra("objectId");
+            Building building = SimpleApplication.getDaoSession().getBuildingDao().queryBuilder().where(BuildingDao.Properties.ObjectId.eq(objectId)).unique();
+            tvBuilding.setText(building.getFullName());
+        }
+        if (resultCode == REPAIR_PERSON_RESULT_CODE) {
+             personName = data.getStringExtra("personName");
+            tvRepairPerson.setText(personName);
+        }
+        if (resultCode == PROCESS_MODE_RESULT_CODE) {
+            processModeId = data.getStringExtra("processModeId");
+            processTimeLimitId = data.getStringExtra("processTimeLimitId");
+            emergencyDegreeId = data.getStringExtra("emergencyDegreeId");
+            setProcessModeText();
+        }
+    }
+
+
+
+
+    @Override
+    public void onDestroy() {
+
+        super.onDestroy();
+        mIat.cancel();
+        mIat.destroy();
+    }
+
 
 
     public void setParam() {
@@ -117,105 +264,8 @@ public class QuickOrderActivity extends BaseActivity {
         mIat.setParameter(SpeechConstant.ASR_DWA, "0");
     }
 
-    @OnClick(R.id.repairPerson)
-    public void repairPersonOnClick() {
-        Intent intent = new Intent(this, RepairPersonInfoActivity.class);
-        startActivity(intent);
-    }
 
 
-    // =============================== 设备 ===============================
-
-    public int EQUIPMENT_RESULT_CODE = 1001;
-
-    @Bind(R.id.tdEquipment)
-    ImageView tdEquipment;
-
-    SelectObject selectObjectEquipment;
-
-    private void initEquipment() {
-        int colorPrimary = ContextCompat.getColor(this, R.color.colorPrimary);
-        TextDrawable textDrawable = TextDrawable.builder().buildRound("修", colorPrimary);
-        tdEquipment.setImageDrawable(textDrawable);
-    }
-
-    @OnClick(R.id.equipment)
-    public void equipmentOnClick() {
-        GroupSelectActivity.dataProvider = DataHelp.getEquipmentDataProvider();
-        GroupSelectHelper.startGroupSelectActivity(this, "设备", "", EQUIPMENT_RESULT_CODE);
-    }
-
-    @Bind(R.id.tvEquipment)
-    TextView tvEquipment;
-
-
-    public int BUILDING_RESULT_CODE = 1002;
-
-
-    // =============================== onActivityResult ===============================
-
-    @Bind(R.id.tvProcessMode)
-    TextView tvProcessMode;
-
-    String buildingId;
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == EQUIPMENT_RESULT_CODE) {
-            String objectIdSelected = data.getStringExtra("objectIdSelected");
-            tvEquipment.setText(objectIdSelected);
-        }
-        if (resultCode == BUILDING_RESULT_CODE) {
-            String objectId = data.getStringExtra("objectId");
-           buildingId= objectId;
-            tvBuilding.setText(GroupSelectActivity.dataProvider.getValue(objectId,DataHelp.FULL_TAG));
-        }
-        if (resultCode == ProcessModeActivity.PROCESS_MODE_RESULT_CODE) {
-            processModeId = data.getStringExtra("processModeId");
-            processTimeLimitId = data.getStringExtra("processTimeLimitId");
-            emergencyDegreeId = data.getStringExtra("emergencyDegreeId");
-            setProcessModeText();
-        }
-
-    }
-
-
-    @Bind(R.id.tvBuilding)
-    TextView tvBuilding;
-
-    @OnClick(R.id.building)
-    public void floorOnClick() {
-        GroupSelectActivity.dataProvider = DataHelp.getBuildingDataProvider();
-        GroupSelectHelper.startGroupSelectActivity(this, "维修地址", buildingId, BUILDING_RESULT_CODE);
-    }
-
-
-
-    // =============================== 处理方式 ===============================
-
-    String processModeId ;
-
-    String processTimeLimitId ;
-
-    String emergencyDegreeId ;
-
-    @OnClick(R.id.processMode)
-    public void processModeOnClick() {
-        if (!ClickHelp.isFastClick()) {
-            Intent intent = new Intent(this, ProcessModeActivity.class);
-            intent.putExtra("processModeId", processModeId);
-            intent.putExtra("processTimeLimitId", processTimeLimitId);
-            intent.putExtra("emergencyDegreeId", emergencyDegreeId);
-            startActivityForResult(intent, 2333);
-        }
-    }
-
-
-    // =============================== 补充说明 ===============================
-
-    @Bind(R.id.etDescription)
-    EditText etDescription;
 
     private SpeechRecognizer mIat;
 
@@ -230,11 +280,7 @@ public class QuickOrderActivity extends BaseActivity {
     };
 
 
-    @Bind(R.id.descriptionArrow)
-    ImageView ivDescriptionArrow;
 
-    @Bind(R.id.elDescription)
-    ExpandableRelativeLayout elDescription;
     int ret = 0;
 
     private RecognizerListener mRecognizerListener = new RecognizerListener() {
@@ -308,23 +354,6 @@ public class QuickOrderActivity extends BaseActivity {
         etDescription.setText(resultBuffer.toString());
     }
 
-    @OnClick(R.id.description)
-    public void descriptionOnClick() {
-        ViewAnimator
-                .animate(ivDescriptionArrow)
-                .rotation(elDescription.isExpanded() ? 0 : 90)
-                .duration(300)
-                .start();
-        elDescription.toggle();
-
-//        setParam();
-//        ret = mIat.startListening(mRecognizerListener);
-//        if (ret != ErrorCode.SUCCESS) {
-//            ToastUtils.show("听写失败,错误码：" + ret);
-//        } else {
-//            ToastUtils.show("请开始说话");
-//        }
-    }
 
 
     // =============================== 基础方法 ===============================
@@ -333,7 +362,6 @@ public class QuickOrderActivity extends BaseActivity {
     public void cancel() {
         finish();
     }
-
 
     @OnClick(R.id.confirm)
     public void confirm() {

@@ -43,9 +43,9 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-     }
+    }
 
-    private void init(){
+    private void init() {
         initViews();
         getSessionId();
 
@@ -57,7 +57,7 @@ public class MainActivity extends BaseActivity {
         initRecyclerView();
     }
 
-    private void getSessionId(){
+    private void getSessionId() {
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 "http://withub.net.cn/hems/login",
@@ -79,7 +79,7 @@ public class MainActivity extends BaseActivity {
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
                 ConfigUtils.SESSION_ID = response.headers.get("jsessionid");
-                EventBus.getDefault().post(new Object(),"getBasicData");
+                EventBus.getDefault().post(new Object(), "getBasicData");
                 return super.parseNetworkResponse(response);
             }
         };
@@ -87,7 +87,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @Subscriber(tag = "getBasicData")
-    public void getBasicData(Object o){
+    public void getBasicData(Object o) {
         BasicDataGotter basicDataGotter = new BasicDataGotter();
         basicDataGotter.getProcessMode();
         basicDataGotter.getProcessTimeLimit();
@@ -134,65 +134,50 @@ public class MainActivity extends BaseActivity {
 
     private void initRecycleViewHeader() {
         RecyclerViewHeader recyclerViewHeader = RecyclerViewHeader.fromXml(this, R.layout.recycle_view_head);
-        recyclerViewHeader.findViewById(R.id.message).setBackground(TextDrawableUtils.getCircleDrawable(this,R.color.md_blue_400));
-        recyclerViewHeader.findViewById(R.id.takePhoto).setBackground(TextDrawableUtils.getCircleDrawable(this,R.color.md_teal_400));
-        recyclerViewHeader.findViewById(R.id.video).setBackground(TextDrawableUtils.getCircleDrawable(this,R.color.md_red_400));
+        recyclerViewHeader.findViewById(R.id.message).setBackground(TextDrawableUtils.getCircleDrawable(this, R.color.md_blue_400));
+        recyclerViewHeader.findViewById(R.id.takePhoto).setBackground(TextDrawableUtils.getCircleDrawable(this, R.color.md_teal_400));
+        recyclerViewHeader.findViewById(R.id.video).setBackground(TextDrawableUtils.getCircleDrawable(this, R.color.md_red_400));
         recyclerViewHeader.findViewById(R.id.quick_order).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              if (ClickHelp.isFastClick()){
-                  return;
-              }
-                Intent intent = new Intent(MainActivity.this, QuickOrderActivity.class);
-                startActivityForResult(intent,2333);
+                if (!ClickHelp.isFastClick()) {
+                    Intent intent = new Intent(MainActivity.this, QuickOrderActivity.class);
+                    startActivityForResult(intent, 2333);
+                }
             }
         });
         recyclerViewHeader.attachTo(recyclerView);
     }
 
 
-
-
-
-
-
-
-
-
     @Bind(R.id.tvWaitRepair)
     TextView tvWaitRepair;
-
-
-
-
-
 
 
     // =============================== onClick ===============================
 
 
-
     @OnClick(R.id.scan)
-    public void scanOnClick(){
+    public void scanOnClick() {
         DimensCodeTools.startScan(this);
     }
 
-@Bind(R.id.equipmentCode)
+    @Bind(R.id.equipmentCode)
     EditText etEquipmentCode;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         String res = DimensCodeTools.scanForResult(requestCode, resultCode, data);
-       if (res!=null)
+        if (res != null)
             etEquipmentCode.setText(res);
 
-        tvWaitRepair.setText(DataHelp.wait_repair?"待维修(1)":"待维修");
+        tvWaitRepair.setText(DataHelp.wait_repair ? "待维修(1)" : "待维修");
     }
 
     @OnClick(R.id.waitRepair)
-    public void waitRepairOnClick(){
-        Intent intent =new Intent(this,WaitRepairActivity.class);
+    public void waitRepairOnClick() {
+        Intent intent = new Intent(this, WaitRepairActivity.class);
         startActivity(intent);
     }
 }

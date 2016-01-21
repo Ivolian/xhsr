@@ -17,9 +17,6 @@ import unicorn.com.xhsr.select.SelectAdapter;
 public class ProcessModeActivity extends BottomSheetActivity {
 
 
-    public static int PROCESS_MODE_RESULT_CODE = 1004;
-
-
     // =============================== onCreate ===============================
 
     @Override
@@ -118,7 +115,7 @@ public class ProcessModeActivity extends BottomSheetActivity {
         data.putExtra("processModeId", processModeId);
         data.putExtra("processTimeLimitId", processTimeLimitId);
         data.putExtra("emergencyDegreeId", emergencyDegreeId);
-        setResult(PROCESS_MODE_RESULT_CODE, data);
+        setResult(QuickOrderActivity.PROCESS_MODE_RESULT_CODE, data);
         finish();
     }
 

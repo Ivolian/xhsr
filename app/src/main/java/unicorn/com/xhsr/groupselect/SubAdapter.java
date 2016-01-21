@@ -42,6 +42,18 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
         EventBus.getDefault().post(data.objectId, "onSubSelect");
     }
 
+
+
+    public void selectItem(String subId) {
+        int position = -1;
+        for (SelectObject selectObject:dataList){
+            if (subId.equals(selectObject.objectId)){
+                position = dataList.indexOf(selectObject);
+            }
+        }
+        selectItem(position);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.row)

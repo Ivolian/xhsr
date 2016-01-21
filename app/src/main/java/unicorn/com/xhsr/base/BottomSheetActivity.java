@@ -34,6 +34,7 @@ public class BottomSheetActivity extends BaseActivity {
 
     @SuppressWarnings("deprecation")
     private void initBottomSheet() {
+        bottomSheet = (BottomSheetLayout) findViewById(R.id.bottomsheet);
         WindowManager windowManager = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
         int height = windowManager.getDefaultDisplay().getHeight();
         bottomSheet.setPeekSheetTranslation(height * 0.65f);

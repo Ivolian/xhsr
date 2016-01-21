@@ -2,24 +2,25 @@ package unicorn.com.xhsr;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.f2prateek.dart.InjectExtra;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.DataHelp;
+import unicorn.com.xhsr.data.greendao.Department;
+import unicorn.com.xhsr.data.greendao.DepartmentDao;
 import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
-import unicorn.com.xhsr.select.SelectObject;
 import unicorn.com.xhsr.utils.ToastUtils;
 
 
-public class RepairPersonInfoActivity extends BaseActivity {
-
-
-    public static int REPAIR_PERSON_INFO_RESULT_CODE = 1005;
+public class RepairPersonActivity extends BaseActivity {
 
 
     // =============================== onCreate ===============================
@@ -28,21 +29,28 @@ public class RepairPersonInfoActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repair_person);
+        if (personName!=null){
+            etPersonName.setText(personName);
+        }
     }
 
 
     // =============================== views ===============================
 
+    @Nullable
+    @InjectExtra("personName")
+    String personName;
+
     @Bind(R.id.personName)
     EditText etPersonName;
 
-    @Bind(R.id.personCode)
-    EditText etPersonCode;
+//    @Bind(R.id.personCode)
+//    EditText etPersonCode;
 
 
     // =============================== 报修部门 ===============================
 
-    String departmentId = null;
+    public static int DEPARTMENT_RESULT_CODE = 1001;
 
     @Bind(R.id.tvDepartment)
     TextView tvDepartment;
@@ -50,15 +58,17 @@ public class RepairPersonInfoActivity extends BaseActivity {
     @OnClick(R.id.department)
     public void departmentOnClick() {
         GroupSelectActivity.dataProvider = DataHelp.getDepartmentDataProvider();
-        GroupSelectHelper.startGroupSelectActivity(this, "报修部门", "", 2333);
+        GroupSelectHelper.startGroupSelectActivity(this, "报修部门", DEPARTMENT_RESULT_CODE);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        SelectObject selectObject = (SelectObject) data.getSerializableExtra(GroupSelectHelper.RESULT);
-        tvDepartment.setText(selectObject.value);
+        if (resultCode == DEPARTMENT_RESULT_CODE) {
+            String objectId = data.getStringExtra("objectId");
+            Department department = SimpleApplication.getDaoSession().getDepartmentDao().queryBuilder().where(DepartmentDao.Properties.ObjectId.eq(objectId)).unique();
+            tvDepartment.setText(department.getFullName());
+        }
     }
 
 
@@ -72,12 +82,12 @@ public class RepairPersonInfoActivity extends BaseActivity {
     @OnClick(R.id.confirm)
     public void confirm() {
         if (TextUtils.isEmpty(etPersonName.getText())) {
-            ToastUtils.show("报修人员不能为空！");
+            ToastUtils.show("报修人员不能为空");
             return;
         }
         Intent data = new Intent();
         data.putExtra("personName", etPersonName.getText().toString());
-        setResult(REPAIR_PERSON_INFO_RESULT_CODE, data);
+        setResult(QuickOrderActivity.REPAIR_PERSON_RESULT_CODE, data);
         finish();
     }
 
