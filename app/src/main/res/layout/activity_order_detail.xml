@@ -1,0 +1,74 @@
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/md_white"
+    android:orientation="vertical"
+    app:theme="@style/AppTheme2">
+
+    <!-- 标题栏 10% -->
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        app:layout_heightPercent="10%sh">
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:text="返回"
+            android:textColor="?attr/colorPrimary"
+            app:layout_heightPercent="10%sh"
+            app:layout_textSizePercent="2.6%sh"
+            app:layout_widthPercent="10%sh" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="工单详情"
+            android:textColor="@color/md_black"
+            app:layout_textSizePercent="3.2%sh" />
+
+        <TextView
+            android:id="@+id/confirm"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:text="确认"
+            android:textColor="?attr/colorPrimary"
+            android:visibility="invisible"
+            app:layout_heightPercent="10%sh"
+            app:layout_textSizePercent="2.6%sh"
+            app:layout_widthPercent="10%sh" />
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/md_grey_200" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/md_white"
+        app:backgroundTint="@android:color/transparent"
+        app:layout_heightPercent="10%sh"
+        app:tabGravity="fill"
+        app:tabPaddingEnd="0dp"
+        app:tabPaddingStart="0dp"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</com.zhy.android.percent.support.PercentLinearLayout>

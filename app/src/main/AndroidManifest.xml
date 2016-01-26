@@ -62,11 +62,8 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".RepairPersonActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".WaitRepairActivity"
-            android:screenOrientation="portrait"/>
         <activity
             android:name=".ProcessModeActivity"
             android:screenOrientation="portrait"
@@ -74,9 +71,15 @@
 
             >
 
-            </activity>
+        </activity>
 
-        <activity android:name="im.dino.dbinspector.activities.DbInspectorActivity"/>
+        <activity
+            android:name=".myequipment.MyEquipmentActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".orderdetail.OrderDetailActivity" />
+
+        <activity android:name="im.dino.dbinspector.activities.DbInspectorActivity" />
 
     </application>
 

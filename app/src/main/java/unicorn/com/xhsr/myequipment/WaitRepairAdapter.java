@@ -1,4 +1,4 @@
-package unicorn.com.xhsr;
+package unicorn.com.xhsr.myequipment;
 
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +14,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import unicorn.com.xhsr.R;
 
 
 public class WaitRepairAdapter extends RecyclerView.Adapter<WaitRepairAdapter.ViewHolder> {

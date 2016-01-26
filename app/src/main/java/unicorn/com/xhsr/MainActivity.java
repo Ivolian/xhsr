@@ -2,7 +2,6 @@ package unicorn.com.xhsr;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,9 +14,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
-import com.flyco.animation.BounceEnter.BounceTopEnter;
-import com.flyco.animation.SlideExit.SlideBottomExit;
-import com.flyco.dialog.widget.NormalDialog;
 import com.yo.libs.app.DimensCodeTools;
 
 import org.simple.eventbus.EventBus;
@@ -32,6 +28,7 @@ import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.BasicDataGotter;
 import unicorn.com.xhsr.data.DataHelp;
 import unicorn.com.xhsr.draglayout.view.DragLayout;
+import unicorn.com.xhsr.myequipment.MyEquipmentActivity;
 import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.other.DividerGridItemDecoration;
 import unicorn.com.xhsr.utils.ConfigUtils;
@@ -156,8 +153,8 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    @Bind(R.id.tvWaitRepair)
-    TextView tvWaitRepair;
+    @Bind(R.id.tvToRepair)
+    TextView tvToRepair;
 
 
     // =============================== onClick ===============================
@@ -178,12 +175,29 @@ public class MainActivity extends BaseActivity {
         if (res != null)
             etEquipmentCode.setText(res);
 
-        tvWaitRepair.setText(DataHelp.wait_repair ? "待维修(1)" : "待维修");
+        tvToRepair.setText(DataHelp.wait_repair ? "待维修(1)" : "待维修");
     }
 
-    @OnClick(R.id.waitRepair)
-    public void waitRepairOnClick() {
-        Intent intent = new Intent(this, WaitRepairActivity.class);
+    @OnClick(R.id.toRepair)
+    public void toRepairOnClick() {
+        Intent intent = new Intent(this, MyEquipmentActivity.class);
+        intent.putExtra("currentItem", 0);
         startActivity(intent);
     }
+
+    @OnClick(R.id.repairing)
+    public void repairingOnClick() {
+        Intent intent = new Intent(this, MyEquipmentActivity.class);
+        intent.putExtra("currentItem", 1);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.repaired)
+    public void repairedOnClick() {
+        Intent intent = new Intent(this, MyEquipmentActivity.class);
+        intent.putExtra("currentItem", 2);
+        startActivity(intent);
+    }
+
+
 }

@@ -1,29 +1,31 @@
-package unicorn.com.xhsr;
+package unicorn.com.xhsr.myequipment;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import butterknife.Bind;
-import butterknife.OnClick;
-import unicorn.com.xhsr.base.BaseActivity;
+import unicorn.com.xhsr.R;
+import unicorn.com.xhsr.base.BaseFragment;
 
 
-public class WaitRepairActivity extends BaseActivity {
+public class WaitRepairFragment extends BaseFragment {
+
+    @Override
+    public int getLayoutResId() {
+        return R.layout.fragment_wait_repair;
+    }
 
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wait_repair);
+    public void initViews() {
         initRecyclerView();
     }
 
     private void initRecyclerView() {
-        recyclerView.setLayoutManager(getLinearLayoutManager(this));
+        recyclerView.setLayoutManager(getLinearLayoutManager(getActivity()));
         recyclerView.setAdapter(new WaitRepairAdapter());
     }
 
@@ -32,14 +34,5 @@ public class WaitRepairActivity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         return linearLayoutManager;
     }
-
-
-    @OnClick(R.id.cancel)
-    public void cancel() {
-        finish();
-    }
-
-
-
 
 }
