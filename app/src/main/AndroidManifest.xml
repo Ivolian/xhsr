@@ -74,7 +74,7 @@
         </activity>
 
         <activity
-            android:name=".myequipment.MyEquipmentActivity"
+            android:name=".myorder.MyOrderActivity"
             android:screenOrientation="portrait" />
 
         <activity android:name=".orderdetail.OrderDetailActivity" />

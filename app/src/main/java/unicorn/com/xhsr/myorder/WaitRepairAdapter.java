@@ -1,5 +1,7 @@
-package unicorn.com.xhsr.myequipment;
+package unicorn.com.xhsr.myorder;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +16,9 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import unicorn.com.xhsr.R;
+import unicorn.com.xhsr.orderdetail.OrderDetailActivity;
 
 
 public class WaitRepairAdapter extends RecyclerView.Adapter<WaitRepairAdapter.ViewHolder> {
@@ -30,7 +34,6 @@ public class WaitRepairAdapter extends RecyclerView.Adapter<WaitRepairAdapter.Vi
     }
 
 
-
     // ================================== viewHolder ==================================
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -39,15 +42,21 @@ public class WaitRepairAdapter extends RecyclerView.Adapter<WaitRepairAdapter.Vi
         ImageView ivTextDrawable;
 
 
-
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+
+        }
+
+        @OnClick(R.id.row)
+        public void rowOnClick() {
+            Context context = ivTextDrawable.getContext();
+            Intent intent = new Intent(context, OrderDetailActivity.class);
+            context.startActivity(intent);
         }
 
 
     }
-
 
 
     // ================================== onCreateViewHolder ==================================

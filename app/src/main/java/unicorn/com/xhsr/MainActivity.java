@@ -28,7 +28,7 @@ import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.BasicDataGotter;
 import unicorn.com.xhsr.data.DataHelp;
 import unicorn.com.xhsr.draglayout.view.DragLayout;
-import unicorn.com.xhsr.myequipment.MyEquipmentActivity;
+import unicorn.com.xhsr.myorder.MyOrderActivity;
 import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.other.DividerGridItemDecoration;
 import unicorn.com.xhsr.utils.ConfigUtils;
@@ -180,21 +180,21 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.toRepair)
     public void toRepairOnClick() {
-        Intent intent = new Intent(this, MyEquipmentActivity.class);
+        Intent intent = new Intent(this, MyOrderActivity.class);
         intent.putExtra("currentItem", 0);
         startActivity(intent);
     }
 
     @OnClick(R.id.repairing)
     public void repairingOnClick() {
-        Intent intent = new Intent(this, MyEquipmentActivity.class);
+        Intent intent = new Intent(this, MyOrderActivity.class);
         intent.putExtra("currentItem", 1);
         startActivity(intent);
     }
 
     @OnClick(R.id.repaired)
     public void repairedOnClick() {
-        Intent intent = new Intent(this, MyEquipmentActivity.class);
+        Intent intent = new Intent(this, MyOrderActivity.class);
         intent.putExtra("currentItem", 2);
         startActivity(intent);
     }

@@ -1,17 +1,17 @@
-package unicorn.com.xhsr.myequipment;
+package unicorn.com.xhsr.orderdetail;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import unicorn.com.xhsr.myorder.WaitRepairFragment;
 
-public class MyEquipmentPagerAdapter extends FragmentStatePagerAdapter {
 
-    public static String[] titles = {
-            "待维修", "维修中", "已维修",
-    };
+public class OrderDetailPagerAdapter extends FragmentStatePagerAdapter {
 
-    public MyEquipmentPagerAdapter(FragmentManager fragmentManager) {
+    public static String[] titles = {"工单流程", "设备明细"};
+
+    public OrderDetailPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
     }
 

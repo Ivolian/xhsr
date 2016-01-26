@@ -1,4 +1,4 @@
-package unicorn.com.xhsr.myequipment;
+package unicorn.com.xhsr.myorder;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;

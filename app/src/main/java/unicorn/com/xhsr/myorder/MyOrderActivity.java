@@ -1,4 +1,4 @@
-package unicorn.com.xhsr.orderdetail;
+package unicorn.com.xhsr.myorder;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,12 +7,21 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.f2prateek.dart.InjectExtra;
+
 import butterknife.Bind;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.base.BaseActivity;
 
 
-public class OrderDetailActivity extends BaseActivity{
+public class MyOrderActivity extends BaseActivity {
+
+
+    // =============================== extra ===============================
+
+    @Nullable
+    @InjectExtra("currentItem")
+    Integer currentItem;
 
 
     // =============================== views ===============================
@@ -29,7 +38,7 @@ public class OrderDetailActivity extends BaseActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_detail);
+        setContentView(R.layout.activity_my_order);
         initViews();
     }
 
@@ -39,9 +48,12 @@ public class OrderDetailActivity extends BaseActivity{
     }
 
     private void initViewPaper() {
-        PagerAdapter pagerAdapter = new OrderDetailPagerAdapter(getSupportFragmentManager());
+        PagerAdapter pagerAdapter = new MyOrderPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
+        if (currentItem != null) {
+            viewPager.setCurrentItem(currentItem);
+        }
     }
 
     private void iniTabLayout() {
