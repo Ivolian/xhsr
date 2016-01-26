@@ -15,7 +15,7 @@ public class MyOrderPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return new WaitRepairFragment();
+        return new ToRepairFragment();
     }
 
     @Override

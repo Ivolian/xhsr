@@ -1,4 +1,4 @@
-package unicorn.com.xhsr.myorder;
+package unicorn.com.xhsr.orderdetail;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,11 +9,11 @@ import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.base.BaseFragment;
 
 
-public class WaitRepairFragment extends BaseFragment {
+public class OrderFlowFragment extends BaseFragment {
 
     @Override
     public int getLayoutResId() {
-        return R.layout.fragment_wait_repair;
+        return R.layout.fragment_order_flow;
     }
 
     @Bind(R.id.recyclerView)
@@ -21,12 +21,12 @@ public class WaitRepairFragment extends BaseFragment {
 
     @Override
     public void initViews() {
-        initRecyclerView();
+    initRecyclerView();
     }
 
     private void initRecyclerView() {
         recyclerView.setLayoutManager(getLinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new WaitRepairAdapter());
+        recyclerView.setAdapter(new OrderFlowAdapter());
     }
 
     public LinearLayoutManager getLinearLayoutManager(Context context) {

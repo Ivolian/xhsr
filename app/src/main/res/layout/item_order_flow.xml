@@ -1,0 +1,71 @@
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/row"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="12dp"
+    android:layout_marginBottom="8dp"
+    >
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:gravity="right|center_vertical"
+        android:orientation="horizontal"
+        app:layout_widthPercent="35%sw">
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:text="2016-01-16"
+            android:textColor="@color/md_black"
+            app:fontFamily="roboto"
+            app:layout_marginRightPercent="1%sw"
+            app:layout_textSizePercent="4.5%sw"
+            app:textWeight="light" />
+
+        <ImageView
+            android:id="@+id/circle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/md_white"
+            app:layout_heightPercent="4.5%sw"
+            app:layout_marginRightPercent="5%sw"
+            app:layout_widthPercent="4.5%sw" />
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_marginRight="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="已经签收，感谢使用，期待再次为您服务"
+            android:textColor="@color/md_grey_500"
+            app:layout_textSizePercent="3%sh" />
+
+        <com.devspark.robototextview.widget.RobotoTextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2016-01-16"
+            android:textColor="@color/md_grey_500"
+            app:fontFamily="roboto"
+            app:layout_marginTopPercent="1.5%sh"
+            app:layout_textSizePercent="2.6%sh"
+            app:textWeight="light" />
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+</com.zhy.android.percent.support.PercentLinearLayout>
+

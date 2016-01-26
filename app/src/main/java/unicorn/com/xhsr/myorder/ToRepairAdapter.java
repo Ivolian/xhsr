@@ -21,13 +21,13 @@ import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.orderdetail.OrderDetailActivity;
 
 
-public class WaitRepairAdapter extends RecyclerView.Adapter<WaitRepairAdapter.ViewHolder> {
+public class ToRepairAdapter extends RecyclerView.Adapter<ToRepairAdapter.ViewHolder> {
 
 
     private List<Object> dataList = new ArrayList<>();
 
 
-    public WaitRepairAdapter() {
+    public ToRepairAdapter() {
         for (int i = 0; i != 20; i++) {
             dataList.add(new Object());
         }

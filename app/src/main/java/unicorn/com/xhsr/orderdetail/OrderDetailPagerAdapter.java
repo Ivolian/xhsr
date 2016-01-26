@@ -4,8 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import unicorn.com.xhsr.myorder.WaitRepairFragment;
-
 
 public class OrderDetailPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -17,7 +15,7 @@ public class OrderDetailPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return new WaitRepairFragment();
+        return new OrderFlowFragment();
     }
 
     @Override
