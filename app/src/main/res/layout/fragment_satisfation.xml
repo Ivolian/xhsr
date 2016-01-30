@@ -1,0 +1,242 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_grey_100"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        app:theme="@style/AppTheme2">
+
+        <TextView
+
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="5dp"
+            android:text="1.1 保洁员形象（统一着装、仪容仪表、文明礼貌、主动问好"
+            android:textColor="@color/md_grey_600"
+            app:layout_marginBottomPercent="2%sh"
+            app:layout_paddingLeftPercent="5%sw"
+            app:layout_paddingRightPercent="5%sw"
+            app:layout_textSizePercent="2.8%sh" />
+
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/five"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            app:layout_heightPercent="10%sh"
+            app:layout_paddingLeftPercent="5%sw">
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/rtvFive"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="5分"
+                android:textColor="@color/colorAccent"
+                app:layout_heightPercent="6%sh"
+                app:layout_textSizePercent="2.4%sh"
+                app:layout_widthPercent="6%sh"
+                app:rv_backgroundColor="#fff"
+                app:rv_isRadiusHalfHeight="true"
+                app:rv_strokeColor="@color/colorAccent"
+                app:rv_strokeWidth="1dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:text="非常满意"
+                android:textColor="@color/md_grey_600"
+                app:layout_marginLeftPercent="2%sw"
+                app:layout_textSizePercent="2.8%sh" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/four"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            app:layout_heightPercent="10%sh"
+            app:layout_paddingLeftPercent="5%sw">
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/rtvFour"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="4分"
+                android:textColor="@color/colorAccent"
+                app:layout_heightPercent="6%sh"
+                app:layout_textSizePercent="2.4%sh"
+                app:layout_widthPercent="6%sh"
+                app:rv_backgroundColor="#ffffff"
+                app:rv_isRadiusHalfHeight="true"
+                app:rv_strokeColor="@color/colorAccent"
+                app:rv_strokeWidth="1dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="满意"
+                android:textColor="@color/md_grey_600"
+                app:layout_marginLeftPercent="2%sw"
+                app:layout_textSizePercent="2.8%sh" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/three"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            app:layout_heightPercent="10%sh"
+            app:layout_paddingLeftPercent="5%sw">
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/rtvThree"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="3分"
+                android:textColor="@color/colorAccent"
+                app:layout_heightPercent="6%sh"
+                app:layout_textSizePercent="2.4%sh"
+                app:layout_widthPercent="6%sh"
+                app:rv_backgroundColor="#ffffff"
+                app:rv_isRadiusHalfHeight="true"
+                app:rv_strokeColor="@color/colorAccent"
+                app:rv_strokeWidth="1dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="及格"
+                android:textColor="@color/md_grey_600"
+                app:layout_marginLeftPercent="2%sw"
+                app:layout_textSizePercent="2.8%sh" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/two"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            app:layout_heightPercent="10%sh"
+            app:layout_paddingLeftPercent="5%sw">
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/rtvTwo"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="2分"
+                android:textColor="@color/colorAccent"
+                app:layout_heightPercent="6%sh"
+                app:layout_textSizePercent="2.4%sh"
+                app:layout_widthPercent="6%sh"
+                app:rv_backgroundColor="#ffffff"
+                app:rv_isRadiusHalfHeight="true"
+                app:rv_strokeColor="@color/colorAccent"
+                app:rv_strokeWidth="1dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="不太满意"
+                android:textColor="@color/md_grey_600"
+                app:layout_marginLeftPercent="2%sw"
+                app:layout_textSizePercent="2.8%sh" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/one"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            app:layout_heightPercent="10%sh"
+            app:layout_paddingLeftPercent="5%sw">
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/rvOne"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="1分"
+                android:textColor="@color/colorAccent"
+                app:layout_heightPercent="6%sh"
+                app:layout_textSizePercent="2.4%sh"
+                app:layout_widthPercent="6%sh"
+                app:rv_backgroundColor="#ffffff"
+                app:rv_isRadiusHalfHeight="true"
+                app:rv_strokeColor="@color/colorAccent"
+                app:rv_strokeWidth="1dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="非常不满意"
+                android:textColor="@color/md_grey_600"
+                app:layout_marginLeftPercent="2%sw"
+                app:layout_textSizePercent="2.8%sh" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/zero"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            app:layout_heightPercent="10%sh"
+            app:layout_paddingLeftPercent="5%sw">
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/rtvZero"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="0分"
+                android:textColor="@color/colorAccent"
+                app:layout_heightPercent="6%sh"
+                app:layout_textSizePercent="2.4%sh"
+                app:layout_widthPercent="6%sh"
+                app:rv_backgroundColor="#ffffff"
+                app:rv_isRadiusHalfHeight="true"
+                app:rv_strokeColor="@color/colorAccent"
+                app:rv_strokeWidth="1dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:text="不了解"
+                android:textColor="@color/md_grey_600"
+                app:layout_marginLeftPercent="2%sw"
+                app:layout_textSizePercent="2.8%sh" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+</ScrollView>
