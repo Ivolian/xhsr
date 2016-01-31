@@ -2,12 +2,19 @@ package unicorn.com.xhsr.satisfation;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.PopupMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
-import com.shehabic.droppy.DroppyMenuItem;
-import com.shehabic.droppy.DroppyMenuPopup;
+import com.flyco.dialog.listener.OnOperItemClickL;
+import com.flyco.dialog.widget.NormalDialog;
+import com.flyco.dialog.widget.NormalListDialog;
+
+import org.simple.eventbus.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +27,7 @@ import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.greendao.SatisfactionOption;
 import unicorn.com.xhsr.data.greendao.SatisfactionOptionDao;
+import unicorn.com.xhsr.utils.ToastUtils;
 
 
 public class SatisfactionActivity extends BaseActivity {
@@ -37,14 +45,70 @@ public class SatisfactionActivity extends BaseActivity {
     ViewPager viewPager;
 
     @OnClick(R.id.more)
-    public void moreOnClick(View click){
+    public void moreOnClick(View click) {
+
+        PopupMenu popupMenu = new PopupMenu(this, findViewById(R.id.more));
+        popupMenu.inflate(R.menu.satisfaction);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.submit){
+                    SatisfactionOptionDao satisfactionOptionDao = SimpleApplication.getDaoSession().getSatisfactionOptionDao();
+                   SatisfactionOption option = satisfactionOptionDao.queryBuilder()
+                            .where(SatisfactionOptionDao.Properties.Score.eq(-1))
+                            .orderAsc(SatisfactionOptionDao.Properties.OrderNo)
+                            .limit(1).unique();
+                    if (option!=null){
+                        viewPager.setCurrentItem(option.getOrderNo(),true);
+                        ToastUtils.show("尚有条目未评分");
+                    }
+                }
+
+                if (item.getItemId() == R.id.category) {
+
+                    String[] arr = {"1.保洁服务", "2.工程维修服务", "3.绿植服务", "4.电梯服务"};
+                    final NormalListDialog normalListDialog = new NormalListDialog(SatisfactionActivity.this, arr);
+                    normalListDialog.title("问卷目录");
+                    normalListDialog.titleTextSize_SP(20);
+                    normalListDialog.itemTextSize(16);
+                    normalListDialog.titleBgColor(ContextCompat.getColor(SatisfactionActivity.this, R.color.colorPrimary));
+                    normalListDialog.cornerRadius(0);
+                    normalListDialog.layoutAnimation(null);
+                    normalListDialog.setOnOperItemClickL(new OnOperItemClickL() {
+                        @Override
+                        public void onOperItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            switch (position) {
+                                case 0:
+                                    viewPager.setCurrentItem(0, true);
+                                    break;
+                                case 1:
+                                    viewPager.setCurrentItem(10, true);
+                                    break;
+                                case 2:
+                                    viewPager.setCurrentItem(20, true);
+                                    break;
+                                case 3:
+                                    viewPager.setCurrentItem(22, true);
+                                    break;
+                            }
+                normalListDialog.dismiss();
+                        }
+                    });
+                    normalListDialog.show();
+
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
 
 
-        DroppyMenuPopup.Builder droppyBuilder = new DroppyMenuPopup.Builder(this, click);
+    }
 
-        droppyBuilder.addMenuItem(new DroppyMenuItem("快速滑动")
-)
-.build().show();
+    @Subscriber(tag = "optionOnSelect")
+    public void optionOnSelect(Integer position) {
+        viewPager.setCurrentItem(position + 1, true);
     }
 
 
@@ -58,8 +122,12 @@ public class SatisfactionActivity extends BaseActivity {
         SatisfactionOptionDao optionDao = SimpleApplication.getDaoSession().getSatisfactionOptionDao();
         SatisfactionOption option = optionDao.queryBuilder().where(SatisfactionOptionDao.Properties.OrderNo.eq(0)).unique();
         title.setText(option.getTitle());
-        numerator.setText(option.getNumerator()+"");
-        denominator.setText("/"+option.getDenominator()+"");
+        numerator.setText(option.getNumerator() + "");
+        denominator.setText("/" + option.getDenominator() + "");
+
+
+        NormalDialog normalDialog =new NormalDialog(this);
+        normalDialog.
 
     }
 
@@ -76,8 +144,8 @@ public class SatisfactionActivity extends BaseActivity {
                 SatisfactionOptionDao optionDao = SimpleApplication.getDaoSession().getSatisfactionOptionDao();
                 SatisfactionOption option = optionDao.queryBuilder().where(SatisfactionOptionDao.Properties.OrderNo.eq(position)).unique();
                 title.setText(option.getTitle());
-                numerator.setText(option.getNumerator()+"");
-                denominator.setText("/"+option.getDenominator()+"");
+                numerator.setText(option.getNumerator() + "");
+                denominator.setText("/" + option.getDenominator() + "");
             }
 
             @Override
@@ -117,6 +185,12 @@ public class SatisfactionActivity extends BaseActivity {
         addOptionToList("2.工程维修服务", "2.9 主动上门巡检，发现解决问题大于被动报修", 9, 10, optionList);
         addOptionToList("2.工程维修服务", "2.10 维修主管有定期巡视和回访，能及时解决日常问题", 10, 10, optionList);
 
+        addOptionToList("3.绿植服务", "3.1 绿植定期养护，植株长势良好，叶片无枯黄，无灰尘杂质", 1, 2, optionList);
+        addOptionToList("3.绿植服务", "3.2 维修主管有定期巡视和回访，能及时解决日常问题", 2, 2, optionList);
+
+        addOptionToList("4.电梯服务", "4.1 员工形象（统一着装、文明礼貌）", 1, 3, optionList);
+        addOptionToList("4.电梯服务", "4.2 电梯运行平稳无故障，梯内设施正常（报警通话、摁钮、照明）", 2, 3, optionList);
+        addOptionToList("4.电梯服务", "4.3 有定期主动维保巡检，发生电梯故障5分钟内到场", 3, 3, optionList);
 
         optionDao.insertInTx(optionList);
     }

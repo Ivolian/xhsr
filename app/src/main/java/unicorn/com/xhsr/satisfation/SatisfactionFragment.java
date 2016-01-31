@@ -6,6 +6,8 @@ import android.widget.TextView;
 import com.flyco.roundview.RoundTextView;
 import com.zhy.android.percent.support.PercentLinearLayout;
 
+import org.simple.eventbus.EventBus;
+
 import java.util.List;
 
 import butterknife.Bind;
@@ -15,6 +17,7 @@ import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.base.BaseFragment;
 import unicorn.com.xhsr.data.greendao.SatisfactionOption;
 import unicorn.com.xhsr.data.greendao.SatisfactionOptionDao;
+import unicorn.com.xhsr.other.ClickHelp;
 
 
 public class SatisfactionFragment extends BaseFragment {
@@ -41,6 +44,10 @@ public class SatisfactionFragment extends BaseFragment {
 
     @OnClick({R.id.zero, R.id.one, R.id.two, R.id.three, R.id.four, R.id.five})
     public void fiveOnClick(PercentLinearLayout percentLinearLayout) {
+        if (ClickHelp.isFastClick()){
+            return;
+        }
+
         int clickIndex = percentLinearLayoutList.indexOf(percentLinearLayout);
         for (RoundTextView roundTextView : roundTextViewList) {
             int rtvIndex = roundTextViewList.indexOf(roundTextView);
@@ -54,6 +61,9 @@ public class SatisfactionFragment extends BaseFragment {
         }
         option.setScore(clickIndex);
         satisfactionOptionDao.update(option);
+
+        int position = getArguments().getInt("position");
+        EventBus.getDefault().post(new Integer(position),"optionOnSelect");
     }
 
     @Override

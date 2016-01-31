@@ -24,7 +24,7 @@ public class SatisfactionPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 10+10 ;
+        return 10 + 10 + 2 + 3;
     }
 
 

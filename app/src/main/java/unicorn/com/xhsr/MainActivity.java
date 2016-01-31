@@ -31,6 +31,7 @@ import unicorn.com.xhsr.draglayout.view.DragLayout;
 import unicorn.com.xhsr.myorder.MyOrderActivity;
 import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.other.DividerGridItemDecoration;
+import unicorn.com.xhsr.satisfation.SatisfactionActivity;
 import unicorn.com.xhsr.utils.ConfigUtils;
 import unicorn.com.xhsr.utils.TextDrawableUtils;
 import unicorn.com.xhsr.volley.SimpleVolley;
@@ -149,6 +150,15 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
+        recyclerViewHeader.findViewById(R.id.satisfaction).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!ClickHelp.isFastClick()) {
+                    startActivity(SatisfactionActivity.class);
+                }
+            }
+        });
+
         recyclerViewHeader.attachTo(recyclerView);
     }
 

@@ -1,7 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/chooseService"
-        android:title="选择服务" />
+        android:id="@+id/category"
+        android:title="问卷目录" />
+
+    <item
+        android:id="@+id/submit"
+        android:title="提交问卷" />
 
 </menu>
