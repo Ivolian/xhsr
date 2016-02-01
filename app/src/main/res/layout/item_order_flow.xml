@@ -17,7 +17,7 @@
         app:layout_widthPercent="35%sw">
 
         <com.devspark.robototextview.widget.RobotoTextView
-            android:id="@+id/date"
+            android:id="@+id/surveyDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="30dp"
