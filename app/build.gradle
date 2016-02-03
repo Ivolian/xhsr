@@ -73,4 +73,5 @@ dependencies {
     compile 'com.h6ah4i.android.materialshadowninepatch:materialshadowninepatch:0.6.5'
     compile 'com.wdullaer:materialdatetimepicker:2.1.1'
     compile 'joda-time:joda-time:2.9.2'
+    compile ('com.andreabaccega:android-form-edittext:1.2.1@aar')
 }

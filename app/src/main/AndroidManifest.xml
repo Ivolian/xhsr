@@ -87,7 +87,7 @@
 
         </activity>
 
-        <activity android:name=".satisfation.PersonalInfoActivity">
+        <activity android:name=".satisfation.BasicInfoActivity">
 
             </activity>
         <activity android:name=".orderdetail.OrderDetailActivity" />

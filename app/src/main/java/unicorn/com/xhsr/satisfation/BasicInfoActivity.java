@@ -3,8 +3,10 @@ package unicorn.com.xhsr.satisfation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.widget.TextView;
 
+import com.andreabaccega.widget.FormEditText;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.joda.time.DateTime;
@@ -14,6 +16,7 @@ import java.util.Calendar;
 import butterknife.Bind;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
+import unicorn.com.xhsr.ResultCodeUtils;
 import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.DataHelp;
@@ -21,9 +24,11 @@ import unicorn.com.xhsr.data.greendao.Department;
 import unicorn.com.xhsr.data.greendao.DepartmentDao;
 import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
+import unicorn.com.xhsr.other.ClickHelp;
+import unicorn.com.xhsr.utils.ToastUtils;
 
 
-public class PersonalInfoActivity extends BaseActivity {
+public class BasicInfoActivity extends BaseActivity {
 
 
     // ================================ onCreate ================================
@@ -31,7 +36,7 @@ public class PersonalInfoActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_info);
+        setContentView(R.layout.activity_basic_info);
         initView();
     }
 
@@ -42,27 +47,45 @@ public class PersonalInfoActivity extends BaseActivity {
 
     // ================================ 调查科室 ================================
 
-    public static int DEPARTMENT_RESULT_CODE = 1001;
+    String departmentId;
 
     @Bind(R.id.tvDepartment)
     TextView tvDepartment;
 
-    @OnClick(R.id.department)
+    @OnClick({R.id.department})
     public void departmentOnClick() {
-
-
+        // TODO GroupSelectActivity dataProvider 和 初始值
         GroupSelectActivity.dataProvider = DataHelp.getDepartmentDataProvider();
-        GroupSelectHelper.startGroupSelectActivity(this, "调查科室", DEPARTMENT_RESULT_CODE);
+        GroupSelectHelper.startGroupSelectActivity(this, "调查科室", ResultCodeUtils.DEPARTMENT_RESULT_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == DEPARTMENT_RESULT_CODE) {
-            String objectId = data.getStringExtra("objectId");
-            Department department = SimpleApplication.getDaoSession().getDepartmentDao().queryBuilder().where(DepartmentDao.Properties.ObjectId.eq(objectId)).unique();
+        if (resultCode == ResultCodeUtils.DEPARTMENT_RESULT_CODE) {
+            departmentId = data.getStringExtra("objectId");
+            Department department = SimpleApplication.getDaoSession().getDepartmentDao().queryBuilder()
+                    .where(DepartmentDao.Properties.ObjectId.eq(departmentId))
+                    .unique();
             tvDepartment.setText(department.getFullName());
         }
+    }
+
+
+    // ================================ 收到调查人姓名和电话 ================================
+
+    @Bind(R.id.etName)
+    FormEditText etName;
+
+    @Bind(R.id.etPhone)
+    FormEditText etPhone;
+
+    private boolean checkInput() {
+        if (TextUtils.isEmpty(tvDepartment.getText())) {
+            ToastUtils.show("请选选择调查科室");
+            return false;
+        }
+        return etName.testValidity() && etPhone.testValidity();
     }
 
 
@@ -115,7 +138,11 @@ public class PersonalInfoActivity extends BaseActivity {
 
     @OnClick(R.id.start)
     public void startOnClick() {
-        startActivity(SatisfactionActivity.class);
+        if (!ClickHelp.isFastClick()) {
+            if (checkInput()) {
+                startActivity(SatisfactionActivity.class);
+            }
+        }
     }
 
 
@@ -125,7 +152,6 @@ public class PersonalInfoActivity extends BaseActivity {
     public void cancelOnClick() {
         finish();
     }
-
 
 
 }

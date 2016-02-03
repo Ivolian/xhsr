@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/md_white"
-    android:orientation="vertical"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:orientation="vertical"
     app:theme="@style/AppTheme2">
 
     <!-- 标题栏 10% -->
@@ -113,6 +113,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -180,7 +182,8 @@
                     app:layout_textSizePercent="2.7%sh"
                     app:layout_widthPercent="35%sw" />
 
-                <EditText
+                <com.andreabaccega.widget.FormEditText
+                    android:id="@+id/etName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -191,6 +194,8 @@
                     android:textColor="@color/md_black"
                     android:textColorHint="@color/md_grey_400"
                     android:textCursorDrawable="@drawable/color_cursor"
+                    app:emptyErrorString="姓名不能为空"
+                    app:layout_marginRightPercent="3%sw"
                     app:layout_textSizePercent="2.7%sh" />
 
             </com.zhy.android.percent.support.PercentLinearLayout>
@@ -266,7 +271,8 @@
                     app:layout_textSizePercent="2.7%sh"
                     app:layout_widthPercent="35%sw" />
 
-                <EditText
+                <com.andreabaccega.widget.FormEditText
+                    android:id="@+id/etPhone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -277,7 +283,11 @@
                     android:textColor="@color/md_black"
                     android:textColorHint="@color/md_grey_400"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    app:layout_textSizePercent="2.7%sh" />
+                    app:emptyErrorString="电话不能为空"
+                    app:layout_marginRightPercent="3%sw"
+                    app:layout_textSizePercent="2.7%sh"
+                    app:testErrorString="请输入正确的电话号码"
+                    app:testType="phone" />
 
             </com.zhy.android.percent.support.PercentLinearLayout>
 
