@@ -1,4 +1,4 @@
-package unicorn.com.xhsr.satisfation;
+package unicorn.com.xhsr.satisfaction;
 
 import android.support.v4.content.ContextCompat;
 import android.widget.TextView;

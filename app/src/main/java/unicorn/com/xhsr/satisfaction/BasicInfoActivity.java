@@ -1,4 +1,4 @@
-package unicorn.com.xhsr.satisfation;
+package unicorn.com.xhsr.satisfaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -147,10 +147,11 @@ public class BasicInfoActivity extends BaseActivity {
         if (ClickHelp.isFastClick()) {
             return;
         }
-        if (checkInput()) {
+        // todo recover
+//        if (checkInput()) {
             startActivity(SatisfactionActivity.class);
             finish();
-        }
+//        }
     }
 
 

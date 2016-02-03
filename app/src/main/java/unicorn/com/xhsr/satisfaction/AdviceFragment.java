@@ -1,4 +1,4 @@
-package unicorn.com.xhsr.satisfation;
+package unicorn.com.xhsr.satisfaction;
 
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.base.BaseFragment;

@@ -79,17 +79,15 @@
             android:name=".myorder.MyOrderActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".satisfation.SatisfactionActivity">
-
-
-
+        <activity android:name=".satisfaction.SatisfactionActivity">
 
 
         </activity>
 
-        <activity android:name=".satisfation.BasicInfoActivity">
+        <activity
+            android:name=".satisfaction.BasicInfoActivity"
+            android:screenOrientation="portrait" />
 
-            </activity>
         <activity android:name=".orderdetail.OrderDetailActivity" />
 
         <activity android:name="im.dino.dbinspector.activities.DbInspectorActivity" />
