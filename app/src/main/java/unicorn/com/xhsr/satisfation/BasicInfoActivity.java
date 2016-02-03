@@ -149,6 +149,7 @@ public class BasicInfoActivity extends BaseActivity {
         }
         if (checkInput()) {
             startActivity(SatisfactionActivity.class);
+            finish();
         }
     }
 
