@@ -54,6 +54,9 @@ public class BasicInfoActivity extends BaseActivity {
 
     @OnClick({R.id.department})
     public void departmentOnClick() {
+        if (ClickHelp.isFastClick()) {
+            return;
+        }
         // TODO GroupSelectActivity dataProvider 和 初始值
         GroupSelectActivity.dataProvider = DataHelp.getDepartmentDataProvider();
         GroupSelectHelper.startGroupSelectActivity(this, "调查科室", ResultCodeUtils.DEPARTMENT_RESULT_CODE);
@@ -72,7 +75,7 @@ public class BasicInfoActivity extends BaseActivity {
     }
 
 
-    // ================================ 收到调查人姓名和电话 ================================
+    // ================================ 受调查人姓名和电话 ================================
 
     @Bind(R.id.etName)
     FormEditText etName;
@@ -105,6 +108,9 @@ public class BasicInfoActivity extends BaseActivity {
 
     @OnClick(R.id.surveyDate)
     public void surveyDateOnClick() {
+        if (ClickHelp.isFastClick()) {
+            return;
+        }
         DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -138,10 +144,11 @@ public class BasicInfoActivity extends BaseActivity {
 
     @OnClick(R.id.start)
     public void startOnClick() {
-        if (!ClickHelp.isFastClick()) {
-            if (checkInput()) {
-                startActivity(SatisfactionActivity.class);
-            }
+        if (ClickHelp.isFastClick()) {
+            return;
+        }
+        if (checkInput()) {
+            startActivity(SatisfactionActivity.class);
         }
     }
 
@@ -150,6 +157,9 @@ public class BasicInfoActivity extends BaseActivity {
 
     @OnClick(R.id.cancel)
     public void cancelOnClick() {
+        if (ClickHelp.isFastClick()) {
+            return;
+        }
         finish();
     }
 

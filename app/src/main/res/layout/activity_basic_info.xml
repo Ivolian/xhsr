@@ -83,7 +83,8 @@
             style="@style/ms9_DefaultShadowStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:ms9_shadowElevation="1dp">
+            app:ms9_shadowElevation="1dp"
+            app:ms9_shadowTranslationZ="1dp">
 
             <com.zhy.android.percent.support.PercentLinearLayout
                 android:layout_width="match_parent"
