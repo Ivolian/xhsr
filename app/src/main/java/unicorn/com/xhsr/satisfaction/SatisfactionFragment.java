@@ -18,6 +18,7 @@ import unicorn.com.xhsr.base.BaseFragment;
 import unicorn.com.xhsr.data.greendao.SatisfactionOption;
 import unicorn.com.xhsr.data.greendao.SatisfactionOptionDao;
 import unicorn.com.xhsr.other.ClickHelp;
+import unicorn.com.xhsr.utils.ToastUtils;
 
 
 public class SatisfactionFragment extends BaseFragment {
@@ -44,7 +45,7 @@ public class SatisfactionFragment extends BaseFragment {
 
     @OnClick({R.id.zero, R.id.one, R.id.two, R.id.three, R.id.four, R.id.five})
     public void fiveOnClick(PercentLinearLayout percentLinearLayout) {
-        if (ClickHelp.isFastClick()){
+        if (ClickHelp.isFastClick()) {
             return;
         }
 
@@ -62,8 +63,10 @@ public class SatisfactionFragment extends BaseFragment {
         option.setScore(clickIndex);
         satisfactionOptionDao.update(option);
 
+
         int position = getArguments().getInt("position");
-        EventBus.getDefault().post(new Integer(position),"optionOnSelect");
+        ToastUtils.show(position);
+        EventBus.getDefault().post(position, "optionOnSelect");
     }
 
     @Override

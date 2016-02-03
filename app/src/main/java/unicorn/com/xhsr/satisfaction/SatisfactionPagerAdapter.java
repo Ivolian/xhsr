@@ -15,9 +15,8 @@ public class SatisfactionPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
-        if (position == getCount()-1){
-            return new AdviceFragment();
+        if (position == getCount() - 1) {
+            return new AdviseFragment();
         }
 
         SatisfactionFragment satisfactionFragment = new SatisfactionFragment();
