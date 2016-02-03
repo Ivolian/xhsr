@@ -70,5 +70,7 @@ dependencies {
     compile 'com.flyco.dialog:FlycoDialog_Lib:1.2.6@aar'
     compile 'com.android.support:design:23.1.1'
     compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
-    compile 'com.shehabic.droppy:Droppy:0.2.5.2@aar'
+    compile 'com.h6ah4i.android.materialshadowninepatch:materialshadowninepatch:0.6.5'
+    compile 'com.wdullaer:materialdatetimepicker:2.1.1'
+    compile 'joda-time:joda-time:2.9.2'
 }

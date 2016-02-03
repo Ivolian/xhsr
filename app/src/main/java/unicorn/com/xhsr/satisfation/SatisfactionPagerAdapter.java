@@ -15,16 +15,23 @@ public class SatisfactionPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+
+        if (position == getCount()-1){
+            return new AdviceFragment();
+        }
+
         SatisfactionFragment satisfactionFragment = new SatisfactionFragment();
         Bundle args = new Bundle();
         args.putInt("position", position);
         satisfactionFragment.setArguments(args);
         return satisfactionFragment;
+
+
     }
 
     @Override
     public int getCount() {
-        return 10 + 10 + 2 + 3;
+        return 10 + 10 + 2 + 3 + 1;
     }
 
 

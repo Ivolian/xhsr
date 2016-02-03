@@ -1,0 +1,55 @@
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/md_white"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@null"
+        android:gravity="top|left"
+        android:hint="请填写建议与意见"
+        android:padding="16dp"
+        android:textColor="@color/md_black"
+        android:textColorHint="@color/md_grey_400"
+        android:textCursorDrawable="@drawable/color_cursor"
+        app:layout_heightPercent="50%sh" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/md_grey_200" />
+
+    <com.zhy.android.percent.support.PercentFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/submit"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="提交问卷"
+            android:textColor="@color/colorAccent"
+            app:layout_heightPercent="10%sh"
+            app:layout_textSizePercent="4%sh"
+            app:layout_widthPercent="80%sw"
+            app:rv_backgroundColor="#ffffff"
+            app:rv_backgroundPressColor="@color/colorAccent"
+            app:rv_isRadiusHalfHeight="true"
+            app:rv_strokeColor="@color/colorAccent"
+            app:rv_strokeWidth="1dp"
+            app:rv_textPressColor="@color/md_white" />
+
+    </com.zhy.android.percent.support.PercentFrameLayout>
+
+</com.zhy.android.percent.support.PercentLinearLayout>
+
+

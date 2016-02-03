@@ -74,7 +74,7 @@ public class OrderFlowAdapter extends RecyclerView.Adapter<OrderFlowAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.date)
+        @Bind(R.id.surveyDate)
         RobotoTextView rtvDate;
 
         @Bind(R.id.circle)

@@ -1,0 +1,319 @@
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/md_white"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    app:theme="@style/AppTheme2">
+
+    <!-- 标题栏 10% -->
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        app:layout_heightPercent="10%sh">
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="?attr/colorPrimary"
+            app:layout_heightPercent="10%sh"
+            app:layout_textSizePercent="2.6%sh"
+            app:layout_widthPercent="10%sh" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="填写基础信息"
+            android:textColor="@color/md_black"
+            app:layout_textSizePercent="3.2%sh" />
+
+        <TextView
+            android:id="@+id/confirm"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:text="确认"
+            android:textColor="?attr/colorPrimary"
+            android:visibility="invisible"
+            app:layout_heightPercent="10%sh"
+            app:layout_textSizePercent="2.6%sh"
+            app:layout_widthPercent="10%sh" />
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/md_grey_200" />
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- 调查科室信息 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/md_blue_grey_50"
+            android:gravity="center_vertical"
+            android:text="调查科室信息"
+            android:textColor="@color/md_black"
+            app:layout_heightPercent="8%sh"
+            app:layout_paddingLeftPercent="3%sw"
+            app:layout_textSizePercent="3%sh" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/md_grey_200" />
+
+        <com.h6ah4i.android.materialshadowninepatch.MaterialShadowContainerView
+            style="@style/ms9_DefaultShadowStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ms9_shadowElevation="1dp">
+
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:background="@color/md_white"
+                android:orientation="vertical">
+
+                <com.zhy.android.percent.support.PercentLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_heightPercent="10%sh">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="调查科室"
+                        android:textColor="@color/md_black"
+                        app:layout_paddingLeftPercent="3%sw"
+                        app:layout_textSizePercent="2.7%sh"
+                        app:layout_widthPercent="35%sw" />
+
+                    <com.zhy.android.percent.support.PercentLinearLayout
+                        android:id="@+id/department"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvDepartment"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="请选择调查科室"
+                            android:textColor="@color/md_black"
+                            android:textColorHint="@color/md_grey_400"
+                            app:layout_textSizePercent="2.7%sh" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_arrow_right"
+                            app:layout_marginLeftPercent="2%sw"
+                            app:layout_marginRightPercent="2%sw" />
+
+                    </com.zhy.android.percent.support.PercentLinearLayout>
+
+                </com.zhy.android.percent.support.PercentLinearLayout>
+
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
+        </com.h6ah4i.android.materialshadowninepatch.MaterialShadowContainerView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/md_blue_grey_50"
+            android:gravity="center_vertical"
+            android:text="受调查人信息"
+            android:textColor="@color/md_black"
+            app:layout_heightPercent="8%sh"
+            app:layout_paddingLeftPercent="3%sw"
+            app:layout_textSizePercent="3%sh" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/md_grey_200" />
+
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:background="@color/md_white"
+            android:orientation="vertical">
+
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_heightPercent="10%sh">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="受调查人姓名"
+                    android:textColor="@color/md_black"
+                    app:layout_paddingLeftPercent="3%sw"
+                    app:layout_textSizePercent="2.7%sh"
+                    app:layout_widthPercent="35%sw" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="请输入姓名"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/md_black"
+                    android:textColorHint="@color/md_grey_400"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    app:layout_textSizePercent="2.7%sh" />
+
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/md_grey_200" />
+
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_heightPercent="10%sh">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="调查日期"
+                    android:textColor="@color/md_black"
+                    app:layout_paddingLeftPercent="3%sw"
+                    app:layout_textSizePercent="2.7%sh"
+                    app:layout_widthPercent="35%sw" />
+
+                <com.zhy.android.percent.support.PercentLinearLayout
+                    android:id="@+id/surveyDate"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvSurveyDate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="请选择调查日期"
+                        android:textColor="@color/md_black"
+                        android:textColorHint="@color/md_grey_400"
+                        app:layout_textSizePercent="2.7%sh" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow_right"
+                        app:layout_marginLeftPercent="2%sw"
+                        app:layout_marginRightPercent="2%sw" />
+
+                </com.zhy.android.percent.support.PercentLinearLayout>
+
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/md_grey_200" />
+
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_heightPercent="10%sh">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="受调查人电话"
+                    android:textColor="@color/md_black"
+                    app:layout_paddingLeftPercent="3%sw"
+                    app:layout_textSizePercent="2.7%sh"
+                    app:layout_widthPercent="35%sw" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="请输入电话"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/md_black"
+                    android:textColorHint="@color/md_grey_400"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    app:layout_textSizePercent="2.7%sh" />
+
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/md_grey_200" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <com.zhy.android.percent.support.PercentFrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/start"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="开始调查"
+                android:textColor="@color/colorAccent"
+                app:layout_heightPercent="10%sh"
+                app:layout_textSizePercent="4%sh"
+                app:layout_widthPercent="80%sw"
+                app:rv_backgroundColor="#ffffff"
+                app:rv_backgroundPressColor="@color/colorAccent"
+                app:rv_isRadiusHalfHeight="true"
+                app:rv_strokeColor="@color/colorAccent"
+                app:rv_strokeWidth="1dp"
+                app:rv_textPressColor="@color/md_white" />
+
+        </com.zhy.android.percent.support.PercentFrameLayout>
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+</com.zhy.android.percent.support.PercentLinearLayout>

@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.flyco.dialog.listener.OnOperItemClickL;
-import com.flyco.dialog.widget.NormalDialog;
 import com.flyco.dialog.widget.NormalListDialog;
 
 import org.simple.eventbus.Subscriber;
@@ -52,14 +51,14 @@ public class SatisfactionActivity extends BaseActivity {
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.submit){
+                if (item.getItemId() == R.id.submit) {
                     SatisfactionOptionDao satisfactionOptionDao = SimpleApplication.getDaoSession().getSatisfactionOptionDao();
-                   SatisfactionOption option = satisfactionOptionDao.queryBuilder()
+                    SatisfactionOption option = satisfactionOptionDao.queryBuilder()
                             .where(SatisfactionOptionDao.Properties.Score.eq(-1))
                             .orderAsc(SatisfactionOptionDao.Properties.OrderNo)
                             .limit(1).unique();
-                    if (option!=null){
-                        viewPager.setCurrentItem(option.getOrderNo(),true);
+                    if (option != null) {
+                        viewPager.setCurrentItem(option.getOrderNo(), true);
                         ToastUtils.show("尚有条目未评分");
                     }
                 }
@@ -92,7 +91,7 @@ public class SatisfactionActivity extends BaseActivity {
                                     viewPager.setCurrentItem(22, true);
                                     break;
                             }
-                normalListDialog.dismiss();
+                            normalListDialog.dismiss();
                         }
                     });
                     normalListDialog.show();
@@ -126,13 +125,14 @@ public class SatisfactionActivity extends BaseActivity {
         denominator.setText("/" + option.getDenominator() + "");
 
 
-        NormalDialog normalDialog =new NormalDialog(this);
-        normalDialog.
-
     }
 
+    SatisfactionPagerAdapter satisfactionPagerAdapter;
+
     private void initViewpager() {
-        viewPager.setAdapter(new SatisfactionPagerAdapter(getSupportFragmentManager()));
+
+        satisfactionPagerAdapter = new SatisfactionPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(satisfactionPagerAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -141,11 +141,25 @@ public class SatisfactionActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
+
+                ToastUtils.show(position + " " + satisfactionPagerAdapter.getCount());
+                if (position == satisfactionPagerAdapter.getCount() - 1) {
+                    title.setText("8. 其他建议与意见");
+                    numerator.setVisibility(View.INVISIBLE);
+                    denominator.setVisibility(View.INVISIBLE);
+                    return;
+                }
+
+                numerator.setVisibility(View.VISIBLE);
+                denominator.setVisibility(View.VISIBLE);
+
                 SatisfactionOptionDao optionDao = SimpleApplication.getDaoSession().getSatisfactionOptionDao();
                 SatisfactionOption option = optionDao.queryBuilder().where(SatisfactionOptionDao.Properties.OrderNo.eq(position)).unique();
                 title.setText(option.getTitle());
                 numerator.setText(option.getNumerator() + "");
                 denominator.setText("/" + option.getDenominator() + "");
+
+
             }
 
             @Override
@@ -209,5 +223,12 @@ public class SatisfactionActivity extends BaseActivity {
         optionList.add(option);
     }
 
+
+    // ================================ cancel ================================
+
+    @OnClick(R.id.cancel)
+    public void cancelOnClick() {
+        finish();
+    }
 
 }
