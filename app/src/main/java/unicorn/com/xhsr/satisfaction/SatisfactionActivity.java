@@ -21,6 +21,7 @@ import java.util.UUID;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import unicorn.com.xhsr.DialogUtils;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.base.BaseActivity;
@@ -250,7 +251,21 @@ public class SatisfactionActivity extends BaseActivity {
         if (ClickHelp.isFastClick()) {
             return;
         }
-        finish();
+        DialogUtils.showConfirm(this, "确认退出？",
+                new DialogUtils.Action() {
+                    @Override
+                    public void doAction() {
+                        finish();
+                    }
+                },
+                new DialogUtils.Action() {
+                    @Override
+                    public void doAction() {
+                        // do nothing
+                    }
+                }
+        );
     }
+
 
 }

@@ -3,10 +3,10 @@ package unicorn.com.xhsr.satisfaction;
 import org.simple.eventbus.EventBus;
 
 import butterknife.OnClick;
+import unicorn.com.xhsr.DialogUtils;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.base.BaseFragment;
 import unicorn.com.xhsr.other.ClickHelp;
-import unicorn.com.xhsr.utils.ToastUtils;
 
 
 public class AdviseFragment extends BaseFragment {
@@ -26,8 +26,20 @@ public class AdviseFragment extends BaseFragment {
         if (ClickHelp.isFastClick()) {
             return;
         }
-        ToastUtils.show("hehe");
-        EventBus.getDefault().post(new Object(), "submitOnClick");
+        DialogUtils.showConfirm(getActivity(), "确认提交问卷？",
+                new DialogUtils.Action() {
+                    @Override
+                    public void doAction() {
+                        EventBus.getDefault().post(new Object(), "submitOnClick");
+                    }
+                },
+                new DialogUtils.Action() {
+                    @Override
+                    public void doAction() {
+                        // do nothing
+                    }
+                }
+        );
     }
 
 }

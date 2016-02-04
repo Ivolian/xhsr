@@ -14,9 +14,11 @@
         app:theme="@style/AppTheme2">
 
         <TextView
+            android:gravity="center_vertical"
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_minHeightPercent="10%sh"
             android:lineSpacingExtra="5dp"
             android:text="1.1 保洁员形象（统一着装、仪容仪表、文明礼貌、主动问好"
             android:textColor="@color/md_grey_600"
