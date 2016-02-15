@@ -16,7 +16,7 @@ import java.util.Calendar;
 import butterknife.Bind;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
-import unicorn.com.xhsr.ResultCodeUtils;
+import unicorn.com.xhsr.utils.ResultCodeUtils;
 import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.DataHelp;

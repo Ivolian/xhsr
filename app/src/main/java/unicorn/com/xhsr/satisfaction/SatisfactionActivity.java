@@ -29,7 +29,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import unicorn.com.xhsr.DialogUtils;
+import unicorn.com.xhsr.utils.DialogUtils;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.base.BaseActivity;
@@ -199,7 +199,7 @@ public class SatisfactionActivity extends BaseActivity {
                     department.put("objectId", satisfactionResult.getDepartmentId());
                     result.put("department", department);
 
-                    // 下面的代码有点伤，不用在意
+                    // 以下这段代码有点伤，不用在意
                     JSONArray jsonArray = new JSONArray();
                     for (SatisfactionOption option : optionList) {
                         JSONObject jsonObject = new JSONObject();

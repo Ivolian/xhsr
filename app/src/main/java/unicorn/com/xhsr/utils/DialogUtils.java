@@ -1,4 +1,4 @@
-package unicorn.com.xhsr;
+package unicorn.com.xhsr.utils;
 
 
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.support.v4.content.ContextCompat;
 
 import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.widget.NormalDialog;
+
+import unicorn.com.xhsr.R;
 
 public class DialogUtils {
 

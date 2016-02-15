@@ -6,7 +6,7 @@ import org.simple.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import unicorn.com.xhsr.DialogUtils;
+import unicorn.com.xhsr.utils.DialogUtils;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.base.BaseFragment;
 import unicorn.com.xhsr.other.ClickHelp;
