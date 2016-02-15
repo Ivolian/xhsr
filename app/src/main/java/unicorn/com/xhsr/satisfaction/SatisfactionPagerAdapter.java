@@ -10,7 +10,6 @@ import unicorn.com.xhsr.SimpleApplication;
 
 public class SatisfactionPagerAdapter extends FragmentStatePagerAdapter {
 
-
     public SatisfactionPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
     }
@@ -26,14 +25,11 @@ public class SatisfactionPagerAdapter extends FragmentStatePagerAdapter {
         args.putInt("position", position);
         satisfactionFragment.setArguments(args);
         return satisfactionFragment;
-
-
     }
 
     @Override
     public int getCount() {
         return (int) SimpleApplication.getDaoSession().getSatisfactionOptionDao().count() + 1;
     }
-
 
 }

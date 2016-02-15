@@ -23,8 +23,6 @@ import unicorn.com.xhsr.other.ClickHelp;
 public class SatisfactionFragment extends BaseFragment {
 
 
-    // ================================ getLayoutResId ================================
-
     @Override
     public int getLayoutResId() {
         return R.layout.fragment_satisfation;
@@ -44,8 +42,6 @@ public class SatisfactionFragment extends BaseFragment {
 
 
     // ================================  position & option ================================
-
-    int position;
 
     SatisfactionOption option;
 
@@ -73,8 +69,9 @@ public class SatisfactionFragment extends BaseFragment {
 
         // index 等于评分
         select(index);
-
-        EventBus.getDefault().post(position, "optionOnSelect");
+        option.setScore(index);
+        SimpleApplication.getDaoSession().getSatisfactionOptionDao().update(option);
+        EventBus.getDefault().post(option.getOrderNo(), "optionOnSelect");
     }
 
 
@@ -84,7 +81,7 @@ public class SatisfactionFragment extends BaseFragment {
     public void initViews() {
         initColor();
 
-        position = getArguments().getInt("position");
+        int position = getArguments().getInt("position");
         option = SimpleApplication.getDaoSession().getSatisfactionOptionDao().queryBuilder()
                 .where(SatisfactionOptionDao.Properties.OrderNo.eq(position))
                 .unique();
@@ -103,8 +100,6 @@ public class SatisfactionFragment extends BaseFragment {
                 roundTextView.getDelegate().setBackgroundColor(white);
             }
         }
-        option.setScore(score);
-        SimpleApplication.getDaoSession().getSatisfactionOptionDao().update(option);
     }
 
 

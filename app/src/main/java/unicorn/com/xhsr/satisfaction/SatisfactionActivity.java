@@ -45,6 +45,12 @@ import unicorn.com.xhsr.volley.SimpleVolley;
 public class SatisfactionActivity extends BaseActivity {
 
 
+    // ============================ extra ============================
+
+    @InjectExtra("satisfactionResult")
+    SatisfactionResult satisfactionResult;
+
+
     // ============================ views ============================
 
     @Bind(R.id.title)
@@ -59,9 +65,6 @@ public class SatisfactionActivity extends BaseActivity {
     @Bind(R.id.viewpager)
     ViewPager viewPager;
 
-    @InjectExtra("satisfactionResult")
-    SatisfactionResult satisfactionResult;
-
 
     // ============================ onCreate ============================
 
@@ -74,16 +77,6 @@ public class SatisfactionActivity extends BaseActivity {
 
     private void initViews() {
         initViewpager();
-        notifyPositionChange(0);
-    }
-
-    private void notifyPositionChange(int position) {
-        SatisfactionOption option = SimpleApplication.getDaoSession().getSatisfactionOptionDao().queryBuilder()
-                .where(SatisfactionOptionDao.Properties.OrderNo.eq(position))
-                .unique();
-        title.setText(option.getTitle());
-        numerator.setText(option.getNumerator() + "");
-        denominator.setText("/" + option.getDenominator() + "");
     }
 
 
@@ -102,15 +95,17 @@ public class SatisfactionActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
+                // 若是建议界面
                 if (position == satisfactionPagerAdapter.getCount() - 1) {
-                    title.setText("8.其他建议与意见");
+                    title.setText(getServiceNames().length + ". 其他建议与意见");
                     numerator.setVisibility(View.INVISIBLE);
                     denominator.setVisibility(View.INVISIBLE);
                     return;
                 }
+                // 若是选项界面
                 numerator.setVisibility(View.VISIBLE);
                 denominator.setVisibility(View.VISIBLE);
-                notifyPositionChange(position);
+                notifyOptionChange(position);
             }
 
             @Override
@@ -119,74 +114,25 @@ public class SatisfactionActivity extends BaseActivity {
             }
         });
         viewPager.setCurrentItem(0);
+        // 好像不会触发 onPageSelected，所以得手动调用下
+        notifyOptionChange(0);
+    }
+
+    private void notifyOptionChange(int orderNo) {
+        SatisfactionOption option = SimpleApplication.getDaoSession().getSatisfactionOptionDao().queryBuilder()
+                .where(SatisfactionOptionDao.Properties.OrderNo.eq(orderNo))
+                .unique();
+        title.setText(option.getTitle());
+        numerator.setText(option.getNumerator() + "");
+        denominator.setText("/" + option.getDenominator() + "");
     }
 
 
-    // ============================ 更多操作 ============================
+    // ============================ optionOnSelect ============================
 
-    @OnClick(R.id.more)
-    public void moreOnClick(View view) {
-        if (ClickHelp.isFastClick()) {
-            return;
-        }
-        showPopupMenu();
-    }
-
-    private void showPopupMenu() {
-        PopupMenu popupMenu = new PopupMenu(this, findViewById(R.id.more));
-        popupMenu.inflate(R.menu.satisfaction);
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.category) {
-                    showCategoryDialog();
-                }
-                return false;
-            }
-        });
-        popupMenu.show();
-    }
-
-    private void showCategoryDialog() {
-        List<SatisfactionOption> optionList = SimpleApplication.getDaoSession().getSatisfactionOptionDao().loadAll();
-        final List<String> serviceNameList = new ArrayList<>();
-        for (SatisfactionOption option : optionList) {
-            String serviceName = option.getTitle();
-            if (!serviceNameList.contains(serviceName)) {
-                serviceNameList.add(serviceName);
-            }
-        }
-        serviceNameList.add((serviceNameList.size() + 1) + ". 其他建议与意见");
-
-        String[] serviceNames = new String[serviceNameList.size()];
-        serviceNameList.toArray(serviceNames);
-        final NormalListDialog normalListDialog = new NormalListDialog(SatisfactionActivity.this, serviceNames);
-        normalListDialog.title("问卷目录");
-        normalListDialog.titleTextSize_SP(20);
-        normalListDialog.itemTextSize(16);
-        normalListDialog.titleBgColor(ContextCompat.getColor(SatisfactionActivity.this, R.color.colorPrimary));
-        normalListDialog.cornerRadius(0);
-        normalListDialog.layoutAnimation(null);
-        normalListDialog.setOnOperItemClickL(new OnOperItemClickL() {
-            @Override
-            public void onOperItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                if (position == serviceNameList.size() - 1) {
-                    viewPager.setCurrentItem(satisfactionPagerAdapter.getCount());
-                    normalListDialog.dismiss();
-                    return;
-                }
-
-
-                List<SatisfactionOption> optionList = SimpleApplication.getDaoSession().getSatisfactionOptionDao().queryBuilder()
-                        .where(SatisfactionOptionDao.Properties.Title.eq(serviceNameList.get(position)))
-                        .orderAsc(SatisfactionOptionDao.Properties.OrderNo)
-                        .list();
-                viewPager.setCurrentItem(optionList.get(0).getOrderNo(), true);
-                normalListDialog.dismiss();
-            }
-        });
-        normalListDialog.show();
+    @Subscriber(tag = "optionOnSelect")
+    public void optionOnSelect(Integer position) {
+        viewPager.setCurrentItem(position + 1, true);
     }
 
 
@@ -194,24 +140,22 @@ public class SatisfactionActivity extends BaseActivity {
 
     @Subscriber(tag = "submitOnClick")
     public void submitOnClick(String advice) {
-        SatisfactionOption option = SimpleApplication.getDaoSession().getSatisfactionOptionDao().queryBuilder()
-                .where(SatisfactionOptionDao.Properties.Score.eq(-1))
-                .orderAsc(SatisfactionOptionDao.Properties.OrderNo)
-                .limit(1)
-                .unique();
-        if (option != null) {
+        // 确认所有选项都已评分
+//        SatisfactionOption option = SimpleApplication.getDaoSession().getSatisfactionOptionDao().queryBuilder()
+//                .where(SatisfactionOptionDao.Properties.Score.eq(-1))
+//                .orderAsc(SatisfactionOptionDao.Properties.OrderNo)
+//                .limit(1)
+//                .unique();
+//        if (option != null) {
 //            viewPager.setCurrentItem(option.getOrderNo(), true);
 //            ToastUtils.show("尚有条目未评分");
 //        } else {
-
             satisfactionResult.setAdvice(advice);
-            commitResult();
-
-//            finish();
-        }
+            commitSatisfactionResult();
+//        }
     }
 
-    public void commitResult() {
+    private void commitSatisfactionResult() {
         String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/assess";
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
@@ -219,12 +163,12 @@ public class SatisfactionActivity extends BaseActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        ToastUtils.show(response);
+                        ToastUtils.show("问卷已提交");
+                        finish();
                     }
                 },
                 SimpleVolley.getDefaultErrorListener()
         ) {
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
@@ -245,11 +189,12 @@ public class SatisfactionActivity extends BaseActivity {
                     result.put("username", satisfactionResult.getUsername());
                     result.put("assessDate", satisfactionResult.getAssessDate());
                     result.put("advice", satisfactionResult.getAdvice());
-//
+
                     JSONObject department = new JSONObject();
                     department.put("objectId", satisfactionResult.getDepartmentId());
                     result.put("department", department);
 
+                    // 下面的代码有点伤，不用在意
                     JSONArray jsonArray = new JSONArray();
                     for (SatisfactionOption option : optionList) {
                         JSONObject jsonObject = new JSONObject();
@@ -272,15 +217,78 @@ public class SatisfactionActivity extends BaseActivity {
     }
 
 
-    // ============================ optionOnSelect ============================
+    // ============================ 更多操作 -> 问卷目录 ============================
 
-    @Subscriber(tag = "optionOnSelect")
-    public void optionOnSelect(Integer position) {
-        viewPager.setCurrentItem(position + 1, true);
+    @OnClick(R.id.more)
+    public void moreOnClick(View view) {
+        if (ClickHelp.isFastClick()) {
+            return;
+        }
+        showPopupMenu();
     }
 
+    private void showPopupMenu() {
+        PopupMenu popupMenu = new PopupMenu(this, findViewById(R.id.more));
+        popupMenu.inflate(R.menu.satisfaction);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.category) {
+                    showCategory();
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
+    }
 
-    // ================================ initData ================================
+    private void showCategory() {
+        final String[] serviceNames = getServiceNames();
+        final NormalListDialog normalListDialog = new NormalListDialog(SatisfactionActivity.this, serviceNames);
+        normalListDialog.title("问卷目录");
+        normalListDialog.titleTextSize_SP(20);
+        normalListDialog.itemTextSize(16);
+        normalListDialog.titleBgColor(ContextCompat.getColor(SatisfactionActivity.this, R.color.colorPrimary));
+        normalListDialog.cornerRadius(0);
+        normalListDialog.layoutAnimation(null);
+        normalListDialog.setOnOperItemClickL(new OnOperItemClickL() {
+            @Override
+            public void onOperItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // 其他建议与意见
+                if (position == serviceNames.length - 1) {
+                    viewPager.setCurrentItem(satisfactionPagerAdapter.getCount());
+                    normalListDialog.dismiss();
+                    return;
+                }
+
+                // 其他服务
+                SatisfactionOption option = SimpleApplication.getDaoSession().getSatisfactionOptionDao().queryBuilder()
+                        .where(SatisfactionOptionDao.Properties.Title.eq(serviceNames[position]))
+                        .orderAsc(SatisfactionOptionDao.Properties.OrderNo)
+                        .limit(1)
+                        .unique();
+                viewPager.setCurrentItem(option.getOrderNo(), true);
+                normalListDialog.dismiss();
+            }
+        });
+        normalListDialog.show();
+    }
+
+    private String[] getServiceNames() {
+        List<SatisfactionOption> optionList = SimpleApplication.getDaoSession().getSatisfactionOptionDao().loadAll();
+        final List<String> serviceNameList = new ArrayList<>();
+        for (SatisfactionOption option : optionList) {
+            String serviceName = option.getTitle();
+            if (!serviceNameList.contains(serviceName)) {
+                serviceNameList.add(serviceName);
+            }
+        }
+        serviceNameList.add((serviceNameList.size() + 1) + ". 其他建议与意见");
+
+        String[] serviceNames = new String[serviceNameList.size()];
+        serviceNameList.toArray(serviceNames);
+        return serviceNames;
+    }
 
 
     // ================================ cancel ================================
