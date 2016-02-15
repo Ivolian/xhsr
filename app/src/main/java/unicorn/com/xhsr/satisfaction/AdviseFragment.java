@@ -1,7 +1,10 @@
 package unicorn.com.xhsr.satisfaction;
 
+import android.widget.EditText;
+
 import org.simple.eventbus.EventBus;
 
+import butterknife.Bind;
 import butterknife.OnClick;
 import unicorn.com.xhsr.DialogUtils;
 import unicorn.com.xhsr.R;
@@ -21,6 +24,9 @@ public class AdviseFragment extends BaseFragment {
 
     }
 
+    @Bind(R.id.etAdvice)
+    public EditText etAdvice;
+
     @OnClick(R.id.submit)
     public void submitOnClick() {
         if (ClickHelp.isFastClick()) {
@@ -30,7 +36,8 @@ public class AdviseFragment extends BaseFragment {
                 new DialogUtils.Action() {
                     @Override
                     public void doAction() {
-                        EventBus.getDefault().post(new Object(), "submitOnClick");
+                        String advice = etAdvice.getText().toString();
+                        EventBus.getDefault().post(advice, "submitOnClick");
                     }
                 },
                 new DialogUtils.Action() {

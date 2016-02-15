@@ -63,7 +63,7 @@ public class MainActivity extends BaseActivity {
     private void getSessionId() {
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
-                "http://withub.net.cn/hems/login",
+                ConfigUtils.getBaseUrl() + "/login",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -81,7 +81,8 @@ public class MainActivity extends BaseActivity {
 
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                ConfigUtils.SESSION_ID = response.headers.get("jsessionid");
+                String sessionId =response.headers.get("jsessionid");
+                ConfigUtils.setSessionId(sessionId);
                 EventBus.getDefault().post(new Object(), "getBasicData");
                 return super.parseNetworkResponse(response);
             }
@@ -98,6 +99,7 @@ public class MainActivity extends BaseActivity {
         basicDataGotter.getEquipment();
         basicDataGotter.getBuilding();
         basicDataGotter.getDepartment();
+        basicDataGotter.getOption();
     }
 
 

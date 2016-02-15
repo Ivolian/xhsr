@@ -23,7 +23,7 @@ public class StringRequestWithSessionCheck extends StringRequest {
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         Map<String, String> map = new HashMap<>();
-        map.put("Cookie", "JSESSIONID=" + ConfigUtils.SESSION_ID);
+        map.put("Cookie", "JSESSIONID=" + ConfigUtils.getSessionId());
         return map;
     }
 

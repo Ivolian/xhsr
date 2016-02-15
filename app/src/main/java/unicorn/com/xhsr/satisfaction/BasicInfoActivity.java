@@ -20,6 +20,7 @@ import unicorn.com.xhsr.ResultCodeUtils;
 import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.DataHelp;
+import unicorn.com.xhsr.data.SatisfactionResult;
 import unicorn.com.xhsr.data.greendao.Department;
 import unicorn.com.xhsr.data.greendao.DepartmentDao;
 import unicorn.com.xhsr.groupselect.GroupSelectActivity;
@@ -147,10 +148,17 @@ public class BasicInfoActivity extends BaseActivity {
         if (ClickHelp.isFastClick()) {
             return;
         }
-        // todo recover
 //        if (checkInput()) {
-            startActivity(SatisfactionActivity.class);
-            finish();
+        SatisfactionResult satisfactionResult = new SatisfactionResult();
+        satisfactionResult.setDepartmentId(departmentId);
+        satisfactionResult.setUsername(etName.getText().toString());
+        satisfactionResult.setAccessDate(cSurveyDate.getTime().getTime());
+        satisfactionResult.setPhone(etPhone.getText().toString());
+
+        Intent intent = new Intent(this, SatisfactionActivity.class);
+        intent.putExtra("satisfactionResult", satisfactionResult);
+        startActivity(intent);
+        finish();
 //        }
     }
 

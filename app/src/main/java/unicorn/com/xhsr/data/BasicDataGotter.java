@@ -17,6 +17,8 @@ import unicorn.com.xhsr.data.greendao.Equipment;
 import unicorn.com.xhsr.data.greendao.EquipmentCategory;
 import unicorn.com.xhsr.data.greendao.ProcessingMode;
 import unicorn.com.xhsr.data.greendao.ProcessingTimeLimit;
+import unicorn.com.xhsr.data.greendao.SatisfactionOption;
+import unicorn.com.xhsr.utils.ConfigUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 import unicorn.com.xhsr.volley.SimpleVolley;
 import unicorn.com.xhsr.volley.StringRequestWithSessionCheck;
@@ -24,9 +26,8 @@ import unicorn.com.xhsr.volley.StringRequestWithSessionCheck;
 
 public class BasicDataGotter {
 
-
     public void getProcessMode() {
-        String url = "http://withub.net.cn/hems/api/v1/hems/workOrder/code/ProcessingMode";
+        String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/workOrder/code/ProcessingMode";
         StringRequest jsonArrayRequest = new StringRequestWithSessionCheck(url,
                 new Response.Listener<String>() {
                     @Override
@@ -55,7 +56,7 @@ public class BasicDataGotter {
     }
 
     public void getProcessTimeLimit() {
-        String url = "http://withub.net.cn/hems/api/v1/hems/workOrder/code/ProcessingTimeLimit";
+        String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/workOrder/code/ProcessingTimeLimit";
         StringRequest jsonArrayRequest = new StringRequestWithSessionCheck(url,
                 new Response.Listener<String>() {
                     @Override
@@ -84,7 +85,7 @@ public class BasicDataGotter {
     }
 
     public void getEmergencyDegree() {
-        String url = "http://withub.net.cn/hems/api/v1/hems/workOrder/code/EmergencyDegree";
+        String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/workOrder/code/EmergencyDegree";
         StringRequest jsonArrayRequest = new StringRequestWithSessionCheck(url,
                 new Response.Listener<String>() {
                     @Override
@@ -117,7 +118,7 @@ public class BasicDataGotter {
     //
 
     public void getEquipment() {
-        String url = "http://withub.net.cn/hems/api/v1/hems/equipment/all";
+        String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/equipment/all";
         StringRequest jsonArrayRequest = new StringRequestWithSessionCheck(url,
                 new Response.Listener<String>() {
                     @Override
@@ -166,7 +167,7 @@ public class BasicDataGotter {
     }
 
     public void getBuilding() {
-        String url = "http://withub.net.cn/hems/api/v1/hems/building/tree?id=1&fetchChild=true";
+        String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/building/tree?id=1&fetchChild=true";
         StringRequest jsonArrayRequest = new StringRequestWithSessionCheck(url,
                 new Response.Listener<String>() {
                     @Override
@@ -212,7 +213,7 @@ public class BasicDataGotter {
     }
 
     public void getDepartment() {
-        String url = "http://withub.net.cn/hems/api/v1/hems/department/tree?id=1&fetchChild=true";
+        String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/department/tree?id=1&fetchChild=true";
         StringRequest jsonArrayRequest = new StringRequestWithSessionCheck(url,
                 new Response.Listener<String>() {
                     @Override
@@ -262,6 +263,48 @@ public class BasicDataGotter {
                             }
                             SimpleApplication.getDaoSession().getDepartmentDao().deleteAll();
                             SimpleApplication.getDaoSession().getDepartmentDao().insertInTx(departmentList);
+                        } catch (Exception e) {
+                            //
+                        }
+                    }
+                },
+                SimpleVolley.getDefaultErrorListener()
+        );
+        SimpleVolley.addRequest(jsonArrayRequest);
+    }
+
+    public void getOption() {
+        String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/satisfactionContent/list";
+        StringRequest jsonArrayRequest = new StringRequestWithSessionCheck(url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String responses) {
+                        try {
+                            JSONArray response = new JSONArray(responses);
+                            List<SatisfactionOption> optionList = new ArrayList<>();
+                            int orderNo = 0;
+                            for (int i = 0; i != response.length(); i++) {
+                                JSONObject serviceObject = response.getJSONObject(i);
+                                String serviceName = (i + 1) + ". " + serviceObject.getString("name");
+                                JSONArray items = serviceObject.getJSONArray("items");
+                                for (int j = 0; j != items.length(); j++) {
+                                    SatisfactionOption option = new SatisfactionOption();
+                                    option.setTitle(serviceName);
+                                    option.setOrderNo(orderNo++);
+                                    option.setScore(-1);
+                                    option.setNumerator(j + 1);
+                                    option.setDenominator(items.length());
+
+                                    JSONObject itemObject = items.getJSONObject(j);
+                                    String objectId = itemObject.getString("objectId");
+                                    String content = (i + 1) + "." + (j + 1) + " " + itemObject.getString("name");
+                                    option.setObjectId(objectId);
+                                    option.setContent(content);
+                                    optionList.add(option);
+                                }
+                            }
+                            SimpleApplication.getDaoSession().getSatisfactionOptionDao().deleteAll();
+                            SimpleApplication.getDaoSession().getSatisfactionOptionDao().insertInTx(optionList);
                         } catch (Exception e) {
                             //
                         }

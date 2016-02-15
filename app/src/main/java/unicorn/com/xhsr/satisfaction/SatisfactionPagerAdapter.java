@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import unicorn.com.xhsr.SimpleApplication;
+
 
 public class SatisfactionPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -30,7 +32,7 @@ public class SatisfactionPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 10 + 10 + 2 + 3 + 1;
+        return (int) SimpleApplication.getDaoSession().getSatisfactionOptionDao().count() + 1;
     }
 
 

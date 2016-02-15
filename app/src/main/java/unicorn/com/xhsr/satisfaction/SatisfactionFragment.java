@@ -73,8 +73,6 @@ public class SatisfactionFragment extends BaseFragment {
 
         // index 等于评分
         select(index);
-        option.setScore(index);
-        SimpleApplication.getDaoSession().getSatisfactionOptionDao().update(option);
 
         EventBus.getDefault().post(position, "optionOnSelect");
     }
@@ -105,6 +103,8 @@ public class SatisfactionFragment extends BaseFragment {
                 roundTextView.getDelegate().setBackgroundColor(white);
             }
         }
+        option.setScore(score);
+        SimpleApplication.getDaoSession().getSatisfactionOptionDao().update(option);
     }
 
 
