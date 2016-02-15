@@ -150,8 +150,8 @@ public class SatisfactionActivity extends BaseActivity {
 //            viewPager.setCurrentItem(option.getOrderNo(), true);
 //            ToastUtils.show("尚有条目未评分");
 //        } else {
-            satisfactionResult.setAdvice(advice);
-            commitSatisfactionResult();
+        satisfactionResult.setAdvice(advice);
+        commitSatisfactionResult();
 //        }
     }
 
@@ -164,6 +164,7 @@ public class SatisfactionActivity extends BaseActivity {
                     @Override
                     public void onResponse(String response) {
                         ToastUtils.show("问卷已提交");
+                        clearScore();
                         finish();
                     }
                 },
@@ -216,6 +217,13 @@ public class SatisfactionActivity extends BaseActivity {
         SimpleVolley.addRequest(stringRequest);
     }
 
+    private void clearScore() {
+        List<SatisfactionOption> optionList = SimpleApplication.getDaoSession().getSatisfactionOptionDao().loadAll();
+        for (SatisfactionOption option : optionList) {
+            option.setScore(-1);
+        }
+        SimpleApplication.getDaoSession().getSatisfactionOptionDao().updateInTx(optionList);
+    }
 
     // ============================ 更多操作 -> 问卷目录 ============================
 

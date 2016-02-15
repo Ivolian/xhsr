@@ -12,16 +12,16 @@ import unicorn.com.xhsr.base.BaseFragment;
 import unicorn.com.xhsr.other.ClickHelp;
 
 
-public class AdviseFragment extends BaseFragment {
+public class AdviceFragment extends BaseFragment {
 
     @Override
     public int getLayoutResId() {
-        return R.layout.fragment_advise;
+        return R.layout.fragment_advice;
     }
 
     @Override
     public void initViews() {
-
+        // do nothing
     }
 
     @Bind(R.id.etAdvice)

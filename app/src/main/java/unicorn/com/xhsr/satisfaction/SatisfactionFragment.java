@@ -69,9 +69,13 @@ public class SatisfactionFragment extends BaseFragment {
 
         // index 等于评分
         select(index);
-        option.setScore(index);
-        SimpleApplication.getDaoSession().getSatisfactionOptionDao().update(option);
+        updateOption(index);
         EventBus.getDefault().post(option.getOrderNo(), "optionOnSelect");
+    }
+
+    private void updateOption(int score) {
+        option.setScore(score);
+        SimpleApplication.getDaoSession().getSatisfactionOptionDao().update(option);
     }
 
 
