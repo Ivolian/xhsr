@@ -127,6 +127,11 @@ public class SatisfactionActivity extends BaseActivity {
         denominator.setText("/" + option.getDenominator() + "");
     }
 
+    @Override
+    public void onDestroy() {
+        clearScore();
+        super.onDestroy();
+    }
 
     // ============================ optionOnSelect ============================
 
@@ -141,18 +146,18 @@ public class SatisfactionActivity extends BaseActivity {
     @Subscriber(tag = "submitOnClick")
     public void submitOnClick(String advice) {
         // 确认所有选项都已评分
-//        SatisfactionOption option = SimpleApplication.getDaoSession().getSatisfactionOptionDao().queryBuilder()
-//                .where(SatisfactionOptionDao.Properties.Score.eq(-1))
-//                .orderAsc(SatisfactionOptionDao.Properties.OrderNo)
-//                .limit(1)
-//                .unique();
-//        if (option != null) {
-//            viewPager.setCurrentItem(option.getOrderNo(), true);
-//            ToastUtils.show("尚有条目未评分");
-//        } else {
-        satisfactionResult.setAdvice(advice);
-        commitSatisfactionResult();
-//        }
+        SatisfactionOption option = SimpleApplication.getDaoSession().getSatisfactionOptionDao().queryBuilder()
+                .where(SatisfactionOptionDao.Properties.Score.eq(-1))
+                .orderAsc(SatisfactionOptionDao.Properties.OrderNo)
+                .limit(1)
+                .unique();
+        if (option != null) {
+            viewPager.setCurrentItem(option.getOrderNo(), true);
+            ToastUtils.show("尚有条目未评分");
+        } else {
+            satisfactionResult.setAdvice(advice);
+            commitSatisfactionResult();
+        }
     }
 
     private void commitSatisfactionResult() {
@@ -164,7 +169,6 @@ public class SatisfactionActivity extends BaseActivity {
                     @Override
                     public void onResponse(String response) {
                         ToastUtils.show("问卷已提交");
-                        clearScore();
                         finish();
                     }
                 },

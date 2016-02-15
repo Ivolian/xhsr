@@ -18,10 +18,10 @@ public class ConfigUtils {
 
     //
 
-//    final static String ip = "withub.net.cn";
-    final static String ip = "192.168.7.67";
+    final static String ip = "withub.net.cn";
+//    final static String ip = "192.168.7.67";
 
-    final static String port = "8080";
+    final static String port = "80";
 
     public static String getBaseUrl() {
         return "http://" + ip + ":" + port + "/hems";

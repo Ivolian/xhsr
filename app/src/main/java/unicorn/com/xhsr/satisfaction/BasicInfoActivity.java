@@ -148,12 +148,12 @@ public class BasicInfoActivity extends BaseActivity {
         if (ClickHelp.isFastClick()) {
             return;
         }
-//        if (checkInput()) {
+        if (checkInput()) {
             Intent intent = new Intent(this, SatisfactionActivity.class);
             intent.putExtra("satisfactionResult", generateSatisfactionResult());
             startActivity(intent);
             finish();
-//        }
+        }
     }
 
     private SatisfactionResult generateSatisfactionResult() {
