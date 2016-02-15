@@ -33,10 +33,10 @@ import unicorn.com.xhsr.DialogUtils;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.base.BaseActivity;
-import unicorn.com.xhsr.data.SatisfactionResult;
 import unicorn.com.xhsr.data.greendao.SatisfactionOption;
 import unicorn.com.xhsr.data.greendao.SatisfactionOptionDao;
 import unicorn.com.xhsr.other.ClickHelp;
+import unicorn.com.xhsr.satisfaction.model.SatisfactionResult;
 import unicorn.com.xhsr.utils.ConfigUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 import unicorn.com.xhsr.volley.SimpleVolley;
@@ -239,12 +239,11 @@ public class SatisfactionActivity extends BaseActivity {
                 List<SatisfactionOption> optionList = SimpleApplication.getDaoSession().getSatisfactionOptionDao().queryBuilder()
                         .orderAsc(SatisfactionOptionDao.Properties.OrderNo)
                         .list();
-                satisfactionResult.setOptionList(optionList);
                 try {
                     JSONObject result = new JSONObject();
                     result.put("phone", satisfactionResult.getPhone());
                     result.put("username", satisfactionResult.getUsername());
-                    result.put("assessDate", satisfactionResult.getAccessDate());
+                    result.put("assessDate", satisfactionResult.getAssessDate());
                     result.put("advice", satisfactionResult.getAdvice());
 //
                     JSONObject department = new JSONObject();

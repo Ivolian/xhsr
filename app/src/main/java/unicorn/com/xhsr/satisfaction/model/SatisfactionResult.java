@@ -1,24 +1,19 @@
-package unicorn.com.xhsr.data;
+package unicorn.com.xhsr.satisfaction.model;
 
 import java.io.Serializable;
-import java.util.List;
-
-import unicorn.com.xhsr.data.greendao.SatisfactionOption;
 
 
 public class SatisfactionResult implements Serializable {
 
-     String phone;
+    String phone;
 
-     String username;
+    String username;
 
-     String departmentId;
+    String departmentId;
 
-     long accessDate;
+    long assessDate;
 
-     String advice;
-
-     List<SatisfactionOption> optionList;
+    String advice;
 
     //
 
@@ -46,12 +41,12 @@ public class SatisfactionResult implements Serializable {
         this.departmentId = departmentId;
     }
 
-    public long getAccessDate() {
-        return accessDate;
+    public long getAssessDate() {
+        return assessDate;
     }
 
-    public void setAccessDate(long accessDate) {
-        this.accessDate = accessDate;
+    public void setAssessDate(long assessDate) {
+        this.assessDate = assessDate;
     }
 
     public String getAdvice() {
@@ -62,11 +57,4 @@ public class SatisfactionResult implements Serializable {
         this.advice = advice;
     }
 
-    public List<SatisfactionOption> getOptionList() {
-        return optionList;
-    }
-
-    public void setOptionList(List<SatisfactionOption> optionList) {
-        this.optionList = optionList;
-    }
 }

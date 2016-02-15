@@ -20,12 +20,12 @@ import unicorn.com.xhsr.ResultCodeUtils;
 import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.DataHelp;
-import unicorn.com.xhsr.data.SatisfactionResult;
 import unicorn.com.xhsr.data.greendao.Department;
 import unicorn.com.xhsr.data.greendao.DepartmentDao;
 import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
 import unicorn.com.xhsr.other.ClickHelp;
+import unicorn.com.xhsr.satisfaction.model.SatisfactionResult;
 import unicorn.com.xhsr.utils.ToastUtils;
 
 
@@ -133,7 +133,7 @@ public class BasicInfoActivity extends BaseActivity {
         Calendar c28 = Calendar.getInstance();
         c28.set(Calendar.DAY_OF_MONTH, 28);
         datePickerDialog.setMaxDate(c28);
-        datePickerDialog.show(getFragmentManager(), "SurveyDate");
+        datePickerDialog.show(getFragmentManager(), "surveyDate");
     }
 
     private String getSurveyDateString() {
@@ -148,18 +148,21 @@ public class BasicInfoActivity extends BaseActivity {
         if (ClickHelp.isFastClick()) {
             return;
         }
-//        if (checkInput()) {
+        if (checkInput()) {
+            Intent intent = new Intent(this, SatisfactionActivity.class);
+            intent.putExtra("satisfactionResult", generateSatisfactionResult());
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    private SatisfactionResult generateSatisfactionResult() {
         SatisfactionResult satisfactionResult = new SatisfactionResult();
         satisfactionResult.setDepartmentId(departmentId);
         satisfactionResult.setUsername(etName.getText().toString());
-        satisfactionResult.setAccessDate(cSurveyDate.getTime().getTime());
+        satisfactionResult.setAssessDate(cSurveyDate.getTime().getTime());
         satisfactionResult.setPhone(etPhone.getText().toString());
-
-        Intent intent = new Intent(this, SatisfactionActivity.class);
-        intent.putExtra("satisfactionResult", satisfactionResult);
-        startActivity(intent);
-        finish();
-//        }
+        return satisfactionResult;
     }
 
 

@@ -28,7 +28,6 @@ import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.select.SelectObject;
 import unicorn.com.xhsr.utils.ToastUtils;
 
-
 public class GroupSelectActivity extends BaseActivity {
 
 
