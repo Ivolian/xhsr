@@ -16,16 +16,15 @@ import java.util.Calendar;
 import butterknife.Bind;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
-import unicorn.com.xhsr.utils.ResultCodeUtils;
 import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.DataHelp;
 import unicorn.com.xhsr.data.greendao.Department;
 import unicorn.com.xhsr.data.greendao.DepartmentDao;
-import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
 import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.satisfaction.model.SatisfactionResult;
+import unicorn.com.xhsr.utils.ResultCodeUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 
 
@@ -65,7 +64,7 @@ public class BasicInfoActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == ResultCodeUtils.DEPARTMENT) {
-            departmentId = data.getStringExtra("objectId");
+            departmentId = data.getStringExtra("subId");
             Department department = SimpleApplication.getDaoSession().getDepartmentDao().queryBuilder()
                     .where(DepartmentDao.Properties.ObjectId.eq(departmentId))
                     .unique();
