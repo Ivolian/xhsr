@@ -12,6 +12,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import unicorn.com.xhsr.base.BottomSheetActivity;
 import unicorn.com.xhsr.data.DataHelp;
+import unicorn.com.xhsr.quickorder.QuickOrderActivity;
 import unicorn.com.xhsr.select.SelectAdapter;
 
 public class ProcessModeActivity extends BottomSheetActivity {

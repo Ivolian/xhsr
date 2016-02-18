@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -56,7 +55,7 @@ public class FastScrollRecyclerView extends RecyclerView {
         //create az text data
         Set<String> sectionSet = ((FastScrollRecyclerViewInterface)getAdapter()).getMapIndex().keySet();
         ArrayList<String> listSection = new ArrayList<>(sectionSet);
-        Collections.sort(listSection);
+//        Collections.sort(listSection);
         sections = new String[listSection.size()];
         int i=0;
         for(String s:listSection) {

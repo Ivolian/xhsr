@@ -19,7 +19,6 @@ import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import org.simple.eventbus.Subscriber;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -205,19 +204,19 @@ public class EquipmentSelectActivity extends BaseActivity {
     }
 
     private void initRvMain() {
-//        List<SelectObject> mainDataList = dataProvider.getMainDataList();
-        List<SelectObject> mainDataList = new ArrayList<>();
-
-        String[] strings = {"来","刚","证","面"};
-        for(int i=0; i!=4; i++) {
-            for (int j=0;j!=5;j++) {
-                String value = strings[i] + " Row item " + j;
-                SelectObject selectObject = new SelectObject();
-                selectObject.objectId = "SDF";
-                selectObject.value = value;
-                mainDataList.add(selectObject);
-            }
-        }
+        List<SelectObject> mainDataList = dataProvider.getMainDataList();
+//        List<SelectObject> mainDataList = new ArrayList<>();
+//
+//        String[] strings = {"来","刚","证","面"};
+//        for(int i=0; i!=4; i++) {
+//            for (int j=0;j!=5;j++) {
+//                String value = strings[i] + " Row item " + j;
+//                SelectObject selectObject = new SelectObject();
+//                selectObject.objectId = "SDF";
+//                selectObject.value = value;
+//                mainDataList.add(selectObject);
+//            }
+//        }
 
         HashMap<String,Integer> map = calculateIndexesForName(mainDataList);
 

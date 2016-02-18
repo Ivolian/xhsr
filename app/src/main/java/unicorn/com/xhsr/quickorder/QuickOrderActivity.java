@@ -1,4 +1,4 @@
-package unicorn.com.xhsr;
+package unicorn.com.xhsr.quickorder;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,6 +36,9 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import unicorn.com.xhsr.ProcessModeActivity;
+import unicorn.com.xhsr.R;
+import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.base.BottomSheetActivity;
 import unicorn.com.xhsr.data.DataHelp;
 import unicorn.com.xhsr.data.greendao.Building;
@@ -100,7 +103,7 @@ public class QuickOrderActivity extends BottomSheetActivity {
             return;
         }
 
-        EquipmentSelectActivity.setDataProvider( DataHelp.getEquipmentDataProvider());
+        EquipmentSelectActivity.setDataProvider(DataHelp.getEquipmentDataProvider());
         Intent intent = new Intent(this, EquipmentSelectActivity.class);
         intent.putExtra("name", "设备");
         intent.putExtra("subId", equipmentId);
@@ -211,8 +214,6 @@ public class QuickOrderActivity extends BottomSheetActivity {
 
     // =============================== 报修人员 ===============================
 
-    public static int REPAIR_PERSON_RESULT_CODE = 1003;
-
     String personName;
 
     String personCode;
@@ -226,7 +227,9 @@ public class QuickOrderActivity extends BottomSheetActivity {
     public void repairPersonOnClick() {
         Intent intent = new Intent(this, RepairPersonActivity.class);
         intent.putExtra("personName", personName);
-        startActivityForResult(intent, REPAIR_PERSON_RESULT_CODE);
+        intent.putExtra("personCode", personCode);
+        intent.putExtra("departmentId", departmentId);
+        startActivityForResult(intent, 2333);
     }
 
 
@@ -312,13 +315,13 @@ public class QuickOrderActivity extends BottomSheetActivity {
             tvBuilding.setText(building.getFullName());
         }
 
-
-        if (resultCode == REPAIR_PERSON_RESULT_CODE) {
+        if (resultCode == ResultCodeUtils.REPAIR_PERSON) {
             personName = data.getStringExtra("personName");
             personCode = data.getStringExtra("personCode");
             departmentId = data.getStringExtra("departmentId");
             tvRepairPerson.setText(personName);
         }
+
         if (resultCode == PROCESS_MODE_RESULT_CODE) {
             processModeId = data.getStringExtra("processModeId");
             processTimeLimitId = data.getStringExtra("processTimeLimitId");
@@ -326,8 +329,6 @@ public class QuickOrderActivity extends BottomSheetActivity {
             setProcessModeText();
         }
     }
-
-
 
 
     @Override
