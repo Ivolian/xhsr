@@ -29,7 +29,7 @@ public class RepairPersonActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repair_person);
-        if (personName!=null){
+        if (personName != null) {
             etPersonName.setText(personName);
         }
     }
@@ -44,13 +44,15 @@ public class RepairPersonActivity extends BaseActivity {
     @Bind(R.id.personName)
     EditText etPersonName;
 
-//    @Bind(R.id.personCode)
-//    EditText etPersonCode;
+    @Bind(R.id.personCode)
+    EditText etPersonCode;
 
 
     // =============================== 报修部门 ===============================
 
     public static int DEPARTMENT_RESULT_CODE = 1001;
+
+    String departmentId;
 
     @Bind(R.id.tvDepartment)
     TextView tvDepartment;
@@ -65,8 +67,8 @@ public class RepairPersonActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == DEPARTMENT_RESULT_CODE) {
-            String objectId = data.getStringExtra("objectId");
-            Department department = SimpleApplication.getDaoSession().getDepartmentDao().queryBuilder().where(DepartmentDao.Properties.ObjectId.eq(objectId)).unique();
+            departmentId = data.getStringExtra("objectId");
+            Department department = SimpleApplication.getDaoSession().getDepartmentDao().queryBuilder().where(DepartmentDao.Properties.ObjectId.eq(departmentId)).unique();
             tvDepartment.setText(department.getFullName());
         }
     }
@@ -85,8 +87,20 @@ public class RepairPersonActivity extends BaseActivity {
             ToastUtils.show("报修人员不能为空");
             return;
         }
+        if (TextUtils.isEmpty(etPersonCode.getText())) {
+            ToastUtils.show("人员工号不能为空");
+            return;
+        }
+        if (departmentId == null) {
+            ToastUtils.show("请选择报修部门");
+            return;
+        }
+
         Intent data = new Intent();
         data.putExtra("personName", etPersonName.getText().toString());
+        data.putExtra("personCode", etPersonCode.getText().toString());
+        data.putExtra("departmentId", departmentId);
+
         setResult(QuickOrderActivity.REPAIR_PERSON_RESULT_CODE, data);
         finish();
     }

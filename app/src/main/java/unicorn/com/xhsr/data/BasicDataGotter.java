@@ -113,8 +113,6 @@ public class BasicDataGotter {
         );
         SimpleVolley.addRequest(jsonArrayRequest);
     }
-
-
     //
 
     public void getEquipment() {

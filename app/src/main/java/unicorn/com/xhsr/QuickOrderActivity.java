@@ -8,6 +8,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.iflytek.cloud.ErrorCode;
@@ -18,15 +22,21 @@ import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechRecognizer;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.simple.eventbus.Subscriber;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import unicorn.com.xhsr.base.BaseActivity;
+import unicorn.com.xhsr.base.BottomSheetActivity;
 import unicorn.com.xhsr.data.DataHelp;
 import unicorn.com.xhsr.data.greendao.Building;
 import unicorn.com.xhsr.data.greendao.BuildingDao;
@@ -35,12 +45,17 @@ import unicorn.com.xhsr.data.greendao.EquipmentDao;
 import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
 import unicorn.com.xhsr.other.ClickHelp;
+import unicorn.com.xhsr.select.SelectAdapter;
+import unicorn.com.xhsr.select.SelectObject;
 import unicorn.com.xhsr.speech.JsonParser;
+import unicorn.com.xhsr.utils.ConfigUtils;
 import unicorn.com.xhsr.utils.TextDrawableUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
+import unicorn.com.xhsr.volley.SimpleVolley;
+import unicorn.com.xhsr.volley.StringRequestWithSessionCheck;
 
 
-public class QuickOrderActivity extends BaseActivity {
+public class QuickOrderActivity extends BottomSheetActivity {
 
 
     // =============================== onCreate & onDestroy ===============================
@@ -75,6 +90,8 @@ public class QuickOrderActivity extends BaseActivity {
 
     public int EQUIPMENT_RESULT_CODE = 1001;
 
+    String equipmentId;
+
     @Bind(R.id.tvEquipment)
     TextView tvEquipment;
 
@@ -94,14 +111,47 @@ public class QuickOrderActivity extends BaseActivity {
     }
 
 
-    // =============================== 设备故障 ===============================
+    // =============================== 故障类型 ===============================
 
-    // todo
+    String faultTypeId;
+
+    @Bind(R.id.tvFaultType)
+    TextView tvFaultType;
+
+    List<SelectObject> faultTypeDataList;
+
+    SelectAdapter.DataProvider dpFaultType = new SelectAdapter.DataProvider() {
+        @Override
+        public List<SelectObject> getDataList() {
+            return faultTypeDataList;
+        }
+    };
+
+    @OnClick(R.id.faultType)
+    public void faultTypeOnClick() {
+        if (ClickHelp.isFastClick()) {
+            return;
+        }
+        if (equipmentId == null) {
+            ToastUtils.show("请先选择维修设备");
+            return;
+        }
+        showSelectSheet("故障类型", dpFaultType, faultTypeId, "onFaultTypeSelect");
+    }
+
+    @Subscriber(tag = "onFaultTypeSelect")
+    private void onFaultTypeSelect(String objectIdSelected) {
+        faultTypeId = objectIdSelected;
+        tvFaultType.setText(DataHelp.getValue(dpFaultType, objectIdSelected));
+        bottomSheet.dismissSheet();
+    }
 
 
     // =============================== 维修地址 ===============================
 
     public int BUILDING_RESULT_CODE = 1002;
+
+    String buildingId;
 
     @Bind(R.id.tvBuilding)
     TextView tvBuilding;
@@ -119,13 +169,17 @@ public class QuickOrderActivity extends BaseActivity {
 
     String personName;
 
+    String personCode;
+
+    String departmentId;
+
     @Bind(R.id.tvRepairPerson)
     TextView tvRepairPerson;
 
     @OnClick(R.id.repairPerson)
     public void repairPersonOnClick() {
         Intent intent = new Intent(this, RepairPersonActivity.class);
-        intent.putExtra("personName",personName);
+        intent.putExtra("personName", personName);
         startActivityForResult(intent, REPAIR_PERSON_RESULT_CODE);
     }
 
@@ -199,17 +253,20 @@ public class QuickOrderActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == EQUIPMENT_RESULT_CODE) {
-            String objectId = data.getStringExtra("objectId");
-            Equipment equipment = SimpleApplication.getDaoSession().getEquipmentDao().queryBuilder().where(EquipmentDao.Properties.ObjectId.eq(objectId)).unique();
+            equipmentId = data.getStringExtra("objectId");
+            Equipment equipment = SimpleApplication.getDaoSession().getEquipmentDao().queryBuilder().where(EquipmentDao.Properties.ObjectId.eq(equipmentId)).unique();
             tvEquipment.setText(equipment.getFullName());
+            refreshFaultType();
         }
         if (resultCode == BUILDING_RESULT_CODE) {
-            String objectId = data.getStringExtra("objectId");
-            Building building = SimpleApplication.getDaoSession().getBuildingDao().queryBuilder().where(BuildingDao.Properties.ObjectId.eq(objectId)).unique();
+            buildingId = data.getStringExtra("objectId");
+            Building building = SimpleApplication.getDaoSession().getBuildingDao().queryBuilder().where(BuildingDao.Properties.ObjectId.eq(buildingId)).unique();
             tvBuilding.setText(building.getFullName());
         }
         if (resultCode == REPAIR_PERSON_RESULT_CODE) {
-             personName = data.getStringExtra("personName");
+            personName = data.getStringExtra("personName");
+            personCode = data.getStringExtra("personCode");
+            departmentId = data.getStringExtra("departmentId");
             tvRepairPerson.setText(personName);
         }
         if (resultCode == PROCESS_MODE_RESULT_CODE) {
@@ -220,17 +277,48 @@ public class QuickOrderActivity extends BaseActivity {
         }
     }
 
+    private void refreshFaultType() {
+        faultTypeId = null;
+        tvFaultType.setText("");
+        fetchFaultTypeDataList();
+    }
 
+    private void fetchFaultTypeDataList() {
+        String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/equipment/" + equipmentId + "/faultType";
+        StringRequest jsonArrayRequest = new StringRequestWithSessionCheck(url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String responses) {
+                        try {
+                            List<SelectObject> dataList = new ArrayList<>();
+                            JSONArray jsonArray = new JSONArray(responses);
+                            for (int i = 0; i != jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                String objectId = jsonObject.getString("objectId");
+                                String name = jsonObject.getString("name");
+                                SelectObject selectObject = new SelectObject();
+                                selectObject.objectId = objectId;
+                                selectObject.value = name;
+                                dataList.add(selectObject);
+                            }
+                            faultTypeDataList = dataList;
+                        } catch (Exception e) {
+                            //
+                        }
+                    }
+                },
+                SimpleVolley.getDefaultErrorListener()
+        );
+        SimpleVolley.addRequest(jsonArrayRequest);
+    }
 
 
     @Override
     public void onDestroy() {
-
         super.onDestroy();
         mIat.cancel();
         mIat.destroy();
     }
-
 
 
     public void setParam() {
@@ -265,8 +353,6 @@ public class QuickOrderActivity extends BaseActivity {
     }
 
 
-
-
     private SpeechRecognizer mIat;
 
     private InitListener mInitListener = new InitListener() {
@@ -278,7 +364,6 @@ public class QuickOrderActivity extends BaseActivity {
             }
         }
     };
-
 
 
     int ret = 0;
@@ -355,7 +440,6 @@ public class QuickOrderActivity extends BaseActivity {
     }
 
 
-
     // =============================== 基础方法 ===============================
 
     @OnClick(R.id.cancel)
@@ -365,8 +449,90 @@ public class QuickOrderActivity extends BaseActivity {
 
     @OnClick(R.id.confirm)
     public void confirm() {
-        DataHelp.wait_repair = true;
-        finish();
+
+        if (!checkInput()) {
+            return;
+        }
+
+        String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/workOrder/issue";
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ToastUtils.show("下单成功");
+                        finish();
+                    }
+                },
+                SimpleVolley.getDefaultErrorListener()
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put("Cookie", "JSESSIONID=" + ConfigUtils.getSessionId());
+                // 不加这个会出现 Unsupported media type 415 错误
+                map.put("Content-Type", "application/json");
+                return map;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    JSONObject result = new JSONObject();
+                    result.put("address", "");
+                    result.put("callNumber", 123);
+                    addJsonObjectToResult(result, "building", buildingId);
+                    result.put("description", etDescription.getText().toString());
+                    addJsonObjectToResult(result, "emergencyDegree", emergencyDegreeId);
+                    addJsonObjectToResult(result, "equipment", equipmentId);
+                    addJsonObjectToResult(result, "faultType", faultTypeId);
+                    addJsonObjectToResult(result, "processingMode", processModeId);
+                    addJsonObjectToResult(result, "processingTimeLimit", processTimeLimitId);
+                    addJsonObjectToResult(result, "requestDepartment", departmentId);
+                    result.put("requestTime", new Date().getTime());
+                    result.put("requestUser", personName);
+                    result.put("requestUserNo", personCode);
+                    addJsonObjectToResult(result, "type", "97c6be7f-449a-4371-b310-1e40b42e544f");
+
+                    String jsonString = result.toString();
+                    return jsonString.getBytes("UTF-8");
+                } catch (Exception e) {
+                    //
+                }
+                return null;
+            }
+        };
+        SimpleVolley.addRequest(stringRequest);
+
+
+    }
+
+    private boolean checkInput() {
+        if (equipmentId == null) {
+            ToastUtils.show("请选择需要维修的设备");
+            return false;
+        }
+        if (faultTypeId == null) {
+            ToastUtils.show("请选择故障类型");
+            return false;
+        }
+        if (buildingId == null) {
+            ToastUtils.show("请选择维修地址");
+            return false;
+        }
+        if (departmentId == null) {
+            ToastUtils.show("请填写报修人员信息");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void addJsonObjectToResult(JSONObject result, String tag, String objectId) throws Exception {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("objectId", objectId);
+        result.put(tag, jsonObject);
     }
 
 
