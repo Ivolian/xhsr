@@ -26,7 +26,6 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.BasicDataGotter;
-import unicorn.com.xhsr.data.DataHelp;
 import unicorn.com.xhsr.draglayout.view.DragLayout;
 import unicorn.com.xhsr.myorder.MyOrderActivity;
 import unicorn.com.xhsr.other.ClickHelp;
@@ -186,8 +185,6 @@ public class MainActivity extends BaseActivity {
         String res = DimensCodeTools.scanForResult(requestCode, resultCode, data);
         if (res != null)
             etEquipmentCode.setText(res);
-
-        tvToRepair.setText(DataHelp.wait_repair ? "待维修(1)" : "待维修");
     }
 
     @OnClick(R.id.toRepair)

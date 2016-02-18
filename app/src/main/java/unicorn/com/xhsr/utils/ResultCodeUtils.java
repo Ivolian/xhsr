@@ -7,4 +7,6 @@ public class ResultCodeUtils {
 
     public static final int EQUIPMENT = 10002;
 
+    public static final int BUILDING = 1003;
+
 }

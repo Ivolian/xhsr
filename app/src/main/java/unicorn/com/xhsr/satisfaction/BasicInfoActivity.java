@@ -58,9 +58,7 @@ public class BasicInfoActivity extends BaseActivity {
         if (ClickHelp.isFastClick()) {
             return;
         }
-        // TODO GroupSelectActivity dataProvider 和 初始值
-        GroupSelectActivity.dataProvider = DataHelp.getDepartmentDataProvider();
-        GroupSelectHelper.startGroupSelectActivity(this, "调查科室",departmentId, ResultCodeUtils.DEPARTMENT);
+        GroupSelectHelper.startGroupSelectActivity(this, DataHelp.getDepartmentDataProvider(),"调查科室",departmentId, ResultCodeUtils.DEPARTMENT);
     }
 
     @Override

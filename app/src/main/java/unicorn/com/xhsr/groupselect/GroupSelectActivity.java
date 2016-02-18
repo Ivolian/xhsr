@@ -42,7 +42,11 @@ public class GroupSelectActivity extends BaseActivity {
 
     // =============================== data provider ===============================
 
-    public static DataProvider dataProvider;
+    private static DataProvider dataProvider;
+
+    public static void setDataProvider(DataProvider dataProvider) {
+        GroupSelectActivity.dataProvider = dataProvider;
+    }
 
     public interface DataProvider {
 

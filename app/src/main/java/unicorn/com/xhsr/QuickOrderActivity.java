@@ -42,7 +42,6 @@ import unicorn.com.xhsr.data.greendao.Building;
 import unicorn.com.xhsr.data.greendao.BuildingDao;
 import unicorn.com.xhsr.data.greendao.Equipment;
 import unicorn.com.xhsr.data.greendao.EquipmentDao;
-import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
 import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.select.SelectAdapter;
@@ -59,7 +58,7 @@ import unicorn.com.xhsr.volley.StringRequestWithSessionCheck;
 public class QuickOrderActivity extends BottomSheetActivity {
 
 
-    // =============================== onCreate & onDestroy ===============================
+    // =============================== onCreate ===============================
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +88,6 @@ public class QuickOrderActivity extends BottomSheetActivity {
 
     // =============================== 设备 ===============================
 
-
     String equipmentId;
 
     @Bind(R.id.tvEquipment)
@@ -97,26 +95,28 @@ public class QuickOrderActivity extends BottomSheetActivity {
 
     @OnClick(R.id.equipment)
     public void equipmentOnClick() {
-        GroupSelectActivity.dataProvider = DataHelp.getEquipmentDataProvider();
-        GroupSelectHelper.startGroupSelectActivity(this, "设备", equipmentId, ResultCodeUtils.EQUIPMENT);
+        if (ClickHelp.isFastClick()) {
+            return;
+        }
+        GroupSelectHelper.startGroupSelectActivity(this, DataHelp.getEquipmentDataProvider(), "设备", equipmentId, ResultCodeUtils.EQUIPMENT);
     }
 
-    @Bind(R.id.tdEquipment)
-    ImageView tdEquipment;
+
+    // =============================== 设备图标 ===============================
+
+    @Bind(R.id.ivEquipment)
+    ImageView ivEquipment;
 
     private void initEquipment() {
         int colorPrimary = ContextCompat.getColor(this, R.color.colorPrimary);
         TextDrawable textDrawable = TextDrawable.builder().buildRound("修", colorPrimary);
-        tdEquipment.setImageDrawable(textDrawable);
+        ivEquipment.setImageDrawable(textDrawable);
     }
 
 
     // =============================== 故障类型 ===============================
 
     String faultTypeId;
-
-    @Bind(R.id.tvFaultType)
-    TextView tvFaultType;
 
     List<SelectObject> faultTypeDataList;
 
@@ -126,6 +126,9 @@ public class QuickOrderActivity extends BottomSheetActivity {
             return faultTypeDataList;
         }
     };
+
+    @Bind(R.id.tvFaultType)
+    TextView tvFaultType;
 
     @OnClick(R.id.faultType)
     public void faultTypeOnClick() {
@@ -140,16 +143,49 @@ public class QuickOrderActivity extends BottomSheetActivity {
     }
 
     @Subscriber(tag = "onFaultTypeSelect")
-    private void onFaultTypeSelect(String objectIdSelected) {
-        faultTypeId = objectIdSelected;
-        tvFaultType.setText(DataHelp.getValue(dpFaultType, objectIdSelected));
+    private void onFaultTypeSelect(String objectId) {
+        faultTypeId = objectId;
+        tvFaultType.setText(DataHelp.getValue(dpFaultType, objectId));
         bottomSheet.dismissSheet();
+    }
+
+    private void fetchFaultType() {
+        faultTypeId = null;
+        tvFaultType.setText("");
+        fetchFaultTypeDataList();
+    }
+
+    private void fetchFaultTypeDataList() {
+        String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/equipment/" + equipmentId + "/faultType";
+        StringRequest jsonArrayRequest = new StringRequestWithSessionCheck(url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String responses) {
+                        try {
+                            List<SelectObject> dataList = new ArrayList<>();
+                            JSONArray jsonArray = new JSONArray(responses);
+                            for (int i = 0; i != jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                String objectId = jsonObject.getString("objectId");
+                                String name = jsonObject.getString("name");
+                                SelectObject selectObject = new SelectObject();
+                                selectObject.objectId = objectId;
+                                selectObject.value = name;
+                                dataList.add(selectObject);
+                            }
+                            faultTypeDataList = dataList;
+                        } catch (Exception e) {
+                            //
+                        }
+                    }
+                },
+                SimpleVolley.getDefaultErrorListener()
+        );
+        SimpleVolley.addRequest(jsonArrayRequest);
     }
 
 
     // =============================== 维修地址 ===============================
-
-    public int BUILDING_RESULT_CODE = 1002;
 
     String buildingId;
 
@@ -158,8 +194,10 @@ public class QuickOrderActivity extends BottomSheetActivity {
 
     @OnClick(R.id.building)
     public void buildingOnClick() {
-        GroupSelectActivity.dataProvider = DataHelp.getBuildingDataProvider();
-        GroupSelectHelper.startGroupSelectActivity(this, "维修地址", buildingId, BUILDING_RESULT_CODE);
+        if (ClickHelp.isFastClick()) {
+            return;
+        }
+        GroupSelectHelper.startGroupSelectActivity(this, DataHelp.getBuildingDataProvider(), "维修地址", buildingId, ResultCodeUtils.BUILDING);
     }
 
 
@@ -252,17 +290,21 @@ public class QuickOrderActivity extends BottomSheetActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == ResultCodeUtils.EQUIPMENT) {
             equipmentId = data.getStringExtra("subId");
             Equipment equipment = SimpleApplication.getDaoSession().getEquipmentDao().queryBuilder().where(EquipmentDao.Properties.ObjectId.eq(equipmentId)).unique();
             tvEquipment.setText(equipment.getFullName());
-            refreshFaultType();
+            fetchFaultType();
         }
-        if (resultCode == BUILDING_RESULT_CODE) {
-            buildingId = data.getStringExtra("objectId");
+
+        if (resultCode == ResultCodeUtils.BUILDING) {
+            buildingId = data.getStringExtra("subId");
             Building building = SimpleApplication.getDaoSession().getBuildingDao().queryBuilder().where(BuildingDao.Properties.ObjectId.eq(buildingId)).unique();
             tvBuilding.setText(building.getFullName());
         }
+
+
         if (resultCode == REPAIR_PERSON_RESULT_CODE) {
             personName = data.getStringExtra("personName");
             personCode = data.getStringExtra("personCode");
@@ -277,40 +319,7 @@ public class QuickOrderActivity extends BottomSheetActivity {
         }
     }
 
-    private void refreshFaultType() {
-        faultTypeId = null;
-        tvFaultType.setText("");
-        fetchFaultTypeDataList();
-    }
 
-    private void fetchFaultTypeDataList() {
-        String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/equipment/" + equipmentId + "/faultType";
-        StringRequest jsonArrayRequest = new StringRequestWithSessionCheck(url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String responses) {
-                        try {
-                            List<SelectObject> dataList = new ArrayList<>();
-                            JSONArray jsonArray = new JSONArray(responses);
-                            for (int i = 0; i != jsonArray.length(); i++) {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                String objectId = jsonObject.getString("objectId");
-                                String name = jsonObject.getString("name");
-                                SelectObject selectObject = new SelectObject();
-                                selectObject.objectId = objectId;
-                                selectObject.value = name;
-                                dataList.add(selectObject);
-                            }
-                            faultTypeDataList = dataList;
-                        } catch (Exception e) {
-                            //
-                        }
-                    }
-                },
-                SimpleVolley.getDefaultErrorListener()
-        );
-        SimpleVolley.addRequest(jsonArrayRequest);
-    }
 
 
     @Override

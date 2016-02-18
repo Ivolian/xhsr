@@ -7,7 +7,8 @@ import android.content.Intent;
 public class GroupSelectHelper {
 
 
-    public static void startGroupSelectActivity(Activity activity, String name, String subId, int resultCode) {
+    public static void startGroupSelectActivity(Activity activity, GroupSelectActivity.DataProvider dataProvider, String name, String subId, int resultCode) {
+        GroupSelectActivity.setDataProvider(dataProvider);
         Intent intent = new Intent(activity, GroupSelectActivity.class);
         intent.putExtra("name", name);
         intent.putExtra("subId", subId);

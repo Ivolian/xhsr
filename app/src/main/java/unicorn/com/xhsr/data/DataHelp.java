@@ -27,59 +27,59 @@ import unicorn.com.xhsr.select.SelectObject;
 
 public class DataHelp {
 
-    public final static String MAIN_TAG = "main";
-
-    public final static String SUB_TAG = "sub";
-
-    public final static String FULL_TAG = "full";
-
     public static GroupSelectActivity.DataProvider getBuildingDataProvider() {
 
         return new GroupSelectActivity.DataProvider() {
+
+            private List<SelectObject> mainDataList;
+
             @Override
             public String getMainId(String subId) {
-                return null;
+                Building building = SimpleApplication.getDaoSession().getBuildingDao().queryBuilder()
+                        .where(BuildingDao.Properties.ObjectId.eq(subId))
+                        .unique();
+                return building.getParentId();
             }
 
             @Override
             public List<SelectObject> getMainDataList() {
-                BuildingDao buildingDao = SimpleApplication.getDaoSession().getBuildingDao();
-                final List<Building> buildingList = buildingDao.queryBuilder()
+                if (mainDataList != null) {
+                    return mainDataList;
+                }
+                final List<Building> buildingList = SimpleApplication.getDaoSession().getBuildingDao().queryBuilder()
                         .where(BuildingDao.Properties.ParentId.eq("root"))
                         .orderAsc(BuildingDao.Properties.OrderNo)
                         .list();
-                List<SelectObject> selectObjectList = new ArrayList<>();
+                List<SelectObject> mainDataList = new ArrayList<>();
                 for (Building building : buildingList) {
                     SelectObject selectObject = new SelectObject();
                     selectObject.objectId = building.getObjectId();
                     selectObject.value = building.getName();
-                    selectObjectList.add(selectObject);
+                    mainDataList.add(selectObject);
                 }
-                return selectObjectList;
+                return (this.mainDataList = mainDataList);
             }
 
             @Override
             public List<SelectObject> getSubDataList(String mainId) {
-                BuildingDao buildingDao = SimpleApplication.getDaoSession().getBuildingDao();
-                List<Building> equipmentList = buildingDao.queryBuilder()
+                List<Building> buildingList = SimpleApplication.getDaoSession().getBuildingDao().queryBuilder()
                         .where(BuildingDao.Properties.ParentId.eq(mainId))
                         .orderAsc(BuildingDao.Properties.OrderNo)
                         .list();
-                final List<SelectObject> selectObjectList = new ArrayList<>();
-                for (Building building : equipmentList) {
+                final List<SelectObject> subDataList = new ArrayList<>();
+                for (Building building : buildingList) {
                     SelectObject selectObject = new SelectObject();
                     selectObject.objectId = building.getObjectId();
                     selectObject.value = building.getName();
-                    selectObjectList.add(selectObject);
+                    subDataList.add(selectObject);
                 }
-                return selectObjectList;
+                return subDataList;
             }
 
             @Override
             public List<SelectObject> getSearchResultDataList(String query) {
-                List<SelectObject> selectObjectList = new ArrayList<>();
-                BuildingDao buildingDao = SimpleApplication.getDaoSession().getBuildingDao();
-                List<Building> children = buildingDao.queryBuilder()
+                List<SelectObject> searchResultDataList = new ArrayList<>();
+                List<Building> children = SimpleApplication.getDaoSession().getBuildingDao().queryBuilder()
                         .where(BuildingDao.Properties.Level.eq(1))
                         .where(BuildingDao.Properties.FullName.like("%" + query + "%"))
                         .orderAsc(BuildingDao.Properties.OrderNo)
@@ -88,9 +88,9 @@ public class DataHelp {
                     SelectObject selectObject = new SelectObject();
                     selectObject.objectId = child.getObjectId();
                     selectObject.value = child.getFullName();
-                    selectObjectList.add(selectObject);
+                    searchResultDataList.add(selectObject);
                 }
-                return selectObjectList;
+                return searchResultDataList;
             }
         };
 
@@ -169,52 +169,58 @@ public class DataHelp {
 
         return new GroupSelectActivity.DataProvider() {
 
+            private List<SelectObject> mainDataList;
+
             @Override
             public String getMainId(String subId) {
-                return null;
+                Department department = SimpleApplication.getDaoSession().getDepartmentDao().queryBuilder()
+                        .where(DepartmentDao.Properties.ObjectId.eq(subId))
+                        .unique();
+                return department.getParent().getParentId();
             }
 
             @Override
             public List<SelectObject> getMainDataList() {
-                DepartmentDao departmentDao = SimpleApplication.getDaoSession().getDepartmentDao();
-                final List<Department> buildingList = departmentDao.queryBuilder()
+                if (mainDataList != null) {
+                    return mainDataList;
+                }
+
+                final List<Department> buildingList = SimpleApplication.getDaoSession().getDepartmentDao().queryBuilder()
                         .where(DepartmentDao.Properties.Level.eq(0))
                         .orderAsc(DepartmentDao.Properties.OrderNo)
                         .list();
-                List<SelectObject> selectObjectList = new ArrayList<>();
+                List<SelectObject> mainDataList = new ArrayList<>();
                 for (Department department : buildingList) {
                     SelectObject selectObject = new SelectObject();
                     selectObject.objectId = department.getObjectId();
                     selectObject.value = department.getName();
-                    selectObjectList.add(selectObject);
+                    mainDataList.add(selectObject);
                 }
-                return selectObjectList;
+                return (this.mainDataList = mainDataList);
             }
 
             @Override
             public List<SelectObject> getSubDataList(String mainId) {
-                DepartmentDao departmentDao = SimpleApplication.getDaoSession().getDepartmentDao();
-                List<Department> level1List = departmentDao.queryBuilder()
+                List<Department> level1List = SimpleApplication.getDaoSession().getDepartmentDao().queryBuilder()
                         .where(DepartmentDao.Properties.ParentId.eq(mainId))
                         .orderAsc(DepartmentDao.Properties.OrderNo)
                         .list();
-                final List<SelectObject> selectObjectList = new ArrayList<>();
+                final List<SelectObject> subDataList = new ArrayList<>();
                 for (Department level1 : level1List) {
                     for (Department level2 : level1.getChildren()) {
                         SelectObject selectObject = new SelectObject();
                         selectObject.objectId = level2.getObjectId();
                         selectObject.value = level1.getName() + " / " + level2.getName();
-                        selectObjectList.add(selectObject);
+                        subDataList.add(selectObject);
                     }
                 }
-                return selectObjectList;
+                return subDataList;
             }
 
             @Override
             public List<SelectObject> getSearchResultDataList(String query) {
-                List<SelectObject> selectObjectList = new ArrayList<>();
-                DepartmentDao departmentDao = SimpleApplication.getDaoSession().getDepartmentDao();
-                List<Department> level2List = departmentDao.queryBuilder()
+                List<SelectObject> resultDataList = new ArrayList<>();
+                List<Department> level2List = SimpleApplication.getDaoSession().getDepartmentDao().queryBuilder()
                         .where(DepartmentDao.Properties.Level.eq(2))
                         .where(DepartmentDao.Properties.FullName.like("%" + query + "%"))
                         .orderAsc(DepartmentDao.Properties.OrderNo)
@@ -223,18 +229,15 @@ public class DataHelp {
                     SelectObject selectObject = new SelectObject();
                     selectObject.objectId = level2.getObjectId();
                     selectObject.value = level2.getFullName();
-                    selectObjectList.add(selectObject);
+                    resultDataList.add(selectObject);
                 }
-                return selectObjectList;
+                return resultDataList;
             }
         };
     }
 
     //
 
-    public static boolean wait_repair = false;
-
-    //
 
     public static SelectAdapter.DataProvider getProcessModeDataProvider() {
         return new SelectAdapter.DataProvider() {

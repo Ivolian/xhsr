@@ -15,8 +15,9 @@ import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.DataHelp;
 import unicorn.com.xhsr.data.greendao.Department;
 import unicorn.com.xhsr.data.greendao.DepartmentDao;
-import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
+import unicorn.com.xhsr.other.ClickHelp;
+import unicorn.com.xhsr.utils.ResultCodeUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 
 
@@ -50,8 +51,6 @@ public class RepairPersonActivity extends BaseActivity {
 
     // =============================== 报修部门 ===============================
 
-    public static int DEPARTMENT_RESULT_CODE = 1001;
-
     String departmentId;
 
     @Bind(R.id.tvDepartment)
@@ -59,15 +58,17 @@ public class RepairPersonActivity extends BaseActivity {
 
     @OnClick(R.id.department)
     public void departmentOnClick() {
-        GroupSelectActivity.dataProvider = DataHelp.getDepartmentDataProvider();
-        GroupSelectHelper.startGroupSelectActivity(this, "报修部门", departmentId,DEPARTMENT_RESULT_CODE);
+        if (ClickHelp.isFastClick()) {
+            return;
+        }
+        GroupSelectHelper.startGroupSelectActivity(this, DataHelp.getDepartmentDataProvider(),"报修部门", departmentId, ResultCodeUtils.DEPARTMENT);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == DEPARTMENT_RESULT_CODE) {
-            departmentId = data.getStringExtra("objectId");
+        if (resultCode == ResultCodeUtils.DEPARTMENT) {
+            departmentId = data.getStringExtra("subId");
             Department department = SimpleApplication.getDaoSession().getDepartmentDao().queryBuilder().where(DepartmentDao.Properties.ObjectId.eq(departmentId)).unique();
             tvDepartment.setText(department.getFullName());
         }

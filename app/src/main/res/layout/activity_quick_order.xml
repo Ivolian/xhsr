@@ -85,7 +85,7 @@
                     app:layout_paddingRightPercent="5%sw">
 
                     <ImageView
-                        android:id="@+id/tdEquipment"
+                        android:id="@+id/ivEquipment"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         app:layout_heightPercent="6%sh"
