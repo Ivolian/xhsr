@@ -27,12 +27,14 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.base.BaseActivity;
+import unicorn.com.xhsr.data.DataHelp;
 import unicorn.com.xhsr.goodwork.fastscroll.FastScrollRecyclerView;
 import unicorn.com.xhsr.goodwork.fastscroll.FastScrollRecyclerViewItemDecoration;
 import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.groupselect.SearchResultAdapter;
 import unicorn.com.xhsr.groupselect.SubAdapter;
 import unicorn.com.xhsr.select.SelectObject;
+import unicorn.com.xhsr.utils.ResultCodeUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 
 
@@ -50,24 +52,14 @@ public class EquipmentSelectActivity extends BaseActivity {
 
     // =============================== data provider ===============================
 
-    private static GroupSelectActivity.DataProvider dataProvider;
-
-    public static void setDataProvider(GroupSelectActivity.DataProvider dataProvider) {
-        EquipmentSelectActivity.dataProvider = dataProvider;
-    }
+    private GroupSelectActivity.DataProvider dataProvider = DataHelp.getEquipmentDataProvider();
 
 
     // =============================== extra ===============================
 
-    @InjectExtra("name")
-    String name;
-
     @Nullable
     @InjectExtra("subId")
     String subId;
-
-    @InjectExtra("resultCode")
-    Integer resultCode;
 
 
     // =============================== onCreate ===============================
@@ -97,7 +89,7 @@ public class EquipmentSelectActivity extends BaseActivity {
     TextView tvTitle;
 
     private void initTitle() {
-        tvTitle.setText("选择" + name);
+        tvTitle.setText("选择设备");
     }
 
 
@@ -110,7 +102,7 @@ public class EquipmentSelectActivity extends BaseActivity {
     ImageView clear;
 
     private void initSearchBox() {
-        etSearch.setHint("输入" + name + "相关信息");
+        etSearch.setHint("输入设备相关信息");
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -179,7 +171,7 @@ public class EquipmentSelectActivity extends BaseActivity {
     private void finishWithResult(String objectId) {
         Intent data = new Intent();
         data.putExtra("subId", objectId);
-        setResult(resultCode, data);
+        setResult(ResultCodeUtils.EQUIPMENT, data);
         finish();
     }
 
@@ -190,7 +182,7 @@ public class EquipmentSelectActivity extends BaseActivity {
     FastScrollRecyclerView rvMain;
 
     private HashMap<String, Integer> calculateIndexesForName(List<SelectObject> items){
-        HashMap<String, Integer> mapIndex = new LinkedHashMap<String, Integer>();
+        HashMap<String, Integer> mapIndex = new LinkedHashMap<>();
         for (int i = 0; i<items.size(); i++){
             String name = items.get(i).value;
             String index = name.substring(0,1);
@@ -205,18 +197,7 @@ public class EquipmentSelectActivity extends BaseActivity {
 
     private void initRvMain() {
         List<SelectObject> mainDataList = dataProvider.getMainDataList();
-//        List<SelectObject> mainDataList = new ArrayList<>();
-//
-//        String[] strings = {"来","刚","证","面"};
-//        for(int i=0; i!=4; i++) {
-//            for (int j=0;j!=5;j++) {
-//                String value = strings[i] + " Row item " + j;
-//                SelectObject selectObject = new SelectObject();
-//                selectObject.objectId = "SDF";
-//                selectObject.value = value;
-//                mainDataList.add(selectObject);
-//            }
-//        }
+
 
         HashMap<String,Integer> map = calculateIndexesForName(mainDataList);
 
@@ -227,8 +208,7 @@ public class EquipmentSelectActivity extends BaseActivity {
         FastScrollRecyclerViewItemDecoration decoration = new FastScrollRecyclerViewItemDecoration(this);
         rvMain.addItemDecoration(decoration);
         rvMain.setItemAnimator(new DefaultItemAnimator());
-
-//        rvMain.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
+        rvMain.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
 
         // 如果没有选中项，默认选择第一个
         if (!needInit) {
@@ -300,7 +280,7 @@ public class EquipmentSelectActivity extends BaseActivity {
     @OnClick(R.id.confirm)
     public void confirm() {
         if (subId == null) {
-            ToastUtils.show("请先选择" + name);
+            ToastUtils.show("请先选择设备");
             return;
         }
         finishWithResult(subId);

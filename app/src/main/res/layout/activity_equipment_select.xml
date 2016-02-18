@@ -54,7 +54,7 @@
     <com.zhy.android.percent.support.PercentFrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/md_grey_400"
         app:layout_heightPercent="10%sh"
         app:layout_paddingBottomPercent="2%sw"
         app:layout_paddingLeftPercent="2%sw"
@@ -111,10 +111,10 @@
 
             <!-- 选择结果 8%-->
             <HorizontalScrollView
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:scrollbars="none"
+                android:visibility="gone"
                 app:layout_heightPercent="8%sh">
 
                 <com.zhy.android.percent.support.PercentLinearLayout
@@ -144,12 +144,12 @@
             </HorizontalScrollView>
 
             <View
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="2.5dp"
-                android:background="@color/md_grey_200" />
+                android:background="@color/md_grey_200"
+                android:visibility="gone" />
 
-            <LinearLayout
+            <com.zhy.android.percent.support.PercentLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -159,16 +159,16 @@
                     android:id="@+id/rvMain"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:background="@color/md_grey_200" />
+                    android:background="@color/md_grey_200"
+                    app:layout_widthPercent="45%sw" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvSub"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="3" />
+                    app:layout_widthPercent="55%sw" />
 
-            </LinearLayout>
+            </com.zhy.android.percent.support.PercentLinearLayout>
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 

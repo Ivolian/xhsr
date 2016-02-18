@@ -97,7 +97,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="请选择需要维修的设备"
+                        android:hint="请选择待维修的设备"
                         android:textColor="@color/md_black"
                         android:textColorHint="@color/md_grey_400"
                         app:layout_textSizePercent="3%sh" />
@@ -298,7 +298,7 @@
                         app:layout_textSizePercent="3%sh" />
 
                     <ImageView
-                        android:id="@+id/descriptionArrow"
+                        android:id="@+id/arrow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_arrow_right" />
@@ -311,7 +311,7 @@
                     android:background="@color/md_grey_200" />
 
                 <com.github.aakira.expandablelayout.ExpandableRelativeLayout
-                    android:id="@+id/elDescription"
+                    android:id="@+id/erlDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:ael_duration="300"

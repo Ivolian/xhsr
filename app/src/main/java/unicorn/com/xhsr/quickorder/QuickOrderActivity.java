@@ -54,8 +54,8 @@ import unicorn.com.xhsr.utils.ConfigUtils;
 import unicorn.com.xhsr.utils.ResultCodeUtils;
 import unicorn.com.xhsr.utils.TextDrawableUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
+import unicorn.com.xhsr.volley.JsonArrayRequestWithSessionCheck;
 import unicorn.com.xhsr.volley.SimpleVolley;
-import unicorn.com.xhsr.volley.StringRequestWithSessionCheck;
 
 
 public class QuickOrderActivity extends BottomSheetActivity {
@@ -77,13 +77,8 @@ public class QuickOrderActivity extends BottomSheetActivity {
 
     private void initViews() {
         initIvEquipment();
-
-        mIat = SpeechRecognizer.createRecognizer(this, mInitListener);
-
-        processModeId = DataHelp.getProcessModeDataProvider().getDataList().get(0).objectId;
-        processTimeLimitId = DataHelp.getProcessTimeLimitDataProvider().getDataList().get(0).objectId;
-        emergencyDegreeId = DataHelp.getEmergencyDegreeDataProvider().getDataList().get(0).objectId;
-        notifyProcessModeChange();
+        initProcessMode();
+//        mIat = SpeechRecognizer.createRecognizer(this, mInitListener);
     }
 
 
@@ -99,12 +94,8 @@ public class QuickOrderActivity extends BottomSheetActivity {
         if (ClickHelp.isFastClick()) {
             return;
         }
-
-        EquipmentSelectActivity.setDataProvider(DataHelp.getEquipmentDataProvider());
         Intent intent = new Intent(this, EquipmentSelectActivity.class);
-        intent.putExtra("name", "设备");
         intent.putExtra("subId", equipmentId);
-        intent.putExtra("resultCode", ResultCodeUtils.EQUIPMENT);
         startActivityForResult(intent, 2333);
     }
 
@@ -127,6 +118,7 @@ public class QuickOrderActivity extends BottomSheetActivity {
 
     List<SelectObject> faultTypeDataList;
 
+    // TODO
     SelectAdapter.DataProvider dpFaultType = new SelectAdapter.DataProvider() {
         @Override
         public List<SelectObject> getDataList() {
@@ -143,7 +135,7 @@ public class QuickOrderActivity extends BottomSheetActivity {
             return;
         }
         if (equipmentId == null) {
-            ToastUtils.show("请先选择维修设备");
+            ToastUtils.show("请先选择待维修设备");
             return;
         }
         showSelectSheet("故障类型", dpFaultType, faultTypeId, "onFaultTypeSelect");
@@ -156,23 +148,22 @@ public class QuickOrderActivity extends BottomSheetActivity {
         bottomSheet.dismissSheet();
     }
 
-    private void fetchFaultType() {
+    private void notifyEquipmentChange() {
         faultTypeId = null;
         tvFaultType.setText("");
         fetchFaultTypeDataList();
     }
 
     private void fetchFaultTypeDataList() {
-        String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/equipment/" + equipmentId + "/faultType";
-        StringRequest jsonArrayRequest = new StringRequestWithSessionCheck(url,
-                new Response.Listener<String>() {
+        SimpleVolley.addRequest(new JsonArrayRequestWithSessionCheck(
+                ConfigUtils.getBaseUrl() + "/api/v1/hems/equipment/" + equipmentId + "/faultType",
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(String responses) {
+                    public void onResponse(JSONArray responses) {
                         try {
                             List<SelectObject> dataList = new ArrayList<>();
-                            JSONArray jsonArray = new JSONArray(responses);
-                            for (int i = 0; i != jsonArray.length(); i++) {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            for (int i = 0; i != responses.length(); i++) {
+                                JSONObject jsonObject = responses.getJSONObject(i);
                                 String objectId = jsonObject.getString("objectId");
                                 String name = jsonObject.getString("name");
                                 SelectObject selectObject = new SelectObject();
@@ -186,9 +177,8 @@ public class QuickOrderActivity extends BottomSheetActivity {
                         }
                     }
                 },
-                SimpleVolley.getDefaultErrorListener()
+                SimpleVolley.getDefaultErrorListener())
         );
-        SimpleVolley.addRequest(jsonArrayRequest);
     }
 
 
@@ -259,22 +249,29 @@ public class QuickOrderActivity extends BottomSheetActivity {
         tvProcessMode.setText(processModeText + " / " + processTimeLimitText + " / " + emergencyDegreeText);
     }
 
+    private void initProcessMode() {
+        processModeId = DataHelp.getProcessModeDataProvider().getDataList().get(0).objectId;
+        processTimeLimitId = DataHelp.getProcessTimeLimitDataProvider().getDataList().get(0).objectId;
+        emergencyDegreeId = DataHelp.getEmergencyDegreeDataProvider().getDataList().get(0).objectId;
+        notifyProcessModeChange();
+    }
+
 
     // =============================== 补充说明 ===============================
 
     @Bind(R.id.etDescription)
     EditText etDescription;
 
-    @Bind(R.id.descriptionArrow)
-    ImageView descriptionArrow;
+    @Bind(R.id.arrow)
+    ImageView arrow;
 
-    @Bind(R.id.elDescription)
+    @Bind(R.id.erlDescription)
     ExpandableRelativeLayout erlDescription;
 
     @OnClick(R.id.description)
     public void descriptionOnClick() {
         ViewAnimator
-                .animate(descriptionArrow)
+                .animate(arrow)
                 .rotation(erlDescription.isExpanded() ? 0 : 90)
                 .duration(300)
                 .start();
@@ -300,7 +297,7 @@ public class QuickOrderActivity extends BottomSheetActivity {
             equipmentId = data.getStringExtra("subId");
             Equipment equipment = SimpleApplication.getDaoSession().getEquipmentDao().queryBuilder().where(EquipmentDao.Properties.ObjectId.eq(equipmentId)).unique();
             tvEquipment.setText(equipment.getFullName());
-            fetchFaultType();
+            notifyEquipmentChange();
         }
 
         if (resultCode == ResultCodeUtils.BUILDING) {
@@ -328,8 +325,8 @@ public class QuickOrderActivity extends BottomSheetActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mIat.cancel();
-        mIat.destroy();
+//        mIat.cancel();
+//        mIat.destroy();
     }
 
 
@@ -461,11 +458,9 @@ public class QuickOrderActivity extends BottomSheetActivity {
 
     @OnClick(R.id.confirm)
     public void confirm() {
-
         if (!checkInput()) {
             return;
         }
-
         String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/workOrder/issue";
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
@@ -516,13 +511,11 @@ public class QuickOrderActivity extends BottomSheetActivity {
             }
         };
         SimpleVolley.addRequest(stringRequest);
-
-
     }
 
     private boolean checkInput() {
         if (equipmentId == null) {
-            ToastUtils.show("请选择需要维修的设备");
+            ToastUtils.show("请选择待维修的设备");
             return false;
         }
         if (faultTypeId == null) {
@@ -534,17 +527,16 @@ public class QuickOrderActivity extends BottomSheetActivity {
             return false;
         }
         if (departmentId == null) {
-            ToastUtils.show("请填写报修人员信息");
+            ToastUtils.show("请填写报修人员");
             return false;
         }
-
         return true;
     }
 
-    private void addJsonObjectToResult(JSONObject result, String tag, String objectId) throws Exception {
+    private void addJsonObjectToResult(JSONObject result, String field, String objectId) throws Exception {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("objectId", objectId);
-        result.put(tag, jsonObject);
+        result.put(field, jsonObject);
     }
 
 

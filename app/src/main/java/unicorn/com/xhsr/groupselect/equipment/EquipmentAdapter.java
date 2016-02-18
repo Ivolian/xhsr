@@ -1,8 +1,5 @@
 package unicorn.com.xhsr.groupselect.equipment;
 
-/**
- * Created by Administrator on 2016/2/18.
- */
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -10,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.simple.eventbus.EventBus;
@@ -32,10 +30,6 @@ public class EquipmentAdapter extends RecyclerView.Adapter<EquipmentAdapter.View
 
     List<SelectObject> dataList = new ArrayList<>();
 
-    public List<SelectObject> getDataList() {
-        return dataList;
-    }
-
     public void setDataList(List<SelectObject> dataList) {
         this.dataList = dataList;
     }
@@ -48,22 +42,19 @@ public class EquipmentAdapter extends RecyclerView.Adapter<EquipmentAdapter.View
     }
 
 
-    public void selectItem(String mainId) {
-        int position = -1;
-        for (SelectObject selectObject:dataList){
-            if (mainId.equals(selectObject.objectId)){
-                position = dataList.indexOf(selectObject);
-            }
-        }
-        selectItem(position);
-    }
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.highlight)
         View highlight;
 
-        @Bind(R.id.value)
-        TextView tvValue;
+        @Bind(R.id.value1)
+        TextView tvValue1;
+
+        @Bind(R.id.value2)
+        TextView tvValue2;
+
+        @Bind(R.id.textContainer)
+        LinearLayout textContainer;
 
         ViewHolder(View view) {
             super(view);
@@ -87,20 +78,20 @@ public class EquipmentAdapter extends RecyclerView.Adapter<EquipmentAdapter.View
         String value = data.value;
         String[] arr = value.split("/");
         if (arr.length == 2) {
-            value = arr[0] + "\r\n" + arr[1];
+            viewHolder.tvValue1.setText(arr[0]);
+            viewHolder.tvValue2.setText(arr[1]);
         }
-        viewHolder.tvValue.setText(value);
 
         boolean isSelected = position == positionSelected;
-        Context context = viewHolder.tvValue.getContext();
+        Context context = viewHolder.tvValue1.getContext();
         int highlightColor = ContextCompat.getColor(context, isSelected ? R.color.colorPrimary : R.color.md_grey_200);
         viewHolder.highlight.setBackgroundColor(highlightColor);
         int textBgColor = ContextCompat.getColor(context, isSelected ? R.color.md_white : R.color.md_grey_200);
-        viewHolder.tvValue.setBackgroundColor(textBgColor);
+        viewHolder.textContainer.setBackgroundColor(textBgColor);
     }
 
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_group_main, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_equipment, viewGroup, false));
     }
 
     @Override
