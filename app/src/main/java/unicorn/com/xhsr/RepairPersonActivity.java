@@ -60,7 +60,7 @@ public class RepairPersonActivity extends BaseActivity {
     @OnClick(R.id.department)
     public void departmentOnClick() {
         GroupSelectActivity.dataProvider = DataHelp.getDepartmentDataProvider();
-        GroupSelectHelper.startGroupSelectActivity(this, "报修部门", DEPARTMENT_RESULT_CODE);
+        GroupSelectHelper.startGroupSelectActivity(this, "报修部门", departmentId,DEPARTMENT_RESULT_CODE);
     }
 
     @Override

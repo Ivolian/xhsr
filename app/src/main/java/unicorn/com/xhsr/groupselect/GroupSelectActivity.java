@@ -52,6 +52,8 @@ public class GroupSelectActivity extends BaseActivity {
 
         List<SelectObject> getSearchResultDataList(String query);
 
+        String getMainId(String subId);
+
     }
 
 
@@ -61,10 +63,6 @@ public class GroupSelectActivity extends BaseActivity {
     String name;
 
     @Nullable
-    @InjectExtra("mainId")
-    String mainId;
-
-    @Nullable
     @InjectExtra("subId")
     String subId;
 
@@ -72,7 +70,9 @@ public class GroupSelectActivity extends BaseActivity {
     Integer resultCode;
 
 
-    // =============================== onCreate & onDestroy ===============================
+    // =============================== onCreate ===============================
+
+    boolean needInit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +82,7 @@ public class GroupSelectActivity extends BaseActivity {
     }
 
     private void initViews() {
+        needInit = (subId != null);
         initTitle();
         initSearchBox();
         initRvSearchResult();
@@ -96,8 +97,7 @@ public class GroupSelectActivity extends BaseActivity {
     TextView tvTitle;
 
     private void initTitle() {
-        String title = "选择" + name;
-        tvTitle.setText(title);
+        tvTitle.setText("选择" + name);
     }
 
 
@@ -124,12 +124,12 @@ public class GroupSelectActivity extends BaseActivity {
                     rvSearchResult.setVisibility(View.INVISIBLE);
                 } else {
                     clear.setVisibility(View.VISIBLE);
-                    List<SelectObject> dataList = dataProvider.getSearchResultDataList(input.toString());
-                    if (dataList.isEmpty()) {
+                    List<SelectObject> searchResultDataList = dataProvider.getSearchResultDataList(input.toString());
+                    if (searchResultDataList.isEmpty()) {
                         rvSearchResult.setVisibility(View.INVISIBLE);
                     } else {
                         rvSearchResult.setVisibility(View.VISIBLE);
-                        searchResultAdapter.setDataList(dataList);
+                        searchResultAdapter.setDataList(searchResultDataList);
                         searchResultAdapter.notifyDataSetChanged();
                     }
                 }
@@ -173,12 +173,12 @@ public class GroupSelectActivity extends BaseActivity {
 
     @Subscriber(tag = "onSearchResultSelect")
     private void onSearchResultSelect(String subId) {
-        finishAfterSetResult(subId);
+        finishWithResult(subId);
     }
 
-    private void finishAfterSetResult(String objectId) {
+    private void finishWithResult(String objectId) {
         Intent data = new Intent();
-        data.putExtra("objectId", objectId);
+        data.putExtra("subId", objectId);
         setResult(resultCode, data);
         finish();
     }
@@ -189,15 +189,51 @@ public class GroupSelectActivity extends BaseActivity {
     @Bind(R.id.rvMain)
     RecyclerView rvMain;
 
-    MainAdapter mainAdapter;
-
     private void initRvMain() {
-        rvMain.setLayoutManager(new LinearLayoutManager(this));
-        mainAdapter = new MainAdapter();
+        List<SelectObject> mainDataList = dataProvider.getMainDataList();
+        MainAdapter mainAdapter = new MainAdapter();
+        mainAdapter.setDataList(mainDataList);
         rvMain.setAdapter(new SlideInLeftAnimationAdapter(mainAdapter));
+        rvMain.setLayoutManager(new LinearLayoutManager(this));
         rvMain.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
-        mainAdapter.setDataList(dataProvider.getMainDataList());
+
+        // 如果没有选中项，默认选择第一个
+        if (!needInit) {
             mainAdapter.selectItem(0);
+            return;
+        }
+
+        // 如果有选中项
+        String mainId = dataProvider.getMainId(subId);
+        for (SelectObject selectObject : mainDataList) {
+            if (selectObject.objectId.equals(mainId)) {
+                int index = mainDataList.indexOf(selectObject);
+                mainAdapter.selectItem(index);
+                rvMain.smoothScrollToPosition(index);
+            }
+        }
+    }
+
+    @Subscriber(tag = "onMainSelect")
+    private void onRvMainSelect(String mainId) {
+        List<SelectObject> subDataList = dataProvider.getSubDataList(mainId);
+        if (needInit) {
+            subAdapter.refreshDataList(subDataList);
+            for (SelectObject selectObject : subDataList) {
+                if (selectObject.objectId.equals(subId)) {
+                    int index = subDataList.indexOf(selectObject);
+                    subAdapter.selectItem(index);
+                    rvSub.smoothScrollToPosition(index);
+                }
+            }
+            needInit = false;
+            return;
+        }
+
+        //
+        subId = null;
+        subAdapter.refreshDataList(subDataList);
+        rvSub.smoothScrollToPosition(0);
     }
 
 
@@ -209,25 +245,10 @@ public class GroupSelectActivity extends BaseActivity {
     SubAdapter subAdapter;
 
     private void initRvSub() {
-        rvSub.setLayoutManager(new LinearLayoutManager(this));
         subAdapter = new SubAdapter();
         rvSub.setAdapter(subAdapter);
+        rvSub.setLayoutManager(new LinearLayoutManager(this));
         rvSub.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
-
-    }
-
-
-    // =============================== onSelect ===============================
-
-    @Subscriber(tag = "onMainSelect")
-    private void onRvMainSelect(String mainId) {
-        subId = null;
-        subAdapter.positionSelected = -1;
-        subAdapter.setDataList(dataProvider.getSubDataList(mainId));
-        subAdapter.notifyDataSetChanged();
-        rvSub.smoothScrollToPosition(0);
-
-
     }
 
     @Subscriber(tag = "onSubSelect")
@@ -236,7 +257,7 @@ public class GroupSelectActivity extends BaseActivity {
     }
 
 
-    // =============================== 基础方法 ===============================
+    // =============================== cancel & confirm ===============================
 
     @OnClick(R.id.cancel)
     public void cancel() {
@@ -249,10 +270,8 @@ public class GroupSelectActivity extends BaseActivity {
             ToastUtils.show("请先选择" + name);
             return;
         }
-        finishAfterSetResult(subId);
+        finishWithResult(subId);
     }
-
-
 
 
 }

@@ -60,13 +60,13 @@ public class BasicInfoActivity extends BaseActivity {
         }
         // TODO GroupSelectActivity dataProvider 和 初始值
         GroupSelectActivity.dataProvider = DataHelp.getDepartmentDataProvider();
-        GroupSelectHelper.startGroupSelectActivity(this, "调查科室", ResultCodeUtils.DEPARTMENT_RESULT_CODE);
+        GroupSelectHelper.startGroupSelectActivity(this, "调查科室",departmentId, ResultCodeUtils.DEPARTMENT);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == ResultCodeUtils.DEPARTMENT_RESULT_CODE) {
+        if (resultCode == ResultCodeUtils.DEPARTMENT) {
             departmentId = data.getStringExtra("objectId");
             Department department = SimpleApplication.getDaoSession().getDepartmentDao().queryBuilder()
                     .where(DepartmentDao.Properties.ObjectId.eq(departmentId))

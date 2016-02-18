@@ -31,6 +31,12 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
 
     List<SelectObject> dataList = new ArrayList<>();
 
+    public void refreshDataList(List<SelectObject> dataList){
+        positionSelected = -1;
+        this.dataList = dataList;
+        notifyDataSetChanged();
+    }
+
     public void setDataList(List<SelectObject> dataList) {
         this.dataList = dataList;
     }

@@ -49,6 +49,7 @@ import unicorn.com.xhsr.select.SelectAdapter;
 import unicorn.com.xhsr.select.SelectObject;
 import unicorn.com.xhsr.speech.JsonParser;
 import unicorn.com.xhsr.utils.ConfigUtils;
+import unicorn.com.xhsr.utils.ResultCodeUtils;
 import unicorn.com.xhsr.utils.TextDrawableUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 import unicorn.com.xhsr.volley.SimpleVolley;
@@ -88,7 +89,6 @@ public class QuickOrderActivity extends BottomSheetActivity {
 
     // =============================== 设备 ===============================
 
-    public int EQUIPMENT_RESULT_CODE = 1001;
 
     String equipmentId;
 
@@ -98,7 +98,7 @@ public class QuickOrderActivity extends BottomSheetActivity {
     @OnClick(R.id.equipment)
     public void equipmentOnClick() {
         GroupSelectActivity.dataProvider = DataHelp.getEquipmentDataProvider();
-        GroupSelectHelper.startGroupSelectActivity(this, "设备", EQUIPMENT_RESULT_CODE);
+        GroupSelectHelper.startGroupSelectActivity(this, "设备", equipmentId, ResultCodeUtils.EQUIPMENT);
     }
 
     @Bind(R.id.tdEquipment)
@@ -159,7 +159,7 @@ public class QuickOrderActivity extends BottomSheetActivity {
     @OnClick(R.id.building)
     public void buildingOnClick() {
         GroupSelectActivity.dataProvider = DataHelp.getBuildingDataProvider();
-        GroupSelectHelper.startGroupSelectActivity(this, "维修地址", BUILDING_RESULT_CODE);
+        GroupSelectHelper.startGroupSelectActivity(this, "维修地址", buildingId, BUILDING_RESULT_CODE);
     }
 
 
@@ -252,8 +252,8 @@ public class QuickOrderActivity extends BottomSheetActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == EQUIPMENT_RESULT_CODE) {
-            equipmentId = data.getStringExtra("objectId");
+        if (resultCode == ResultCodeUtils.EQUIPMENT) {
+            equipmentId = data.getStringExtra("subId");
             Equipment equipment = SimpleApplication.getDaoSession().getEquipmentDao().queryBuilder().where(EquipmentDao.Properties.ObjectId.eq(equipmentId)).unique();
             tvEquipment.setText(equipment.getFullName());
             refreshFaultType();

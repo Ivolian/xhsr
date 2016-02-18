@@ -36,7 +36,10 @@ public class DataHelp {
     public static GroupSelectActivity.DataProvider getBuildingDataProvider() {
 
         return new GroupSelectActivity.DataProvider() {
-
+            @Override
+            public String getMainId(String subId) {
+                return null;
+            }
 
             @Override
             public List<SelectObject> getMainDataList() {
@@ -97,46 +100,56 @@ public class DataHelp {
 
         return new GroupSelectActivity.DataProvider() {
 
-
+            List<SelectObject> mainDataList;
 
             @Override
             public List<SelectObject> getMainDataList() {
-                EquipmentCategoryDao equipmentCategoryDao = SimpleApplication.getDaoSession().getEquipmentCategoryDao();
-                final List<EquipmentCategory> equipmentCategoryList = equipmentCategoryDao.queryBuilder()
+                if (mainDataList != null) {
+                    return mainDataList;
+                }
+
+                // 查询设备目录所有值
+                final List<EquipmentCategory> equipmentCategoryList = SimpleApplication.getDaoSession().getEquipmentCategoryDao().queryBuilder()
                         .orderAsc(EquipmentCategoryDao.Properties.OrderNo)
                         .list();
-                List<SelectObject> selectObjectList = new ArrayList<>();
+                List<SelectObject> mainDataList = new ArrayList<>();
                 for (EquipmentCategory equipmentCategory : equipmentCategoryList) {
                     SelectObject selectObject = new SelectObject();
                     selectObject.objectId = equipmentCategory.getObjectId();
                     selectObject.value = equipmentCategory.getName();
-                    selectObjectList.add(selectObject);
+                    mainDataList.add(selectObject);
                 }
-                return selectObjectList;
+                return (this.mainDataList = mainDataList);
+            }
+
+            @Override
+            public String getMainId(String subId) {
+                Equipment equipment = SimpleApplication.getDaoSession().getEquipmentDao().queryBuilder()
+                        .where(EquipmentDao.Properties.ObjectId.eq(subId))
+                        .unique();
+                return equipment.getCategoryId();
             }
 
             @Override
             public List<SelectObject> getSubDataList(String mainId) {
-                EquipmentDao equipmentDao = SimpleApplication.getDaoSession().getEquipmentDao();
-                List<Equipment> equipmentList = equipmentDao.queryBuilder()
+                List<Equipment> equipmentList = SimpleApplication.getDaoSession().getEquipmentDao().queryBuilder()
                         .where(EquipmentDao.Properties.CategoryId.eq(mainId))
                         .orderAsc(EquipmentDao.Properties.OrderNo)
                         .list();
-                final List<SelectObject> selectObjectList = new ArrayList<>();
+                final List<SelectObject> subDataList = new ArrayList<>();
                 for (Equipment equipment : equipmentList) {
                     SelectObject selectObject = new SelectObject();
                     selectObject.objectId = equipment.getObjectId();
                     selectObject.value = equipment.getName();
-                    selectObjectList.add(selectObject);
+                    subDataList.add(selectObject);
                 }
-                return selectObjectList;
+                return subDataList;
             }
 
             @Override
             public List<SelectObject> getSearchResultDataList(String query) {
-                List<SelectObject> selectObjectList = new ArrayList<>();
-                EquipmentDao equipmentDao = SimpleApplication.getDaoSession().getEquipmentDao();
-                List<Equipment> equipmentList = equipmentDao.queryBuilder()
+                List<SelectObject> searchResultDataList = new ArrayList<>();
+                List<Equipment> equipmentList = SimpleApplication.getDaoSession().getEquipmentDao().queryBuilder()
                         .where(EquipmentDao.Properties.FullName.like("%" + query + "%"))
                         .orderAsc(EquipmentDao.Properties.OrderNo)
                         .list();
@@ -144,10 +157,11 @@ public class DataHelp {
                     SelectObject selectObject = new SelectObject();
                     selectObject.objectId = equipment.getObjectId();
                     selectObject.value = equipment.getFullName();
-                    selectObjectList.add(selectObject);
+                    searchResultDataList.add(selectObject);
                 }
-                return selectObjectList;
+                return searchResultDataList;
             }
+
         };
     }
 
@@ -155,6 +169,10 @@ public class DataHelp {
 
         return new GroupSelectActivity.DataProvider() {
 
+            @Override
+            public String getMainId(String subId) {
+                return null;
+            }
 
             @Override
             public List<SelectObject> getMainDataList() {

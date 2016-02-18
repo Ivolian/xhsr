@@ -1,10 +1,10 @@
 package unicorn.com.xhsr.utils;
 
-/**
- * Created by Administrator on 2016/2/3.
- */
+
 public class ResultCodeUtils {
 
-    public static int DEPARTMENT_RESULT_CODE = 1001;
+    public static final int DEPARTMENT = 10001;
+
+    public static final int EQUIPMENT = 10002;
 
 }
