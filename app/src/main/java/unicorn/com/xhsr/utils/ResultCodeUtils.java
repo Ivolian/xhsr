@@ -11,7 +11,9 @@ public class ResultCodeUtils {
 
     //
 
-    public static final int REPAIR_PERSON = 20003;
+    public static final int REPAIR_PERSON = 20001;
+
+    public static final int PROCESS_MODE = 20002;
 
 
 }

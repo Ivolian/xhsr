@@ -1,4 +1,4 @@
-package unicorn.com.xhsr;
+package unicorn.com.xhsr.quickorder;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +10,12 @@ import org.simple.eventbus.Subscriber;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.base.BottomSheetActivity;
 import unicorn.com.xhsr.data.DataHelp;
-import unicorn.com.xhsr.quickorder.QuickOrderActivity;
 import unicorn.com.xhsr.select.SelectAdapter;
+import unicorn.com.xhsr.utils.ResultCodeUtils;
+
 
 public class ProcessModeActivity extends BottomSheetActivity {
 
@@ -46,7 +48,7 @@ public class ProcessModeActivity extends BottomSheetActivity {
 
     @OnClick(R.id.processMode)
     public void processModeOnClick() {
-        showSelectSheet("处理方式", dpProcessMode, processModeId, "onProcessModeSelect");
+        showSelectSheet("处理方式", DataHelp.getProcessModeDataProvider(), processModeId, "onProcessModeSelect");
     }
 
     @Subscriber(tag = "onProcessModeSelect")
@@ -103,7 +105,7 @@ public class ProcessModeActivity extends BottomSheetActivity {
     }
 
 
-    // =============================== 基础方法 ===============================
+    // =============================== cancel & confirm ===============================
 
     @OnClick(R.id.cancel)
     public void cancel() {
@@ -116,7 +118,7 @@ public class ProcessModeActivity extends BottomSheetActivity {
         data.putExtra("processModeId", processModeId);
         data.putExtra("processTimeLimitId", processTimeLimitId);
         data.putExtra("emergencyDegreeId", emergencyDegreeId);
-        setResult(QuickOrderActivity.PROCESS_MODE_RESULT_CODE, data);
+        setResult(ResultCodeUtils.PROCESS_MODE, data);
         finish();
     }
 

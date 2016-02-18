@@ -36,7 +36,6 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import unicorn.com.xhsr.ProcessModeActivity;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.base.BottomSheetActivity;
@@ -77,16 +76,14 @@ public class QuickOrderActivity extends BottomSheetActivity {
     }
 
     private void initViews() {
-        initEquipment();
+        initIvEquipment();
 
         mIat = SpeechRecognizer.createRecognizer(this, mInitListener);
 
         processModeId = DataHelp.getProcessModeDataProvider().getDataList().get(0).objectId;
         processTimeLimitId = DataHelp.getProcessTimeLimitDataProvider().getDataList().get(0).objectId;
         emergencyDegreeId = DataHelp.getEmergencyDegreeDataProvider().getDataList().get(0).objectId;
-
-        setProcessModeText();
-
+        notifyProcessModeChange();
     }
 
 
@@ -108,8 +105,7 @@ public class QuickOrderActivity extends BottomSheetActivity {
         intent.putExtra("name", "设备");
         intent.putExtra("subId", equipmentId);
         intent.putExtra("resultCode", ResultCodeUtils.EQUIPMENT);
-        this.startActivityForResult(intent, 2333);
-//        GroupSelectHelper.startGroupSelectActivity(this, DataHelp.getEquipmentDataProvider(), "设备", equipmentId, ResultCodeUtils.EQUIPMENT);
+        startActivityForResult(intent, 2333);
     }
 
 
@@ -118,7 +114,7 @@ public class QuickOrderActivity extends BottomSheetActivity {
     @Bind(R.id.ivEquipment)
     ImageView ivEquipment;
 
-    private void initEquipment() {
+    private void initIvEquipment() {
         int colorPrimary = ContextCompat.getColor(this, R.color.colorPrimary);
         TextDrawable textDrawable = TextDrawable.builder().buildRound("修", colorPrimary);
         ivEquipment.setImageDrawable(textDrawable);
@@ -220,8 +216,8 @@ public class QuickOrderActivity extends BottomSheetActivity {
 
     String departmentId;
 
-    @Bind(R.id.tvRepairPerson)
-    TextView tvRepairPerson;
+    @Bind(R.id.tvPersonName)
+    TextView tvPersonName;
 
     @OnClick(R.id.repairPerson)
     public void repairPersonOnClick() {
@@ -235,34 +231,32 @@ public class QuickOrderActivity extends BottomSheetActivity {
 
     // =============================== 处理方式 ===============================
 
-    public static int PROCESS_MODE_RESULT_CODE = 1004;
-
     String processModeId;
 
     String processTimeLimitId;
 
     String emergencyDegreeId;
 
-    @OnClick(R.id.processMode)
-    public void processModeOnClick() {
-        if (!ClickHelp.isFastClick()) {
-            Intent intent = new Intent(this, ProcessModeActivity.class);
-            intent.putExtra("processModeId", processModeId);
-            intent.putExtra("processTimeLimitId", processTimeLimitId);
-            intent.putExtra("emergencyDegreeId", emergencyDegreeId);
-            startActivityForResult(intent, 2333);
-        }
-    }
-
     @Bind(R.id.tvProcessMode)
     TextView tvProcessMode;
 
-    private void setProcessModeText() {
-        String text1 = DataHelp.getValue(DataHelp.getProcessModeDataProvider(), processModeId);
-        String text2 = DataHelp.getValue(DataHelp.getProcessTimeLimitDataProvider(), processTimeLimitId);
-        String text3 = DataHelp.getValue(DataHelp.getEmergencyDegreeDataProvider(), emergencyDegreeId);
-        String text = text1 + " / " + text2 + " / " + text3;
-        tvProcessMode.setText(text);
+    @OnClick(R.id.processMode)
+    public void processModeOnClick() {
+        if (ClickHelp.isFastClick()) {
+            return;
+        }
+        Intent intent = new Intent(this, ProcessModeActivity.class);
+        intent.putExtra("processModeId", processModeId);
+        intent.putExtra("processTimeLimitId", processTimeLimitId);
+        intent.putExtra("emergencyDegreeId", emergencyDegreeId);
+        startActivityForResult(intent, 2333);
+    }
+
+    private void notifyProcessModeChange() {
+        String processModeText = DataHelp.getValue(DataHelp.getProcessModeDataProvider(), processModeId);
+        String processTimeLimitText = DataHelp.getValue(DataHelp.getProcessTimeLimitDataProvider(), processTimeLimitId);
+        String emergencyDegreeText = DataHelp.getValue(DataHelp.getEmergencyDegreeDataProvider(), emergencyDegreeId);
+        tvProcessMode.setText(processModeText + " / " + processTimeLimitText + " / " + emergencyDegreeText);
     }
 
 
@@ -319,14 +313,14 @@ public class QuickOrderActivity extends BottomSheetActivity {
             personName = data.getStringExtra("personName");
             personCode = data.getStringExtra("personCode");
             departmentId = data.getStringExtra("departmentId");
-            tvRepairPerson.setText(personName);
+            tvPersonName.setText(personName);
         }
 
-        if (resultCode == PROCESS_MODE_RESULT_CODE) {
+        if (resultCode == ResultCodeUtils.PROCESS_MODE) {
             processModeId = data.getStringExtra("processModeId");
             processTimeLimitId = data.getStringExtra("processTimeLimitId");
             emergencyDegreeId = data.getStringExtra("emergencyDegreeId");
-            setProcessModeText();
+            notifyProcessModeChange();
         }
     }
 
