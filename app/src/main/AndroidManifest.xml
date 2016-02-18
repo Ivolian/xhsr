@@ -57,6 +57,9 @@
             android:name=".groupselect.GroupSelectActivity"
 
             android:screenOrientation="portrait" />
+        <activity android:name=".groupselect.equipment.EquipmentSelectActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name="com.yo.libs.ui.CaptureActivity"
             android:configChanges="orientation|keyboardHidden"

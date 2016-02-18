@@ -155,7 +155,7 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <android.support.v7.widget.RecyclerView
+                <unicorn.com.xhsr.goodwork.fastscroll.FastScrollRecyclerView
                     android:id="@+id/rvMain"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"

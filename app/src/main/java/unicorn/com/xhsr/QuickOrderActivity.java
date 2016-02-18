@@ -43,6 +43,7 @@ import unicorn.com.xhsr.data.greendao.BuildingDao;
 import unicorn.com.xhsr.data.greendao.Equipment;
 import unicorn.com.xhsr.data.greendao.EquipmentDao;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
+import unicorn.com.xhsr.groupselect.equipment.EquipmentSelectActivity;
 import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.select.SelectAdapter;
 import unicorn.com.xhsr.select.SelectObject;
@@ -98,7 +99,14 @@ public class QuickOrderActivity extends BottomSheetActivity {
         if (ClickHelp.isFastClick()) {
             return;
         }
-        GroupSelectHelper.startGroupSelectActivity(this, DataHelp.getEquipmentDataProvider(), "设备", equipmentId, ResultCodeUtils.EQUIPMENT);
+
+        EquipmentSelectActivity.setDataProvider( DataHelp.getEquipmentDataProvider());
+        Intent intent = new Intent(this, EquipmentSelectActivity.class);
+        intent.putExtra("name", "设备");
+        intent.putExtra("subId", equipmentId);
+        intent.putExtra("resultCode", ResultCodeUtils.EQUIPMENT);
+        this.startActivityForResult(intent, 2333);
+//        GroupSelectHelper.startGroupSelectActivity(this, DataHelp.getEquipmentDataProvider(), "设备", equipmentId, ResultCodeUtils.EQUIPMENT);
     }
 
 

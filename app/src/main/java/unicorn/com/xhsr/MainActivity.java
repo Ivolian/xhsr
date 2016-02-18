@@ -26,7 +26,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.BasicDataGotter;
-import unicorn.com.xhsr.draglayout.view.DragLayout;
+import unicorn.com.xhsr.goodwork.draglayout.view.DragLayout;
 import unicorn.com.xhsr.myorder.MyOrderActivity;
 import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.other.DividerGridItemDecoration;

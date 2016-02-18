@@ -1,4 +1,4 @@
-<unicorn.com.xhsr.draglayout.view.DragLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<unicorn.com.xhsr.goodwork.draglayout.view.DragLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/dl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,13 +12,13 @@
 
     </RelativeLayout>
 
-    <unicorn.com.xhsr.draglayout.view.MyRelativeLayout
+    <unicorn.com.xhsr.goodwork.draglayout.view.MyRelativeLayout
         android:id="@+id/my"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <include layout="@layout/activity_main_content" />
 
-    </unicorn.com.xhsr.draglayout.view.MyRelativeLayout>
+    </unicorn.com.xhsr.goodwork.draglayout.view.MyRelativeLayout>
 
-</unicorn.com.xhsr.draglayout.view.DragLayout>
+</unicorn.com.xhsr.goodwork.draglayout.view.DragLayout>
