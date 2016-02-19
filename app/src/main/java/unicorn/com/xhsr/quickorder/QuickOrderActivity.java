@@ -11,6 +11,7 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.github.florent37.viewanimator.ViewAnimator;
@@ -177,7 +178,12 @@ public class QuickOrderActivity extends BottomSheetActivity {
                         }
                     }
                 },
-                SimpleVolley.getDefaultErrorListener())
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        ToastUtils.show("该设备故障类型尚未录入");
+                    }
+                })
         );
     }
 
@@ -487,8 +493,9 @@ public class QuickOrderActivity extends BottomSheetActivity {
             public byte[] getBody() throws AuthFailureError {
                 try {
                     JSONObject result = new JSONObject();
+                    // todo
                     result.put("address", "");
-                    result.put("callNumber", 123);
+                    result.put("callNumber", "");
                     addJsonObjectToResult(result, "building", buildingId);
                     result.put("description", etDescription.getText().toString());
                     addJsonObjectToResult(result, "emergencyDegree", emergencyDegreeId);
@@ -500,7 +507,7 @@ public class QuickOrderActivity extends BottomSheetActivity {
                     result.put("requestTime", new Date().getTime());
                     result.put("requestUser", personName);
                     result.put("requestUserNo", personCode);
-                    addJsonObjectToResult(result, "type", "97c6be7f-449a-4371-b310-1e40b42e544f");
+//                    addJsonObjectToResult(result, "type", "97c6be7f-449a-4371-b310-1e40b42e544f");
 
                     String jsonString = result.toString();
                     return jsonString.getBytes("UTF-8");

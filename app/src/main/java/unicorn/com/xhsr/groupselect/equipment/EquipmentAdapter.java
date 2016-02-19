@@ -61,7 +61,7 @@ public class EquipmentAdapter extends RecyclerView.Adapter<EquipmentAdapter.View
             ButterKnife.bind(this, view);
         }
 
-        @OnClick(R.id.row)
+        @OnClick({R.id.value1,R.id.value2})
         public void rowOnClick() {
             selectItem(getAdapterPosition());
         }

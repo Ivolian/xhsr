@@ -160,13 +160,13 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:background="@color/md_grey_200"
-                    app:layout_widthPercent="45%sw" />
+                    app:layout_widthPercent="44%sw" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvSub"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    app:layout_widthPercent="55%sw" />
+                    app:layout_widthPercent="56%sw" />
 
             </com.zhy.android.percent.support.PercentLinearLayout>
 
