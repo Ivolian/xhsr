@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.f2prateek.dart.InjectExtra;
+import com.tonicartos.superslim.LayoutManager;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import org.simple.eventbus.Subscriber;
@@ -201,14 +202,14 @@ public class EquipmentSelectActivity extends BaseActivity {
 
         HashMap<String,Integer> map = calculateIndexesForName(mainDataList);
 
-        EquipmentAdapter equipmentAdapter = new EquipmentAdapter(map);
-        equipmentAdapter.setDataList(mainDataList);
+        EquipmentAdapter equipmentAdapter = new EquipmentAdapter(mainDataList);
+        rvMain.setLayoutManager(new LayoutManager(this));
         rvMain.setAdapter(equipmentAdapter);
-        rvMain.setLayoutManager(new LinearLayoutManager(this));
+
         FastScrollRecyclerViewItemDecoration decoration = new FastScrollRecyclerViewItemDecoration(this);
         rvMain.addItemDecoration(decoration);
         rvMain.setItemAnimator(new DefaultItemAnimator());
-        rvMain.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
+//        rvMain.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
 
         // 如果没有选中项，默认选择第一个
         if (!needInit) {

@@ -74,6 +74,7 @@ public class FastScrollRecyclerView extends RecyclerView {
         float x = event.getX();
         float y = event.getY();
 
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
                 if (x < sx - scaledWidth || y < sy || y > (sy + scaledHeight*sections.length))

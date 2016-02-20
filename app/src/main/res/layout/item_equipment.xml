@@ -32,16 +32,7 @@
                 android:gravity="center"
                 android:text="故障的系统"
                 android:textColor="@color/md_grey_500"
-                app:layout_textSizePercent="2.8%sh" />
-
-            <TextView
-                android:id="@+id/value2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="故障系统"
-                android:textColor="@color/md_grey_500"
-                app:layout_textSizePercent="2.8%sh" />
+                app:layout_textSizePercent="3.2%sh" />
 
         </LinearLayout>
 
