@@ -54,7 +54,7 @@
     <com.zhy.android.percent.support.PercentFrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/md_grey_400"
+        android:background="@color/md_grey_300"
         app:layout_heightPercent="10%sh"
         app:layout_paddingBottomPercent="2%sw"
         app:layout_paddingLeftPercent="2%sw"

@@ -14,27 +14,26 @@
             android:id="@+id/highlight"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@color/md_grey_200"
+            android:background="@android:color/transparent"
             app:layout_widthPercent="1.5%sw" />
 
-        <LinearLayout
-            android:id="@+id/textContainer"
+        <TextView
+            android:id="@+id/value1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:gravity="left|center_vertical"
+            android:text="故障的系统"
+            android:textColor="@color/md_grey_500"
+            app:layout_paddingLeftPercent="3.5%sw"
+            app:layout_textSizePercent="2.5%sh" />
 
-            <TextView
-                android:id="@+id/value1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="故障的系统"
-                android:textColor="@color/md_grey_500"
-                app:layout_textSizePercent="3.2%sh" />
-
-        </LinearLayout>
+        <View
+            android:id="@+id/padding"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:background="@color/md_grey_200"
+            />
 
     </com.zhy.android.percent.support.PercentLinearLayout>
 

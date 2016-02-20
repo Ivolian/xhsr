@@ -182,11 +182,11 @@ public class EquipmentSelectActivity extends BaseActivity {
     @Bind(R.id.rvMain)
     FastScrollRecyclerView rvMain;
 
-    private HashMap<String, Integer> calculateIndexesForName(List<SelectObject> items){
+    private HashMap<String, Integer> calculateIndexesForName(List<SelectObject> items) {
         HashMap<String, Integer> mapIndex = new LinkedHashMap<>();
-        for (int i = 0; i<items.size(); i++){
+        for (int i = 0; i < items.size(); i++) {
             String name = items.get(i).value;
-            String index = name.substring(0,1);
+            String index = name.substring(0, 1);
             index = index.toUpperCase();
 
             if (!mapIndex.containsKey(index)) {
@@ -200,8 +200,6 @@ public class EquipmentSelectActivity extends BaseActivity {
         List<SelectObject> mainDataList = dataProvider.getMainDataList();
 
 
-        HashMap<String,Integer> map = calculateIndexesForName(mainDataList);
-
         EquipmentAdapter equipmentAdapter = new EquipmentAdapter(mainDataList);
         rvMain.setLayoutManager(new LayoutManager(this));
         rvMain.setAdapter(equipmentAdapter);
@@ -209,23 +207,18 @@ public class EquipmentSelectActivity extends BaseActivity {
         FastScrollRecyclerViewItemDecoration decoration = new FastScrollRecyclerViewItemDecoration(this);
         rvMain.addItemDecoration(decoration);
         rvMain.setItemAnimator(new DefaultItemAnimator());
-//        rvMain.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
 
         // 如果没有选中项，默认选择第一个
         if (!needInit) {
-            equipmentAdapter.selectItem(0);
+            equipmentAdapter.selectItem(1);
             return;
         }
 
         // 如果有选中项
         String mainId = dataProvider.getMainId(subId);
-        for (SelectObject selectObject : mainDataList) {
-            if (selectObject.objectId.equals(mainId)) {
-                int index = mainDataList.indexOf(selectObject);
-                equipmentAdapter.selectItem(index);
-                rvMain.smoothScrollToPosition(index);
-            }
-        }
+        int position = equipmentAdapter.getPositionByMainId(mainId);
+        equipmentAdapter.selectItem(position);
+        rvMain.scrollToPosition(position);
     }
 
     @Subscriber(tag = "onMainSelect")
@@ -262,7 +255,7 @@ public class EquipmentSelectActivity extends BaseActivity {
         subAdapter = new SubAdapter();
         rvSub.setAdapter(subAdapter);
         rvSub.setLayoutManager(new LinearLayoutManager(this));
-        rvSub.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
+//        rvSub.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
     }
 
     @Subscriber(tag = "onSubSelect")

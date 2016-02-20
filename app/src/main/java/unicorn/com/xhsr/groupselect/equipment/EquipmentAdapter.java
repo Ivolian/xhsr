@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tonicartos.superslim.GridSLM;
@@ -63,10 +62,10 @@ public class EquipmentAdapter extends RecyclerView.Adapter<EquipmentAdapter.View
         @Bind(R.id.value1)
         TextView tvValue1;
 
-
         @Nullable
-        @Bind(R.id.textContainer)
-        LinearLayout textContainer;
+        @Bind(R.id.padding)
+        View padding;
+
 
         ViewHolder(View view) {
             super(view);
@@ -79,6 +78,15 @@ public class EquipmentAdapter extends RecyclerView.Adapter<EquipmentAdapter.View
         public void rowOnClick() {
             selectItem(getAdapterPosition());
         }
+    }
+
+    public int getPositionByMainId(String mainId) {
+        for (LineItem item : mItems) {
+            if (!item.isHeader && item.objectId.equals(mainId)) {
+                return mItems.indexOf(item);
+            }
+        }
+        return -1;
     }
 
 
@@ -104,14 +112,15 @@ public class EquipmentAdapter extends RecyclerView.Adapter<EquipmentAdapter.View
 
             // 选择设备的特殊处理
             String value = mItems.get(position).text;
-          viewHolder.tvValue1.setText(value);
+            viewHolder.tvValue1.setText(value);
 
             boolean isSelected = position == positionSelected;
             Context context = viewHolder.tvValue1.getContext();
             int highlightColor = ContextCompat.getColor(context, isSelected ? R.color.colorPrimary : R.color.md_grey_200);
             viewHolder.highlight.setBackgroundColor(highlightColor);
             int textBgColor = ContextCompat.getColor(context, isSelected ? R.color.md_white : R.color.md_grey_200);
-            viewHolder.textContainer.setBackgroundColor(textBgColor);
+            viewHolder.tvValue1.setBackgroundColor(textBgColor);
+            viewHolder.padding.setBackgroundColor(textBgColor);
         } else {
             viewHolder.text.setText(mItems.get(position).text);
         }
@@ -134,7 +143,7 @@ public class EquipmentAdapter extends RecyclerView.Adapter<EquipmentAdapter.View
     private LinkedHashMap<String, Integer> mMapIndex;
 
     public EquipmentAdapter(List<SelectObject> dataList) {
-this.mMapIndex = new LinkedHashMap<>();
+        this.mMapIndex = new LinkedHashMap<>();
         mItems = new ArrayList<>();
 
         //Insert headers into list of items.
@@ -147,12 +156,14 @@ this.mMapIndex = new LinkedHashMap<>();
             String header = arr[0];
             String text = arr[1];
 
-             String index = header.substring(0,1);
+            String index = header.substring(0, 1);
             if (!mMapIndex.containsKey(index)) {
-                mMapIndex.put(index, i+headerCount);
+                mMapIndex.put(index, i + headerCount);
             }
 
             if (!TextUtils.equals(lastHeader, header)) {
+
+                // todo header 没有 objectId
                 // Insert new header view and update section data.
                 sectionFirstPosition = i + headerCount;
                 lastHeader = header;
