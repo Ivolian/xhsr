@@ -18,7 +18,7 @@
             app:layout_widthPercent="1.5%sw" />
 
         <TextView
-            android:id="@+id/value1"
+            android:id="@+id/content_text"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

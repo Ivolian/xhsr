@@ -179,7 +179,7 @@ public class EquipmentSelectActivity extends BaseActivity {
 
     // =============================== 主列表 ===============================
 
-    @Bind(R.id.rvMain)
+//    @Bind(R.id.rvMain)
     FastScrollRecyclerView rvMain;
 
     private HashMap<String, Integer> calculateIndexesForName(List<SelectObject> items) {
@@ -197,8 +197,8 @@ public class EquipmentSelectActivity extends BaseActivity {
     }
 
     private void initRvMain() {
+        rvMain = (FastScrollRecyclerView)findViewById(R.id.rvMain);
         List<SelectObject> mainDataList = dataProvider.getMainDataList();
-
 
         EquipmentAdapter equipmentAdapter = new EquipmentAdapter(mainDataList);
         rvMain.setLayoutManager(new LayoutManager(this));
@@ -207,7 +207,6 @@ public class EquipmentSelectActivity extends BaseActivity {
         FastScrollRecyclerViewItemDecoration decoration = new FastScrollRecyclerViewItemDecoration(this);
         rvMain.addItemDecoration(decoration);
         rvMain.setItemAnimator(new DefaultItemAnimator());
-
         // 如果没有选中项，默认选择第一个
         if (!needInit) {
             equipmentAdapter.selectItem(1);
@@ -218,7 +217,7 @@ public class EquipmentSelectActivity extends BaseActivity {
         String mainId = dataProvider.getMainId(subId);
         int position = equipmentAdapter.getPositionByMainId(mainId);
         equipmentAdapter.selectItem(position);
-        rvMain.scrollToPosition(position);
+        rvMain.smoothScrollToPosition(equipmentAdapter.getHeaderPositionByMainId(mainId));
     }
 
     @Subscriber(tag = "onMainSelect")

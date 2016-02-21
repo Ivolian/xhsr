@@ -30,54 +30,34 @@ import unicorn.com.xhsr.select.SelectObject;
 
 public class EquipmentAdapter extends RecyclerView.Adapter<EquipmentAdapter.ViewHolder> implements FastScrollRecyclerViewInterface {
 
+
+    // ====================== view type ======================
+
     private static final int VIEW_TYPE_HEADER = 0x01;
 
     private static final int VIEW_TYPE_CONTENT = 0x00;
 
-    private final List<LineItem> mItems;
+    @Override
+    public int getItemViewType(int position) {
+        return mItems.get(position).isHeader ? VIEW_TYPE_HEADER : VIEW_TYPE_CONTENT;
+    }
 
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(viewType == VIEW_TYPE_HEADER ?
+                R.layout.item_equipment_header : R.layout.item_equipment_content, parent, false);
+        return new ViewHolder(view);
+    }
+
+
+    // ====================== selectItem ======================
 
     int positionSelected = -1;
-
 
     public void selectItem(int position) {
         positionSelected = position;
         notifyDataSetChanged();
         EventBus.getDefault().post(mItems.get(position).objectId, "onMainSelect");
-    }
-
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        @Nullable
-        @Bind(R.id.text)
-        TextView text;
-
-
-        @Nullable
-        @Bind(R.id.highlight)
-        View highlight;
-
-        @Nullable
-        @Bind(R.id.value1)
-        TextView tvValue1;
-
-        @Nullable
-        @Bind(R.id.padding)
-        View padding;
-
-
-        ViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
-
-
-        @Nullable
-        @OnClick({R.id.value1})
-        public void rowOnClick() {
-            selectItem(getAdapterPosition());
-        }
     }
 
     public int getPositionByMainId(String mainId) {
@@ -89,15 +69,66 @@ public class EquipmentAdapter extends RecyclerView.Adapter<EquipmentAdapter.View
         return -1;
     }
 
+    public int getHeaderPositionByMainId(String mainId) {
+        int headerPosition = -1;
+        for (LineItem item : mItems) {
+            if (item.isHeader) {
+                headerPosition = mItems.indexOf(item);
+            }
+            if (!item.isHeader && item.objectId.equals(mainId)) {
+                return headerPosition;
+            }
+        }
+        return headerPosition;
+    }
+
+
+    // ====================== ViewHolder ======================
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+
+        ViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+
+        // for header
+
+        @Nullable
+        @Bind(R.id.header_text)
+        TextView tvHeaderText;
+
+        // for content
+
+        @Nullable
+        @Bind(R.id.highlight)
+        View highlight;
+
+        @Nullable
+        @Bind(R.id.content_text)
+        TextView tvContentText;
+
+        @Nullable
+        @Bind(R.id.padding)
+        View padding;
+
+        @Nullable
+        @OnClick(R.id.content_text)
+        public void rowOnClick() {
+                                                                                                                                                                                                        selectItem(getAdapterPosition());
+        }
+    }
+
 
     // ================================== onBindViewHolder ==================================
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
 
+        // 讲道理 这段代码我看不懂
         final LineItem item = mItems.get(position);
-        final View itemView = viewHolder.itemView;
-
+        final View itemView = holder.itemView;
         final GridSLM.LayoutParams lp = GridSLM.LayoutParams.from(itemView.getLayoutParams());
         if (item.isHeader) {
             lp.headerEndMarginIsAuto = true;
@@ -107,93 +138,60 @@ public class EquipmentAdapter extends RecyclerView.Adapter<EquipmentAdapter.View
         lp.setFirstPosition(item.sectionFirstPosition);
         itemView.setLayoutParams(lp);
 
-        if (!mItems.get(position).isHeader) {
+        // for header
+        if (item.isHeader && holder.tvHeaderText != null) {
+            holder.tvHeaderText.setText(item.text);
+        }
 
-
-            // 选择设备的特殊处理
-            String value = mItems.get(position).text;
-            viewHolder.tvValue1.setText(value);
+        // for content
+        if (!item.isHeader && holder.highlight != null && holder.tvContentText != null && holder.padding != null) {
+            holder.tvContentText.setText(item.text);
 
             boolean isSelected = position == positionSelected;
-            Context context = viewHolder.tvValue1.getContext();
+            Context context = holder.tvContentText.getContext();
+
             int highlightColor = ContextCompat.getColor(context, isSelected ? R.color.colorPrimary : R.color.md_grey_200);
-            viewHolder.highlight.setBackgroundColor(highlightColor);
+            holder.highlight.setBackgroundColor(highlightColor);
+
             int textBgColor = ContextCompat.getColor(context, isSelected ? R.color.md_white : R.color.md_grey_200);
-            viewHolder.tvValue1.setBackgroundColor(textBgColor);
-            viewHolder.padding.setBackgroundColor(textBgColor);
-        } else {
-            viewHolder.text.setText(mItems.get(position).text);
+            holder.tvContentText.setBackgroundColor(textBgColor);
+            holder.padding.setBackgroundColor(textBgColor);
         }
     }
 
 
-    @Override
-    public int getItemViewType(int position) {
-        return mItems.get(position).isHeader ? VIEW_TYPE_HEADER : VIEW_TYPE_CONTENT;
-    }
+    // ================================== constructor ==================================
 
-
-    @Override
-    public int getItemCount() {
-        return mItems.size();
-    }
-
-    //
+    private List<LineItem> mItems;
 
     private LinkedHashMap<String, Integer> mMapIndex;
 
     public EquipmentAdapter(List<SelectObject> dataList) {
-        this.mMapIndex = new LinkedHashMap<>();
         mItems = new ArrayList<>();
+        mMapIndex = new LinkedHashMap<>();
 
-        //Insert headers into list of items.
-        String lastHeader = "";
+        String lastHeaderText = "";
         int headerCount = 0;
         int sectionFirstPosition = 0;
         for (int i = 0; i < dataList.size(); i++) {
-//            String header = dataList.get(i).value.substring(0, 1);
-            String[] arr = dataList.get(i).value.split("/");
-            String header = arr[0];
-            String text = arr[1];
-
-            String index = header.substring(0, 1);
-            if (!mMapIndex.containsKey(index)) {
-                mMapIndex.put(index, i + headerCount);
-            }
-
-            if (!TextUtils.equals(lastHeader, header)) {
-
-                // todo header 没有 objectId
-                // Insert new header view and update section data.
+            String[] texts = dataList.get(i).value.split("/");
+            String headerText = texts[0];
+            String contentText = texts[1];
+            if (!TextUtils.equals(lastHeaderText, headerText)) {
                 sectionFirstPosition = i + headerCount;
-                lastHeader = header;
-                headerCount += 1;
-                mItems.add(new LineItem(dataList.get(i).objectId, header, true, sectionFirstPosition));
-
+                mItems.add(new LineItem("", headerText, true, sectionFirstPosition));
+                mMapIndex.put(headerText.substring(0, 1), sectionFirstPosition);
+                lastHeaderText = headerText;
+                headerCount++;
             }
-            mItems.add(new LineItem(dataList.get(i).objectId, text, false, sectionFirstPosition));
+            mItems.add(new LineItem(dataList.get(i).objectId, contentText, false, sectionFirstPosition));
         }
-    }
-
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view;
-        if (viewType == VIEW_TYPE_HEADER) {
-            view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.header_item, parent, false);
-        } else {
-            view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_equipment, parent, false);
-        }
-        return new ViewHolder(view);
     }
 
     @Override
     public LinkedHashMap<String, Integer> getMapIndex() {
         return this.mMapIndex;
     }
-
 
     private static class LineItem {
 
@@ -205,12 +203,18 @@ public class EquipmentAdapter extends RecyclerView.Adapter<EquipmentAdapter.View
 
         public String text;
 
-        public LineItem(String objectId, String text, boolean isHeader,
-                        int sectionFirstPosition) {
+        public LineItem(String objectId, String text, boolean isHeader, int sectionFirstPosition) {
             this.isHeader = isHeader;
             this.objectId = objectId;
             this.text = text;
             this.sectionFirstPosition = sectionFirstPosition;
         }
     }
+
+
+    @Override
+    public int getItemCount() {
+        return mItems.size();
+    }
+
 }

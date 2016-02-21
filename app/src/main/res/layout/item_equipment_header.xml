@@ -3,10 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:slm_headerDisplay="inline|sticky"
-    app:slm_isHeader="true">
+    app:slm_isHeader="true"
+
+    >
 
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/header_text"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/md_grey_200"
