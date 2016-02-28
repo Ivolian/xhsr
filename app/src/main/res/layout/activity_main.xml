@@ -1,18 +1,20 @@
-<unicorn.com.xhsr.goodwork.draglayout.view.DragLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/dl"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg4">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <include layout="@layout/activity_main_sidemenu" />
-
-    </RelativeLayout>
+<!--<unicorn.com.xhsr.goodwork.draglayout.view.DragLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:id="@+id/dl"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@drawable/bg4">-->
+<!---->
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+<!---->
+        <!--<include layout="@layout/activity_main_sidemenu" />-->
+<!---->
+    <!--</RelativeLayout>-->
 
     <unicorn.com.xhsr.goodwork.draglayout.view.MyRelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/my"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -21,4 +23,4 @@
 
     </unicorn.com.xhsr.goodwork.draglayout.view.MyRelativeLayout>
 
-</unicorn.com.xhsr.goodwork.draglayout.view.DragLayout>
+<!--</unicorn.com.xhsr.goodwork.draglayout.view.DragLayout>-->

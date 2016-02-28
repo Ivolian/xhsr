@@ -26,7 +26,6 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.BasicDataGotter;
-import unicorn.com.xhsr.goodwork.draglayout.view.DragLayout;
 import unicorn.com.xhsr.myorder.MyOrderActivity;
 import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.other.DividerGridItemDecoration;
@@ -44,7 +43,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_content);
         init();
     }
 
@@ -56,7 +55,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initViews() {
-        initDragLayout();
+//        initDragLayout();
         initRecyclerView();
     }
 
@@ -105,25 +104,26 @@ public class MainActivity extends BaseActivity {
 
     // =============================== drag layout ===============================
 
-    @Bind(R.id.dl)
-    DragLayout dragLayout;
+//    @Bind(R.id.dl)
+//    DragLayout dragLayout;
 
-    private void initDragLayout() {
-        dragLayout.setDragListener(new DragLayout.DragListener() {
-            @Override
-            public void onOpen() {
-
-            }
-
-            @Override
-            public void onClose() {
-            }
-
-            @Override
-            public void onDrag(float percent) {
-            }
-        });
-    }
+//    private void initDragLayout() {
+//        dragLayout.setDragListener(new DragLayout.DragListener() {
+//            @Override
+//            public void onOpen() {
+//
+//            }
+//
+//            @Override
+//            public void onClose() {
+//            }
+//
+//            @Override
+//            public void onDrag(float percent) {
+//
+//            }
+//        });
+//    }
 
 
     // =============================== recycleview ===============================
