@@ -34,6 +34,7 @@
             app:layout_marginTopPercent="2%sh">
 
             <com.devspark.robototextview.widget.RobotoTextView
+                android:id="@+id/temperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3&#176;"
@@ -57,6 +58,7 @@
                     android:orientation="horizontal">
 
                     <su.levenetc.android.badgeview.BadgeView
+                        android:id="@+id/pm25"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:badgeBackgroundColor="@color/md_blue_a100"
@@ -65,6 +67,7 @@
                         app:badgeTextSize="12dp" />
 
                     <TextView
+                        android:id="@+id/quality"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="中度污染"
@@ -75,6 +78,7 @@
                 </com.zhy.android.percent.support.PercentLinearLayout>
 
                 <TextView
+                    android:id="@+id/weather"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="朝阳区  多云"
@@ -83,13 +87,11 @@
 
             </com.zhy.android.percent.support.PercentLinearLayout>
 
-            <com.mikepenz.iconics.view.IconicsImageView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:iiv_color="@color/md_grey_50"
-                app:iiv_icon="wic-day-sunny-overcast"
-                app:layout_heightPercent="8%sh"
-                app:layout_widthPercent="8%sh" />
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/weather_icon"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 

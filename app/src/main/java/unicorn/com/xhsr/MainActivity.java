@@ -1,6 +1,7 @@
 package unicorn.com.xhsr;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,10 +13,16 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
+import com.devspark.robototextview.widget.RobotoTextView;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.yo.libs.app.DimensCodeTools;
 
+import org.joda.time.DateTime;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
@@ -24,15 +31,18 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import su.levenetc.android.badgeview.BadgeView;
 import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.BasicDataGotter;
 import unicorn.com.xhsr.myorder.MyOrderActivity;
 import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.other.DividerGridItemDecoration;
+import unicorn.com.xhsr.other.TinyDB;
 import unicorn.com.xhsr.quickorder.QuickOrderActivity;
 import unicorn.com.xhsr.satisfaction.BasicInfoActivity;
 import unicorn.com.xhsr.utils.ConfigUtils;
 import unicorn.com.xhsr.utils.TextDrawableUtils;
+import unicorn.com.xhsr.utils.ToastUtils;
 import unicorn.com.xhsr.volley.SimpleVolley;
 
 public class MainActivity extends BaseActivity {
@@ -49,6 +59,7 @@ public class MainActivity extends BaseActivity {
 
     private void init() {
         initViews();
+
         getSessionId();
 
 
@@ -56,7 +67,9 @@ public class MainActivity extends BaseActivity {
 
     private void initViews() {
 //        initDragLayout();
+        initWeather();
         initRecyclerView();
+
     }
 
     private void getSessionId() {
@@ -80,7 +93,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                String sessionId =response.headers.get("jsessionid");
+                String sessionId = response.headers.get("jsessionid");
                 ConfigUtils.setSessionId(sessionId);
                 EventBus.getDefault().post(new Object(), "getBasicData");
                 return super.parseNetworkResponse(response);
@@ -207,6 +220,108 @@ public class MainActivity extends BaseActivity {
         Intent intent = new Intent(this, MyOrderActivity.class);
         intent.putExtra("currentItem", 2);
         startActivity(intent);
+    }
+
+    // weather
+    private final String LAST_TIME = "last_time";
+    private final String WEATHER_URL = "https://api.heweather.com/x3/weather";
+    private final String API_KEY = "3b85969c4b1a40ec8a94cac4f4fb454e";
+
+    private void initWeather() {
+        String lastTime = TinyDB.getInstance().getString(LAST_TIME);
+
+        // todo
+        fetchWeather();
+    }
+
+    @Bind(R.id.temperature)
+    RobotoTextView tvTemperature;
+
+    @Bind(R.id.pm25)
+    BadgeView bvPm25;
+
+    // 空气质量
+    @Bind(R.id.quality)
+    TextView tvQuality;
+
+    @Bind(R.id.weather)
+    TextView tvWeather;
+
+    @Bind(R.id.weather_icon)
+    SimpleDraweeView weatherIcon;
+
+
+    private void fetchWeather() {
+        final String cityId = "CN101010100";
+        Uri.Builder builder = Uri.parse(WEATHER_URL).buildUpon();
+        builder.appendQueryParameter("key", API_KEY);
+        builder.appendQueryParameter("cityid", cityId);
+        String url = builder.toString();
+        JsonObjectRequest request = new JsonObjectRequest(
+                url,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray weatherDataService = response.getJSONArray("HeWeather data service 3.0");
+                            JSONObject temp = weatherDataService.getJSONObject(0);
+                            JSONObject aqi = temp.getJSONObject("aqi");
+                            JSONObject city = aqi.getJSONObject("city");
+                            String pm25 = city.getString("pm25");
+                            bvPm25.setValue(pm25);
+                            String quality = city.getString("qlty");
+                            tvQuality.setText(quality);
+                            JSONObject now = temp.getJSONObject("now");
+                            JSONObject cond = now.getJSONObject("cond");
+                            String weather = cond.getString("txt");
+                            tvWeather.setText("朝阳区 " + weather);
+                            String temperature = now.getString("tmp");
+                            tvTemperature.setText(temperature + "\u00B0");
+
+                            TinyDB.getInstance().putString(LAST_TIME, new DateTime().toString("yyyyMMdd"));
+                            fetchWeatherIcon(weather);
+                        } catch (Exception e) {
+                            ToastUtils.show(e.getMessage());
+                        }
+                    }
+                },
+                SimpleVolley.getDefaultErrorListener()
+
+        );
+        SimpleVolley.addRequest(request);
+    }
+
+    private void fetchWeatherIcon(final String weather) {
+        final Uri.Builder builder = Uri.parse("https://api.heweather.com/x3/condition").buildUpon();
+        builder.appendQueryParameter("key", API_KEY);
+        builder.appendQueryParameter("search", "allcond");
+        String url = builder.toString();
+        JsonObjectRequest request = new JsonObjectRequest(
+                url,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray condInfo = response.getJSONArray("cond_info");
+                            for (int i = 0; i != condInfo.length(); i++) {
+                                JSONObject jsonObject = condInfo.getJSONObject(i);
+                                String txt = jsonObject.getString("txt");
+                                String icon = jsonObject.getString("icon");
+                                if (weather.equals(txt)) {
+                                    Uri uri = Uri.parse(icon);
+                                    weatherIcon.setImageURI(uri);
+                                    break;
+                                }
+                            }
+                        } catch (Exception e) {
+                            ToastUtils.show(e.getMessage());
+                        }
+                    }
+                },
+                SimpleVolley.getDefaultErrorListener()
+
+        );
+        SimpleVolley.addRequest(request);
     }
 
 

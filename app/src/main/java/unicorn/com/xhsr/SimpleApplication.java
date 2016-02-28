@@ -3,6 +3,7 @@ package unicorn.com.xhsr;
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.iflytek.cloud.SpeechUtility;
 
 import unicorn.com.xhsr.data.greendao.DaoMaster;
@@ -27,6 +28,8 @@ public class SimpleApplication extends Application {
         instance = this;
         initGreenDao();
         SimpleVolley.init(instance);
+        Fresco.initialize(instance);
+
     }
 
 
