@@ -1,13 +1,28 @@
 package unicorn.com.xhsr.utils;
 
 
+import android.os.Environment;
+
 import com.android.volley.NetworkResponse;
+
+import java.io.File;
 
 import unicorn.com.xhsr.other.TinyDB;
 
 public class ConfigUtils {
 
 
+
+    public static String getBaseDirPath() {
+        File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "xhsr");
+        if (!dir.exists()) {
+            boolean result = dir.mkdir();
+            if (!result) {
+                ToastUtils.show("创建基础目录失败!");
+            }
+        }
+        return dir.getAbsolutePath();
+    }
     public final static String JSESSION_ID = "jsessionid";
 
 

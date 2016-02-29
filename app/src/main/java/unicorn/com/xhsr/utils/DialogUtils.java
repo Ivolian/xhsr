@@ -4,6 +4,7 @@ package unicorn.com.xhsr.utils;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.widget.NormalDialog;
 
@@ -43,5 +44,25 @@ public class DialogUtils {
                 }
         );
     }
+
+
+    public static MaterialDialog showMask(Context context, String title, String content) {
+        return new MaterialDialog.Builder(context)
+                .title(title)
+                .content(content)
+                .progress(true, 0)
+                .cancelable(false)
+                .show();
+    }
+
+    public static MaterialDialog showMask2(Context context, String title, String content) {
+        return new MaterialDialog.Builder(context)
+                .title(title)
+                .content(content)
+                .progress(false, 100)
+                .cancelable(false)
+                .show();
+    }
+
 
 }

@@ -202,7 +202,7 @@ public class MainActivity extends BaseActivity {
     RecyclerView recyclerView;
 
     private void initRecyclerView() {
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.addItemDecoration(new DividerGridItemDecoration(this));
         recyclerView.setAdapter(new MainAdapter());
 //        initRecycleViewHeader();

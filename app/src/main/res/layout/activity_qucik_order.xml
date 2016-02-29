@@ -1,0 +1,320 @@
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/md_white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        app:theme="@style/AppTheme2">
+
+        <!-- 标题栏 -->
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
+            app:layout_heightPercent="10%sh">
+
+            <TextView
+                android:id="@+id/cancel"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="?attr/colorPrimary"
+                app:layout_heightPercent="10%sh"
+                app:layout_textSizePercent="2.6%sh"
+                app:layout_widthPercent="10%sh" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="快速下单"
+                android:textColor="@color/md_black"
+                app:layout_textSizePercent="3.3%sh" />
+
+            <TextView
+                android:id="@+id/confirm"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:gravity="center"
+                android:text="确认"
+                android:textColor="?attr/colorPrimary"
+                app:layout_heightPercent="10%sh"
+                app:layout_textSizePercent="2.6%sh"
+                app:layout_widthPercent="10%sh" />
+
+        </com.zhy.android.percent.support.PercentLinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/md_grey_200" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- 补充说明 8% -->
+                <com.zhy.android.percent.support.PercentLinearLayout
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_heightPercent="8%sh"
+                    app:layout_paddingLeftPercent="5%sw"
+                    app:layout_paddingRightPercent="5%sw">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="补充说明"
+                        android:textColor="@color/md_grey_500"
+                        app:layout_textSizePercent="3%sh" />
+
+                    <ImageView
+                        android:id="@+id/arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow_right" />
+
+                </com.zhy.android.percent.support.PercentLinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/md_grey_200" />
+
+                <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                    android:id="@+id/erlDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:ael_duration="300"
+                    app:ael_expanded="false"
+                    app:ael_orientation="vertical">
+
+                    <com.zhy.android.percent.support.PercentLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/etDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:background="@null"
+                            android:gravity="left|top"
+                            android:hint="请填写补充说明"
+                            android:textColor="@color/md_black"
+                            android:textColorHint="@color/md_grey_400"
+                            android:textCursorDrawable="@drawable/color_cursor"
+                            app:layout_heightPercent="24%sh"
+                            app:layout_paddingBottomPercent="3%sw"
+                            app:layout_paddingLeftPercent="5%sw"
+                            app:layout_paddingRightPercent="5%sw"
+                            app:layout_paddingTopPercent="3%sw"
+                            app:layout_textSizePercent="2.8%sh" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="@color/md_grey_200" />
+
+                    </com.zhy.android.percent.support.PercentLinearLayout>
+
+                </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/md_grey_200"
+                    app:layout_heightPercent="3%sh" />
+
+                <!-- 历史，口信，拍照，视频 -->
+                <com.zhy.android.percent.support.PercentLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.zhy.android.percent.support.PercentLinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:theme="@style/AppTheme2"
+                        app:layout_heightPercent="20%sh"
+                        app:layout_paddingTopPercent="1%sh">
+
+                        <com.zhy.android.percent.support.PercentLinearLayout
+                            android:id="@+id/history"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:gravity="center"
+                            app:layout_heightPercent="10%sh"
+                            app:layout_widthPercent="10%sh">
+
+                            <com.mikepenz.iconics.view.IconicsImageView
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                app:iiv_color="@color/md_white"
+                                app:iiv_icon="faw-history"
+                                app:layout_heightPercent="4%sh"
+                                app:layout_widthPercent="4%sh" />
+
+                        </com.zhy.android.percent.support.PercentLinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="历史"
+                            android:textColor="@color/md_grey_500"
+                            app:layout_marginTopPercent="1.5%sh"
+                            app:layout_textSizePercent="2.5%sh" />
+
+                    </com.zhy.android.percent.support.PercentLinearLayout>
+
+                    <com.zhy.android.percent.support.PercentLinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:theme="@style/AppTheme2"
+                        app:layout_heightPercent="20%sh"
+                        app:layout_paddingTopPercent="1%sh">
+
+                        <com.zhy.android.percent.support.PercentLinearLayout
+                            android:id="@+id/message"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:gravity="center"
+                            app:layout_heightPercent="10%sh"
+                            app:layout_widthPercent="10%sh">
+
+                            <com.mikepenz.iconics.view.IconicsImageView
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                app:iiv_color="@color/md_white"
+                                app:iiv_icon="faw-microphone"
+                                app:layout_heightPercent="4%sh"
+                                app:layout_widthPercent="4%sh" />
+
+                        </com.zhy.android.percent.support.PercentLinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="口信"
+                            android:textColor="@color/md_grey_500"
+                            app:layout_marginTopPercent="1.5%sh"
+                            app:layout_textSizePercent="2.5%sh" />
+
+                    </com.zhy.android.percent.support.PercentLinearLayout>
+
+                    <com.zhy.android.percent.support.PercentLinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:theme="@style/AppTheme2"
+                        app:layout_heightPercent="20%sh"
+                        app:layout_paddingTopPercent="1%sh">
+
+                        <com.zhy.android.percent.support.PercentLinearLayout
+                            android:id="@+id/takePhoto"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:gravity="center"
+                            app:layout_heightPercent="10%sh"
+                            app:layout_widthPercent="10%sh">
+
+                            <com.mikepenz.iconics.view.IconicsImageView
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                app:iiv_color="@color/md_white"
+                                app:iiv_icon="gmi-camera"
+                                app:layout_heightPercent="4%sh"
+                                app:layout_widthPercent="4%sh" />
+
+                        </com.zhy.android.percent.support.PercentLinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="拍照"
+                            android:textColor="@color/md_grey_500"
+                            app:layout_marginTopPercent="1.5%sh"
+                            app:layout_textSizePercent="2.5%sh" />
+
+                    </com.zhy.android.percent.support.PercentLinearLayout>
+
+                    <com.zhy.android.percent.support.PercentLinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:theme="@style/AppTheme2"
+                        app:layout_heightPercent="20%sh"
+                        app:layout_paddingTopPercent="1%sh">
+
+                        <com.zhy.android.percent.support.PercentLinearLayout
+                            android:id="@+id/video"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:gravity="center"
+                            app:layout_heightPercent="10%sh"
+                            app:layout_widthPercent="10%sh">
+
+                            <com.mikepenz.iconics.view.IconicsImageView
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                app:iiv_color="@color/md_white"
+                                app:iiv_icon="faw-video-camera"
+                                app:layout_heightPercent="4%sh"
+                                app:layout_widthPercent="4%sh" />
+
+                        </com.zhy.android.percent.support.PercentLinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="视频"
+                            android:textColor="@color/md_grey_500"
+                            app:layout_marginTopPercent="1.5%sh"
+                            app:layout_textSizePercent="2.5%sh" />
+
+                    </com.zhy.android.percent.support.PercentLinearLayout>
+
+                </com.zhy.android.percent.support.PercentLinearLayout>
+
+
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
+        </ScrollView>
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+

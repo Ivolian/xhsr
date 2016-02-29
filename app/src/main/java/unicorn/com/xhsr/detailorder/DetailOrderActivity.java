@@ -67,7 +67,7 @@ public class DetailOrderActivity extends BottomSheetActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quick_order);
+        setContentView(R.layout.activity_detail_order);
         initViews();
 
         findViewById(R.id.message).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_light_blue_300));

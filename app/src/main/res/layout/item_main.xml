@@ -8,21 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:gravity="center"
+        android:orientation="vertical"
         android:theme="@style/AppTheme2"
-        app:layout_heightPercent="18%sh"
-        app:layout_paddingPercent="4%sh">
-
-        <TextView
-            android:id="@+id/value"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="工单管理"
-            android:textColor="@color/md_grey_500"
-            app:layout_textSizePercent="3.2%sh" />
+        app:layout_heightPercent="33%sw">
 
         <com.mikepenz.iconics.view.IconicsImageView
             android:id="@+id/icon"
@@ -31,7 +20,17 @@
             app:iiv_color="@color/colorPrimary"
             app:iiv_icon="cmd-google-glass"
             app:layout_heightPercent="6%sh"
+            app:layout_marginBottomPercent="1%sh"
             app:layout_widthPercent="6%sh" />
+
+        <TextView
+            android:id="@+id/value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="工单管理"
+            android:textColor="@color/md_grey_600"
+            app:layout_marginTopPercent="1%sh"
+            app:layout_textSizePercent="2.5%sh" />
 
     </com.zhy.android.percent.support.PercentLinearLayout>
 

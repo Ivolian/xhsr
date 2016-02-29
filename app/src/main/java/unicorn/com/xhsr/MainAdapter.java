@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mikepenz.iconics.view.IconicsImageView;
-import com.nineoldandroids.view.ViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,18 +17,22 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import unicorn.com.xhsr.data.Model;
 import unicorn.com.xhsr.detailorder.DetailOrderActivity;
+import unicorn.com.xhsr.quickorder.QuickOrderActivity;
 
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     public static String[] texts = {
             "快速下单", "详细下单", "满意度调查",
-            "楼层平面", "故障统计", "联系客服"
+            "楼层平面", "故障统计", "联系客服",
+            "添加更多", "故障统计", "联系客服"
+
     };
 
     public static String[] icons = {
-            "cmd-google-glass", "cmd-currency-usd", "cmd-map"
-            , "cmd-map-marker-radius", "cmd-link-variant-off", "cmd-headphones-settings"
+            "gmi-assignment-check", "gmi-assignment", "gmi-flower-alt"
+            , "gmi-home", "gmi-wrench", "gmi-whatsapp"
+            , "gmi-plus", "gmi-wrench", "gmi-whatsapp"
     };
 
     private List<Model> modelList;
@@ -56,15 +59,20 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             super(view);
             ButterKnife.bind(this, view);
 
-            ViewHelper.setRotation(iivIcon,-30);
+//            ViewHelper.setRotation(iivIcon, -30);
         }
 
         @OnClick(R.id.row)
-        public void rowOnClick(){
-                   int position = getAdapterPosition();
-            switch (position){
+        public void rowOnClick() {
+            Intent intent;
+            int position = getAdapterPosition();
+            switch (position) {
+                case 0:
+                    intent = new Intent(tvText.getContext(), QuickOrderActivity.class);
+                    tvText.getContext().startActivity(intent);
+                    break;
                 case 1:
-                    Intent intent = new Intent(tvText.getContext(),DetailOrderActivity.class);
+                    intent = new Intent(tvText.getContext(), DetailOrderActivity.class);
                     tvText.getContext().startActivity(intent);
                     break;
             }
@@ -82,6 +90,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     // ================================== onBindViewHolder ==================================
 
+    private int[] colors = {R.color.md_teal_400, R.color.md_brown_400, R.color.md_red_300,
+            R.color.md_red_50, R.color.md_red_50, R.color.md_red_50,
+            R.color.md_red_50, R.color.md_red_50, R.color.md_red_50};
+
+    private int[] contourColors = {
+            R.color.md_teal_500,R.color.md_brown_500,R.color.md_red_400
+    };
+
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         Model model = modelList.get(position);
@@ -89,6 +105,17 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
         viewHolder.tvText.setText(model.text);
         viewHolder.iivIcon.setIcon(model.icon);
+        viewHolder.iivIcon.setColorRes(position < 3 ? colors[position] : R.color.md_grey_300);
+      if (position<3) {
+          viewHolder.iivIcon.setContourColorRes(contourColors[position]);
+
+          viewHolder.iivIcon.setContourWidthDp(1);
+      }else {
+          viewHolder.iivIcon.setContourColorRes(R.color.md_grey_400);
+          viewHolder.iivIcon.setContourWidthDp(1);
+      }
+
+
     }
 
 
