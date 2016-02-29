@@ -1,25 +1,28 @@
 package unicorn.com.xhsr.utils;
 
 
+import com.android.volley.NetworkResponse;
+
+import unicorn.com.xhsr.other.TinyDB;
+
 public class ConfigUtils {
 
-    static String sessionId;
 
-    public static String getSessionId() {
-        if (sessionId == null) {
-            throw new RuntimeException("SESSION_ID NOT INIT!");
-        }
-        return sessionId;
+    public final static String JSESSION_ID = "jsessionid";
+
+
+    public static void saveJSessionId(NetworkResponse response) {
+        TinyDB.getInstance().putString(ConfigUtils.JSESSION_ID, response.headers.get(ConfigUtils.JSESSION_ID));
     }
 
-    public static void setSessionId(String sessionId) {
-        ConfigUtils.sessionId = sessionId;
+    public static String getJsessionId() {
+        return TinyDB.getInstance().getString(ConfigUtils.JSESSION_ID);
     }
 
     //
 
-    final static String ip = "withub.net.cn";
-//    final static String ip = "192.168.7.67";
+//    final static String ip = "withub.net.cn";
+    final static String ip = "192.168.7.65";
 
     final static String port = "80";
 

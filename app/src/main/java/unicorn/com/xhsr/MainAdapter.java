@@ -1,5 +1,6 @@
 package unicorn.com.xhsr;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +15,16 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import unicorn.com.xhsr.data.Model;
+import unicorn.com.xhsr.detailorder.DetailOrderActivity;
 
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     public static String[] texts = {
-            "工单管理", "合同管理", "楼层平面",
-            "设备查询", "故障统计", "在线客服"
+            "快速下单", "详细下单", "满意度调查",
+            "楼层平面", "故障统计", "联系客服"
     };
 
     public static String[] icons = {
@@ -55,6 +58,18 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
             ViewHelper.setRotation(iivIcon,-30);
         }
+
+        @OnClick(R.id.row)
+        public void rowOnClick(){
+                   int position = getAdapterPosition();
+            switch (position){
+                case 1:
+                    Intent intent = new Intent(tvText.getContext(),DetailOrderActivity.class);
+                    tvText.getContext().startActivity(intent);
+                    break;
+            }
+        }
+
     }
 
 

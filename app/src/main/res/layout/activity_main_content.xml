@@ -1,4 +1,4 @@
-<com.zhy.android.percent.support.PercentFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,28 +7,21 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <!-- 下半部分 -->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycleView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_marginTopPercent="37%sh" />
-
-    <!-- 上半部分 38%-->
+    <!-- 上半部分 -->
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_heightPercent="40%sh"
         android:background="@color/colorPrimary"
-        android:orientation="vertical"
-        app:layout_heightPercent="38%sh">
+        android:orientation="vertical">
 
-        <!-- 天气 12% -->
+        <!-- 天气 15% -->
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            app:layout_heightPercent="12%sh"
+            app:layout_heightPercent="14%sh"
             app:layout_marginLeftPercent="4%sw"
             app:layout_marginRightPercent="4%sw"
             app:layout_marginTopPercent="2%sh">
@@ -87,11 +80,14 @@
 
             </com.zhy.android.percent.support.PercentLinearLayout>
 
-            <com.facebook.drawee.view.SimpleDraweeView
+            <com.mikepenz.iconics.view.IconicsImageView
                 android:id="@+id/weather_icon"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                />
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:iiv_color="@color/md_grey_50"
+                app:iiv_icon="wic-day-sunny-overcast"
+                app:layout_heightPercent="8%sh"
+                app:layout_widthPercent="8%sh" />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 
@@ -255,4 +251,11 @@
 
     </com.zhy.android.percent.support.PercentLinearLayout>
 
-</com.zhy.android.percent.support.PercentFrameLayout>
+
+    <!-- 下半部分 56% -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</com.zhy.android.percent.support.PercentLinearLayout>

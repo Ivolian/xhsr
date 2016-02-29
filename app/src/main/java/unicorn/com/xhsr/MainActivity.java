@@ -13,11 +13,12 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
 import com.devspark.robototextview.widget.RobotoTextView;
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.mikepenz.iconics.view.IconicsImageView;
 import com.yo.libs.app.DimensCodeTools;
 
 import org.joda.time.DateTime;
@@ -38,12 +39,13 @@ import unicorn.com.xhsr.myorder.MyOrderActivity;
 import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.other.DividerGridItemDecoration;
 import unicorn.com.xhsr.other.TinyDB;
-import unicorn.com.xhsr.quickorder.QuickOrderActivity;
+import unicorn.com.xhsr.detailorder.DetailOrderActivity;
 import unicorn.com.xhsr.satisfaction.BasicInfoActivity;
 import unicorn.com.xhsr.utils.ConfigUtils;
 import unicorn.com.xhsr.utils.TextDrawableUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 import unicorn.com.xhsr.volley.SimpleVolley;
+import unicorn.com.xhsr.volley.VolleyErrorHelper;
 
 public class MainActivity extends BaseActivity {
 
@@ -59,8 +61,8 @@ public class MainActivity extends BaseActivity {
 
     private void init() {
         initViews();
-
-        getSessionId();
+        login();
+//        getSessionId();
 
 
     }
@@ -72,35 +74,90 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void getSessionId() {
+    String role;
+
+    String shiroLoginFailure;
+
+
+    private void login() {
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 ConfigUtils.getBaseUrl() + "/login",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        if (shiroLoginFailure != null) {
+                            ToastUtils.show("账号或密码错误!");
+                            return;
+                        }
+                        if (role != null) {
+                            ToastUtils.show(role);
+                        }
+                        EventBus.getDefault().post(new Object(), "getBasicData");
                     }
                 },
-                SimpleVolley.getDefaultErrorListener()
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        ToastUtils.show(VolleyErrorHelper.getErrorMessage(error));
+                    }
+                }
         ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
-                map.put("username", "admin");
-                map.put("password", "admin");
+                map.put("username", "fff");
+                map.put("password", "000000");
                 return map;
             }
 
+            // 从返回的头部中获取一些信息
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                String sessionId = response.headers.get("jsessionid");
-                ConfigUtils.setSessionId(sessionId);
-                EventBus.getDefault().post(new Object(), "getBasicData");
+                shiroLoginFailure = response.headers.get("shiroLoginFailure");
+                // shiroLoginFailure != null 表示登录失败
+                if (shiroLoginFailure != null) {
+                    return super.parseNetworkResponse(response);
+                }
+                // 如果登录成功，获取角色，保存 JSessionId
+                role = response.headers.get("role");
+                ConfigUtils.saveJSessionId(response);
                 return super.parseNetworkResponse(response);
             }
         };
         SimpleVolley.getRequestQueue().add(stringRequest);
     }
+
+//
+//    private void getSessionId() {
+//        StringRequest stringRequest = new StringRequest(
+//                Request.Method.POST,
+//                ConfigUtils.getBaseUrl() + "/login",
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                    }
+//                },
+//                SimpleVolley.getDefaultErrorListener()
+//        ) {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> map = new HashMap<>();
+//                map.put("username", "admin");
+//                map.put("password", "admin");
+//                return map;
+//            }
+//
+//            @Override
+//            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+//                String sessionId = response.headers.get("jsessionid");
+//                ConfigUtils.setSessionId(sessionId);
+//                EventBus.getDefault().post(new Object(), "getBasicData");
+//                return super.parseNetworkResponse(response);
+//            }
+//        };
+//        SimpleVolley.getRequestQueue().add(stringRequest);
+//    }
 
     @Subscriber(tag = "getBasicData")
     public void getBasicData(Object o) {
@@ -148,7 +205,7 @@ public class MainActivity extends BaseActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.addItemDecoration(new DividerGridItemDecoration(this));
         recyclerView.setAdapter(new MainAdapter());
-        initRecycleViewHeader();
+//        initRecycleViewHeader();
     }
 
     private void initRecycleViewHeader() {
@@ -160,7 +217,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (!ClickHelp.isFastClick()) {
-                    Intent intent = new Intent(MainActivity.this, QuickOrderActivity.class);
+                    Intent intent = new Intent(MainActivity.this, DetailOrderActivity.class);
                     startActivityForResult(intent, 2333);
                 }
             }
@@ -223,15 +280,31 @@ public class MainActivity extends BaseActivity {
     }
 
     // weather
-    private final String LAST_TIME = "last_time";
     private final String WEATHER_URL = "https://api.heweather.com/x3/weather";
     private final String API_KEY = "3b85969c4b1a40ec8a94cac4f4fb454e";
 
+    private final String LAST_TIME = "last_time";
+    private final String TEMPERATURE = "temperature";
+    private final String PM_25 = "pm_25";
+    private final String QUALITY = "quality";
+    private final String WEATHER = "weather";
+
     private void initWeather() {
         String lastTime = TinyDB.getInstance().getString(LAST_TIME);
-
-        // todo
+        String now = new DateTime().toString("yyyyMMdd");
+//        if (!lastTime.equals(now)) {
         fetchWeather();
+//        } else {
+//            TinyDB tinyDB = TinyDB.getInstance();
+//            tvTemperature.setText(tinyDB.getString(TEMPERATURE) + "\u00B0");
+//            bvPm25.setValue(tinyDB.getString(PM_25));
+//            tvQuality.setText(tinyDB.getString(QUALITY));
+//            tvWeather.setText("朝阳区 " + tinyDB.getString(WEATHER));
+//            String weather = tinyDB.getString(WEATHER);
+//            String icon = WeatherMap.getMap().get(weather);
+//            weatherIcon.setIcon(icon);
+//            ToastUtils.show("true");
+//        }
     }
 
     @Bind(R.id.temperature)
@@ -248,7 +321,7 @@ public class MainActivity extends BaseActivity {
     TextView tvWeather;
 
     @Bind(R.id.weather_icon)
-    SimpleDraweeView weatherIcon;
+    IconicsImageView weatherIcon;
 
 
     private void fetchWeather() {
@@ -277,42 +350,15 @@ public class MainActivity extends BaseActivity {
                             tvWeather.setText("朝阳区 " + weather);
                             String temperature = now.getString("tmp");
                             tvTemperature.setText(temperature + "\u00B0");
+                            String icon = WeatherMap.getMap().get(weather);
+                            weatherIcon.setIcon(icon);
 
-                            TinyDB.getInstance().putString(LAST_TIME, new DateTime().toString("yyyyMMdd"));
-                            fetchWeatherIcon(weather);
-                        } catch (Exception e) {
-                            ToastUtils.show(e.getMessage());
-                        }
-                    }
-                },
-                SimpleVolley.getDefaultErrorListener()
-
-        );
-        SimpleVolley.addRequest(request);
-    }
-
-    private void fetchWeatherIcon(final String weather) {
-        final Uri.Builder builder = Uri.parse("https://api.heweather.com/x3/condition").buildUpon();
-        builder.appendQueryParameter("key", API_KEY);
-        builder.appendQueryParameter("search", "allcond");
-        String url = builder.toString();
-        JsonObjectRequest request = new JsonObjectRequest(
-                url,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray condInfo = response.getJSONArray("cond_info");
-                            for (int i = 0; i != condInfo.length(); i++) {
-                                JSONObject jsonObject = condInfo.getJSONObject(i);
-                                String txt = jsonObject.getString("txt");
-                                String icon = jsonObject.getString("icon");
-                                if (weather.equals(txt)) {
-                                    Uri uri = Uri.parse(icon);
-                                    weatherIcon.setImageURI(uri);
-                                    break;
-                                }
-                            }
+                            TinyDB tinyDB = TinyDB.getInstance();
+                            tinyDB.putString(LAST_TIME, new DateTime().toString("yyyyMMdd"));
+                            tinyDB.putString(TEMPERATURE, temperature);
+                            tinyDB.putString(PM_25, pm25);
+                            tinyDB.putString(QUALITY, quality);
+                            tinyDB.putString(WEATHER, weather);
                         } catch (Exception e) {
                             ToastUtils.show(e.getMessage());
                         }

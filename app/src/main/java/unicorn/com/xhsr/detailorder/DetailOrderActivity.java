@@ -1,4 +1,4 @@
-package unicorn.com.xhsr.quickorder;
+package unicorn.com.xhsr.detailorder;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,7 +59,7 @@ import unicorn.com.xhsr.volley.JsonArrayRequestWithSessionCheck;
 import unicorn.com.xhsr.volley.SimpleVolley;
 
 
-public class QuickOrderActivity extends BottomSheetActivity {
+public class DetailOrderActivity extends BottomSheetActivity {
 
 
     // =============================== onCreate ===============================
@@ -483,7 +483,7 @@ public class QuickOrderActivity extends BottomSheetActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
-                map.put("Cookie", "JSESSIONID=" + ConfigUtils.getSessionId());
+                map.put("Cookie", "JSESSIONID=" + ConfigUtils.getJsessionId());
                 // 不加这个会出现 Unsupported media type 415 错误
                 map.put("Content-Type", "application/json");
                 return map;

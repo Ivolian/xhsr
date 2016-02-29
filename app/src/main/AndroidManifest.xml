@@ -51,7 +51,7 @@
 
         </activity>
         <activity
-            android:name=".quickorder.QuickOrderActivity"
+            android:name=".detailorder.DetailOrderActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".groupselect.GroupSelectActivity"
@@ -66,11 +66,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".quickorder.RepairPersonActivity"
+            android:name=".detailorder.RepairPersonActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".quickorder.ProcessModeActivity"
+            android:name=".detailorder.ProcessModeActivity"
             android:screenOrientation="portrait"
 
 

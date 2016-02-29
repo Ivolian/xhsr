@@ -47,7 +47,7 @@ public class JsonArrayRequestWithSessionCheck extends JsonArrayRequest {
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         Map<String, String> map = new HashMap<>();
-        map.put("Cookie", "JSESSIONID=" + ConfigUtils.getSessionId());
+        map.put("Cookie", "JSESSIONID=" + ConfigUtils.getJsessionId());
         return map;
     }
 

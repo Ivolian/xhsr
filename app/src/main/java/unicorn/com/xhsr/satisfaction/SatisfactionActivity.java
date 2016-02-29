@@ -177,7 +177,7 @@ public class SatisfactionActivity extends BaseActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
-                map.put("Cookie", "JSESSIONID=" + ConfigUtils.getSessionId());
+                map.put("Cookie", "JSESSIONID=" + ConfigUtils.getJsessionId());
                 // 不加这个会出现 Unsupported media type 415 错误
                 map.put("Content-Type", "application/json");
                 return map;

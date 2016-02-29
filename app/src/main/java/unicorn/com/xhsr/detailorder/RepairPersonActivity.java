@@ -1,4 +1,4 @@
-package unicorn.com.xhsr.quickorder;
+package unicorn.com.xhsr.detailorder;
 
 import android.content.Intent;
 import android.os.Bundle;
