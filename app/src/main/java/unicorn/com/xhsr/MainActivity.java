@@ -19,6 +19,7 @@ import com.yo.libs.app.DimensCodeTools;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
 import butterknife.Bind;
@@ -49,6 +50,7 @@ public class MainActivity extends BaseActivity {
 
     private void initViews() {
 //        initDragLayout();
+        EventBus.getDefault().post(new Object(),"getBasicData");
         initWeather();
         initRecyclerView();
 
@@ -64,6 +66,12 @@ public class MainActivity extends BaseActivity {
         basicDataGotter.getBuilding();
         basicDataGotter.getDepartment();
         basicDataGotter.getOption();
+    }
+
+
+    @Subscriber(tag = "sign_out")
+    public void signOut(Object o) {
+            startActivityAndFinish(LoginActivity.class);
     }
 
 

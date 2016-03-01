@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.mikepenz.iconics.view.IconicsImageView;
 
+import org.simple.eventbus.EventBus;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -17,6 +19,7 @@ import unicorn.com.xhsr.detailorder.DetailOrderActivity;
 import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.quickorder.QuickOrderActivity;
 import unicorn.com.xhsr.satisfaction.SatisfactionActivity;
+import unicorn.com.xhsr.utils.DialogUtils;
 
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
@@ -24,13 +27,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     // ================================== values ==================================
 
-    private String[] texts = {"快速下单", "详细下单", "满意度调查", "楼层平面", "故障统计", "联系客服", "添加更多"};
+    private String[] texts = {"快速下单", "详细下单", "满意度调查", "用户登出", "楼层平面", "故障统计", "联系客服", "添加更多"};
 
-    private String[] icons = {"gmi-assignment-check", "gmi-assignment", "gmi-flower-alt", "gmi-home", "gmi-wrench", "gmi-whatsapp", "gmi-plus"};
+    private String[] icons = {"gmi-assignment-check", "gmi-assignment", "gmi-flower-alt", "faw-sign-out", "gmi-home", "gmi-wrench", "gmi-whatsapp", "gmi-plus"};
 
-    private int[] colors = {R.color.md_teal_400, R.color.md_brown_400, R.color.md_red_300};
+    private int[] colors = {R.color.md_teal_400, R.color.md_brown_400, R.color.md_red_300, R.color.md_cyan_400};
 
-    private int[] contourColors = {R.color.md_teal_500, R.color.md_brown_500, R.color.md_red_400};
+    private int[] contourColors = {R.color.md_teal_500, R.color.md_brown_500, R.color.md_red_400, R.color.md_cyan_500};
 
     public MainAdapter() {
         if (texts.length != icons.length) {
@@ -59,22 +62,34 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             if (ClickHelp.isFastClick()) {
                 return;
             }
-            Class activityClass = null;
+            final Intent intent;
+            Context context = tvText.getContext();
             switch (getAdapterPosition()) {
                 case 0:
-                    activityClass = QuickOrderActivity.class;
+                    intent = new Intent(context, QuickOrderActivity.class);
+                    context.startActivity(intent);
                     break;
                 case 1:
-                    activityClass = DetailOrderActivity.class;
+                    intent = new Intent(context, DetailOrderActivity.class);
+                    context.startActivity(intent);
                     break;
                 case 2:
-                    activityClass = SatisfactionActivity.class;
+                    intent = new Intent(context, SatisfactionActivity.class);
+                    context.startActivity(intent);
                     break;
-            }
-            if (activityClass != null) {
-                Context context = tvText.getContext();
-                Intent intent = new Intent(context, activityClass);
-                tvText.getContext().startActivity(intent);
+                case 3:
+                    DialogUtils.showConfirm(context, "确认登出？", new DialogUtils.Action() {
+                        @Override
+                        public void doAction() {
+                            EventBus.getDefault().post(new Object(), "sign_out");
+                        }
+                    }, new DialogUtils.Action() {
+                        @Override
+                        public void doAction() {
+
+                        }
+                    });
+                    break;
             }
         }
 
@@ -94,7 +109,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         viewHolder.tvText.setText(texts[position]);
         viewHolder.iivIcon.setIcon(icons[position]);
-        if (position < 3) {
+        if (position < 4) {
             viewHolder.iivIcon.setColorRes(colors[position]);
             viewHolder.iivIcon.setContourColorRes(contourColors[position]);
         } else {

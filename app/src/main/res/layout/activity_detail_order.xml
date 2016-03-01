@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="快速下单"
+                android:text="详细下单"
                 android:textColor="@color/md_black"
                 app:layout_textSizePercent="3.3%sh" />
 
@@ -353,93 +353,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@color/md_grey_200"
-                    app:layout_heightPercent="3%sh" />
+                    app:layout_heightPercent="5%sh" />
 
                 <!-- 历史，口信，拍照，视频 -->
                 <com.zhy.android.percent.support.PercentLinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
-                    <com.zhy.android.percent.support.PercentLinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:theme="@style/AppTheme2"
-                        app:layout_heightPercent="20%sh"
-                        app:layout_paddingTopPercent="1%sh">
-
-                        <com.zhy.android.percent.support.PercentLinearLayout
-                            android:id="@+id/history"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:gravity="center"
-                            app:layout_heightPercent="10%sh"
-                            app:layout_widthPercent="10%sh">
-
-                            <com.mikepenz.iconics.view.IconicsImageView
-                                android:layout_width="0dp"
-                                android:layout_height="0dp"
-                                app:iiv_color="@color/md_white"
-                                app:iiv_icon="faw-history"
-                                app:layout_heightPercent="4%sh"
-                                app:layout_widthPercent="4%sh" />
-
-                        </com.zhy.android.percent.support.PercentLinearLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="历史"
-                            android:textColor="@color/md_grey_500"
-                            app:layout_marginTopPercent="1.5%sh"
-                            app:layout_textSizePercent="2.5%sh" />
-
-                    </com.zhy.android.percent.support.PercentLinearLayout>
-
-                    <com.zhy.android.percent.support.PercentLinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:theme="@style/AppTheme2"
-                        app:layout_heightPercent="20%sh"
-                        app:layout_paddingTopPercent="1%sh">
-
-                        <com.zhy.android.percent.support.PercentLinearLayout
-                            android:id="@+id/message"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:gravity="center"
-                            app:layout_heightPercent="10%sh"
-                            app:layout_widthPercent="10%sh">
-
-                            <com.mikepenz.iconics.view.IconicsImageView
-                                android:layout_width="0dp"
-                                android:layout_height="0dp"
-                                app:iiv_color="@color/md_white"
-                                app:iiv_icon="faw-microphone"
-                                app:layout_heightPercent="4%sh"
-                                app:layout_widthPercent="4%sh" />
-
-                        </com.zhy.android.percent.support.PercentLinearLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="口信"
-                            android:textColor="@color/md_grey_500"
-                            app:layout_marginTopPercent="1.5%sh"
-                            app:layout_textSizePercent="2.5%sh" />
-
-                    </com.zhy.android.percent.support.PercentLinearLayout>
 
                     <com.zhy.android.percent.support.PercentLinearLayout
                         android:layout_width="0dp"
@@ -515,6 +435,88 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="视频"
+                            android:textColor="@color/md_grey_500"
+                            app:layout_marginTopPercent="1.5%sh"
+                            app:layout_textSizePercent="2.5%sh" />
+
+                    </com.zhy.android.percent.support.PercentLinearLayout>
+
+                    <com.zhy.android.percent.support.PercentLinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:theme="@style/AppTheme2"
+                        android:visibility="invisible"
+                        app:layout_heightPercent="20%sh"
+                        app:layout_paddingTopPercent="1%sh">
+
+                        <com.zhy.android.percent.support.PercentLinearLayout
+                            android:id="@+id/history"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:gravity="center"
+                            app:layout_heightPercent="10%sh"
+                            app:layout_widthPercent="10%sh">
+
+                            <com.mikepenz.iconics.view.IconicsImageView
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                app:iiv_color="@color/md_white"
+                                app:iiv_icon="faw-history"
+                                app:layout_heightPercent="4%sh"
+                                app:layout_widthPercent="4%sh" />
+
+                        </com.zhy.android.percent.support.PercentLinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="历史"
+                            android:textColor="@color/md_grey_500"
+                            app:layout_marginTopPercent="1.5%sh"
+                            app:layout_textSizePercent="2.5%sh" />
+
+                    </com.zhy.android.percent.support.PercentLinearLayout>
+
+                    <com.zhy.android.percent.support.PercentLinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:theme="@style/AppTheme2"
+                        android:visibility="invisible"
+                        app:layout_heightPercent="20%sh"
+                        app:layout_paddingTopPercent="1%sh">
+
+                        <com.zhy.android.percent.support.PercentLinearLayout
+                            android:id="@+id/message"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:gravity="center"
+                            app:layout_heightPercent="10%sh"
+                            app:layout_widthPercent="10%sh">
+
+                            <com.mikepenz.iconics.view.IconicsImageView
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                app:iiv_color="@color/md_white"
+                                app:iiv_icon="faw-microphone"
+                                app:layout_heightPercent="4%sh"
+                                app:layout_widthPercent="4%sh" />
+
+                        </com.zhy.android.percent.support.PercentLinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="口信"
                             android:textColor="@color/md_grey_500"
                             app:layout_marginTopPercent="1.5%sh"
                             app:layout_textSizePercent="2.5%sh" />

@@ -2,7 +2,6 @@ package unicorn.com.xhsr;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -48,8 +47,6 @@ public class LoginActivity extends BaseActivity {
     @Bind(R.id.et_password)
     EditText etPassword;
 
-    @Bind(R.id.cb_remember_me)
-    CheckBox cbRememberMe;
 
 
     // ================================== onCreate ==================================
@@ -68,7 +65,6 @@ public class LoginActivity extends BaseActivity {
             etAccount.setText(account);
             String password = TinyDB.getInstance().getString(SfUtils.SF_PASSWORD);
             etPassword.setText(password);
-            cbRememberMe.setChecked(true);
         }
     }
 
@@ -165,7 +161,7 @@ public class LoginActivity extends BaseActivity {
     private void saveUserLoginInfo() {
         TinyDB.getInstance().putString(SfUtils.SF_ACCOUNT, etAccount.getText().toString().trim());
         TinyDB.getInstance().putString(SfUtils.SF_PASSWORD, etPassword.getText().toString().trim());
-        TinyDB.getInstance().putBoolean(SfUtils.SF_REMEMBER_ME, cbRememberMe.isChecked());
+        TinyDB.getInstance().putBoolean(SfUtils.SF_REMEMBER_ME, true);
     }
 
 }

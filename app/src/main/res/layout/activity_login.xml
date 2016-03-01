@@ -1,75 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/md_grey_100"
+    android:orientation="vertical">
 
-    <ScrollView
+    <!-- 标题栏 -->
+    <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:scrollbars="none">
+        android:layout_height="0dp"
+        android:background="@color/md_white"
+        android:gravity="center_vertical"
+        app:layout_heightPercent="9%sh">
 
-        <!-- login 布局 -->
-        <LinearLayout
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="登录"
+            android:textColor="@color/md_black"
+            app:layout_textSizePercent="3.3%sh" />
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/md_grey_200"
+        app:layout_heightPercent="3%sh" />
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/md_white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_heightPercent="8%sh">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="姓名"
+            android:textColor="@color/md_black"
+            app:layout_marginLeftPercent="15%sw"
+            app:layout_textSizePercent="2.8%sh" />
+
+        <EditText
+            android:id="@+id/et_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:background="@null"
+            android:hint="请输入姓名"
+            android:maxLength="3"
+            android:textColor="@color/md_black"
+            android:textColorHint="@color/md_grey_400"
+            android:textCursorDrawable="@drawable/color_cursor"
+            app:layout_marginLeftPercent="5%sw"
+            app:layout_textSizePercent="2.8%sh" />
 
-            <!-- logo -->
-            <ImageView
-                android:layout_width="180dp"
-                android:layout_height="135dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="4dp"
-                android:contentDescription="@null"
-                android:src="@drawable/logo" />
+    </com.zhy.android.percent.support.PercentLinearLayout>
 
-            <!-- account -->
-            <EditText
-                android:id="@+id/et_account"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:hint="请输入账号"
-                />
-            <!-- password -->
-            <EditText
-                android:id="@+id/et_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="请输入密码"
-                android:inputType="textPassword"
-/>
-            <!-- remember me -->
-            <CheckBox
-                android:id="@+id/cb_remember_me"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="20dp"
-                android:checked="false"
-                android:text="记住我" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/md_grey_300" />
 
-            <!-- login button -->
-            <Button
-                android:id="@+id/btn_login"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="30dp"
-                android:text="登录"
-                />
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/md_white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_heightPercent="8%sh">
 
-        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="工号"
+            android:textColor="@color/md_black"
+            app:layout_marginLeftPercent="15%sw"
+            app:layout_textSizePercent="2.8%sh" />
 
-    </ScrollView>
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="请输入工号"
+            android:maxLength="12"
+            android:textColor="@color/md_black"
+            android:textColorHint="@color/md_grey_400"
+            android:textCursorDrawable="@drawable/color_cursor"
+            app:layout_marginLeftPercent="5%sw"
+            app:layout_textSizePercent="2.8%sh" />
 
-</FrameLayout>
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <com.ivo.flatbutton.FlatButton
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="登录"
+        android:textSize="18dp"
+        app:fl_mainColor="@color/colorPrimary"
+        app:fl_textAppearance="fl_none"
+        app:fl_touchEffect="fl_ease"
+        app:layout_heightPercent="9%sh"
+        app:layout_marginLeftPercent="5%sw"
+        app:layout_marginRightPercent="5%sw"
+        app:layout_marginTopPercent="5%sh" />
+
+</com.zhy.android.percent.support.PercentLinearLayout>
 
 
 

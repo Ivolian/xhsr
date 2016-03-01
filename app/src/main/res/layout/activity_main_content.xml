@@ -61,7 +61,6 @@
                         android:id="@+id/quality"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="中度污染"
                         android:textColor="@color/md_white"
                         app:layout_marginLeftPercent="2%sw"
                         app:layout_textSizePercent="2.8%sh" />
@@ -72,7 +71,7 @@
                     android:id="@+id/weather"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="朝阳区  多云"
+                    android:text="朝阳区"
                     android:textColor="@color/md_white"
                     app:layout_textSizePercent="2.8%sh" />
 
@@ -83,7 +82,6 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:iiv_color="@color/md_white"
-                app:iiv_icon="wic-day-sunny-overcast"
                 app:layout_heightPercent="8%sh"
                 app:layout_widthPercent="8%sh" />
 
