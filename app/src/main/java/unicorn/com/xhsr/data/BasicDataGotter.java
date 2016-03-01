@@ -18,7 +18,9 @@ import unicorn.com.xhsr.data.greendao.EquipmentCategory;
 import unicorn.com.xhsr.data.greendao.ProcessingMode;
 import unicorn.com.xhsr.data.greendao.ProcessingTimeLimit;
 import unicorn.com.xhsr.data.greendao.SatisfactionOption;
+import unicorn.com.xhsr.other.TinyDB;
 import unicorn.com.xhsr.utils.ConfigUtils;
+import unicorn.com.xhsr.utils.SfUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 import unicorn.com.xhsr.volley.SimpleVolley;
 import unicorn.com.xhsr.volley.StringRequestWithSessionCheck;
@@ -272,17 +274,26 @@ public class BasicDataGotter {
     }
 
     public void getOption() {
-        String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/satisfactionContent/list";
+
+        String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/satisfactionAssess/current";
         StringRequest jsonArrayRequest = new StringRequestWithSessionCheck(url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String responses) {
                         try {
-                            JSONArray response = new JSONArray(responses);
+                            JSONObject response = new JSONObject(responses);
+                            // 1 表示可用 0 表示不可用 2 表示已经填写
+                            int result = response.getInt("result");
+                            TinyDB.getInstance().putInt(SfUtils.SF_RESULT,result);
+                            if (result!=1){
+                                return;
+                            }
+
+                            JSONArray assess = response.getJSONArray("assess");
                             List<SatisfactionOption> optionList = new ArrayList<>();
                             int orderNo = 0;
-                            for (int i = 0; i != response.length(); i++) {
-                                JSONObject serviceObject = response.getJSONObject(i);
+                            for (int i = 0; i != assess.length(); i++) {
+                                JSONObject serviceObject = assess.getJSONObject(i);
                                 String serviceName = (i + 1) + ". " + serviceObject.getString("name");
                                 JSONArray items = serviceObject.getJSONArray("items");
                                 for (int j = 0; j != items.length(); j++) {

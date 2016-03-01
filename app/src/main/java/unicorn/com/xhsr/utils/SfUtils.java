@@ -15,5 +15,7 @@ public class SfUtils {
 
     public final static String SF_PERSON_CODE = "sf_person_code";
 
+    public final static String SF_RESULT = "sf_result";
+
 
 }

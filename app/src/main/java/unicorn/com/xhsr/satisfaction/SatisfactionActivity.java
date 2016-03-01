@@ -14,7 +14,6 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
-import com.f2prateek.dart.InjectExtra;
 import com.flyco.dialog.listener.OnOperItemClickL;
 import com.flyco.dialog.widget.NormalListDialog;
 
@@ -29,26 +28,19 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import unicorn.com.xhsr.utils.DialogUtils;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.greendao.SatisfactionOption;
 import unicorn.com.xhsr.data.greendao.SatisfactionOptionDao;
 import unicorn.com.xhsr.other.ClickHelp;
-import unicorn.com.xhsr.satisfaction.model.SatisfactionResult;
 import unicorn.com.xhsr.utils.ConfigUtils;
+import unicorn.com.xhsr.utils.DialogUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 import unicorn.com.xhsr.volley.SimpleVolley;
 
 
 public class SatisfactionActivity extends BaseActivity {
-
-
-    // ============================ extra ============================
-
-    @InjectExtra("satisfactionResult")
-    SatisfactionResult satisfactionResult;
 
 
     // ============================ views ============================
@@ -155,7 +147,7 @@ public class SatisfactionActivity extends BaseActivity {
             viewPager.setCurrentItem(option.getOrderNo(), true);
             ToastUtils.show("尚有条目未评分");
         } else {
-            satisfactionResult.setAdvice(advice);
+//            satisfactionResult.setAdvice(advice);
             commitSatisfactionResult();
         }
     }
@@ -190,14 +182,14 @@ public class SatisfactionActivity extends BaseActivity {
                         .list();
                 try {
                     JSONObject result = new JSONObject();
-                    result.put("phone", satisfactionResult.getPhone());
-                    result.put("username", satisfactionResult.getUsername());
-                    result.put("assessDate", satisfactionResult.getAssessDate());
-                    result.put("advice", satisfactionResult.getAdvice());
-
-                    JSONObject department = new JSONObject();
-                    department.put("objectId", satisfactionResult.getDepartmentId());
-                    result.put("department", department);
+//                    result.put("phone", satisfactionResult.getPhone());
+//                    result.put("username", satisfactionResult.getUsername());
+//                    result.put("assessDate", satisfactionResult.getAssessDate());
+//                    result.put("advice", satisfactionResult.getAdvice());
+//
+//                    JSONObject department = new JSONObject();
+//                    department.put("objectId", satisfactionResult.getDepartmentId());
+//                    result.put("department", department);
 
                     // 以下这段代码有点伤，不用在意
                     JSONArray jsonArray = new JSONArray();
