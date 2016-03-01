@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -12,7 +13,6 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
-import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.github.florent37.viewanimator.ViewAnimator;
 
 import org.json.JSONArray;
@@ -28,6 +28,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.base.BaseActivity;
+import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.utils.ConfigUtils;
 import unicorn.com.xhsr.utils.DialogUtils;
 import unicorn.com.xhsr.utils.ImageUtils;
@@ -47,23 +48,42 @@ public class QuickOrderActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qucik_order);
         initViews();
-
-        findViewById(R.id.message).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_light_blue_300));
-        findViewById(R.id.takePhoto).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_orange_300));
-        findViewById(R.id.video).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_red_300));
-        findViewById(R.id.history).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_brown_300));
-    }
-
-    @OnClick(R.id.takePhoto)
-    public void photoOnClick() {
-        takePhoto();
     }
 
     private void initViews() {
+        ViewAnimator
+                .animate(arrow)
+                .rotation(90)
+                .duration(0)
+                .start();
+        findViewById(R.id.photo).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_orange_300));
+        findViewById(R.id.video).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_red_300));
+//        findViewById(R.id.message).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_light_blue_300));
+//        findViewById(R.id.history).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_brown_300));
+
     }
+
+
+    // =============================== 下单说明 ===============================
+
+    @Bind(R.id.etDescription)
+    EditText etDescription;
+
+    @Bind(R.id.arrow)
+    ImageView arrow;
+
+
+    // =============================== photo ===============================
 
     String photoPath;
 
+    @OnClick(R.id.photo)
+    public void photoOnClick() {
+        if (ClickHelp.isFastClick()){
+            return;
+        }
+        takePhoto();
+    }
 
     private void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -73,16 +93,28 @@ public class QuickOrderActivity extends BaseActivity {
         startActivityForResult(intent, 2333);
     }
 
+    String photoTempFileName;
+
+    @Subscriber(tag = "quickOrderActivity_onPhotoUploadFinish")
+    private void onUploadFinish(String tempFileName) {
+        photoTempFileName = tempFileName;
+        ToastUtils.show("照片上传成功!");
+    }
+
+
+    // =============================== onActivityResult ===============================
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 2333 && resultCode == RESULT_OK) {
-            uploadPhoto();
+            String compressPhotoPath = ImageUtils.compressPhoto(photoPath);
+            UploadUtils.upload(new File(compressPhotoPath), "quickOrderActivity_onPhotoUploadFinish", DialogUtils.showMask2(this, "上传照片中", "请稍后"));
         }
-        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == 2334 && resultCode == RESULT_OK) {
             try {
                 URL videoUrl = new URL(data.getDataString());
-                UploadUtils.upload(new File(videoUrl.toURI()), "quickOrderActivity_onVideoUploadFinish", DialogUtils.showMask2(this, "上传摄像中", "请稍后"));
+                UploadUtils.upload(new File(videoUrl.toURI()), "quickOrderActivity_onVideoUploadFinish", DialogUtils.showMask2(this, "上传视频中", "请稍后"));
             } catch (Exception e) {
                 //
             }
@@ -90,69 +122,32 @@ public class QuickOrderActivity extends BaseActivity {
     }
 
 
-    private void uploadPhoto() {
-        String compressPhotoPath = ImageUtils.compressPhoto(photoPath);
-        UploadUtils.upload(new File(compressPhotoPath), "quickOrderActivity_onPhotoUploadFinish", DialogUtils.showMask2(this, "上传照片中", "请稍后"));
-    }
-
-    String photoTempFileName;
-
-    @Subscriber(tag = "quickOrderActivity_onPhotoUploadFinish")
-    private void onUploadFinish(String tempFileName) {
-        photoTempFileName = tempFileName;
-        ToastUtils.show(photoTempFileName);
-    }
-
-
     //
 
     @OnClick(R.id.video)
     public void videoOnClick() {
-        autoStartCamera();
+        if (ClickHelp.isFastClick()){
+            return;
+        }
+        startCamera();
     }
 
-
-    String videoTempFileName;
-
-    @Subscriber(tag = "quickOrderActivity_onVideoUploadFinish")
-    private void onVideoUploadFinish(String tempFileName) {
-        videoTempFileName = tempFileName;
-        ToastUtils.show(videoTempFileName);
-    }
-
-
-    final int CAMERA_REQUEST_CODE = 2334;
-
-    private void autoStartCamera() {
+    private void startCamera() {
         new MaterialCamera(this)
                 .saveDir(ConfigUtils.getBaseDirPath())
                 .showPortraitWarning(false)
                 .allowRetry(true)
                 .defaultToFrontFacing(false)
                 .lengthLimitSeconds(20)
-                .start(CAMERA_REQUEST_CODE);
+                .start(2334);
     }
 
+    String videoTempFileName;
 
-    // =============================== 补充说明 ===============================
-
-    @Bind(R.id.etDescription)
-    EditText etDescription;
-
-    @Bind(R.id.arrow)
-    ImageView arrow;
-
-    @Bind(R.id.erlDescription)
-    ExpandableRelativeLayout erlDescription;
-
-    @OnClick(R.id.description)
-    public void descriptionOnClick() {
-        ViewAnimator
-                .animate(arrow)
-                .rotation(erlDescription.isExpanded() ? 0 : 90)
-                .duration(300)
-                .start();
-        erlDescription.toggle();
+    @Subscriber(tag = "quickOrderActivity_onVideoUploadFinish")
+    private void onVideoUploadFinish(String tempFileName) {
+        videoTempFileName = tempFileName;
+        ToastUtils.show("视频上传成功");
     }
 
 
@@ -165,6 +160,16 @@ public class QuickOrderActivity extends BaseActivity {
 
     @OnClick(R.id.confirm)
     public void confirm() {
+        if (ClickHelp.isFastClick()){
+            return;
+        }
+
+        // checkInput
+        if (TextUtils.isEmpty(etDescription.getText())){
+            ToastUtils.show("下单说明不能为空");
+            return;
+        }
+
         String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/workOrder/quick";
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
@@ -201,7 +206,7 @@ public class QuickOrderActivity extends BaseActivity {
                     attachmentVideo.put("filename", videoTempFileName);
                     attachmentList.put(attachmentPhoto);
                     attachmentList.put(attachmentVideo);
-                    result.put("attachmentList",attachmentList);
+                    result.put("attachmentList", attachmentList);
 
                     String jsonString = result.toString();
                     return jsonString.getBytes("UTF-8");
@@ -213,7 +218,6 @@ public class QuickOrderActivity extends BaseActivity {
         };
         SimpleVolley.addRequest(stringRequest);
     }
-
 
 
 }

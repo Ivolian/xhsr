@@ -71,7 +71,7 @@ public class DetailOrderActivity extends BottomSheetActivity {
         initViews();
 
         findViewById(R.id.message).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_light_blue_300));
-        findViewById(R.id.takePhoto).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_orange_300));
+        findViewById(R.id.photo).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_orange_300));
         findViewById(R.id.video).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_red_300));
         findViewById(R.id.history).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_brown_300));
     }

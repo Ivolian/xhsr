@@ -14,6 +14,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import unicorn.com.xhsr.detailorder.DetailOrderActivity;
+import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.quickorder.QuickOrderActivity;
 import unicorn.com.xhsr.satisfaction.SatisfactionActivity;
 
@@ -55,6 +56,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
         @OnClick(R.id.item)
         public void itemOnClick() {
+            if (ClickHelp.isFastClick()) {
+                return;
+            }
             Class activityClass = null;
             switch (getAdapterPosition()) {
                 case 0:

@@ -106,7 +106,7 @@ public class MainActivity extends BaseActivity {
     private void initRecycleViewHeader() {
         RecyclerViewHeader recyclerViewHeader = RecyclerViewHeader.fromXml(this, R.layout.recycle_view_head);
         recyclerViewHeader.findViewById(R.id.message).setBackground(TextDrawableUtils.getCircleDrawable(this, R.color.md_blue_400));
-        recyclerViewHeader.findViewById(R.id.takePhoto).setBackground(TextDrawableUtils.getCircleDrawable(this, R.color.md_teal_400));
+        recyclerViewHeader.findViewById(R.id.photo).setBackground(TextDrawableUtils.getCircleDrawable(this, R.color.md_teal_400));
         recyclerViewHeader.findViewById(R.id.video).setBackground(TextDrawableUtils.getCircleDrawable(this, R.color.md_red_400));
         recyclerViewHeader.findViewById(R.id.quick_order).setOnClickListener(new View.OnClickListener() {
             @Override
