@@ -73,11 +73,11 @@ public class SplashActivity extends BaseActivity {
                     JSONObject currentUser = new JSONObject(currentUserString);
                     role = currentUser.getString("role");
                     ConfigUtils.saveJSessionId(response);
+                    // splash 的时候什么都保存，除了 sessionId
                 }
                 catch (Exception e){
                     //
                 }
-
                 return super.parseNetworkResponse(response);
             }
         };

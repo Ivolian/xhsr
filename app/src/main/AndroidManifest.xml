@@ -28,86 +28,53 @@
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
 
-        <meta-data
-            android:name="IFLYTEK_APPKEY"
-            android:value="'5697584f'" />
-
         <activity android:name=".SplashActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
-
         <activity android:name=".LoginActivity"
-            android:screenOrientation="portrait">
-
-
-        </activity>
-
-
-
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"/>
 
-
-        </activity>
         <activity
             android:name=".quickorder.QuickOrderActivity"
             android:screenOrientation="portrait" />
+
 
         <activity
             android:name=".detailorder.DetailOrderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".groupselect.GroupSelectActivity"
-
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".groupselect.equipment.EquipmentSelectActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".groupselect.GroupSelectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".detailorder.ProcessModeActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".satisfaction.SatisfactionActivity"
+            android:screenOrientation="portrait"/>
+
+
+        <activity android:name="im.dino.dbinspector.activities.DbInspectorActivity" />
 
         <activity
             android:name="com.yo.libs.ui.CaptureActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".detailorder.RepairPersonActivity"
-            android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".detailorder.ProcessModeActivity"
-            android:screenOrientation="portrait"
-
-
-            >
-
-        </activity>
-
-        <activity
-            android:name=".myorder.MyOrderActivity"
-            android:screenOrientation="portrait" />
-
-        <activity android:name=".satisfaction.SatisfactionActivity">
-
-
-        </activity>
-
-        <activity
-            android:name=".satisfaction.BasicInfoActivity"
-            android:screenOrientation="portrait" />
-
-        <activity android:name=".orderdetail.OrderDetailActivity" />
-
-        <activity android:name="im.dino.dbinspector.activities.DbInspectorActivity" />
 
         <!-- Activities For Camera -->
         <activity
