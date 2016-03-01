@@ -8,9 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.flyco.animation.BounceEnter.BounceTopEnter;
-import com.flyco.animation.SlideExit.SlideBottomExit;
-import com.flyco.dialog.widget.NormalDialog;
 import com.zhy.android.percent.support.PercentFrameLayout;
 
 import org.simple.eventbus.EventBus;
@@ -21,7 +18,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnLongClick;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.select.SelectObject;
 
@@ -78,26 +74,26 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
             selectItem(getAdapterPosition());
         }
 
-        @OnLongClick(R.id.value)
-
-        public boolean rowOnLongClick(){
-
-            Context context = tvValue.getContext();
-            int colorPrimary = ContextCompat.getColor(context,R.color.colorPrimary);
-            final NormalDialog dialog = new NormalDialog(context);
-            dialog.isTitleShow(true)
-                    .title("提示")
-                    .titleLineColor(colorPrimary)
-                    .titleTextColor(colorPrimary)
-                    .content("确定将 \"" + tvValue.getText() + "\" 设置为常用?")
-                    .contentTextSize(18)
-                    .btnText("确认", "取消")//
-                    .showAnim(new BounceTopEnter())//
-                    .dismissAnim(new SlideBottomExit())//
-                    .show();
-
-        return true;
-        }
+//        @OnLongClick(R.id.value)
+//
+//        public boolean rowOnLongClick(){
+//
+//            Context context = tvValue.getContext();
+//            int colorPrimary = ContextCompat.getColor(context,R.color.colorPrimary);
+//            final NormalDialog dialog = new NormalDialog(context);
+//            dialog.isTitleShow(true)
+//                    .title("提示")
+//                    .titleLineColor(colorPrimary)
+//                    .titleTextColor(colorPrimary)
+//                    .content("确定将 \"" + tvValue.getText() + "\" 设置为常用?")
+//                    .contentTextSize(18)
+//                    .btnText("确认", "取消")//
+//                    .showAnim(new BounceTopEnter())//
+//                    .dismissAnim(new SlideBottomExit())//
+//                    .show();
+//
+//        return true;
+//        }
     }
 
 

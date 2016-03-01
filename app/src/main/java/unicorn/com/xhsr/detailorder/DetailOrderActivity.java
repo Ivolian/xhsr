@@ -60,16 +60,15 @@ public class DetailOrderActivity extends BottomSheetActivity {
         setContentView(R.layout.activity_detail_order);
         initViews();
 
-        findViewById(R.id.message).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_light_blue_300));
+//        findViewById(R.id.message).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_light_blue_300));
         findViewById(R.id.photo).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_orange_300));
         findViewById(R.id.video).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_red_300));
-        findViewById(R.id.history).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_brown_300));
+//        findViewById(R.id.history).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_brown_300));
     }
 
     private void initViews() {
         initIvEquipment();
         initProcessMode();
-//        mIat = SpeechRecognizer.createRecognizer(this, mInitListener);
     }
 
 
@@ -272,14 +271,6 @@ public class DetailOrderActivity extends BottomSheetActivity {
                 .duration(300)
                 .start();
         erlDescription.toggle();
-
-//        setParam();
-//        ret = mIat.startListening(mRecognizerListener);
-//        if (ret != ErrorCode.SUCCESS) {
-//            ToastUtils.show("听写失败,错误码：" + ret);
-//        } else {
-//            ToastUtils.show("请开始说话");
-//        }
     }
 
 
