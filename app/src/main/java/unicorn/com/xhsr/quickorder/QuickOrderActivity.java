@@ -63,6 +63,7 @@ public class QuickOrderActivity extends BaseActivity {
 
     }
 
+    JSONArray attachmentList = new JSONArray();
 
     // =============================== 下单说明 ===============================
 
@@ -79,7 +80,7 @@ public class QuickOrderActivity extends BaseActivity {
 
     @OnClick(R.id.photo)
     public void photoOnClick() {
-        if (ClickHelp.isFastClick()){
+        if (ClickHelp.isFastClick()) {
             return;
         }
         takePhoto();
@@ -93,11 +94,13 @@ public class QuickOrderActivity extends BaseActivity {
         startActivityForResult(intent, 2333);
     }
 
-    String photoTempFileName;
 
     @Subscriber(tag = "quickOrderActivity_onPhotoUploadFinish")
-    private void onUploadFinish(String tempFileName) {
-        photoTempFileName = tempFileName;
+    private void onUploadFinish(String tempFileName) throws Exception {
+        JSONObject attachmentPhoto = new JSONObject();
+        attachmentPhoto.put("type", "Picture");
+        attachmentPhoto.put("filename", tempFileName);
+        attachmentList.put(attachmentPhoto);
         ToastUtils.show("照片上传成功!");
     }
 
@@ -126,7 +129,7 @@ public class QuickOrderActivity extends BaseActivity {
 
     @OnClick(R.id.video)
     public void videoOnClick() {
-        if (ClickHelp.isFastClick()){
+        if (ClickHelp.isFastClick()) {
             return;
         }
         startCamera();
@@ -142,11 +145,13 @@ public class QuickOrderActivity extends BaseActivity {
                 .start(2334);
     }
 
-    String videoTempFileName;
 
     @Subscriber(tag = "quickOrderActivity_onVideoUploadFinish")
-    private void onVideoUploadFinish(String tempFileName) {
-        videoTempFileName = tempFileName;
+    private void onVideoUploadFinish(String tempFileName) throws Exception {
+        JSONObject attachmentVideo = new JSONObject();
+        attachmentVideo.put("type", "Video");
+        attachmentVideo.put("filename", tempFileName);
+        attachmentList.put(attachmentVideo);
         ToastUtils.show("视频上传成功");
     }
 
@@ -160,16 +165,31 @@ public class QuickOrderActivity extends BaseActivity {
 
     @OnClick(R.id.confirm)
     public void confirm() {
-        if (ClickHelp.isFastClick()){
+        if (ClickHelp.isFastClick()) {
             return;
         }
 
         // checkInput
-        if (TextUtils.isEmpty(etDescription.getText())){
+        if (TextUtils.isEmpty(etDescription.getText())) {
             ToastUtils.show("下单说明不能为空");
             return;
         }
 
+        DialogUtils.showConfirm(this, "确认下单？", new DialogUtils.Action() {
+            @Override
+            public void doAction() {
+                commit();
+            }
+        }, new DialogUtils.Action() {
+            @Override
+            public void doAction() {
+
+            }
+        });
+    }
+
+
+    private void commit() {
         String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/workOrder/quick";
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
@@ -197,15 +217,6 @@ public class QuickOrderActivity extends BaseActivity {
                 try {
                     JSONObject result = new JSONObject();
                     result.put("description", etDescription.getText().toString());
-                    JSONArray attachmentList = new JSONArray();
-                    JSONObject attachmentPhoto = new JSONObject();
-                    attachmentPhoto.put("type", "Picture");
-                    attachmentPhoto.put("filename", photoTempFileName);
-                    JSONObject attachmentVideo = new JSONObject();
-                    attachmentVideo.put("type", "Video");
-                    attachmentVideo.put("filename", videoTempFileName);
-                    attachmentList.put(attachmentPhoto);
-                    attachmentList.put(attachmentVideo);
                     result.put("attachmentList", attachmentList);
 
                     String jsonString = result.toString();
@@ -218,6 +229,5 @@ public class QuickOrderActivity extends BaseActivity {
         };
         SimpleVolley.addRequest(stringRequest);
     }
-
 
 }
