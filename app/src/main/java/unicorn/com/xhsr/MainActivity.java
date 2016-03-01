@@ -9,13 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
 import com.devspark.robototextview.widget.RobotoTextView;
 import com.mikepenz.iconics.view.IconicsImageView;
@@ -24,28 +19,21 @@ import com.yo.libs.app.DimensCodeTools;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 import su.levenetc.android.badgeview.BadgeView;
 import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.BasicDataGotter;
-import unicorn.com.xhsr.myorder.MyOrderActivity;
+import unicorn.com.xhsr.detailorder.DetailOrderActivity;
 import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.other.DividerGridItemDecoration;
 import unicorn.com.xhsr.other.TinyDB;
-import unicorn.com.xhsr.detailorder.DetailOrderActivity;
 import unicorn.com.xhsr.satisfaction.BasicInfoActivity;
-import unicorn.com.xhsr.utils.ConfigUtils;
 import unicorn.com.xhsr.utils.TextDrawableUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 import unicorn.com.xhsr.volley.SimpleVolley;
-import unicorn.com.xhsr.volley.VolleyErrorHelper;
 
 public class MainActivity extends BaseActivity {
 
@@ -56,15 +44,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_content);
-        init();
-    }
-
-    private void init() {
         initViews();
-        login();
-//        getSessionId();
-
-
     }
 
     private void initViews() {
@@ -73,91 +53,6 @@ public class MainActivity extends BaseActivity {
         initRecyclerView();
 
     }
-
-    String role;
-
-    String shiroLoginFailure;
-
-
-    private void login() {
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.POST,
-                ConfigUtils.getBaseUrl() + "/login",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if (shiroLoginFailure != null) {
-                            ToastUtils.show("账号或密码错误!");
-                            return;
-                        }
-                        if (role != null) {
-                            ToastUtils.show(role);
-                        }
-                        EventBus.getDefault().post(new Object(), "getBasicData");
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        ToastUtils.show(VolleyErrorHelper.getErrorMessage(error));
-                    }
-                }
-        ) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> map = new HashMap<>();
-                map.put("username", "fff");
-                map.put("password", "000000");
-                return map;
-            }
-
-            // 从返回的头部中获取一些信息
-            @Override
-            protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                shiroLoginFailure = response.headers.get("shiroLoginFailure");
-                // shiroLoginFailure != null 表示登录失败
-                if (shiroLoginFailure != null) {
-                    return super.parseNetworkResponse(response);
-                }
-                // 如果登录成功，获取角色，保存 JSessionId
-                role = response.headers.get("role");
-                ConfigUtils.saveJSessionId(response);
-                return super.parseNetworkResponse(response);
-            }
-        };
-        SimpleVolley.getRequestQueue().add(stringRequest);
-    }
-
-//
-//    private void getSessionId() {
-//        StringRequest stringRequest = new StringRequest(
-//                Request.Method.POST,
-//                ConfigUtils.getBaseUrl() + "/login",
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                    }
-//                },
-//                SimpleVolley.getDefaultErrorListener()
-//        ) {
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String, String> map = new HashMap<>();
-//                map.put("username", "admin");
-//                map.put("password", "admin");
-//                return map;
-//            }
-//
-//            @Override
-//            protected Response<String> parseNetworkResponse(NetworkResponse response) {
-//                String sessionId = response.headers.get("jsessionid");
-//                ConfigUtils.setSessionId(sessionId);
-//                EventBus.getDefault().post(new Object(), "getBasicData");
-//                return super.parseNetworkResponse(response);
-//            }
-//        };
-//        SimpleVolley.getRequestQueue().add(stringRequest);
-//    }
 
     @Subscriber(tag = "getBasicData")
     public void getBasicData(Object o) {
@@ -254,30 +149,31 @@ public class MainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         String res = DimensCodeTools.scanForResult(requestCode, resultCode, data);
-        if (res != null)
-            etEquipmentCode.setText(res);
+        if (res != null) {
+            ToastUtils.show("设备码: " + res);
+        }
     }
 
-    @OnClick(R.id.toRepair)
-    public void toRepairOnClick() {
-        Intent intent = new Intent(this, MyOrderActivity.class);
-        intent.putExtra("currentItem", 0);
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.repairing)
-    public void repairingOnClick() {
-        Intent intent = new Intent(this, MyOrderActivity.class);
-        intent.putExtra("currentItem", 1);
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.repaired)
-    public void repairedOnClick() {
-        Intent intent = new Intent(this, MyOrderActivity.class);
-        intent.putExtra("currentItem", 2);
-        startActivity(intent);
-    }
+//    @OnClick(R.id.toRepair)
+//    public void toRepairOnClick() {
+//        Intent intent = new Intent(this, MyOrderActivity.class);
+//        intent.putExtra("currentItem", 0);
+//        startActivity(intent);
+//    }
+//
+//    @OnClick(R.id.repairing)
+//    public void repairingOnClick() {
+//        Intent intent = new Intent(this, MyOrderActivity.class);
+//        intent.putExtra("currentItem", 1);
+//        startActivity(intent);
+//    }
+//
+//    @OnClick(R.id.repaired)
+//    public void repairedOnClick() {
+//        Intent intent = new Intent(this, MyOrderActivity.class);
+//        intent.putExtra("currentItem", 2);
+//        startActivity(intent);
+//    }
 
     // weather
     private final String WEATHER_URL = "https://api.heweather.com/x3/weather";

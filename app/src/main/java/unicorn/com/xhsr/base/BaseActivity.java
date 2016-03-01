@@ -38,4 +38,9 @@ public class BaseActivity extends AppCompatActivity {
         startActivityForResult(intent,2333);
     }
 
+    public void startActivityAndFinish(Class activityClass) {
+        startActivity(activityClass);
+        finish();
+    }
+
 }
