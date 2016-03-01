@@ -146,7 +146,19 @@ public class LoginActivity extends BaseActivity {
                     JSONObject currentUser = new JSONObject(currentUserString);
                     role = currentUser.getString("role");
                     ConfigUtils.saveJSessionId(response);
+
+
+                    String personName = currentUser.getString("username");
+                    String personCode = currentUser.getString("account");
+                    TinyDB tinyDB = TinyDB.getInstance();
+                    tinyDB.putString(SfUtils.SF_ROLE, role);
+                    tinyDB.putString(SfUtils.SF_PERSON_NAME, personName);
+                    tinyDB.putString(SfUtils.SF_PERSON_CODE, personCode);
+
+
+
                 } catch (Exception e) {
+//                    ToastUtils.show(e.getMessage());
                     //
                 }
 

@@ -1,12 +1,15 @@
 package unicorn.com.xhsr.detailorder;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialcamera.MaterialCamera;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -20,6 +23,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.simple.eventbus.Subscriber;
 
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,17 +39,24 @@ import unicorn.com.xhsr.base.BottomSheetActivity;
 import unicorn.com.xhsr.data.DataHelp;
 import unicorn.com.xhsr.data.greendao.Building;
 import unicorn.com.xhsr.data.greendao.BuildingDao;
+import unicorn.com.xhsr.data.greendao.Department;
+import unicorn.com.xhsr.data.greendao.DepartmentDao;
 import unicorn.com.xhsr.data.greendao.Equipment;
 import unicorn.com.xhsr.data.greendao.EquipmentDao;
 import unicorn.com.xhsr.groupselect.GroupSelectHelper;
 import unicorn.com.xhsr.groupselect.equipment.EquipmentSelectActivity;
 import unicorn.com.xhsr.other.ClickHelp;
+import unicorn.com.xhsr.other.TinyDB;
 import unicorn.com.xhsr.select.SelectAdapter;
 import unicorn.com.xhsr.select.SelectObject;
 import unicorn.com.xhsr.utils.ConfigUtils;
+import unicorn.com.xhsr.utils.DialogUtils;
+import unicorn.com.xhsr.utils.ImageUtils;
 import unicorn.com.xhsr.utils.ResultCodeUtils;
+import unicorn.com.xhsr.utils.SfUtils;
 import unicorn.com.xhsr.utils.TextDrawableUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
+import unicorn.com.xhsr.utils.UploadUtils;
 import unicorn.com.xhsr.volley.JsonArrayRequestWithSessionCheck;
 import unicorn.com.xhsr.volley.SimpleVolley;
 
@@ -106,7 +118,7 @@ public class DetailOrderActivity extends BottomSheetActivity {
 
     String faultTypeId;
 
-    List<SelectObject> faultTypeDataList;
+    List<SelectObject> faultTypeDataList = new ArrayList<>();
 
     // TODO
     SelectAdapter.DataProvider dpFaultType = new SelectAdapter.DataProvider() {
@@ -195,22 +207,18 @@ public class DetailOrderActivity extends BottomSheetActivity {
 
     // =============================== 报修人员 ===============================
 
-    String personName;
-
-    String personCode;
+    @Bind(R.id.tvDepartment)
+    TextView tvDepartment;
 
     String departmentId;
 
-    @Bind(R.id.tvPersonName)
-    TextView tvPersonName;
 
-    @OnClick(R.id.repairPerson)
-    public void repairPersonOnClick() {
-        Intent intent = new Intent(this, RepairPersonActivity.class);
-        intent.putExtra("personName", personName);
-        intent.putExtra("personCode", personCode);
-        intent.putExtra("departmentId", departmentId);
-        startActivityForResult(intent, 2333);
+    @OnClick(R.id.department)
+    public void departmentOnClick() {
+        if (ClickHelp.isFastClick()) {
+            return;
+        }
+        GroupSelectHelper.startGroupSelectActivity(this, DataHelp.getDepartmentDataProvider(), "报修部门", departmentId, ResultCodeUtils.DEPARTMENT);
     }
 
 
@@ -293,11 +301,11 @@ public class DetailOrderActivity extends BottomSheetActivity {
             tvBuilding.setText(building.getFullName());
         }
 
-        if (resultCode == ResultCodeUtils.REPAIR_PERSON) {
-            personName = data.getStringExtra("personName");
-            personCode = data.getStringExtra("personCode");
-            departmentId = data.getStringExtra("departmentId");
-            tvPersonName.setText(personName);
+
+        if (resultCode == ResultCodeUtils.DEPARTMENT) {
+            departmentId = data.getStringExtra("subId");
+            Department department = SimpleApplication.getDaoSession().getDepartmentDao().queryBuilder().where(DepartmentDao.Properties.ObjectId.eq(departmentId)).unique();
+            tvDepartment.setText(department.getFullName());
         }
 
         if (resultCode == ResultCodeUtils.PROCESS_MODE) {
@@ -306,10 +314,83 @@ public class DetailOrderActivity extends BottomSheetActivity {
             emergencyDegreeId = data.getStringExtra("emergencyDegreeId");
             notifyProcessModeChange();
         }
+
+        if (requestCode == 2333 && resultCode == RESULT_OK) {
+            String compressPhotoPath = ImageUtils.compressPhoto(photoPath);
+            UploadUtils.upload(new File(compressPhotoPath), "detailOrderActivity_onPhotoUploadFinish", DialogUtils.showMask2(this, "上传照片中", "请稍后"));
+        }
+        if (requestCode == 2334 && resultCode == RESULT_OK) {
+            try {
+                URL videoUrl = new URL(data.getDataString());
+                UploadUtils.upload(new File(videoUrl.toURI()), "detailOrderActivity_onVideoUploadFinish", DialogUtils.showMask2(this, "上传视频中", "请稍后"));
+            } catch (Exception e) {
+                //
+            }
+        }
+    }
+
+    JSONArray attachmentList = new JSONArray();
+
+
+    // =============================== photo ===============================
+
+    String photoPath;
+
+    @OnClick(R.id.photo)
+    public void photoOnClick() {
+        if (ClickHelp.isFastClick()) {
+            return;
+        }
+        takePhoto();
+    }
+
+    private void takePhoto() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Uri randomUri = ImageUtils.getRandomPhotoUri();
+        photoPath = randomUri.getPath();
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, randomUri);
+        startActivityForResult(intent, 2333);
     }
 
 
+    @Subscriber(tag = "detailOrderActivity_onPhotoUploadFinish")
+    private void onUploadFinish(String tempFileName) throws Exception {
+        JSONObject attachmentPhoto = new JSONObject();
+        attachmentPhoto.put("type", "Picture");
+        attachmentPhoto.put("filename", tempFileName);
+        attachmentList.put(attachmentPhoto);
+        ToastUtils.show("照片上传成功!");
+    }
 
+    //
+
+    @OnClick(R.id.video)
+    public void videoOnClick() {
+        if (ClickHelp.isFastClick()) {
+            return;
+        }
+        startCamera();
+    }
+
+    private void startCamera() {
+        new MaterialCamera(this)
+                .saveDir(ConfigUtils.getBaseDirPath())
+                .showPortraitWarning(false)
+                .allowRetry(true)
+                .defaultToFrontFacing(false)
+                .lengthLimitSeconds(20)
+                .start(2334);
+    }
+
+
+    @Subscriber(tag = "detailOrderActivity_onVideoUploadFinish")
+    private void onVideoUploadFinish(String tempFileName) throws Exception {
+        JSONObject attachmentVideo = new JSONObject();
+        attachmentVideo.put("type", "Video");
+        attachmentVideo.put("filename", tempFileName);
+        attachmentList.put(attachmentVideo);
+        ToastUtils.show("视频上传成功");
+    }
 
 
     // =============================== 基础方法 ===============================
@@ -321,12 +402,28 @@ public class DetailOrderActivity extends BottomSheetActivity {
 
     @OnClick(R.id.confirm)
     public void confirm() {
-        if (ClickHelp.isFastClick()){
+        if (ClickHelp.isFastClick()) {
             return;
         }
         if (!checkInput()) {
             return;
         }
+
+        DialogUtils.showConfirm(this, "确认下单？", new DialogUtils.Action() {
+            @Override
+            public void doAction() {
+                commit();
+            }
+        }, new DialogUtils.Action() {
+            @Override
+            public void doAction() {
+
+            }
+        });
+
+    }
+
+    private void  commit(){
         String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/workOrder/issue";
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
@@ -353,7 +450,6 @@ public class DetailOrderActivity extends BottomSheetActivity {
             public byte[] getBody() throws AuthFailureError {
                 try {
                     JSONObject result = new JSONObject();
-                    // todo
                     result.put("address", "");
                     result.put("callNumber", "");
                     addJsonObjectToResult(result, "building", buildingId);
@@ -365,8 +461,15 @@ public class DetailOrderActivity extends BottomSheetActivity {
                     addJsonObjectToResult(result, "processingTimeLimit", processTimeLimitId);
                     addJsonObjectToResult(result, "requestDepartment", departmentId);
                     result.put("requestTime", new Date().getTime());
-                    result.put("requestUser", personName);
-                    result.put("requestUserNo", personCode);
+                    TinyDB tinyDB = TinyDB.getInstance();
+                    result.put("requestUser", tinyDB.getString(SfUtils.SF_PERSON_NAME));
+                    result.put("requestUserNo", tinyDB.getString(SfUtils.SF_PERSON_CODE));
+
+
+                    JSONObject source = new JSONObject();
+                    source.put("tag", "App");
+                    result.put("source", source);
+                    result.put("attachmentList", attachmentList);
 
                     String jsonString = result.toString();
                     return jsonString.getBytes("UTF-8");
@@ -393,7 +496,7 @@ public class DetailOrderActivity extends BottomSheetActivity {
             return false;
         }
         if (departmentId == null) {
-            ToastUtils.show("请填写报修人员");
+            ToastUtils.show("请填选择报修部门");
             return false;
         }
         return true;

@@ -1,0 +1,32 @@
+{
+  "address": "",
+  "callNumber": "",
+  "building": {
+    "objectId": "2bdf074a-6ed3-436c-bbea-efbf852aab95"
+  },
+  "description": "",
+  "emergencyDegree": {
+    "objectId": "251d61ef-e754-4c35-b711-652839d5baf3"
+  },
+  "equipment": {
+    "objectId": "ad333a3b-e2f7-4d15-be0b-3aa075711db0"
+  },
+  "faultType": {
+    "objectId": "35e45435-67bf-4206-a922-d92e11cec24a"
+  },
+  "processingMode": {
+    "objectId": "9f9995e3-b536-4de5-adf4-90ff3c5ee1ed"
+  },
+  "processingTimeLimit": {
+    "objectId": "59c314ed-6115-4ea8-a087-be4b68e7f48d"
+  },
+  "requestDepartment": {
+    "objectId": "ea83754c-f261-43b7-ad8a-fedee62112a1"
+  },
+  "requestTime": 1456822873367,
+  "requestUser": "???",
+  "requestUserNo": "fff",
+  "source": {
+    "tag": "App"
+  }
+}

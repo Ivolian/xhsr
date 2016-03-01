@@ -195,9 +195,9 @@
                     android:layout_height="0.5dp"
                     android:background="@color/md_grey_200" />
 
-                <!-- 报修人员 8% -->
+                <!-- 报修部门 8% -->
                 <com.zhy.android.percent.support.PercentLinearLayout
-                    android:id="@+id/repairPerson"
+                    android:id="@+id/department"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="?attr/selectableItemBackground"
@@ -212,12 +212,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="报修人员"
+                        android:text="报修部门"
                         android:textColor="@color/md_grey_500"
                         app:layout_textSizePercent="3%sh" />
 
                     <TextView
-                        android:id="@+id/tvPersonName"
+                        android:id="@+id/tvDepartment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/md_black"
