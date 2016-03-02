@@ -14,7 +14,6 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.github.florent37.viewanimator.ViewAnimator;
@@ -179,12 +178,7 @@ public class DetailOrderActivity extends BottomSheetActivity {
                         }
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        ToastUtils.show("该设备故障类型尚未录入");
-                    }
-                })
+                SimpleVolley.getDefaultErrorListener())
         );
     }
 
@@ -423,7 +417,7 @@ public class DetailOrderActivity extends BottomSheetActivity {
 
     }
 
-    private void  commit(){
+    private void commit() {
         String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/workOrder/issue";
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
