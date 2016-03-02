@@ -75,7 +75,7 @@ public class UpdateUtils {
     }
 
     private static void downloadApk(String apkUrl) {
-        final MaterialDialog mask = DialogUtils.showMask2(currentActivity, "下载 APK 中", "请稍后");
+        final MaterialDialog mask = DialogUtils.showMask2(currentActivity, "下载安装包中", "请稍后");
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(apkUrl, new FileAsyncHttpResponseHandler(currentActivity) {
             @Override
