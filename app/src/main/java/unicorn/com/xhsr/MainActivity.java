@@ -5,13 +5,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
 import com.devspark.robototextview.widget.RobotoTextView;
 import com.mikepenz.iconics.view.IconicsImageView;
 import com.yo.libs.app.DimensCodeTools;
@@ -27,13 +25,10 @@ import butterknife.OnClick;
 import su.levenetc.android.badgeview.BadgeView;
 import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.BasicDataGotter;
-import unicorn.com.xhsr.detailorder.DetailOrderActivity;
-import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.other.DividerGridItemDecoration;
 import unicorn.com.xhsr.other.TinyDB;
-import unicorn.com.xhsr.satisfaction.BasicInfoActivity;
-import unicorn.com.xhsr.utils.TextDrawableUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
+import unicorn.com.xhsr.utils.UpdateUtils;
 import unicorn.com.xhsr.volley.SimpleVolley;
 
 public class MainActivity extends BaseActivity {
@@ -46,6 +41,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_content);
         initViews();
+        UpdateUtils.checkUpdate(this);
     }
 
     private void initViews() {
@@ -108,38 +104,7 @@ public class MainActivity extends BaseActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.addItemDecoration(new DividerGridItemDecoration(this));
         recyclerView.setAdapter(new MainAdapter());
-//        initRecycleViewHeader();
     }
-
-    private void initRecycleViewHeader() {
-        RecyclerViewHeader recyclerViewHeader = RecyclerViewHeader.fromXml(this, R.layout.recycle_view_head);
-        recyclerViewHeader.findViewById(R.id.message).setBackground(TextDrawableUtils.getCircleDrawable(this, R.color.md_blue_400));
-        recyclerViewHeader.findViewById(R.id.photo).setBackground(TextDrawableUtils.getCircleDrawable(this, R.color.md_teal_400));
-        recyclerViewHeader.findViewById(R.id.video).setBackground(TextDrawableUtils.getCircleDrawable(this, R.color.md_red_400));
-        recyclerViewHeader.findViewById(R.id.quick_order).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!ClickHelp.isFastClick()) {
-                    Intent intent = new Intent(MainActivity.this, DetailOrderActivity.class);
-                    startActivityForResult(intent, 2333);
-                }
-            }
-        });
-        recyclerViewHeader.findViewById(R.id.satisfaction).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!ClickHelp.isFastClick()) {
-                    startActivity(BasicInfoActivity.class);
-                }
-            }
-        });
-
-        recyclerViewHeader.attachTo(recyclerView);
-    }
-
-
-    @Bind(R.id.tvToRepair)
-    TextView tvToRepair;
 
 
     // =============================== onClick ===============================

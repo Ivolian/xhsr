@@ -284,16 +284,19 @@ public class BasicDataGotter {
                             JSONObject response = new JSONObject(responses);
                             // 1 表示可用 0 表示不可用 2 表示已经填写
                             int result = response.getInt("result");
-                            TinyDB.getInstance().putInt(SfUtils.SF_RESULT,result);
-                            if (result!=1){
+                            if (result != 1) {
                                 return;
                             }
 
-                            JSONArray assess = response.getJSONArray("assess");
+                            JSONObject assess = response.getJSONObject("assess");
+                            String assessId = assess.getString("objectId");
+                            TinyDB.getInstance().putString(SfUtils.SF_ASSESS_ID, assessId);
+
+                            JSONArray contents = assess.getJSONArray("contents");
                             List<SatisfactionOption> optionList = new ArrayList<>();
                             int orderNo = 0;
-                            for (int i = 0; i != assess.length(); i++) {
-                                JSONObject serviceObject = assess.getJSONObject(i);
+                            for (int i = 0; i != contents.length(); i++) {
+                                JSONObject serviceObject = contents.getJSONObject(i);
                                 String serviceName = (i + 1) + ". " + serviceObject.getString("name");
                                 JSONArray items = serviceObject.getJSONArray("items");
                                 for (int j = 0; j != items.length(); j++) {
@@ -315,7 +318,7 @@ public class BasicDataGotter {
                             SimpleApplication.getDaoSession().getSatisfactionOptionDao().deleteAll();
                             SimpleApplication.getDaoSession().getSatisfactionOptionDao().insertInTx(optionList);
                         } catch (Exception e) {
-                            //
+//                            ToastUtils.show(e.getMessage());
                         }
                     }
                 },

@@ -89,7 +89,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private boolean checkRole() {
-        return role != null && !role.equals("Nurse") && !role.equals("Matron");
+        return role != null && (role.equals("Nurse") || role.equals("Matron"));
     }
 
     private void login() {

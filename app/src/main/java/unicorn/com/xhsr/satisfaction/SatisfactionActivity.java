@@ -34,8 +34,10 @@ import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.greendao.SatisfactionOption;
 import unicorn.com.xhsr.data.greendao.SatisfactionOptionDao;
 import unicorn.com.xhsr.other.ClickHelp;
+import unicorn.com.xhsr.other.TinyDB;
 import unicorn.com.xhsr.utils.ConfigUtils;
 import unicorn.com.xhsr.utils.DialogUtils;
+import unicorn.com.xhsr.utils.SfUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 import unicorn.com.xhsr.volley.SimpleVolley;
 
@@ -135,6 +137,8 @@ public class SatisfactionActivity extends BaseActivity {
 
     // ============================ 提交问卷 ============================
 
+    String advice = null;
+
     @Subscriber(tag = "submitOnClick")
     public void submitOnClick(String advice) {
         // 确认所有选项都已评分
@@ -147,13 +151,13 @@ public class SatisfactionActivity extends BaseActivity {
             viewPager.setCurrentItem(option.getOrderNo(), true);
             ToastUtils.show("尚有条目未评分");
         } else {
-//            satisfactionResult.setAdvice(advice);
+            this.advice = advice;
             commitSatisfactionResult();
         }
     }
 
     private void commitSatisfactionResult() {
-        String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/assess";
+        String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/satisfactionAssess/form";
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 url,
@@ -182,15 +186,13 @@ public class SatisfactionActivity extends BaseActivity {
                         .list();
                 try {
                     JSONObject result = new JSONObject();
-//                    result.put("phone", satisfactionResult.getPhone());
-//                    result.put("username", satisfactionResult.getUsername());
-//                    result.put("assessDate", satisfactionResult.getAssessDate());
-//                    result.put("advice", satisfactionResult.getAdvice());
-//
-//                    JSONObject department = new JSONObject();
-//                    department.put("objectId", satisfactionResult.getDepartmentId());
-//                    result.put("department", department);
 
+                    JSONObject satisfactionAssess = new JSONObject();
+                    satisfactionAssess.put("objectId", TinyDB.getInstance().getString(SfUtils.SF_ASSESS_ID));
+                    result.put("advice", advice);
+                    result.put("satisfactionAssess", satisfactionAssess);
+
+//
                     // 以下这段代码有点伤，不用在意
                     JSONArray jsonArray = new JSONArray();
                     for (SatisfactionOption option : optionList) {

@@ -4,7 +4,6 @@ import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.iflytek.cloud.SpeechUtility;
 
 import unicorn.com.xhsr.data.greendao.DaoMaster;
 import unicorn.com.xhsr.data.greendao.DaoSession;
@@ -21,8 +20,6 @@ public class SimpleApplication extends Application {
 
     @Override
     public void onCreate() {
-
-        SpeechUtility.createUtility(this, "appid=" + "5697584f");
 
         super.onCreate();
         instance = this;
