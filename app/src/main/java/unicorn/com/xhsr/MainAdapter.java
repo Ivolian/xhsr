@@ -8,18 +8,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
 import com.mikepenz.iconics.view.IconicsImageView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.simple.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import unicorn.com.xhsr.data.greendao.SatisfactionOption;
 import unicorn.com.xhsr.detailorder.DetailOrderActivity;
 import unicorn.com.xhsr.other.ClickHelp;
+import unicorn.com.xhsr.other.TinyDB;
 import unicorn.com.xhsr.quickorder.QuickOrderActivity;
 import unicorn.com.xhsr.satisfaction.SatisfactionActivity;
+import unicorn.com.xhsr.utils.ConfigUtils;
 import unicorn.com.xhsr.utils.DialogUtils;
+import unicorn.com.xhsr.utils.SfUtils;
+import unicorn.com.xhsr.utils.ToastUtils;
+import unicorn.com.xhsr.volley.SimpleVolley;
+import unicorn.com.xhsr.volley.StringRequestWithSessionCheck;
 
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
@@ -74,8 +88,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     context.startActivity(intent);
                     break;
                 case 2:
-                    intent = new Intent(context, SatisfactionActivity.class);
-                    context.startActivity(intent);
+                    getOption(tvText.getContext());
                     break;
                 case 3:
                     DialogUtils.showConfirm(context, "确认登出？", new DialogUtils.Action() {
@@ -91,6 +104,72 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     });
                     break;
             }
+        }
+
+        public void getOption(final Context context) {
+
+            String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/satisfactionAssess/current";
+            StringRequest jsonArrayRequest = new StringRequestWithSessionCheck(url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String responses) {
+                            try {
+                                JSONObject response = new JSONObject(responses);
+                                // 1 表示可用 0 表示不可用 2 表示已经填写
+                                int result = response.getInt("result");
+
+                                if (result == 0){
+                                    return;
+                                }
+
+                                if (result == 2){
+                                    ToastUtils.show("本月满意度调查已完成");
+                                    return;
+                                }
+
+
+
+                                JSONObject assess = response.getJSONObject("assess");
+                                String assessId = assess.getString("objectId");
+                                TinyDB.getInstance().putString(SfUtils.SF_ASSESS_ID, assessId);
+
+                                JSONArray contents = assess.getJSONArray("contents");
+                                List<SatisfactionOption> optionList = new ArrayList<>();
+                                int orderNo = 0;
+                                for (int i = 0; i != contents.length(); i++) {
+                                    JSONObject serviceObject = contents.getJSONObject(i);
+                                    String serviceName = (i + 1) + ". " + serviceObject.getString("name");
+                                    JSONArray items = serviceObject.getJSONArray("items");
+                                    for (int j = 0; j != items.length(); j++) {
+                                        SatisfactionOption option = new SatisfactionOption();
+                                        option.setTitle(serviceName);
+                                        option.setOrderNo(orderNo++);
+                                        option.setScore(-1);
+                                        option.setNumerator(j + 1);
+                                        option.setDenominator(items.length());
+
+                                        JSONObject itemObject = items.getJSONObject(j);
+                                        String objectId = itemObject.getString("objectId");
+                                        String content = (i + 1) + "." + (j + 1) + " " + itemObject.getString("name");
+                                        option.setObjectId(objectId);
+                                        option.setContent(content);
+                                        optionList.add(option);
+                                    }
+                                }
+                                SimpleApplication.getDaoSession().getSatisfactionOptionDao().deleteAll();
+                                SimpleApplication.getDaoSession().getSatisfactionOptionDao().insertInTx(optionList);
+
+                               Intent intent = new Intent(context, SatisfactionActivity.class);
+                                context.startActivity(intent);
+
+                            } catch (Exception e) {
+//                            ToastUtils.show(e.getMessage());
+                            }
+                        }
+                    },
+                    SimpleVolley.getDefaultErrorListener()
+            );
+            SimpleVolley.addRequest(jsonArrayRequest);
         }
 
     }

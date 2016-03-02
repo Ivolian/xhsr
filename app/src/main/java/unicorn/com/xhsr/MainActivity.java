@@ -61,7 +61,7 @@ public class MainActivity extends BaseActivity {
         basicDataGotter.getEquipment();
         basicDataGotter.getBuilding();
         basicDataGotter.getDepartment();
-        basicDataGotter.getOption();
+//        basicDataGotter.getOption();
     }
 
 

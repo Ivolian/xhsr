@@ -273,58 +273,6 @@ public class BasicDataGotter {
         SimpleVolley.addRequest(jsonArrayRequest);
     }
 
-    public void getOption() {
 
-        String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/satisfactionAssess/current";
-        StringRequest jsonArrayRequest = new StringRequestWithSessionCheck(url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String responses) {
-                        try {
-                            JSONObject response = new JSONObject(responses);
-                            // 1 表示可用 0 表示不可用 2 表示已经填写
-                            int result = response.getInt("result");
-                            if (result != 1) {
-                                return;
-                            }
-
-                            JSONObject assess = response.getJSONObject("assess");
-                            String assessId = assess.getString("objectId");
-                            TinyDB.getInstance().putString(SfUtils.SF_ASSESS_ID, assessId);
-
-                            JSONArray contents = assess.getJSONArray("contents");
-                            List<SatisfactionOption> optionList = new ArrayList<>();
-                            int orderNo = 0;
-                            for (int i = 0; i != contents.length(); i++) {
-                                JSONObject serviceObject = contents.getJSONObject(i);
-                                String serviceName = (i + 1) + ". " + serviceObject.getString("name");
-                                JSONArray items = serviceObject.getJSONArray("items");
-                                for (int j = 0; j != items.length(); j++) {
-                                    SatisfactionOption option = new SatisfactionOption();
-                                    option.setTitle(serviceName);
-                                    option.setOrderNo(orderNo++);
-                                    option.setScore(-1);
-                                    option.setNumerator(j + 1);
-                                    option.setDenominator(items.length());
-
-                                    JSONObject itemObject = items.getJSONObject(j);
-                                    String objectId = itemObject.getString("objectId");
-                                    String content = (i + 1) + "." + (j + 1) + " " + itemObject.getString("name");
-                                    option.setObjectId(objectId);
-                                    option.setContent(content);
-                                    optionList.add(option);
-                                }
-                            }
-                            SimpleApplication.getDaoSession().getSatisfactionOptionDao().deleteAll();
-                            SimpleApplication.getDaoSession().getSatisfactionOptionDao().insertInTx(optionList);
-                        } catch (Exception e) {
-//                            ToastUtils.show(e.getMessage());
-                        }
-                    }
-                },
-                SimpleVolley.getDefaultErrorListener()
-        );
-        SimpleVolley.addRequest(jsonArrayRequest);
-    }
 
 }
