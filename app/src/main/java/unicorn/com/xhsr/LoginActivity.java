@@ -10,7 +10,7 @@ import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.moduler.LoginModuler;
 import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.other.TinyDB;
-import unicorn.com.xhsr.utils.SfUtils;
+import unicorn.com.xhsr.utils.SharedPreferencesUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 
 
@@ -37,11 +37,11 @@ public class LoginActivity extends BaseActivity {
 
     private void initViews() {
         // 如果已经登录过了
-        boolean rememberMe = TinyDB.getInstance().getBoolean(SfUtils.SF_REMEMBER_ME);
+        boolean rememberMe = TinyDB.getInstance().getBoolean(SharedPreferencesUtils.HAS_LOGIN);
         if (rememberMe) {
-            String account = TinyDB.getInstance().getString(SfUtils.SF_ACCOUNT);
+            String account = TinyDB.getInstance().getString(SharedPreferencesUtils.ACCOUNT);
             etAccount.setText(account);
-            String password = TinyDB.getInstance().getString(SfUtils.SF_PASSWORD);
+            String password = TinyDB.getInstance().getString(SharedPreferencesUtils.PASSWORD);
             etPassword.setText(password);
         }
     }

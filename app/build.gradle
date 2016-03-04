@@ -9,7 +9,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "1.1"
     }
     buildTypes {
         release {
@@ -29,7 +29,6 @@ android {
     }
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
-
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
@@ -59,7 +58,7 @@ dependencies {
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.6'
     compile 'jp.wasabeef:recyclerview-animators:2.1.0'
     compile 'com.github.aakira:expandable-layout:1.4.1@aar'
-
+    compile 'cn.trinea.android.common:trinea-android-common:4.2.15'
 
     compile(name: 'scan', ext: 'aar')
     compile 'de.greenrobot:greendao:2.0.0'

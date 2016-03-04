@@ -30,7 +30,7 @@ import unicorn.com.xhsr.quickorder.QuickOrderActivity;
 import unicorn.com.xhsr.satisfaction.SatisfactionActivity;
 import unicorn.com.xhsr.utils.ConfigUtils;
 import unicorn.com.xhsr.utils.DialogUtils;
-import unicorn.com.xhsr.utils.SfUtils;
+import unicorn.com.xhsr.utils.SharedPreferencesUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 import unicorn.com.xhsr.volley.JSONObjectRequestWithSessionCheck;
 import unicorn.com.xhsr.volley.SimpleVolley;
@@ -130,7 +130,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
                                 JSONObject assess = response.getJSONObject("assess");
                                 String assessId = assess.getString("objectId");
-                                TinyDB.getInstance().putString(SfUtils.SF_ASSESS_ID, assessId);
+                                TinyDB.getInstance().putString(SharedPreferencesUtils.ASSESS_ID, assessId);
 
                                 JSONArray contents = assess.getJSONArray("contents");
                                 List<SatisfactionOption> optionList = new ArrayList<>();

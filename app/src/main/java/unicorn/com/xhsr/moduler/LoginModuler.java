@@ -21,7 +21,7 @@ import unicorn.com.xhsr.MainActivity;
 import unicorn.com.xhsr.data.CurrentUser;
 import unicorn.com.xhsr.other.TinyDB;
 import unicorn.com.xhsr.utils.ConfigUtils;
-import unicorn.com.xhsr.utils.SfUtils;
+import unicorn.com.xhsr.utils.SharedPreferencesUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 import unicorn.com.xhsr.volley.SimpleVolley;
 import unicorn.com.xhsr.volley.VolleyErrorHelper;
@@ -123,10 +123,10 @@ public class LoginModuler {
                 String currentUserString = response.headers.get("currentUser");
                 currentUser = new Gson().fromJson(currentUserString, CurrentUser.class);
                 TinyDB tinyDB = TinyDB.getInstance();
-                tinyDB.putString(SfUtils.SF_ACCOUNT, account);
-                tinyDB.putString(SfUtils.SF_PASSWORD, password);
-                tinyDB.putString(SfUtils.SF_USERNAME, currentUser.getUsername());
-                tinyDB.putBoolean(SfUtils.SF_REMEMBER_ME, true);
+                tinyDB.putString(SharedPreferencesUtils.ACCOUNT, account);
+                tinyDB.putString(SharedPreferencesUtils.PASSWORD, password);
+                tinyDB.putString(SharedPreferencesUtils.USERNAME, currentUser.getUsername());
+                tinyDB.putBoolean(SharedPreferencesUtils.HAS_LOGIN, true);
                 return super.parseNetworkResponse(response);
             }
         };

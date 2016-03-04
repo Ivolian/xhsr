@@ -52,7 +52,7 @@ import unicorn.com.xhsr.utils.ConfigUtils;
 import unicorn.com.xhsr.utils.DialogUtils;
 import unicorn.com.xhsr.utils.ImageUtils;
 import unicorn.com.xhsr.utils.ResultCodeUtils;
-import unicorn.com.xhsr.utils.SfUtils;
+import unicorn.com.xhsr.utils.SharedPreferencesUtils;
 import unicorn.com.xhsr.utils.TextDrawableUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 import unicorn.com.xhsr.utils.UploadUtils;
@@ -456,8 +456,8 @@ public class DetailOrderActivity extends BottomSheetActivity {
                     addJsonObjectToResult(result, "requestDepartment", departmentId);
                     result.put("requestTime", new Date().getTime());
                     TinyDB tinyDB = TinyDB.getInstance();
-                    result.put("requestUser", tinyDB.getString(SfUtils.SF_USERNAME));
-                    result.put("requestUserNo", tinyDB.getString(SfUtils.SF_ACCOUNT));
+                    result.put("requestUser", tinyDB.getString(SharedPreferencesUtils.USERNAME));
+                    result.put("requestUserNo", tinyDB.getString(SharedPreferencesUtils.ACCOUNT));
 
 
                     JSONObject source = new JSONObject();

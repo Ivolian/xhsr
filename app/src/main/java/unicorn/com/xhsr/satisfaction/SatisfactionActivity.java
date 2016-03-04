@@ -37,7 +37,7 @@ import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.other.TinyDB;
 import unicorn.com.xhsr.utils.ConfigUtils;
 import unicorn.com.xhsr.utils.DialogUtils;
-import unicorn.com.xhsr.utils.SfUtils;
+import unicorn.com.xhsr.utils.SharedPreferencesUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 import unicorn.com.xhsr.volley.SimpleVolley;
 
@@ -188,7 +188,7 @@ public class SatisfactionActivity extends BaseActivity {
                     JSONObject result = new JSONObject();
 
                     JSONObject satisfactionAssess = new JSONObject();
-                    satisfactionAssess.put("objectId", TinyDB.getInstance().getString(SfUtils.SF_ASSESS_ID));
+                    satisfactionAssess.put("objectId", TinyDB.getInstance().getString(SharedPreferencesUtils.ASSESS_ID));
                     result.put("advice", advice);
                     result.put("satisfactionAssess", satisfactionAssess);
 

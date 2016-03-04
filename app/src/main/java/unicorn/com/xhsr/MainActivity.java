@@ -1,22 +1,15 @@
 package unicorn.com.xhsr;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.devspark.robototextview.widget.RobotoTextView;
 import com.mikepenz.iconics.view.IconicsImageView;
 import com.yo.libs.app.DimensCodeTools;
 
-import org.joda.time.DateTime;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
@@ -27,9 +20,11 @@ import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.data.BasicDataGotter;
 import unicorn.com.xhsr.other.DividerGridItemDecoration;
 import unicorn.com.xhsr.other.TinyDB;
+import unicorn.com.xhsr.utils.SharedPreferencesUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 import unicorn.com.xhsr.utils.UpdateUtils;
-import unicorn.com.xhsr.volley.SimpleVolley;
+import unicorn.com.xhsr.weather.WeatherMap;
+import unicorn.com.xhsr.weather.model.WeatherInfo;
 
 public class MainActivity extends BaseActivity {
 
@@ -46,7 +41,7 @@ public class MainActivity extends BaseActivity {
 
     private void initViews() {
 //        initDragLayout();
-        EventBus.getDefault().post(new Object(),"getBasicData");
+        EventBus.getDefault().post(new Object(), "getBasicData");
         initWeather();
         initRecyclerView();
 
@@ -61,13 +56,12 @@ public class MainActivity extends BaseActivity {
         basicDataGotter.getEquipment();
         basicDataGotter.getBuilding();
         basicDataGotter.getDepartment();
-//        basicDataGotter.getOption();
     }
 
 
     @Subscriber(tag = "sign_out")
     public void signOut(Object o) {
-            startActivityAndFinish(LoginActivity.class);
+        startActivityAndFinish(LoginActivity.class);
     }
 
 
@@ -115,9 +109,6 @@ public class MainActivity extends BaseActivity {
         DimensCodeTools.startScan(this);
     }
 
-    @Bind(R.id.equipmentCode)
-    EditText etEquipmentCode;
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -128,42 +119,12 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
-    // weather
-    private final String WEATHER_URL = "https://api.heweather.com/x3/weather";
-    private final String API_KEY = "3b85969c4b1a40ec8a94cac4f4fb454e";
-
-    private final String LAST_TIME = "last_time";
-    private final String TEMPERATURE = "temperature";
-    private final String PM_25 = "pm_25";
-    private final String QUALITY = "quality";
-    private final String WEATHER = "weather";
-
-    private void initWeather() {
-        String lastTime = TinyDB.getInstance().getString(LAST_TIME);
-        String now = new DateTime().toString("yyyyMMdd");
-//        if (!lastTime.equals(now)) {
-        fetchWeather();
-//        } else {
-//            TinyDB tinyDB = TinyDB.getInstance();
-//            tvTemperature.setText(tinyDB.getString(TEMPERATURE) + "\u00B0");
-//            bvPm25.setValue(tinyDB.getString(PM_25));
-//            tvQuality.setText(tinyDB.getString(QUALITY));
-//            tvWeather.setText("朝阳区 " + tinyDB.getString(WEATHER));
-//            String weather = tinyDB.getString(WEATHER);
-//            String icon = WeatherMap.getMap().get(weather);
-//            weatherIcon.setIcon(icon);
-//            ToastUtils.show("true");
-//        }
-    }
-
     @Bind(R.id.temperature)
     RobotoTextView tvTemperature;
 
     @Bind(R.id.pm25)
     BadgeView bvPm25;
 
-    // 空气质量
     @Bind(R.id.quality)
     TextView tvQuality;
 
@@ -173,52 +134,20 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.weather_icon)
     IconicsImageView weatherIcon;
 
-
-    private void fetchWeather() {
-        final String cityId = "CN101010100";
-        Uri.Builder builder = Uri.parse(WEATHER_URL).buildUpon();
-        builder.appendQueryParameter("key", API_KEY);
-        builder.appendQueryParameter("cityid", cityId);
-        String url = builder.toString();
-        JsonObjectRequest request = new JsonObjectRequest(
-                url,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray weatherDataService = response.getJSONArray("HeWeather data service 3.0");
-                            JSONObject temp = weatherDataService.getJSONObject(0);
-                            JSONObject aqi = temp.getJSONObject("aqi");
-                            JSONObject city = aqi.getJSONObject("city");
-                            String pm25 = city.getString("pm25");
-                            bvPm25.setValue(pm25);
-                            String quality = city.getString("qlty");
-                            tvQuality.setText(quality);
-                            JSONObject now = temp.getJSONObject("now");
-                            JSONObject cond = now.getJSONObject("cond");
-                            String weather = cond.getString("txt");
-                            tvWeather.setText("朝阳区 " + weather);
-                            String temperature = now.getString("tmp");
-                            tvTemperature.setText(temperature + "\u00B0");
-                            String icon = WeatherMap.getMap().get(weather);
-                            weatherIcon.setIcon(icon);
-
-                            TinyDB tinyDB = TinyDB.getInstance();
-                            tinyDB.putString(LAST_TIME, new DateTime().toString("yyyyMMdd"));
-                            tinyDB.putString(TEMPERATURE, temperature);
-                            tinyDB.putString(PM_25, pm25);
-                            tinyDB.putString(QUALITY, quality);
-                            tinyDB.putString(WEATHER, weather);
-                        } catch (Exception e) {
-                            ToastUtils.show(e.getMessage());
-                        }
-                    }
-                },
-                SimpleVolley.getDefaultErrorListener()
-
-        );
-        SimpleVolley.addRequest(request);
+    private void initWeather() {
+        WeatherInfo weatherInfo = (WeatherInfo) TinyDB.getInstance().getObject(SharedPreferencesUtils.WEATHER_INFO, WeatherInfo.class);
+        if (weatherInfo != null) {
+            tvTemperature.setText(weatherInfo.getNow().getTmp() + "\u00B0");
+            bvPm25.setValue(weatherInfo.getAqi().getCity().getPm25());
+            tvQuality.setText(weatherInfo.getAqi().getCity().getQlty());
+            String txt = weatherInfo.getNow().getCond().getTxt();
+            tvWeather.setText("东城区 " + txt);
+            String icon = WeatherMap.getMap().get(txt);
+            weatherIcon.setIcon(icon);
+        }
     }
+
+
 
 
 }

@@ -6,29 +6,41 @@ import android.os.Handler;
 import unicorn.com.xhsr.base.BaseActivity;
 import unicorn.com.xhsr.moduler.LoginModuler;
 import unicorn.com.xhsr.other.TinyDB;
-import unicorn.com.xhsr.utils.SfUtils;
+import unicorn.com.xhsr.utils.SharedPreferencesUtils;
+import unicorn.com.xhsr.weather.WeatherModuler;
 
 
 public class SplashActivity extends BaseActivity {
 
+    private WeatherModuler.SimpleInterface simpleInterface = new WeatherModuler.SimpleInterface() {
+        @Override
+        public void afterFetchWeatherInfo() {
+            int delay = 1000;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doTheRealThing();
+                }
+            }, delay);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int delay = 1000;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doTheRealThing();
-            }
-        }, delay);
+        WeatherModuler weatherModuler = new WeatherModuler(simpleInterface);
+        weatherModuler.fetchWeatherInfo();
     }
+
+
+
 
     private void doTheRealThing() {
         TinyDB tinyDB = TinyDB.getInstance();
-        boolean rememberMe = tinyDB.getBoolean(SfUtils.SF_REMEMBER_ME);
+        boolean rememberMe = tinyDB.getBoolean(SharedPreferencesUtils.HAS_LOGIN);
         if (rememberMe) {
-            String account = tinyDB.getString(SfUtils.SF_ACCOUNT);
-            String password = tinyDB.getString(SfUtils.SF_PASSWORD);
+            String account = tinyDB.getString(SharedPreferencesUtils.ACCOUNT);
+            String password = tinyDB.getString(SharedPreferencesUtils.PASSWORD);
             LoginModuler loginModuler = new LoginModuler(account, password);
             loginModuler.login(this, false);
         } else {

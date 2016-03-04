@@ -1,4 +1,4 @@
-package unicorn.com.xhsr;
+package unicorn.com.xhsr.weather;
 
 import java.util.HashMap;
 import java.util.Map;

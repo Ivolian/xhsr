@@ -16,7 +16,7 @@ import java.util.Map;
 
 import unicorn.com.xhsr.other.TinyDB;
 import unicorn.com.xhsr.utils.ConfigUtils;
-import unicorn.com.xhsr.utils.SfUtils;
+import unicorn.com.xhsr.utils.SharedPreferencesUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 
 
@@ -52,8 +52,8 @@ public class VolleyErrorHelper {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
-                map.put("username", TinyDB.getInstance().getString(SfUtils.SF_ACCOUNT));
-                map.put("password", TinyDB.getInstance().getString(SfUtils.SF_PASSWORD));
+                map.put("username", TinyDB.getInstance().getString(SharedPreferencesUtils.ACCOUNT));
+                map.put("password", TinyDB.getInstance().getString(SharedPreferencesUtils.PASSWORD));
                 return map;
             }
 
