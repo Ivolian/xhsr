@@ -41,7 +41,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.f2prateek.dart:dart:2.0.0-RC1'
     provided 'com.f2prateek.dart:dart-processor:2.0.0-RC1'
-    compile 'com.zhy:percent-support-extends:1.1.1'
     compile 'com.wada811:android-material-design-colors:2.0.0'
     compile 'org.simple:androideventbus:1.0.5'
     compile 'com.nineoldandroids:library:2.4.0'
@@ -89,6 +88,9 @@ dependencies {
     compile(name: 'camera', ext: 'aar')
     compile 'com.github.ShogoMizumoto:ZDepthShadowLayout:1.0.4'
     compile 'commons-io:commons-io:2.4'
+    compile(name: 'percent-support-extends-mc', ext: 'aar')
+
+
 
 //
 //    compile 'com.tonicartos:superslim:0.4.13'

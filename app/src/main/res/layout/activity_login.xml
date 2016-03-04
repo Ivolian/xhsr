@@ -6,31 +6,49 @@
     android:background="@color/md_grey_100"
     android:orientation="vertical">
 
-    <!-- 标题栏 -->
-    <com.zhy.android.percent.support.PercentLinearLayout
+    <!-- 标题栏 10% 向下阴影 -->
+    <app.mosn.zdepthshadowlayout.ZDepthShadowLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/colorPrimary"
-        android:gravity="center_vertical"
-        app:layout_heightPercent="10%sh">
+        android:layout_height="wrap_content"
+        app:z_depth="z_depth1"
+        app:z_depth_paddingBottom="z_depth1"
+        app:z_depth_paddingLeft="z_depth0"
+        app:z_depth_paddingRight="z_depth0"
+        app:z_depth_paddingTop="z_depth0"
+        app:z_depth_shape="rect">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="登录"
-            android:textColor="@color/md_white"
-            app:layout_textSizePercent="3.3%sh" />
+        <com.zhy.android.percent.support.PercentFrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    </com.zhy.android.percent.support.PercentLinearLayout>
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center_vertical"
+                app:layout_heightPercent="10%sh">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="登录"
+                    android:textColor="@color/md_white"
+                    app:layout_textSizePercent="3.5%sh" />
+
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
+        </com.zhy.android.percent.support.PercentFrameLayout>
+
+    </app.mosn.zdepthshadowlayout.ZDepthShadowLayout>
+
+    <!-- 间隔 8% -->
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/md_grey_100"
-        app:layout_heightPercent="3%sh" />
+        app:layout_heightPercent="8%sh" />
 
+    <!-- 账户 12% 向上阴影 -->
     <app.mosn.zdepthshadowlayout.ZDepthShadowLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,13 +72,12 @@
                 app:layout_heightPercent="12%sh">
 
                 <com.mikepenz.iconics.view.IconicsImageView
-                    android:id="@+id/weather_icon"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:iiv_color="@color/colorPrimary"
                     app:iiv_icon="ion-ios-person-outline"
                     app:layout_heightPercent="5%sh"
-                    app:layout_marginLeftPercent="5%sw"
+                    app:layout_marginPercent="3%sh"
                     app:layout_widthPercent="5%sh" />
 
                 <EditText
@@ -73,7 +90,6 @@
                     android:textColor="@color/md_black"
                     android:textColorHint="@color/md_grey_400"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    app:layout_marginLeftPercent="6%sw"
                     app:layout_textSizePercent="3%sh" />
 
             </com.zhy.android.percent.support.PercentLinearLayout>
@@ -82,11 +98,13 @@
 
     </app.mosn.zdepthshadowlayout.ZDepthShadowLayout>
 
+    <!-- 间隔 -->
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/md_grey_100" />
+        android:layout_height="0.5dp"
+        android:background="@color/md_grey_200" />
 
+    <!-- 密码 12% 向下阴影 -->
     <app.mosn.zdepthshadowlayout.ZDepthShadowLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -115,7 +133,7 @@
                     app:iiv_color="@color/colorPrimary"
                     app:iiv_icon="ion-ios-unlocked-outline"
                     app:layout_heightPercent="5%sh"
-                    app:layout_marginLeftPercent="5%sw"
+                    app:layout_marginPercent="3%sh"
                     app:layout_widthPercent="5%sh" />
 
                 <EditText
@@ -128,7 +146,6 @@
                     android:textColor="@color/md_black"
                     android:textColorHint="@color/md_grey_400"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    app:layout_marginLeftPercent="6%sw"
                     app:layout_textSizePercent="3%sh" />
 
             </com.zhy.android.percent.support.PercentLinearLayout>
@@ -137,19 +154,20 @@
 
     </app.mosn.zdepthshadowlayout.ZDepthShadowLayout>
 
+    <!-- 登录按钮 9% -->
     <com.ivo.flatbutton.FlatButton
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="登录"
-        android:textSize="18dp"
         app:fl_mainColor="@color/colorPrimary"
         app:fl_textAppearance="fl_none"
         app:fl_touchEffect="fl_ease"
         app:layout_heightPercent="9%sh"
-        app:layout_marginLeftPercent="5%sw"
-        app:layout_marginRightPercent="5%sw"
-        app:layout_marginTopPercent="8%sh" />
+        app:layout_marginLeftPercent="6%sw"
+        app:layout_marginRightPercent="6%sw"
+        app:layout_marginTopPercent="10%sh"
+        app:layout_textSizePercent="3.5%sh" />
 
 </com.zhy.android.percent.support.PercentLinearLayout>
 

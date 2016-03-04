@@ -127,26 +127,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-//    @OnClick(R.id.toRepair)
-//    public void toRepairOnClick() {
-//        Intent intent = new Intent(this, MyOrderActivity.class);
-//        intent.putExtra("currentItem", 0);
-//        startActivity(intent);
-//    }
-//
-//    @OnClick(R.id.repairing)
-//    public void repairingOnClick() {
-//        Intent intent = new Intent(this, MyOrderActivity.class);
-//        intent.putExtra("currentItem", 1);
-//        startActivity(intent);
-//    }
-//
-//    @OnClick(R.id.repaired)
-//    public void repairedOnClick() {
-//        Intent intent = new Intent(this, MyOrderActivity.class);
-//        intent.putExtra("currentItem", 2);
-//        startActivity(intent);
-//    }
+
 
     // weather
     private final String WEATHER_URL = "https://api.heweather.com/x3/weather";
