@@ -1,24 +1,26 @@
 package unicorn.com.xhsr.moduler;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.kaopiz.kprogresshud.KProgressHUD;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import unicorn.com.xhsr.MainActivity;
+import unicorn.com.xhsr.data.CurrentUser;
 import unicorn.com.xhsr.other.TinyDB;
 import unicorn.com.xhsr.utils.ConfigUtils;
-import unicorn.com.xhsr.utils.DialogUtils;
 import unicorn.com.xhsr.utils.SfUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 import unicorn.com.xhsr.volley.SimpleVolley;
@@ -26,41 +28,78 @@ import unicorn.com.xhsr.volley.VolleyErrorHelper;
 
 public class LoginModuler {
 
-    String shiroLoginFailure = null;
+
+    // ================================ constructor ================================
+
+    String shiroLoginFailure;
+    CurrentUser currentUser;
+    String account;
+    String password;
+
+    public LoginModuler(String account, String password) {
+        this.account = account;
+        this.password = password;
+    }
+
+    // ================================ mask ================================
+
+    private KProgressHUD kProgressHUD;
+
+    private void showMask(Context context) {
+        kProgressHUD = KProgressHUD.create(context)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setCancellable(false)
+                .setAnimationSpeed(1)
+                .setDimAmount(0.5f)
+                .show();
+    }
+
+    private void hideMask() {
+        if (kProgressHUD != null) {
+            kProgressHUD.dismiss();
+        }
+    }
 
 
+    // ================================ login ================================
 
-    // show dialog?
-    private void login(Context context, final String account, final String password) {
-        final MaterialDialog mask = DialogUtils.showMask(context, "登录中", "请稍后");
+    public void login(final Activity activity, boolean shouldShowMask) {
+        if (shouldShowMask) {
+            showMask(activity);
+        }
+        String url = ConfigUtils.getBaseUrl() + "/login";
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
-                ConfigUtils.getBaseUrl() + "/login",
+                url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        mask.dismiss();
+
+                        // 除了登录以外的请求，都不用 String
+                        // 这样出现解析错误就重新登录
+                        // response 是一段 html
+                        hideMask();
                         if (shiroLoginFailure != null) {
                             ToastUtils.show("账号或密码错误!");
+                            return;
                         }
-                        else {
+                        String role = currentUser.getRole();
+                        if (!role.equals("Nurse") && !role.equals("Matron")) {
+                            ToastUtils.show("非法角色!");
+                            return;
                         }
-//                        boolean result = checkRole();
-//                        if (result) {
-//                            startActivityAndFinish(MainActivity.class);
-//                        } else {
-//                            ToastUtils.show("非法角色!");
-//                        }
+                        Intent intent = new Intent(activity, MainActivity.class);
+                        activity.startActivity(intent);
+                        activity.finish();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        mask.dismiss();
+                        hideMask();
                         ToastUtils.show(VolleyErrorHelper.getErrorMessage(error));
                     }
-                }
-        ) {
+                }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
@@ -72,40 +111,27 @@ public class LoginModuler {
             // 从返回的头部中获取一些信息
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                shiroLoginFailure = response.headers.get("shiroLoginFailure");
+
                 // shiroLoginFailure != null 表示登录失败
+                shiroLoginFailure = response.headers.get("shiroLoginFailure");
                 if (shiroLoginFailure != null) {
                     return super.parseNetworkResponse(response);
                 }
-                // 如果登录成功，保存 sessionId
 
-                try {
-                    // 获取用户信息
-                    String currentUserString = response.headers.get("currentUser");
-                    JSONObject currentUser = new JSONObject(currentUserString);
-                    String personName = currentUser.getString("username");
-                    String personCode = currentUser.getString("account");
-                    TinyDB tinyDB = TinyDB.getInstance();
-                    tinyDB.putString(SfUtils.SF_PERSON_NAME, personName);
-                    tinyDB.putString(SfUtils.SF_PERSON_CODE, personCode);
-                } catch (Exception e) {
-//                    ToastUtils.show(e.getMessage());
-                }
-
-                ConfigUtils.saveJSessionId(response);
-//                saveUserLoginInfo();
+                // 如果登录成功，保存 sessionId 以及其他用户信息
+                ConfigUtils.saveSessionId(response);
+                String currentUserString = response.headers.get("currentUser");
+                currentUser = new Gson().fromJson(currentUserString, CurrentUser.class);
+                TinyDB tinyDB = TinyDB.getInstance();
+                tinyDB.putString(SfUtils.SF_ACCOUNT, account);
+                tinyDB.putString(SfUtils.SF_PASSWORD, password);
+                tinyDB.putString(SfUtils.SF_USERNAME, currentUser.getUsername());
+                tinyDB.putBoolean(SfUtils.SF_REMEMBER_ME, true);
                 return super.parseNetworkResponse(response);
             }
         };
-        SimpleVolley.getRequestQueue().add(stringRequest);
+        SimpleVolley.addRequest(stringRequest);
     }
 
-
-//    private void saveUserLoginInfo() {
-//        TinyDB tinyDB = TinyDB.getInstance();
-//        tinyDB.putString(SfUtils.SF_ACCOUNT, etAccount.getText().toString().trim());
-//        tinyDB.putString(SfUtils.SF_PASSWORD, etPassword.getText().toString().trim());
-//        tinyDB.putBoolean(SfUtils.SF_REMEMBER_ME, true);
-//    }
 
 }

@@ -59,7 +59,7 @@ public class VolleyErrorHelper {
 
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                ConfigUtils.saveJSessionId(response);
+                ConfigUtils.saveSessionId(response);
                 return super.parseNetworkResponse(response);
             }
         };

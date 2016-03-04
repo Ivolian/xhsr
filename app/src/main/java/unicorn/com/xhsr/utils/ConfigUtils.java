@@ -26,7 +26,7 @@ public class ConfigUtils {
     public final static String JSESSION_ID = "jsessionid";
 
 
-    public static void saveJSessionId(NetworkResponse response) {
+    public static void saveSessionId(NetworkResponse response) {
         TinyDB.getInstance().putString(ConfigUtils.JSESSION_ID, response.headers.get(ConfigUtils.JSESSION_ID));
     }
 

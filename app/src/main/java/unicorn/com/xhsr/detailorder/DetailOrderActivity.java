@@ -456,8 +456,8 @@ public class DetailOrderActivity extends BottomSheetActivity {
                     addJsonObjectToResult(result, "requestDepartment", departmentId);
                     result.put("requestTime", new Date().getTime());
                     TinyDB tinyDB = TinyDB.getInstance();
-                    result.put("requestUser", tinyDB.getString(SfUtils.SF_PERSON_NAME));
-                    result.put("requestUserNo", tinyDB.getString(SfUtils.SF_PERSON_CODE));
+                    result.put("requestUser", tinyDB.getString(SfUtils.SF_USERNAME));
+                    result.put("requestUserNo", tinyDB.getString(SfUtils.SF_ACCOUNT));
 
 
                     JSONObject source = new JSONObject();
