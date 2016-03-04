@@ -33,7 +33,6 @@ public class SplashActivity extends BaseActivity {
             loginModuler.login(this, false);
         } else {
             startActivityAndFinish(LoginActivity.class);
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
     }
 

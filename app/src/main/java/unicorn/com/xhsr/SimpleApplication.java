@@ -4,6 +4,7 @@ import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.squareup.leakcanary.LeakCanary;
 
 import unicorn.com.xhsr.data.greendao.DaoMaster;
 import unicorn.com.xhsr.data.greendao.DaoSession;
@@ -26,7 +27,7 @@ public class SimpleApplication extends Application {
         initGreenDao();
         SimpleVolley.init(instance);
         Fresco.initialize(instance);
-
+        LeakCanary.install(this);
     }
 
 
