@@ -8,6 +8,6 @@
         android:layout_height="match_parent"
         android:contentDescription="@null"
         android:scaleType="fitXY"
-        android:src="@drawable/load" />
+        android:src="@drawable/app_welcome_new_bg" />
 
 </FrameLayout>

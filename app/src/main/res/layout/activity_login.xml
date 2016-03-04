@@ -68,8 +68,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:hint="请输入姓名"
-                    android:maxLength="3"
+                    android:hint="请输入账号"
+                    android:maxLength="12"
                     android:textColor="@color/md_black"
                     android:textColorHint="@color/md_grey_400"
                     android:textCursorDrawable="@drawable/color_cursor"
@@ -84,7 +84,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         android:background="@color/md_grey_100" />
 
     <app.mosn.zdepthshadowlayout.ZDepthShadowLayout
@@ -123,7 +123,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:hint="请输入工号"
+                    android:hint="请输入密码"
                     android:maxLength="12"
                     android:textColor="@color/md_black"
                     android:textColorHint="@color/md_grey_400"

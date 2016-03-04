@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.toolbox.StringRequest;
 import com.mikepenz.iconics.view.IconicsImageView;
 
 import org.json.JSONArray;
@@ -32,8 +32,8 @@ import unicorn.com.xhsr.utils.ConfigUtils;
 import unicorn.com.xhsr.utils.DialogUtils;
 import unicorn.com.xhsr.utils.SfUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
+import unicorn.com.xhsr.volley.JSONObjectRequestWithSessionCheck;
 import unicorn.com.xhsr.volley.SimpleVolley;
-import unicorn.com.xhsr.volley.StringRequestWithSessionCheck;
 
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
@@ -45,9 +45,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     private String[] icons = {"gmi-assignment-check", "gmi-assignment", "gmi-flower-alt", "faw-sign-out", "gmi-home", "gmi-wrench", "gmi-whatsapp", "gmi-plus"};
 
-    private int[] colors = {R.color.md_teal_400, R.color.md_brown_400, R.color.md_red_300, R.color.md_cyan_400};
+    private int[] colors = {R.color.md_teal_400, R.color.md_brown_400, R.color.md_red_300, R.color.md_light_blue_500};
 
-    private int[] contourColors = {R.color.md_teal_500, R.color.md_brown_500, R.color.md_red_400, R.color.md_cyan_500};
+    private int[] contourColors = {R.color.md_teal_500, R.color.md_brown_500, R.color.md_red_400, R.color.md_light_blue_600};
 
     public MainAdapter() {
         if (texts.length != icons.length) {
@@ -109,12 +109,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         public void getOption(final Context context) {
 
             String url = ConfigUtils.getBaseUrl() + "/api/v1/hems/satisfactionAssess/current";
-            StringRequest jsonArrayRequest = new StringRequestWithSessionCheck(url,
-                    new Response.Listener<String>() {
+            Request request = new JSONObjectRequestWithSessionCheck(url,
+                    new Response.Listener<JSONObject>() {
                         @Override
-                        public void onResponse(String responses) {
+                        public void onResponse(JSONObject response) {
                             try {
-                                JSONObject response = new JSONObject(responses);
                                 // 1 表示可用 0 表示不可用 2 表示已经填写
                                 int result = response.getInt("result");
 
@@ -169,7 +168,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     },
                     SimpleVolley.getDefaultErrorListener()
             );
-            SimpleVolley.addRequest(jsonArrayRequest);
+            SimpleVolley.addRequest(request);
         }
 
     }

@@ -36,8 +36,8 @@ public class ConfigUtils {
 
     //
 
-//    final static String ip = "withub.net.cn";
-    final static String ip = "192.168.7.65";
+    final static String ip = "withub.net.cn";
+//    final static String ip = "192.168.7.65";
 
     final static String port = "80";
 

@@ -85,7 +85,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void delayToLoginActivity() {
-        int delay = 1000;
+        int delay = 2000;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
