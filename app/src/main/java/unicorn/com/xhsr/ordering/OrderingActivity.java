@@ -1,10 +1,12 @@
-package unicorn.com.xhsr.detailorder;
+package unicorn.com.xhsr.ordering;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +19,8 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.github.florent37.viewanimator.ViewAnimator;
+import com.kyleduo.switchbutton.SwitchButton;
+import com.zhy.android.percent.support.PercentLinearLayout;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import cn.trinea.android.common.util.ListUtils;
 import unicorn.com.xhsr.R;
@@ -60,7 +65,7 @@ import unicorn.com.xhsr.volley.JsonArrayRequestWithSessionCheck;
 import unicorn.com.xhsr.volley.SimpleVolley;
 
 
-public class DetailOrderActivity extends BottomSheetActivity {
+public class OrderingActivity extends BottomSheetActivity {
 
 
     // =============================== onCreate ===============================
@@ -68,7 +73,7 @@ public class DetailOrderActivity extends BottomSheetActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_order);
+        setContentView(R.layout.activity_ordering);
         initViews();
 
 //        findViewById(R.id.message).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_light_blue_300));
@@ -77,10 +82,26 @@ public class DetailOrderActivity extends BottomSheetActivity {
 //        findViewById(R.id.history).setBackground(TextDrawableUtils.getRoundRectDrawable(this, R.color.md_brown_300));
     }
 
+    @Bind(R.id.equipment)
+    PercentLinearLayout percentLinearLayout;
+
     private void initViews() {
         initIvEquipment();
         initProcessMode();
+        swMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                ViewAnimator
+//                        .animate(percentLinearLayout)
+//                        .translationY(0,1080)
+//                       .start();
+            percentLinearLayout.setVisibility(isChecked ? View.GONE:View.VISIBLE);
+            }
+        });
     }
+
+@Bind(R.id.swMode)
+    SwitchButton swMode;
 
 
     // =============================== 设备 ===============================

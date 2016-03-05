@@ -70,7 +70,44 @@
             <com.zhy.android.percent.support.PercentLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+
                 android:orientation="vertical">
+
+
+                <!-- 设备故障 8% -->
+                <com.zhy.android.percent.support.PercentLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_heightPercent="8%sh"
+                    app:layout_paddingLeftPercent="5%sw"
+                    app:layout_paddingRightPercent="5%sw">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="模式"
+                        android:textColorHint="@color/md_grey_500"
+                        app:layout_textSizePercent="3%sh" />
+
+                    <com.kyleduo.switchbutton.SwitchButton
+                        android:id="@+id/swMode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        app:kswTintColor="#B13254" />
+
+                </com.zhy.android.percent.support.PercentLinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/md_grey_200" />
+
 
                 <!-- 选择维修设备 15% -->
                 <com.zhy.android.percent.support.PercentLinearLayout

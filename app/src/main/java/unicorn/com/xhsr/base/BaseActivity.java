@@ -11,7 +11,7 @@ import org.simple.eventbus.EventBus;
 import butterknife.ButterKnife;
 
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
 
     @Override

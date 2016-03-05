@@ -50,7 +50,7 @@
 
 
         <activity
-            android:name=".detailorder.DetailOrderActivity"
+            android:name=".ordering.OrderingActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".groupselect.equipment.EquipmentSelectActivity"
@@ -59,7 +59,7 @@
             android:name=".groupselect.GroupSelectActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".detailorder.ProcessModeActivity"
+            android:name=".ordering.ProcessModeActivity"
             android:screenOrientation="portrait" />
 
         <activity

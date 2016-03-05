@@ -23,7 +23,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import unicorn.com.xhsr.data.greendao.SatisfactionOption;
-import unicorn.com.xhsr.detailorder.DetailOrderActivity;
+import unicorn.com.xhsr.ordering.OrderingActivity;
 import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.other.TinyDB;
 import unicorn.com.xhsr.quickorder.QuickOrderActivity;
@@ -84,7 +84,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     context.startActivity(intent);
                     break;
                 case 1:
-                    intent = new Intent(context, DetailOrderActivity.class);
+                    intent = new Intent(context, OrderingActivity.class);
                     context.startActivity(intent);
                     break;
                 case 2:

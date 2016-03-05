@@ -235,7 +235,7 @@ public class DataHelp {
         };
     }
 
-    //
+    // sheet select
 
     public static List<SelectObject> getProcessModeDataList() {
         ProcessingModeDao processingModeDao = SimpleApplication.getDaoSession().getProcessingModeDao();
@@ -283,9 +283,9 @@ public class DataHelp {
                 return dataList;
     }
 
-    public static String getValue(List<SelectObject> dataList, String objectIdSelected) {
+    public static String getValue(List<SelectObject> dataList, String idSelected) {
         for (SelectObject selectObject : dataList) {
-            if (TextUtils.equals(selectObject.objectId, objectIdSelected)) {
+            if (TextUtils.equals(selectObject.objectId, idSelected)) {
                 return selectObject.value;
             }
         }
