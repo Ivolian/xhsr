@@ -18,7 +18,7 @@ import butterknife.OnClick;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.sheetSelect.model.SelectObject;
 
-public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder> {
+public class SheetSelectAdapter extends RecyclerView.Adapter<SheetSelectAdapter.ViewHolder> {
 
     //
 
@@ -28,7 +28,7 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder
 
     String callbackTag;
 
-    public SelectAdapter(List<SelectObject> dataList, int positionSelected, String callbackTag) {
+    public SheetSelectAdapter(List<SelectObject> dataList, int positionSelected, String callbackTag) {
         this.dataList = dataList;
         this.callbackTag = callbackTag;
         this.positionSelected = positionSelected;
@@ -48,8 +48,8 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder
 
         @OnClick(R.id.item)
         public void selectItem() {
-            String objectIdSelected = dataList.get(getAdapterPosition()).objectId;
-            EventBus.getDefault().post(objectIdSelected, callbackTag);
+            String idSelected = dataList.get(getAdapterPosition()).objectId;
+            EventBus.getDefault().post(idSelected, callbackTag);
         }
     }
 
@@ -75,5 +75,6 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder
     public int getItemCount() {
         return dataList.size();
     }
+
 
 }

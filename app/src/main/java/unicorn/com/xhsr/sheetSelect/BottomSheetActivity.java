@@ -58,7 +58,7 @@ public class BottomSheetActivity extends BaseActivity {
         if (positionSelected != -1) {
             recyclerView.smoothScrollToPosition(positionSelected);
         }
-        recyclerView.setAdapter(new SelectAdapter(dataList, positionSelected, callbackTag));
+        recyclerView.setAdapter(new SheetSelectAdapter(dataList, positionSelected, callbackTag));
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
 
         bottomSheet.showWithSheetView(rootView);

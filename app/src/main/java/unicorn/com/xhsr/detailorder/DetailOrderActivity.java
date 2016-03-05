@@ -32,6 +32,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.trinea.android.common.util.ListUtils;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.SimpleApplication;
 import unicorn.com.xhsr.data.DataHelp;
@@ -118,34 +119,38 @@ public class DetailOrderActivity extends BottomSheetActivity {
 
     List<SelectObject> faultTypeDataList = new ArrayList<>();
 
+    @Bind(R.id.tvFaultType)
+    TextView tvFaultType;
 
-//    @Bind(R.id.tvFaultType)
-//    TextView tvFaultType;
-//
-//    @OnClick(R.id.faultType)
-//    public void faultTypeOnClick() {
-//        if (ClickHelp.isFastClick()) {
-//            return;
-//        }
-//        if (equipmentId == null) {
-//            ToastUtils.show("请先选择待维修设备");
-//            return;
-//        }
-//        showSelectSheet("故障类型", dpFaultType, faultTypeId, "onFaultTypeSelect");
-//    }
-//
-//    @Subscriber(tag = "onFaultTypeSelect")
-//    private void onFaultTypeSelect(String objectId) {
-//        faultTypeId = objectId;
-//        tvFaultType.setText(DataHelp.getValue(dpFaultType, objectId));
-//        bottomSheet.dismissSheet();
-//    }
-//
-//    private void notifyEquipmentChange() {
-//        faultTypeId = null;
-//        tvFaultType.setText("");
-//        fetchFaultTypeDataList();
-//    }
+    @OnClick(R.id.faultType)
+    public void faultTypeOnClick() {
+        if (ClickHelp.isFastClick()) {
+            return;
+        }
+        if (equipmentId == null) {
+            ToastUtils.show("请选择待维修设备");
+            return;
+        }
+        if (ListUtils.isEmpty(faultTypeDataList)) {
+            ToastUtils.show("所选设备故障类型尚未录入");
+            return;
+        }
+        showSelectSheet("故障类型", faultTypeDataList, faultTypeId, "onFaultTypeSelect");
+    }
+
+    @Subscriber(tag = "onFaultTypeSelect")
+    private void onFaultTypeSelect(String objectId) {
+        faultTypeId = objectId;
+        tvFaultType.setText(DataHelp.getValue(faultTypeDataList, objectId));
+        bottomSheet.dismissSheet();
+    }
+
+    private void whenEquipmentChange() {
+        faultTypeId = null;
+        faultTypeDataList.clear();
+        tvFaultType.setText("");
+        fetchFaultTypeDataList();
+    }
 
     private void fetchFaultTypeDataList() {
         SimpleVolley.addRequest(new JsonArrayRequestWithSessionCheck(
@@ -279,7 +284,7 @@ public class DetailOrderActivity extends BottomSheetActivity {
             equipmentId = data.getStringExtra("subId");
             Equipment equipment = SimpleApplication.getDaoSession().getEquipmentDao().queryBuilder().where(EquipmentDao.Properties.ObjectId.eq(equipmentId)).unique();
             tvEquipment.setText(equipment.getFullName());
-//            notifyEquipmentChange();
+            whenEquipmentChange();
         }
 
         if (resultCode == ResultCodeUtils.BUILDING) {
