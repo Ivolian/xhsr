@@ -46,7 +46,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_heightPercent="8%sh" />
+        app:layout_heightPercent="7%sh" />
 
     <!-- 账户 12% 向上阴影 -->
     <app.mosn.zdepthshadowlayout.ZDepthShadowLayout

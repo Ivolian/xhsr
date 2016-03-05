@@ -15,7 +15,7 @@ public class SplashActivity extends BaseActivity {
     private WeatherModuler.SimpleInterface simpleInterface = new WeatherModuler.SimpleInterface() {
         @Override
         public void afterFetchWeatherInfo() {
-            int delay = 1000;
+            int delay = 500;
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

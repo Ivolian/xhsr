@@ -157,7 +157,7 @@
                     android:id="@+id/tvToRepair"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="待维修"
+                    android:text="待接单"
                     android:textColor="@color/md_white"
                     app:layout_marginTopPercent="1%sh"
                     app:layout_textSizePercent="2.5%sh" />
@@ -188,7 +188,7 @@
                     android:id="@+id/tvRepairing"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="维修中"
+                    android:text="进行中"
                     android:textColor="@color/md_white"
                     app:layout_marginTopPercent="1%sh"
                     app:layout_textSizePercent="2.5%sh" />
@@ -219,7 +219,7 @@
                     android:id="@+id/tvRepaired"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="已维修"
+                    android:text="已完成"
                     android:textColor="@color/md_white"
                     app:layout_marginTopPercent="1%sh"
                     app:layout_textSizePercent="2.5%sh" />
