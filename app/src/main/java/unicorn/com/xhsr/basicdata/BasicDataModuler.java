@@ -1,4 +1,4 @@
-package unicorn.com.xhsr.basicdata;
+package unicorn.com.xhsr.basicData;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;

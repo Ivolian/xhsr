@@ -16,7 +16,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import su.levenetc.android.badgeview.BadgeView;
 import unicorn.com.xhsr.base.BaseActivity;
-import unicorn.com.xhsr.basicdata.BasicDataModuler;
+import unicorn.com.xhsr.basicData.BasicDataModuler;
 import unicorn.com.xhsr.login.LoginActivity;
 import unicorn.com.xhsr.other.DividerGridItemDecoration;
 import unicorn.com.xhsr.other.TinyDB;

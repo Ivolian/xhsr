@@ -1,4 +1,4 @@
-package unicorn.com.xhsr.base;
+package unicorn.com.xhsr.sheetSelect;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
@@ -17,8 +17,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import unicorn.com.xhsr.R;
-import unicorn.com.xhsr.select.SelectAdapter;
-import unicorn.com.xhsr.select.SelectObject;
+import unicorn.com.xhsr.base.BaseActivity;
+import unicorn.com.xhsr.sheetSelect.model.SelectObject;
 
 
 public class BottomSheetActivity extends BaseActivity {
@@ -40,7 +40,7 @@ public class BottomSheetActivity extends BaseActivity {
         bottomSheet.setPeekSheetTranslation(height * 0.65f);
     }
 
-    public void showSelectSheet(String name, SelectAdapter.DataProvider dataProvider, String objectIdSelected, String eventTag) {
+    public void showSelectSheet(String name, List<SelectObject> dataList, String idSelected, String callbackTag) {
         View rootView = LayoutInflater.from(this).inflate(R.layout.select_sheet, bottomSheet, false);
         TextView tvTitle = (TextView) rootView.findViewById(R.id.title);
         String title = "选择" + name;
@@ -54,21 +54,20 @@ public class BottomSheetActivity extends BaseActivity {
 
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        int positionSelected = getPositionSelected(dataProvider, objectIdSelected);
+        int positionSelected = getPositionSelected(dataList, idSelected);
         if (positionSelected != -1) {
             recyclerView.smoothScrollToPosition(positionSelected);
         }
-        recyclerView.setAdapter(new SelectAdapter(dataProvider, positionSelected, eventTag));
+        recyclerView.setAdapter(new SelectAdapter(dataList, positionSelected, callbackTag));
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
 
         bottomSheet.showWithSheetView(rootView);
     }
 
-    private int getPositionSelected(SelectAdapter.DataProvider dataProvider, String objectIdSelected) {
-        List<SelectObject> selectObjectList = dataProvider.getDataList();
-        for (SelectObject selectObject : selectObjectList) {
-            if (TextUtils.equals(objectIdSelected,selectObject.objectId)) {
-                return selectObjectList.indexOf(selectObject);
+    private int getPositionSelected(List<SelectObject> dataList, String idSelected) {
+        for (SelectObject selectObject : dataList) {
+            if (TextUtils.equals(idSelected, selectObject.objectId)) {
+                return dataList.indexOf(selectObject);
             }
         }
         return -1;

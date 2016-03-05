@@ -8,7 +8,6 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.base.BaseActivity;
-import unicorn.com.xhsr.login.LoginModuler;
 import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.other.TinyDB;
 import unicorn.com.xhsr.utils.SharedPreferencesUtils;

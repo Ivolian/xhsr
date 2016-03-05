@@ -17,7 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
-import unicorn.com.xhsr.select.SelectObject;
+import unicorn.com.xhsr.sheetSelect.model.SelectObject;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 

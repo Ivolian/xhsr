@@ -8,12 +8,15 @@ import com.f2prateek.dart.InjectExtra;
 
 import org.simple.eventbus.Subscriber;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
-import unicorn.com.xhsr.base.BottomSheetActivity;
 import unicorn.com.xhsr.data.DataHelp;
-import unicorn.com.xhsr.select.SelectAdapter;
+import unicorn.com.xhsr.other.ClickHelp;
+import unicorn.com.xhsr.sheetSelect.BottomSheetActivity;
+import unicorn.com.xhsr.sheetSelect.model.SelectObject;
 import unicorn.com.xhsr.utils.ResultCodeUtils;
 
 
@@ -30,9 +33,9 @@ public class ProcessModeActivity extends BottomSheetActivity {
     }
 
     private void showDefaultValue() {
-        tvProcessMode.setText(DataHelp.getValue(dpProcessMode, processModeId));
-        tvProcessTimeLimit.setText(DataHelp.getValue(dpProcessTimeLimit, processTimeLimitId));
-        tvEmergencyDegree.setText(DataHelp.getValue(dpEmergencyDegree, emergencyDegreeId));
+        tvProcessMode.setText(DataHelp.getValue(processModeDataList, processModeId));
+        tvProcessTimeLimit.setText(DataHelp.getValue(processTimeLimitList, processTimeLimitId));
+        tvEmergencyDegree.setText(DataHelp.getValue(emergencyDegreeDataList, emergencyDegreeId));
     }
 
 
@@ -44,17 +47,17 @@ public class ProcessModeActivity extends BottomSheetActivity {
     @Bind(R.id.tvProcessMode)
     TextView tvProcessMode;
 
-    SelectAdapter.DataProvider dpProcessMode = DataHelp.getProcessModeDataProvider();
+    List<SelectObject> processModeDataList = DataHelp.getProcessModeDataList();
 
     @OnClick(R.id.processMode)
     public void processModeOnClick() {
-        showSelectSheet("处理方式", DataHelp.getProcessModeDataProvider(), processModeId, "onProcessModeSelect");
+        showSelectSheet("处理方式", processModeDataList, processModeId, "onProcessModeSelect");
     }
 
     @Subscriber(tag = "onProcessModeSelect")
-    private void onProcessModeSelect(String objectIdSelected) {
-        processModeId = objectIdSelected;
-        tvProcessMode.setText(DataHelp.getValue(dpProcessMode, objectIdSelected));
+    private void onProcessModeSelect(String idSelected) {
+        processModeId = idSelected;
+        tvProcessMode.setText(DataHelp.getValue(processModeDataList, idSelected));
         bottomSheet.dismissSheet();
     }
 
@@ -64,20 +67,20 @@ public class ProcessModeActivity extends BottomSheetActivity {
     @InjectExtra("processTimeLimitId")
     String processTimeLimitId;
 
-    SelectAdapter.DataProvider dpProcessTimeLimit = DataHelp.getProcessTimeLimitDataProvider();
+    List<SelectObject> processTimeLimitList = DataHelp.getProcessTimeLimitDataList();
 
     @Bind(R.id.tvProcessTimeLimit)
     TextView tvProcessTimeLimit;
 
     @OnClick(R.id.processTimeLimit)
     public void processTimeLimitOnClick() {
-        showSelectSheet("处理时限", dpProcessTimeLimit, processTimeLimitId, "onProcessTimeLimitSelect");
+        showSelectSheet("处理时限", processTimeLimitList, processTimeLimitId, "onProcessTimeLimitSelect");
     }
 
     @Subscriber(tag = "onProcessTimeLimitSelect")
-    private void onProcessTimeLimitSelect(String objectIdSelected) {
-        processTimeLimitId = objectIdSelected;
-        tvProcessTimeLimit.setText(DataHelp.getValue(dpProcessTimeLimit, objectIdSelected));
+    private void onProcessTimeLimitSelect(String idSelected) {
+        processTimeLimitId = idSelected;
+        tvProcessTimeLimit.setText(DataHelp.getValue(processTimeLimitList, idSelected));
         bottomSheet.dismissSheet();
     }
 
@@ -87,33 +90,43 @@ public class ProcessModeActivity extends BottomSheetActivity {
     @InjectExtra("emergencyDegreeId")
     String emergencyDegreeId;
 
-    SelectAdapter.DataProvider dpEmergencyDegree = DataHelp.getEmergencyDegreeDataProvider();
+    List<SelectObject> emergencyDegreeDataList = DataHelp.getEmergencyDegreeDataList();
 
     @Bind(R.id.tvEmergencyDegree)
     TextView tvEmergencyDegree;
 
     @OnClick(R.id.emergencyDegree)
     public void emergencyDegreeOnClick() {
-        showSelectSheet("紧急程度", dpEmergencyDegree, emergencyDegreeId, "onEmergencyDegreeSelect");
+        showSelectSheet("紧急程度", emergencyDegreeDataList, emergencyDegreeId, "onEmergencyDegreeSelect");
     }
 
     @Subscriber(tag = "onEmergencyDegreeSelect")
-    private void onEmergencyDegreeSelect(String objectIdSelected) {
-        emergencyDegreeId = objectIdSelected;
-        tvEmergencyDegree.setText(DataHelp.getValue(dpEmergencyDegree, objectIdSelected));
+    private void onEmergencyDegreeSelect(String idSelected) {
+        emergencyDegreeId = idSelected;
+        tvEmergencyDegree.setText(DataHelp.getValue(emergencyDegreeDataList, idSelected));
         bottomSheet.dismissSheet();
     }
 
 
-    // =============================== cancel & confirm ===============================
+    // =============================== 取消和确认 ===============================
 
     @OnClick(R.id.cancel)
     public void cancel() {
+        if (ClickHelp.isFastClick()) {
+            return;
+        }
         finish();
     }
 
     @OnClick(R.id.confirm)
     public void confirm() {
+        if (ClickHelp.isFastClick()) {
+            return;
+        }
+        finishWithResult();
+    }
+
+    private void finishWithResult() {
         Intent data = new Intent();
         data.putExtra("processModeId", processModeId);
         data.putExtra("processTimeLimitId", processTimeLimitId);

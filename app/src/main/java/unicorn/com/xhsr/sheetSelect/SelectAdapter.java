@@ -1,4 +1,4 @@
-package unicorn.com.xhsr.select;
+package unicorn.com.xhsr.sheetSelect;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -16,24 +16,21 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
+import unicorn.com.xhsr.sheetSelect.model.SelectObject;
 
 public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder> {
 
-    public interface DataProvider {
-        List<SelectObject> getDataList();
-    }
-
     //
 
-    DataProvider dataProvider;
+    private List<SelectObject> dataList;
 
     int positionSelected;
 
     String callbackTag;
 
-    public SelectAdapter(DataProvider dataProvider, int positionSelected, String eventTag) {
-        this.dataProvider = dataProvider;
-        this.callbackTag = eventTag;
+    public SelectAdapter(List<SelectObject> dataList, int positionSelected, String callbackTag) {
+        this.dataList = dataList;
+        this.callbackTag = callbackTag;
         this.positionSelected = positionSelected;
     }
 
@@ -49,9 +46,9 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder
             ButterKnife.bind(this, view);
         }
 
-        @OnClick(R.id.row)
+        @OnClick(R.id.item)
         public void selectItem() {
-            String objectIdSelected = dataProvider.getDataList().get(getAdapterPosition()).objectId;
+            String objectIdSelected = dataList.get(getAdapterPosition()).objectId;
             EventBus.getDefault().post(objectIdSelected, callbackTag);
         }
     }
@@ -61,7 +58,7 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        SelectObject selectObject = dataProvider.getDataList().get(position);
+        SelectObject selectObject = dataList.get(position);
         viewHolder.tvValue.setText(selectObject.value);
 
         // 选中项高亮
@@ -76,7 +73,7 @@ public class SelectAdapter extends RecyclerView.Adapter<SelectAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return dataProvider.getDataList().size();
+        return dataList.size();
     }
 
 }

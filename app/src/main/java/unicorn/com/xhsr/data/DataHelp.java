@@ -21,8 +21,7 @@ import unicorn.com.xhsr.data.greendao.ProcessingModeDao;
 import unicorn.com.xhsr.data.greendao.ProcessingTimeLimit;
 import unicorn.com.xhsr.data.greendao.ProcessingTimeLimitDao;
 import unicorn.com.xhsr.groupselect.GroupSelectActivity;
-import unicorn.com.xhsr.select.SelectAdapter;
-import unicorn.com.xhsr.select.SelectObject;
+import unicorn.com.xhsr.sheetSelect.model.SelectObject;
 
 
 public class DataHelp {
@@ -238,52 +237,39 @@ public class DataHelp {
 
     //
 
-
-    public static SelectAdapter.DataProvider getProcessModeDataProvider() {
-        return new SelectAdapter.DataProvider() {
-            @Override
-            public List<SelectObject> getDataList() {
-                ProcessingModeDao processingModeDao = SimpleApplication.getDaoSession().getProcessingModeDao();
-                List<ProcessingMode> processingModeList = processingModeDao.queryBuilder()
-                        .orderAsc(ProcessingModeDao.Properties.OrderNo)
-                        .list();
-                List<SelectObject> dataList = new ArrayList<>();
-                for (ProcessingMode processingMode : processingModeList) {
-                    SelectObject selectObject = new SelectObject();
-                    selectObject.objectId = processingMode.getObjectId();
-                    selectObject.value = processingMode.getName();
-                    dataList.add(selectObject);
-                }
-                return dataList;
-            }
-        };
+    public static List<SelectObject> getProcessModeDataList() {
+        ProcessingModeDao processingModeDao = SimpleApplication.getDaoSession().getProcessingModeDao();
+        List<ProcessingMode> processingModeList = processingModeDao.queryBuilder()
+                .orderAsc(ProcessingModeDao.Properties.OrderNo)
+                .list();
+        List<SelectObject> dataList = new ArrayList<>();
+        for (ProcessingMode processingMode : processingModeList) {
+            SelectObject selectObject = new SelectObject();
+            selectObject.objectId = processingMode.getObjectId();
+            selectObject.value = processingMode.getName();
+            dataList.add(selectObject);
+        }
+        return dataList;
     }
 
-    public static SelectAdapter.DataProvider getProcessTimeLimitDataProvider() {
-        return new SelectAdapter.DataProvider() {
-            @Override
-            public List<SelectObject> getDataList() {
-                ProcessingTimeLimitDao processingModeDao = SimpleApplication.getDaoSession().getProcessingTimeLimitDao();
-                List<ProcessingTimeLimit> processingTimeLimitList = processingModeDao.queryBuilder()
-                        .orderAsc(ProcessingTimeLimitDao.Properties.OrderNo)
-                        .list();
-                List<SelectObject> dataList = new ArrayList<>();
-                for (ProcessingTimeLimit processingTimeLimit : processingTimeLimitList) {
-                    SelectObject selectObject = new SelectObject();
-                    selectObject.objectId = processingTimeLimit.getObjectId();
-                    selectObject.value = processingTimeLimit.getName();
-                    dataList.add(selectObject);
-                }
-                return dataList;
-            }
-        };
+    public static List<SelectObject> getProcessTimeLimitDataList(){
+        ProcessingTimeLimitDao processingModeDao = SimpleApplication.getDaoSession().getProcessingTimeLimitDao();
+        List<ProcessingTimeLimit> processingTimeLimitList = processingModeDao.queryBuilder()
+                .orderAsc(ProcessingTimeLimitDao.Properties.OrderNo)
+                .list();
+        List<SelectObject> dataList = new ArrayList<>();
+        for (ProcessingTimeLimit processingTimeLimit : processingTimeLimitList) {
+            SelectObject selectObject = new SelectObject();
+            selectObject.objectId = processingTimeLimit.getObjectId();
+            selectObject.value = processingTimeLimit.getName();
+            dataList.add(selectObject);
+        }
+        return dataList;
+
     }
 
-    public static SelectAdapter.DataProvider getEmergencyDegreeDataProvider() {
-        return new SelectAdapter.DataProvider() {
-            @Override
-            public List<SelectObject> getDataList() {
-                EmergencyDegreeDao processingModeDao = SimpleApplication.getDaoSession().getEmergencyDegreeDao();
+    public static List<SelectObject> getEmergencyDegreeDataList() {
+        EmergencyDegreeDao processingModeDao = SimpleApplication.getDaoSession().getEmergencyDegreeDao();
                 List<EmergencyDegree> emergencyDegreeList = processingModeDao.queryBuilder()
                         .orderAsc(EmergencyDegreeDao.Properties.OrderNo)
                         .list();
@@ -295,14 +281,10 @@ public class DataHelp {
                     dataList.add(selectObject);
                 }
                 return dataList;
-            }
-        };
     }
 
-    //
-
-    public static String getValue(SelectAdapter.DataProvider dataProvider, String objectIdSelected) {
-        for (SelectObject selectObject : dataProvider.getDataList()) {
+    public static String getValue(List<SelectObject> dataList, String objectIdSelected) {
+        for (SelectObject selectObject : dataList) {
             if (TextUtils.equals(selectObject.objectId, objectIdSelected)) {
                 return selectObject.value;
             }

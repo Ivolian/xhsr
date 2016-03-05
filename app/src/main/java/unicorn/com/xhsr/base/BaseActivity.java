@@ -33,11 +33,6 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    protected void startActivityForResult(Class clazz){
-        Intent intent = new Intent(this,clazz);
-        startActivityForResult(intent,2333);
-    }
-
     public void startActivityAndFinish(Class activityClass) {
         startActivity(activityClass);
         finish();

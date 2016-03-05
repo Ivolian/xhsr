@@ -25,7 +25,7 @@ import butterknife.OnClick;
 import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.base.BaseActivity;
-import unicorn.com.xhsr.select.SelectObject;
+import unicorn.com.xhsr.sheetSelect.model.SelectObject;
 import unicorn.com.xhsr.utils.ToastUtils;
 
 public class GroupSelectActivity extends BaseActivity {

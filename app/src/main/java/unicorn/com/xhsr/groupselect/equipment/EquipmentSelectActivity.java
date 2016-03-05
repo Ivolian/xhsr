@@ -34,7 +34,7 @@ import unicorn.com.xhsr.goodwork.fastscroll.FastScrollRecyclerViewItemDecoration
 import unicorn.com.xhsr.groupselect.GroupSelectActivity;
 import unicorn.com.xhsr.groupselect.SearchResultAdapter;
 import unicorn.com.xhsr.groupselect.SubAdapter;
-import unicorn.com.xhsr.select.SelectObject;
+import unicorn.com.xhsr.sheetSelect.model.SelectObject;
 import unicorn.com.xhsr.utils.ResultCodeUtils;
 import unicorn.com.xhsr.utils.ToastUtils;
 

@@ -53,7 +53,6 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.0.0'
         compile(name: 'FlatButton-mc', ext: 'aar')
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
-    compile 'com.bartoszlipinski.recyclerviewheader:library:1.2.0'
     compile 'com.flipboard:bottomsheet-core:1.5.0'
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.6'
     compile 'jp.wasabeef:recyclerview-animators:2.1.0'

@@ -5,7 +5,7 @@
     android:theme="@style/AppTheme2">
 
     <com.zhy.android.percent.support.PercentLinearLayout
-        android:id="@+id/row"
+        android:id="@+id/item"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="?attr/selectableItemBackground"

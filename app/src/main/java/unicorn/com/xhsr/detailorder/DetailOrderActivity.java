@@ -34,7 +34,6 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import unicorn.com.xhsr.R;
 import unicorn.com.xhsr.SimpleApplication;
-import unicorn.com.xhsr.base.BottomSheetActivity;
 import unicorn.com.xhsr.data.DataHelp;
 import unicorn.com.xhsr.data.greendao.Building;
 import unicorn.com.xhsr.data.greendao.BuildingDao;
@@ -46,8 +45,8 @@ import unicorn.com.xhsr.groupselect.GroupSelectHelper;
 import unicorn.com.xhsr.groupselect.equipment.EquipmentSelectActivity;
 import unicorn.com.xhsr.other.ClickHelp;
 import unicorn.com.xhsr.other.TinyDB;
-import unicorn.com.xhsr.select.SelectAdapter;
-import unicorn.com.xhsr.select.SelectObject;
+import unicorn.com.xhsr.sheetSelect.BottomSheetActivity;
+import unicorn.com.xhsr.sheetSelect.model.SelectObject;
 import unicorn.com.xhsr.utils.ConfigUtils;
 import unicorn.com.xhsr.utils.DialogUtils;
 import unicorn.com.xhsr.utils.ImageUtils;
@@ -119,41 +118,34 @@ public class DetailOrderActivity extends BottomSheetActivity {
 
     List<SelectObject> faultTypeDataList = new ArrayList<>();
 
-    // TODO
-    SelectAdapter.DataProvider dpFaultType = new SelectAdapter.DataProvider() {
-        @Override
-        public List<SelectObject> getDataList() {
-            return faultTypeDataList;
-        }
-    };
 
-    @Bind(R.id.tvFaultType)
-    TextView tvFaultType;
-
-    @OnClick(R.id.faultType)
-    public void faultTypeOnClick() {
-        if (ClickHelp.isFastClick()) {
-            return;
-        }
-        if (equipmentId == null) {
-            ToastUtils.show("请先选择待维修设备");
-            return;
-        }
-        showSelectSheet("故障类型", dpFaultType, faultTypeId, "onFaultTypeSelect");
-    }
-
-    @Subscriber(tag = "onFaultTypeSelect")
-    private void onFaultTypeSelect(String objectId) {
-        faultTypeId = objectId;
-        tvFaultType.setText(DataHelp.getValue(dpFaultType, objectId));
-        bottomSheet.dismissSheet();
-    }
-
-    private void notifyEquipmentChange() {
-        faultTypeId = null;
-        tvFaultType.setText("");
-        fetchFaultTypeDataList();
-    }
+//    @Bind(R.id.tvFaultType)
+//    TextView tvFaultType;
+//
+//    @OnClick(R.id.faultType)
+//    public void faultTypeOnClick() {
+//        if (ClickHelp.isFastClick()) {
+//            return;
+//        }
+//        if (equipmentId == null) {
+//            ToastUtils.show("请先选择待维修设备");
+//            return;
+//        }
+//        showSelectSheet("故障类型", dpFaultType, faultTypeId, "onFaultTypeSelect");
+//    }
+//
+//    @Subscriber(tag = "onFaultTypeSelect")
+//    private void onFaultTypeSelect(String objectId) {
+//        faultTypeId = objectId;
+//        tvFaultType.setText(DataHelp.getValue(dpFaultType, objectId));
+//        bottomSheet.dismissSheet();
+//    }
+//
+//    private void notifyEquipmentChange() {
+//        faultTypeId = null;
+//        tvFaultType.setText("");
+//        fetchFaultTypeDataList();
+//    }
 
     private void fetchFaultTypeDataList() {
         SimpleVolley.addRequest(new JsonArrayRequestWithSessionCheck(
@@ -224,6 +216,21 @@ public class DetailOrderActivity extends BottomSheetActivity {
 
     String emergencyDegreeId;
 
+    private void initProcessMode() {
+        // 假如没取到数据正确保存到数据库，这里就会报错。
+        processModeId = DataHelp.getProcessModeDataList().get(0).objectId;
+        processTimeLimitId = DataHelp.getProcessTimeLimitDataList().get(0).objectId;
+        emergencyDegreeId = DataHelp.getEmergencyDegreeDataList().get(0).objectId;
+        refreshProcessModeText();
+    }
+
+    private void refreshProcessModeText() {
+        String processModeText = DataHelp.getValue(DataHelp.getProcessModeDataList(), processModeId);
+        String processTimeLimitText = DataHelp.getValue(DataHelp.getProcessTimeLimitDataList(), processTimeLimitId);
+        String emergencyDegreeText = DataHelp.getValue(DataHelp.getEmergencyDegreeDataList(), emergencyDegreeId);
+        tvProcessMode.setText(processModeText + " / " + processTimeLimitText + " / " + emergencyDegreeText);
+    }
+
     @Bind(R.id.tvProcessMode)
     TextView tvProcessMode;
 
@@ -237,20 +244,6 @@ public class DetailOrderActivity extends BottomSheetActivity {
         intent.putExtra("processTimeLimitId", processTimeLimitId);
         intent.putExtra("emergencyDegreeId", emergencyDegreeId);
         startActivityForResult(intent, 2333);
-    }
-
-    private void notifyProcessModeChange() {
-        String processModeText = DataHelp.getValue(DataHelp.getProcessModeDataProvider(), processModeId);
-        String processTimeLimitText = DataHelp.getValue(DataHelp.getProcessTimeLimitDataProvider(), processTimeLimitId);
-        String emergencyDegreeText = DataHelp.getValue(DataHelp.getEmergencyDegreeDataProvider(), emergencyDegreeId);
-        tvProcessMode.setText(processModeText + " / " + processTimeLimitText + " / " + emergencyDegreeText);
-    }
-
-    private void initProcessMode() {
-        processModeId = DataHelp.getProcessModeDataProvider().getDataList().get(0).objectId;
-        processTimeLimitId = DataHelp.getProcessTimeLimitDataProvider().getDataList().get(0).objectId;
-        emergencyDegreeId = DataHelp.getEmergencyDegreeDataProvider().getDataList().get(0).objectId;
-        notifyProcessModeChange();
     }
 
 
@@ -286,7 +279,7 @@ public class DetailOrderActivity extends BottomSheetActivity {
             equipmentId = data.getStringExtra("subId");
             Equipment equipment = SimpleApplication.getDaoSession().getEquipmentDao().queryBuilder().where(EquipmentDao.Properties.ObjectId.eq(equipmentId)).unique();
             tvEquipment.setText(equipment.getFullName());
-            notifyEquipmentChange();
+//            notifyEquipmentChange();
         }
 
         if (resultCode == ResultCodeUtils.BUILDING) {
@@ -306,7 +299,7 @@ public class DetailOrderActivity extends BottomSheetActivity {
             processModeId = data.getStringExtra("processModeId");
             processTimeLimitId = data.getStringExtra("processTimeLimitId");
             emergencyDegreeId = data.getStringExtra("emergencyDegreeId");
-            notifyProcessModeChange();
+            refreshProcessModeText();
         }
 
         if (requestCode == 2333 && resultCode == RESULT_OK) {
