@@ -28,7 +28,7 @@
         tools:replace="android:icon">
 
         <activity
-            android:name=".SplashActivity"
+            android:name=".login.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -38,7 +38,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".login.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"

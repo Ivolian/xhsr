@@ -1,4 +1,4 @@
-package unicorn.com.xhsr.moduler;
+package unicorn.com.xhsr.login;
 
 
 import android.app.Activity;
@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import unicorn.com.xhsr.MainActivity;
-import unicorn.com.xhsr.data.CurrentUser;
+import unicorn.com.xhsr.login.model.CurrentUser;
 import unicorn.com.xhsr.other.TinyDB;
 import unicorn.com.xhsr.utils.ConfigUtils;
 import unicorn.com.xhsr.utils.SharedPreferencesUtils;

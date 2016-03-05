@@ -1,10 +1,9 @@
-package unicorn.com.xhsr;
+package unicorn.com.xhsr.login;
 
 import android.os.Bundle;
 import android.os.Handler;
 
 import unicorn.com.xhsr.base.BaseActivity;
-import unicorn.com.xhsr.moduler.LoginModuler;
 import unicorn.com.xhsr.other.TinyDB;
 import unicorn.com.xhsr.utils.SharedPreferencesUtils;
 import unicorn.com.xhsr.weather.WeatherModuler;
@@ -31,9 +30,6 @@ public class SplashActivity extends BaseActivity {
         WeatherModuler weatherModuler = new WeatherModuler(simpleInterface);
         weatherModuler.fetchWeatherInfo();
     }
-
-
-
 
     private void doTheRealThing() {
         TinyDB tinyDB = TinyDB.getInstance();

@@ -39,17 +39,19 @@ public class MainActivity extends BaseActivity {
         initData();
     }
 
+    private void initViews() {
+        initWeather();
+        initRecyclerView();
+    }
+
     private void initData() {
         BasicDataModuler basicDataModuler = new BasicDataModuler();
         basicDataModuler.fetchBasicData();
         UpdateUtils.checkUpdate(this);
     }
 
-    private void initViews() {
-        initWeather();
-        initRecyclerView();
-    }
 
+    // =============================== sign out ===============================
 
     @Subscriber(tag = "sign_out")
     public void signOut(Object o) {
@@ -57,35 +59,7 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    // =============================== recycleview ===============================
-
-    @Bind(R.id.recycleView)
-    RecyclerView recyclerView;
-
-    private void initRecyclerView() {
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        recyclerView.addItemDecoration(new DividerGridItemDecoration(this));
-        recyclerView.setAdapter(new MainAdapter());
-    }
-
-
-    // =============================== onClick ===============================
-
-
-    @OnClick(R.id.scan)
-    public void scanOnClick() {
-        DimensCodeTools.startScan(this);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        String res = DimensCodeTools.scanForResult(requestCode, resultCode, data);
-        if (res != null) {
-            ToastUtils.show("设备码: " + res);
-        }
-    }
-
+    // =============================== initWeather ===============================
 
     @Bind(R.id.temperature)
     RobotoTextView tvTemperature;
@@ -117,6 +91,36 @@ public class MainActivity extends BaseActivity {
             weatherIcon.setIcon(icon);
         }
     }
+
+
+    // =============================== recyclerView ===============================
+
+    @Bind(R.id.recycleView)
+    RecyclerView recyclerView;
+
+    private void initRecyclerView() {
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView.addItemDecoration(new DividerGridItemDecoration(this));
+        recyclerView.setAdapter(new MainAdapter());
+    }
+
+
+    // =============================== 设备码扫描 ===============================
+
+    @OnClick(R.id.scan)
+    public void scanOnClick() {
+        DimensCodeTools.startScan(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String equipmentCode = DimensCodeTools.scanForResult(requestCode, resultCode, data);
+        if (equipmentCode != null) {
+            ToastUtils.show("设备码: " + equipmentCode);
+        }
+    }
+
 
 
     // =============================== drag layout ===============================

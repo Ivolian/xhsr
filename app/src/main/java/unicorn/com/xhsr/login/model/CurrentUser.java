@@ -1,4 +1,4 @@
-package unicorn.com.xhsr.data;
+package unicorn.com.xhsr.login.model;
 
 
 public class CurrentUser {
