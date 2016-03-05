@@ -138,16 +138,17 @@ public class MainActivity extends BaseActivity {
         WeatherInfo weatherInfo = (WeatherInfo) TinyDB.getInstance().getObject(SharedPreferencesUtils.WEATHER_INFO, WeatherInfo.class);
         if (weatherInfo != null) {
             tvTemperature.setText(weatherInfo.getNow().getTmp() + "\u00B0");
-            bvPm25.setValue(weatherInfo.getAqi().getCity().getPm25());
+            bvPm25.setValue(weatherInfo.getAqi().getCity().getPm25(), false);
             tvQuality.setText(weatherInfo.getAqi().getCity().getQlty());
             String txt = weatherInfo.getNow().getCond().getTxt();
             tvWeather.setText("东城区 " + txt);
             String icon = WeatherMap.getMap().get(txt);
+            if (icon == null) {
+                icon = WeatherMap.getMap().get("未知");
+            }
             weatherIcon.setIcon(icon);
         }
     }
-
-
 
 
 }

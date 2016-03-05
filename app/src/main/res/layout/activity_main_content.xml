@@ -70,7 +70,7 @@
                     android:id="@+id/weather"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="朝阳区"
+                    android:text="东城区"
                     android:textColor="@color/md_white"
                     app:layout_textSizePercent="2.8%sh" />
 
@@ -81,8 +81,8 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:iiv_color="@color/md_white"
-                app:layout_heightPercent="8%sh"
-                app:layout_widthPercent="8%sh" />
+                app:layout_heightPercent="9%sh"
+                app:layout_widthPercent="9%sh" />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 
@@ -90,45 +90,29 @@
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="#79ffffff"
+            android:background="#30ffffff"
             android:gravity="center_vertical"
             app:layout_heightPercent="8%sh"
             app:layout_marginLeftPercent="4%sw"
-            app:layout_marginRightPercent="4%sw"
-            app:layout_paddingPercent="3%sw">
+            app:layout_marginRightPercent="4%sw">
 
             <com.mikepenz.iconics.view.IconicsImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:iiv_color="@color/md_white"
                 app:iiv_icon="ion-ios-search-strong"
-                app:layout_heightPercent="3.5%sh"
-                app:layout_widthPercent="3.5%sh" />
+                app:layout_heightPercent="8%sh"
+                app:layout_paddingPercent="2%sh"
+                app:layout_widthPercent="8%sh" />
 
-            <EditText
-                android:enabled="false"
+            <TextView
                 android:id="@+id/equipmentCode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@null"
-                android:hint="输入或扫描设备码"
-                android:maxLines="1"
-                android:singleLine="true"
+                android:text="输入或扫描设备码"
                 android:textColor="@color/md_white"
-                android:textColorHint="@color/md_white"
-                android:textCursorDrawable="@drawable/color_cursor"
-                app:layout_marginLeftPercent="3%sw"
                 app:layout_textSizePercent="3%sh" />
-
-            <com.mikepenz.iconics.view.IconicsImageView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:iiv_color="@color/md_white"
-                app:iiv_icon="ion-android-microphone"
-                app:layout_heightPercent="3.5%sh"
-                app:layout_marginLeftPercent="3%sw"
-                app:layout_widthPercent="3.5%sh" />
 
             <com.mikepenz.iconics.view.IconicsImageView
                 android:id="@+id/scan"
@@ -136,9 +120,9 @@
                 android:layout_height="0dp"
                 app:iiv_color="@color/md_white"
                 app:iiv_icon="faw-qrcode"
-                app:layout_heightPercent="3.5%sh"
-                app:layout_marginLeftPercent="4%sw"
-                app:layout_widthPercent="3.5%sh" />
+                app:layout_heightPercent="8%sh"
+                app:layout_paddingPercent="2%sh"
+                app:layout_widthPercent="8%sh" />
 
         </com.zhy.android.percent.support.PercentLinearLayout>
 
